@@ -28,8 +28,7 @@ public class KillListener implements Listener{
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent event){
 		LivingEntity entity = event.getEntity();
-		if(entity instanceof Monster){
-			//Initial test
+		if(entity instanceof Monster&&plugin.gen.nextInt(125)==0){
 			Material mat = Material.DIAMOND_SWORD;
 			if(plugin.gen.nextBoolean()){
 				Material[] mats = drops.armorPicker();

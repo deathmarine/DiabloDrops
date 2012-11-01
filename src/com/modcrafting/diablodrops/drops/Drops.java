@@ -150,10 +150,10 @@ public class Drops {
 	}
 	public boolean isBoots(Material mat){
 		if(mat.equals(Material.LEATHER_BOOTS)||
-				mat.equals(Material.GOLD_BOOTS||
+				mat.equals(Material.GOLD_BOOTS)||
 				mat.equals(Material.CHAINMAIL_BOOTS)||
 				mat.equals(Material.IRON_BOOTS)||
-				mat.equals(Material.DIAMOND_BOOTS))){
+				mat.equals(Material.DIAMOND_BOOTS)){
 			return true;
 		}else{
 			return false;
@@ -161,10 +161,10 @@ public class Drops {
 	}
 	public boolean isLeggings(Material mat){
 		if(mat.equals(Material.LEATHER_LEGGINGS)||
-				mat.equals(Material.GOLD_LEGGINGS||
+				mat.equals(Material.GOLD_LEGGINGS)||
 				mat.equals(Material.CHAINMAIL_LEGGINGS)||
 				mat.equals(Material.IRON_LEGGINGS)||
-				mat.equals(Material.DIAMOND_LEGGINGS))){
+				mat.equals(Material.DIAMOND_LEGGINGS)){
 			return true;
 		}else{
 			return false;
@@ -172,10 +172,10 @@ public class Drops {
 	}
 	public boolean isChestPlate(Material mat){
 		if(mat.equals(Material.LEATHER_CHESTPLATE)||
-				mat.equals(Material.GOLD_CHESTPLATE||
+				mat.equals(Material.GOLD_CHESTPLATE)||
 				mat.equals(Material.CHAINMAIL_CHESTPLATE)||
 				mat.equals(Material.IRON_CHESTPLATE)||
-				mat.equals(Material.DIAMOND_CHESTPLATE))){
+				mat.equals(Material.DIAMOND_CHESTPLATE)){
 			return true;
 		}else{
 			return false;
@@ -183,10 +183,10 @@ public class Drops {
 	}
 	public boolean isHelmet(Material mat){
 		if(mat.equals(Material.LEATHER_HELMET)||
-				mat.equals(Material.GOLD_HELMET||
+				mat.equals(Material.GOLD_HELMET)||
 				mat.equals(Material.CHAINMAIL_HELMET)||
 				mat.equals(Material.IRON_HELMET)||
-				mat.equals(Material.DIAMOND_HELMET))){
+				mat.equals(Material.DIAMOND_HELMET)){
 			return true;
 		}else{
 			return false;

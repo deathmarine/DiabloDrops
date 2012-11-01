@@ -31,26 +31,38 @@ public class KillListener implements Listener{
 	Main plugin;
 	Legendary legend;
 	Drops drops = new Drops();
+	boolean spawner;
+	boolean egg;
+	int chance;
+	boolean dropfix;
 	String[] types = {"legendary","lore","magical","rare","set"};
 	public KillListener(Main instance){
 		plugin=instance;
+		spawner=plugin.config.getBoolean("Reason.Spawner", true);
+		egg=plugin.config.getBoolean("Reason.Egg",true);
+		chance=plugin.config.getInt("Precentages.ChancePerSpawn", 3);
+		dropfix=plugin.config.getBoolean("DropFix.Equipment",false);
 	}
 	@EventHandler
 	public void onSpawn(CreatureSpawnEvent event){
 		LivingEntity entity = event.getEntity();
-		
-		if(entity instanceof Monster&&plugin.gen.nextInt(125)==0&&!event.getSpawnReason().equals(SpawnReason.SPAWNER)){
+		if(spawner&&event.getSpawnReason().equals(SpawnReason.SPAWNER)) return;
+		if(egg&&(event.getSpawnReason().equals(SpawnReason.EGG)||event.getSpawnReason().equals(SpawnReason.SPAWNER_EGG))) return;
+		Integer random = plugin.gen.nextInt(100) + 1;
+		if(entity instanceof Monster&&chance>=random){
 			Material mat = Material.DIAMOND_SWORD;
 			if(plugin.gen.nextBoolean()){
 				Material[] mats = drops.armorPicker();
-				mat = mats[plugin.gen.nextInt(mats.length-1)];
+				if(mats!=null) mat = mats[plugin.gen.nextInt(mats.length-1)];
 			}else{
 				mat = drops.weaponPicker();				
 			}
+			if(mat==null) return;
 			String type = types[plugin.gen.nextInt(types.length-1)];
 			//Configurable / Conditional types coming soon
 			if(type.equalsIgnoreCase("legendary")){
-				int e = 7,l = 10;
+				int e = plugin.config.getInt("Legendary.Enchaments.Amt",7);
+				int l = plugin.config.getInt("Legendary.Enchaments.Amt",10);
 				CraftItemStack ci = new Legendary(mat,plugin);
 				for(;e>0;e--){
 					int lvl = plugin.gen.nextInt(l+1);
@@ -60,7 +72,8 @@ public class KillListener implements Listener{
 				setEquipment(ci,event.getEntity());
 			}
 			if(type.equalsIgnoreCase("lore")){
-				int e = 7,l = 9;
+				int e = plugin.config.getInt("Lore.Enchaments.Amt",7);
+				int l = plugin.config.getInt("Lore.Enchaments.Amt",9);
 				CraftItemStack ci = new Lore(mat,plugin);
 				for(;e>0;e--){
 					int lvl = plugin.gen.nextInt(l+1);
@@ -70,7 +83,8 @@ public class KillListener implements Listener{
 				setEquipment(ci,event.getEntity());
 			}
 			if(type.equalsIgnoreCase("magical")){
-				int e = 3,l = 4;
+				int e = plugin.config.getInt("Magical.Enchaments.Amt",3);
+				int l = plugin.config.getInt("Magical.Enchaments.Amt",4);
 				CraftItemStack ci = new Magical(mat,plugin);
 				for(;e>0;e--){
 					int lvl = plugin.gen.nextInt(l+1);
@@ -80,7 +94,8 @@ public class KillListener implements Listener{
 				setEquipment(ci,event.getEntity());
 			}
 			if(type.equalsIgnoreCase("rare")){
-				int e = 5,l = 5;
+				int e = plugin.config.getInt("Rare.Enchaments.Amt",5);
+				int l = plugin.config.getInt("Rare.Enchaments.Amt",5);
 				CraftItemStack ci = new Rare(mat,plugin);
 				for(;e>0;e--){
 					int lvl = plugin.gen.nextInt(l+1);
@@ -90,7 +105,8 @@ public class KillListener implements Listener{
 				setEquipment(ci,event.getEntity());
 			}
 			if(type.equalsIgnoreCase("set")){
-				int e = 7,l = 6;
+				int e = plugin.config.getInt("Set.Enchaments.Amt",7);
+				int l = plugin.config.getInt("Set.Enchaments.Amt",6);
 				CraftItemStack ci = new Set(mat,plugin);
 				for(;e>0;e--){
 					int lvl = plugin.gen.nextInt(l+1);
@@ -123,19 +139,28 @@ public class KillListener implements Listener{
 			Location loc = event.getEntity().getLocation();
 			for(net.minecraft.server.ItemStack mItem:((CraftLivingEntity) event.getEntity()).getHandle().getEquipment()){
 				if(mItem!=null){
-					NBTTagCompound nc = mItem.tag.getCompound("display");
-					if(nc!=null){
-						String sg = nc.getString("Name");
-						if(sg!=null&&sg.contains(new Character((char) 167).toString())){
-					        double xs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
-					        double ys = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
-					        double zs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
-					        EntityItem entity = new EntityItem(((CraftWorld) loc.getWorld()).getHandle(), loc.getX() + xs, loc.getY() + ys, loc.getZ() + zs, mItem);
-					        ((CraftWorld) loc.getWorld()).getHandle().addEntity(entity);							
-						}
-					}						
+					if(dropfix){
+						dropItem(mItem,loc);
+					}else{
+						if(mItem.tag!=null){
+							NBTTagCompound nc = mItem.tag.getCompound("display");
+							if(nc!=null){
+								String sg = nc.getString("Name");
+								if(sg!=null&&sg.contains(new Character((char) 167).toString())){
+									dropItem(mItem,loc);							
+								}
+							}
+						}	
+					}
 				}
 			}
 		}
+	}
+	public void dropItem(net.minecraft.server.ItemStack mItem, Location loc){
+        double xs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
+        double ys = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
+        double zs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
+        EntityItem entity = new EntityItem(((CraftWorld) loc.getWorld()).getHandle(), loc.getX() + xs, loc.getY() + ys, loc.getZ() + zs, mItem);
+        ((CraftWorld) loc.getWorld()).getHandle().addEntity(entity);
 	}
 }

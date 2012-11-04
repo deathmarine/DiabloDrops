@@ -58,7 +58,15 @@ public class KillListener implements Listener
 		Integer random = plugin.gen.nextInt(100) + 1;
 		if (entity instanceof Monster && chance >= random)
 		{
-			setEquipment(plugin.dropsAPI.getItem(), entity);
+			CraftItemStack ci = plugin.dropsAPI.getItem();
+			int tries = 0;
+			while (ci == null && tries < 5)
+			{
+				ci = plugin.dropsAPI.getItem();
+				tries++;
+			}
+			if (ci != null)
+				setEquipment(ci, entity);
 		}
 	}
 

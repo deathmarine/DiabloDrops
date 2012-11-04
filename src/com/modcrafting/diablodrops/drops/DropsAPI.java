@@ -47,7 +47,7 @@ public class DropsAPI
 		if (type.equalsIgnoreCase("legendary"))
 		{
 			int e = plugin.config.getInt("Legendary.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Legendary.Enchaments.Amt", 10);
+			int l = plugin.config.getInt("Legendary.Enchaments.Levels", 10);
 			CraftItemStack ci = new Legendary(mat, plugin);
 			for (; e > 0; e--)
 			{
@@ -61,7 +61,7 @@ public class DropsAPI
 		if (type.equalsIgnoreCase("lore"))
 		{
 			int e = plugin.config.getInt("Lore.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Lore.Enchaments.Amt", 9);
+			int l = plugin.config.getInt("Lore.Enchaments.Levels", 9);
 			CraftItemStack ci = new Lore(mat, plugin);
 			for (; e > 0; e--)
 			{
@@ -75,7 +75,7 @@ public class DropsAPI
 		if (type.equalsIgnoreCase("magical"))
 		{
 			int e = plugin.config.getInt("Magical.Enchaments.Amt", 3);
-			int l = plugin.config.getInt("Magical.Enchaments.Amt", 4);
+			int l = plugin.config.getInt("Magical.Enchaments.Levels", 4);
 			CraftItemStack ci = new Magical(mat, plugin);
 			for (; e > 0; e--)
 			{
@@ -89,7 +89,7 @@ public class DropsAPI
 		if (type.equalsIgnoreCase("rare"))
 		{
 			int e = plugin.config.getInt("Rare.Enchaments.Amt", 5);
-			int l = plugin.config.getInt("Rare.Enchaments.Amt", 5);
+			int l = plugin.config.getInt("Rare.Enchaments.Levels", 5);
 			CraftItemStack ci = new Rare(mat, plugin);
 			for (; e > 0; e--)
 			{
@@ -103,7 +103,7 @@ public class DropsAPI
 		if (type.equalsIgnoreCase("set"))
 		{
 			int e = plugin.config.getInt("Set.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Set.Enchaments.Amt", 6);
+			int l = plugin.config.getInt("Set.Enchaments.Levels", 6);
 			CraftItemStack ci = new Set(mat, plugin);
 			for (; e > 0; e--)
 			{

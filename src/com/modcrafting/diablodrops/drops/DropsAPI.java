@@ -15,12 +15,9 @@ import com.modcrafting.diablodrops.tier.Set;
 
 public class DropsAPI
 {
-
+	
 	private Random gen = new Random();
-	private String[] types =
-	{
-			"legendary", "lore", "magical", "rare", "set"
-	};
+	private DropType[] types = DropType.values();
 	private Drops drops = new Drops();
 	private DiabloDrops plugin;
 
@@ -30,10 +27,18 @@ public class DropsAPI
 	}
 
 	/**
+	 * Returns an specific typename of itemstack that was randomly generated
+	 * @return CraftItemStack
+	 */
+	public CraftItemStack getItem(String name)
+	{
+		return getItem(DropType.valueOf(name.toUpperCase()));
+	}
+	/**
 	 * Returns an specific type of itemstack that was randomly generated
 	 * @return CraftItemStack
 	 */
-	public CraftItemStack getItem(String type)
+	public CraftItemStack getItem(DropType type)
 	{
 		Material mat = Material.DIAMOND_SWORD;
 		if (gen.nextBoolean())
@@ -48,7 +53,7 @@ public class DropsAPI
 		}
 		if (mat == null)
 			return null;
-		if (type.equalsIgnoreCase("legendary"))
+		if (type.equals(DropType.LEGENDARY))
 		{
 			int e = plugin.config.getInt("Legendary.Enchaments.Amt", 7);
 			int l = plugin.config.getInt("Legendary.Enchaments.Levels", 10);
@@ -62,7 +67,7 @@ public class DropsAPI
 			}
 			return ci;
 		}
-		if (type.equalsIgnoreCase("lore"))
+		if (type.equals(DropType.LORE))
 		{
 			int e = plugin.config.getInt("Lore.Enchaments.Amt", 7);
 			int l = plugin.config.getInt("Lore.Enchaments.Levels", 9);
@@ -76,7 +81,7 @@ public class DropsAPI
 			}
 			return ci;
 		}
-		if (type.equalsIgnoreCase("magical"))
+		if (type.equals(DropType.MAGICAL))
 		{
 			int e = plugin.config.getInt("Magical.Enchaments.Amt", 3);
 			int l = plugin.config.getInt("Magical.Enchaments.Levels", 4);
@@ -90,7 +95,7 @@ public class DropsAPI
 			}
 			return ci;
 		}
-		if (type.equalsIgnoreCase("rare"))
+		if (type.equals(DropType.RARE))
 		{
 			int e = plugin.config.getInt("Rare.Enchaments.Amt", 5);
 			int l = plugin.config.getInt("Rare.Enchaments.Levels", 5);
@@ -104,7 +109,7 @@ public class DropsAPI
 			}
 			return ci;
 		}
-		if (type.equalsIgnoreCase("set"))
+		if (type.equals(DropType.SET))
 		{
 			int e = plugin.config.getInt("Set.Enchaments.Amt", 7);
 			int l = plugin.config.getInt("Set.Enchaments.Levels", 6);
@@ -139,7 +144,7 @@ public class DropsAPI
 		}
 		if (mat == null)
 			return null;
-		String type = types[gen.nextInt(types.length - 1)];
+		DropType type = types[gen.nextInt(types.length - 1)];
 		return getItem(type);
 	}
 	public String name(){

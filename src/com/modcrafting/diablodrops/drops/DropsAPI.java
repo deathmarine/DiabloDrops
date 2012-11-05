@@ -29,6 +29,10 @@ public class DropsAPI
 		plugin = instance;
 	}
 
+	/**
+	 * Returns an specific type of itemstack that was randomly generated
+	 * @return CraftItemStack
+	 */
 	public CraftItemStack getItem(String type)
 	{
 		Material mat = Material.DIAMOND_SWORD;
@@ -48,7 +52,7 @@ public class DropsAPI
 		{
 			int e = plugin.config.getInt("Legendary.Enchaments.Amt", 7);
 			int l = plugin.config.getInt("Legendary.Enchaments.Levels", 10);
-			CraftItemStack ci = new Legendary(mat, plugin);
+			CraftItemStack ci = new Legendary(mat, name());
 			for (; e > 0; e--)
 			{
 				int lvl = plugin.gen.nextInt(l + 1);
@@ -62,7 +66,7 @@ public class DropsAPI
 		{
 			int e = plugin.config.getInt("Lore.Enchaments.Amt", 7);
 			int l = plugin.config.getInt("Lore.Enchaments.Levels", 9);
-			CraftItemStack ci = new Lore(mat, plugin);
+			CraftItemStack ci = new Lore(mat, name());
 			for (; e > 0; e--)
 			{
 				int lvl = plugin.gen.nextInt(l + 1);
@@ -76,7 +80,7 @@ public class DropsAPI
 		{
 			int e = plugin.config.getInt("Magical.Enchaments.Amt", 3);
 			int l = plugin.config.getInt("Magical.Enchaments.Levels", 4);
-			CraftItemStack ci = new Magical(mat, plugin);
+			CraftItemStack ci = new Magical(mat, name());
 			for (; e > 0; e--)
 			{
 				int lvl = plugin.gen.nextInt(l + 1);
@@ -90,7 +94,7 @@ public class DropsAPI
 		{
 			int e = plugin.config.getInt("Rare.Enchaments.Amt", 5);
 			int l = plugin.config.getInt("Rare.Enchaments.Levels", 5);
-			CraftItemStack ci = new Rare(mat, plugin);
+			CraftItemStack ci = new Rare(mat, name());
 			for (; e > 0; e--)
 			{
 				int lvl = plugin.gen.nextInt(l + 1);
@@ -104,7 +108,7 @@ public class DropsAPI
 		{
 			int e = plugin.config.getInt("Set.Enchaments.Amt", 7);
 			int l = plugin.config.getInt("Set.Enchaments.Levels", 6);
-			CraftItemStack ci = new Set(mat, plugin);
+			CraftItemStack ci = new Set(mat, name());
 			for (; e > 0; e--)
 			{
 				int lvl = plugin.gen.nextInt(l + 1);
@@ -116,7 +120,10 @@ public class DropsAPI
 		}
 		return null;
 	}
-
+	/**
+	 * Returns an itemstack that was randomly generated
+	 * @return CraftItemStack
+	 */
 	public CraftItemStack getItem()
 	{
 		Material mat = Material.DIAMOND_SWORD;
@@ -133,77 +140,11 @@ public class DropsAPI
 		if (mat == null)
 			return null;
 		String type = types[gen.nextInt(types.length - 1)];
-		if (type.equalsIgnoreCase("legendary"))
-		{
-			int e = plugin.config.getInt("Legendary.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Legendary.Enchaments.Amt", 10);
-			CraftItemStack ci = new Legendary(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equalsIgnoreCase("lore"))
-		{
-			int e = plugin.config.getInt("Lore.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Lore.Enchaments.Amt", 9);
-			CraftItemStack ci = new Lore(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equalsIgnoreCase("magical"))
-		{
-			int e = plugin.config.getInt("Magical.Enchaments.Amt", 3);
-			int l = plugin.config.getInt("Magical.Enchaments.Amt", 4);
-			CraftItemStack ci = new Magical(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equalsIgnoreCase("rare"))
-		{
-			int e = plugin.config.getInt("Rare.Enchaments.Amt", 5);
-			int l = plugin.config.getInt("Rare.Enchaments.Amt", 5);
-			CraftItemStack ci = new Rare(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equalsIgnoreCase("set"))
-		{
-			int e = plugin.config.getInt("Set.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Set.Enchaments.Amt", 6);
-			CraftItemStack ci = new Set(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		return null;
+		return getItem(type);
 	}
-
+	public String name(){
+		String prefix = plugin.prefix.get(plugin.gen.nextInt(plugin.prefix.size()-1));
+		String suffix = plugin.suffix.get(plugin.gen.nextInt(plugin.suffix.size()-1));
+		return prefix+" "+suffix;
+	}
 }

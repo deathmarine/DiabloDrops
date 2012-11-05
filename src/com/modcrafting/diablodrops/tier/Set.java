@@ -8,12 +8,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 
-import com.modcrafting.diablodrops.Main;
+import com.modcrafting.diablodrops.DiabloDrops;
 
 public class Set extends CraftItemStack{
-	Main plugin;
+	DiabloDrops plugin;
 	ChatColor color = ChatColor.RED;
-	public Set(Material mat, Main instance){
+	public Set(Material mat, DiabloDrops instance){
 		super(mat, 1);
 		plugin=instance;
 		ItemStack mitem = this.getHandle();

@@ -8,12 +8,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 
-import com.modcrafting.diablodrops.Main;
+import com.modcrafting.diablodrops.DiabloDrops;
 
 public class Lore extends CraftItemStack{
-	Main plugin;
+	DiabloDrops plugin;
 	ChatColor color = ChatColor.GREEN;
-	public Lore(Material mat, Main instance){
+	public Lore(Material mat, DiabloDrops instance){
 		super(mat, 1);
 		plugin=instance;
 		ItemStack mitem = this.getHandle();

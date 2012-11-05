@@ -18,13 +18,13 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-import com.modcrafting.diablodrops.Main;
+import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.tier.Legendary;
 
 public class KillListener implements Listener
 {
-	Main plugin;
+	DiabloDrops plugin;
 	Legendary legend;
 	Drops drops = new Drops();
 	boolean spawner;
@@ -36,7 +36,7 @@ public class KillListener implements Listener
 			"legendary", "lore", "magical", "rare", "set"
 	};
 
-	public KillListener(Main instance)
+	public KillListener(DiabloDrops instance)
 	{
 		plugin = instance;
 		spawner = plugin.config.getBoolean("Reason.Spawner", true);
@@ -66,7 +66,9 @@ public class KillListener implements Listener
 				tries++;
 			}
 			if (ci != null)
+			{
 				setEquipment(ci, entity);
+			}
 		}
 	}
 

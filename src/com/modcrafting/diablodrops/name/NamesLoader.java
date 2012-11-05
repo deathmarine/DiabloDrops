@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import com.modcrafting.diablodrops.Main;
+import com.modcrafting.diablodrops.DiabloDrops;
 
 public class NamesLoader {
 	File dataFolder;
-	Main plugin;
-	public NamesLoader(Main instance){
+	DiabloDrops plugin;
+	public NamesLoader(DiabloDrops instance){
 		plugin=instance;
 		dataFolder=instance.getDataFolder();
 	}

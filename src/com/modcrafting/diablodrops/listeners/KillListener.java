@@ -19,14 +19,13 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.configuration.DiabloDropsConfFile;
 import com.modcrafting.diablodrops.drops.Drops;
-import com.modcrafting.diablodrops.tier.Legendary;
 
 public class KillListener implements Listener
 {
 	DiabloDrops plugin;
-	Legendary legend;
-	Drops drops = new Drops();
+	private Drops drops = new Drops();
 	boolean spawner;
 	boolean egg;
 	int chance;
@@ -39,10 +38,14 @@ public class KillListener implements Listener
 	public KillListener(DiabloDrops instance)
 	{
 		plugin = instance;
-		spawner = plugin.config.getBoolean("Reason.Spawner", true);
-		egg = plugin.config.getBoolean("Reason.Egg", true);
-		chance = plugin.config.getInt("Precentages.ChancePerSpawn", 3);
-		dropfix = plugin.config.getBoolean("DropFix.Equipment", false);
+		spawner = plugin.configHelper.getBoolean(DiabloDropsConfFile.GENERAL,
+				"Reason.Spawner", true);
+		egg = plugin.configHelper.getBoolean(DiabloDropsConfFile.GENERAL,
+				"Reason.Egg", true);
+		chance = plugin.configHelper.getInt(DiabloDropsConfFile.GENERAL,
+				"Percentages.ChancePerSpawn", 3);
+		dropfix = plugin.configHelper.getBoolean(DiabloDropsConfFile.GENERAL,
+				"DropFix.Equipment", false);
 	}
 
 	@EventHandler

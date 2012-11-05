@@ -2,31 +2,32 @@ package com.modcrafting.diablodrops.drops;
 
 import java.util.Random;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.tier.Legendary;
-import com.modcrafting.diablodrops.tier.Lore;
-import com.modcrafting.diablodrops.tier.Magical;
-import com.modcrafting.diablodrops.tier.Rare;
-import com.modcrafting.diablodrops.tier.Set;
+import com.modcrafting.diablodrops.configuration.DiabloDropsConfFile;
+import com.modcrafting.diablodrops.tier.DiabloDropItem;
 
 public class DropsAPI
 {
 
 	private Random gen = new Random();
-	private String[] types =
-	{
-			"legendary", "lore", "magical", "rare", "set"
-	};
+	private String[] types;
 	private Drops drops = new Drops();
 	private DiabloDrops plugin;
 
 	public DropsAPI(DiabloDrops instance)
 	{
 		plugin = instance;
+		types = plugin.configHelper.stringSetToArray(DiabloDropsConfFile.TIERS,
+				plugin.configManager.getKeys(DiabloDropsConfFile.TIERS, false),
+				new String[]
+				{
+						"legendary", "lore", "magical", "rare", "set"
+				});
 	}
 
 	public CraftItemStack getItem(String type)
@@ -44,77 +45,41 @@ public class DropsAPI
 		}
 		if (mat == null)
 			return null;
-		if (type.equalsIgnoreCase("legendary"))
+		if (!typesContains(type))
 		{
-			int e = plugin.config.getInt("Legendary.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Legendary.Enchaments.Levels", 10);
-			CraftItemStack ci = new Legendary(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
+			return null;
 		}
-		if (type.equalsIgnoreCase("lore"))
+		int e = plugin.configHelper.getInt(DiabloDropsConfFile.TIERS, type
+				+ ".Enchantments.Amt", 0);
+		int l = plugin.configHelper.getInt(DiabloDropsConfFile.TIERS, type
+				+ ".Enchantments.Levels", 0);
+		CraftItemStack ci = new DiabloDropItem(mat, plugin,
+				plugin.configHelper
+						.getString(
+								DiabloDropsConfFile.TIERS,
+								type + ".Color",
+								ChatColor.values()[gen.nextInt(ChatColor
+										.values().length - 1)].name())
+						.toUpperCase());
+		for (; e > 0; e--)
 		{
-			int e = plugin.config.getInt("Lore.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Lore.Enchaments.Levels", 9);
-			CraftItemStack ci = new Lore(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
+			int lvl = plugin.gen.nextInt(l + 1);
+			Enchantment ench = drops.enchant();
+			if (lvl != 0 && ench != null)
+				ci.addUnsafeEnchantment(ench, lvl);
 		}
-		if (type.equalsIgnoreCase("magical"))
+		return ci;
+	}
+
+	private boolean typesContains(String type)
+	{
+		for (String t : types)
 		{
-			int e = plugin.config.getInt("Magical.Enchaments.Amt", 3);
-			int l = plugin.config.getInt("Magical.Enchaments.Levels", 4);
-			CraftItemStack ci = new Magical(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
+			if (!t.equalsIgnoreCase(type))
+				continue;
+			return true;
 		}
-		if (type.equalsIgnoreCase("rare"))
-		{
-			int e = plugin.config.getInt("Rare.Enchaments.Amt", 5);
-			int l = plugin.config.getInt("Rare.Enchaments.Levels", 5);
-			CraftItemStack ci = new Rare(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equalsIgnoreCase("set"))
-		{
-			int e = plugin.config.getInt("Set.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Set.Enchaments.Levels", 6);
-			CraftItemStack ci = new Set(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		return null;
+		return false;
 	}
 
 	public CraftItemStack getItem()
@@ -133,77 +98,25 @@ public class DropsAPI
 		if (mat == null)
 			return null;
 		String type = types[gen.nextInt(types.length - 1)];
-		if (type.equalsIgnoreCase("legendary"))
+		int e = plugin.configHelper.getInt(DiabloDropsConfFile.TIERS, type
+				+ ".Enchantments.Amt", 0);
+		int l = plugin.configHelper.getInt(DiabloDropsConfFile.TIERS, type
+				+ ".Enchantments.Levels", 0);
+		CraftItemStack ci = new DiabloDropItem(mat, plugin,
+				plugin.configHelper
+						.getString(
+								DiabloDropsConfFile.TIERS,
+								type + ".Color",
+								ChatColor.values()[gen.nextInt(ChatColor
+										.values().length - 1)].name())
+						.toUpperCase());
+		for (; e > 0; e--)
 		{
-			int e = plugin.config.getInt("Legendary.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Legendary.Enchaments.Amt", 10);
-			CraftItemStack ci = new Legendary(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
+			int lvl = plugin.gen.nextInt(l + 1);
+			Enchantment ench = drops.enchant();
+			if (lvl != 0 && ench != null)
+				ci.addUnsafeEnchantment(ench, lvl);
 		}
-		if (type.equalsIgnoreCase("lore"))
-		{
-			int e = plugin.config.getInt("Lore.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Lore.Enchaments.Amt", 9);
-			CraftItemStack ci = new Lore(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equalsIgnoreCase("magical"))
-		{
-			int e = plugin.config.getInt("Magical.Enchaments.Amt", 3);
-			int l = plugin.config.getInt("Magical.Enchaments.Amt", 4);
-			CraftItemStack ci = new Magical(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equalsIgnoreCase("rare"))
-		{
-			int e = plugin.config.getInt("Rare.Enchaments.Amt", 5);
-			int l = plugin.config.getInt("Rare.Enchaments.Amt", 5);
-			CraftItemStack ci = new Rare(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equalsIgnoreCase("set"))
-		{
-			int e = plugin.config.getInt("Set.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Set.Enchaments.Amt", 6);
-			CraftItemStack ci = new Set(mat, plugin);
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		return null;
+		return ci;
 	}
-
 }

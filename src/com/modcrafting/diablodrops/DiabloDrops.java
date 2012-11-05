@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.modcrafting.diablodrops.configuration.ConfigHelper;
+import com.modcrafting.diablodrops.configuration.DiabloDropsConfigs;
 import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.listeners.KillListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
@@ -17,7 +18,8 @@ public class DiabloDrops extends JavaPlugin
 	public List<String> suffix = new ArrayList<String>();
 	private NamesLoader nameLoader;
 	public Random gen = new Random();
-	public FileConfiguration config;
+	public DiabloDropsConfigs configManager;
+	public ConfigHelper configHelper;
 	public DropsAPI dropsAPI;
 
 	public void onDisable()
@@ -30,15 +32,16 @@ public class DiabloDrops extends JavaPlugin
 	{
 		this.getDataFolder().mkdir();
 		nameLoader = new NamesLoader(this);
-		nameLoader.writeDefault("config.yml");
-		nameLoader.writeDefault("prefix.txt");
-		nameLoader.writeDefault("suffix.txt");
-		nameLoader.loadFile(prefix, "prefix.txt");
-		nameLoader.loadFile(suffix, "suffix.txt");
-		config = this.getConfig();
+		configManager = new DiabloDropsConfigs(this);
+		configHelper = new ConfigHelper(this, configManager);
 		dropsAPI = new DropsAPI(this);
 		this.getServer().getPluginManager()
 				.registerEvents(new KillListener(this), this);
 
+	}
+
+	public NamesLoader getNameLoader()
+	{
+		return nameLoader;
 	}
 }

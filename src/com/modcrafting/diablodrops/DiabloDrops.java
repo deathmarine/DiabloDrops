@@ -11,7 +11,7 @@ import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.listeners.KillListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
 
-public class Main extends JavaPlugin
+public class DiabloDrops extends JavaPlugin
 {
 	public List<String> prefix = new ArrayList<String>();
 	public List<String> suffix = new ArrayList<String>();

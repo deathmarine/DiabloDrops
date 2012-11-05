@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 
-import com.modcrafting.diablodrops.Main;
+import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.tier.Legendary;
 import com.modcrafting.diablodrops.tier.Lore;
 import com.modcrafting.diablodrops.tier.Magical;
@@ -22,9 +22,9 @@ public class DropsAPI
 			"legendary", "lore", "magical", "rare", "set"
 	};
 	private Drops drops = new Drops();
-	private Main plugin;
+	private DiabloDrops plugin;
 
-	public DropsAPI(Main instance)
+	public DropsAPI(DiabloDrops instance)
 	{
 		plugin = instance;
 	}

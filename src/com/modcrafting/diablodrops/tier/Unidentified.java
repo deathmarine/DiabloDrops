@@ -7,11 +7,10 @@ import com.modcrafting.diablodrops.drops.DropType;
 import com.modcrafting.toolapi.lib.Tool;
 
 public class Unidentified extends Tool{
-	ChatColor color = ChatColor.RED;
+	ChatColor color = ChatColor.MAGIC;
 	public Unidentified(Material mat, String name){
 		super(mat,DropType.UNIDENTIFIED);
         this.setRepairCost(2);
         this.setName(color+name);
 	}
-
 }

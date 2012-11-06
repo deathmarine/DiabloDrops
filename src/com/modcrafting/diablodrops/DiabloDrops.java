@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.listeners.KillListener;
+import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
 
 public class DiabloDrops extends JavaPlugin
@@ -37,8 +38,8 @@ public class DiabloDrops extends JavaPlugin
 		nameLoader.loadFile(suffix, "suffix.txt");
 		config = this.getConfig();
 		dropsAPI = new DropsAPI(this);
-		this.getServer().getPluginManager()
-				.registerEvents(new KillListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new KillListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new TomeListener(), this);
 
 	}
 }

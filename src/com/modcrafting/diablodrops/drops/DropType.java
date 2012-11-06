@@ -6,7 +6,8 @@ public enum DropType {
 	MAGICAL("magical"),
 	RARE("rare"),
 	SET("set"),
-	UNIDENTIFIED("unid");
+	UNIDENTIFIED("unid"),
+	TOME("tome");
 
 	private String type;
 	private DropType(String name){

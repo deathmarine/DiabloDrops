@@ -30,3 +30,10 @@ Set:
   Enchaments:
     Amt: 7
     Levels: 6
+#If enabled only worlds listed will be affected#
+Worlds:
+  Enabled: false
+  Allowed:
+  - 'world'
+  - 'world_nether'
+  - 'world_the_end'

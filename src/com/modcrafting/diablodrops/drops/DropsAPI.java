@@ -12,6 +12,8 @@ import com.modcrafting.diablodrops.tier.Lore;
 import com.modcrafting.diablodrops.tier.Magical;
 import com.modcrafting.diablodrops.tier.Rare;
 import com.modcrafting.diablodrops.tier.Set;
+import com.modcrafting.diablodrops.tier.Tome;
+import com.modcrafting.diablodrops.tier.Unidentified;
 
 public class DropsAPI
 {
@@ -122,6 +124,14 @@ public class DropsAPI
 					ci.addUnsafeEnchantment(ench, lvl);
 			}
 			return ci;
+		}
+		if (type.equals(DropType.UNIDENTIFIED))
+		{
+			return new Unidentified(mat, name());
+		}
+		if (type.equals(DropType.TOME))
+		{
+			return new Tome();
 		}
 		return null;
 	}

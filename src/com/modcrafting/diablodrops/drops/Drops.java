@@ -346,4 +346,34 @@ public class Drops
 		}
 		return false;
 	}
+	public boolean isArmor(Material mat){
+		if(isHelmet(mat)||isBoots(mat)||isChestPlate(mat)||isLeggings(mat)){
+			return true;
+		}
+		return false;
+	}
+	public boolean isTool(Material mat){
+		if(mat.equals(Material.WOOD_SWORD)||
+				mat.equals(Material.WOOD_PICKAXE)||
+				mat.equals(Material.WOOD_SPADE)||
+				mat.equals(Material.WOOD_AXE)||
+				mat.equals(Material.WOOD_HOE)||
+				mat.equals(Material.GOLD_SWORD)||
+				mat.equals(Material.GOLD_PICKAXE)||
+				mat.equals(Material.GOLD_SPADE)||
+				mat.equals(Material.GOLD_AXE)||
+				mat.equals(Material.GOLD_HOE)||
+				mat.equals(Material.IRON_SWORD)||
+				mat.equals(Material.IRON_PICKAXE)||
+				mat.equals(Material.IRON_SPADE)||
+				mat.equals(Material.IRON_AXE)||
+				mat.equals(Material.IRON_HOE)||
+				mat.equals(Material.DIAMOND_SWORD)||
+				mat.equals(Material.DIAMOND_PICKAXE)||
+				mat.equals(Material.DIAMOND_SPADE)||
+				mat.equals(Material.DIAMOND_AXE)||
+				mat.equals(Material.DIAMOND_HOE)) return true;
+		return false;
+		
+	}
 }

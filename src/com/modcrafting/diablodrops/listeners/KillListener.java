@@ -1,5 +1,8 @@
 package com.modcrafting.diablodrops.listeners;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.NBTTagCompound;
@@ -19,44 +22,46 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.configuration.DiabloDropsConfFile;
 import com.modcrafting.diablodrops.drops.Drops;
+import com.modcrafting.diablodrops.tier.Legendary;
 
 public class KillListener implements Listener
 {
 	DiabloDrops plugin;
-	private Drops drops = new Drops();
+	Legendary legend;
+	Drops drops = new Drops();
 	boolean spawner;
 	boolean egg;
 	int chance;
 	boolean dropfix;
-	String[] types =
-	{
-			"legendary", "lore", "magical", "rare", "set"
-	};
+	List<String> multiW;
 
 	public KillListener(DiabloDrops instance)
 	{
 		plugin = instance;
-		spawner = plugin.configHelper.getBoolean(DiabloDropsConfFile.GENERAL,
-				"Reason.Spawner", true);
-		egg = plugin.configHelper.getBoolean(DiabloDropsConfFile.GENERAL,
-				"Reason.Egg", true);
-		chance = plugin.configHelper.getInt(DiabloDropsConfFile.GENERAL,
-				"Percentages.ChancePerSpawn", 3);
-		dropfix = plugin.configHelper.getBoolean(DiabloDropsConfFile.GENERAL,
-				"DropFix.Equipment", false);
+		spawner = plugin.config.getBoolean("Reason.Spawner", true);
+		egg = plugin.config.getBoolean("Reason.Egg", true);
+		chance = plugin.config.getInt("Precentages.ChancePerSpawn", 3);
+		dropfix = plugin.config.getBoolean("DropFix.Equipment", false);
+		//Fix Case
+		if(plugin.config.getBoolean("Worlds.Enabled",false)){
+			List<String> fixCase = new ArrayList<String>();
+			for(String s:plugin.config.getStringList("Worlds.Allowed")){
+				fixCase.add(s.toLowerCase());
+			}
+			if(fixCase.size()>0)multiW=fixCase;
+		}
 	}
 
 	@EventHandler
 	public void onSpawn(CreatureSpawnEvent event)
 	{
 		LivingEntity entity = event.getEntity();
+		if (multiW!=null&&!multiW.contains(entity.getLocation().getWorld().getName().toLowerCase())) 
+			return;
 		if (spawner && event.getSpawnReason().equals(SpawnReason.SPAWNER))
 			return;
-		if (egg
-				&& (event.getSpawnReason().equals(SpawnReason.EGG) || event
-						.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
+		if (egg && (event.getSpawnReason().equals(SpawnReason.EGG) || event.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
 			return;
 		Integer random = plugin.gen.nextInt(100) + 1;
 		if (entity instanceof Monster && chance >= random)
@@ -69,9 +74,7 @@ public class KillListener implements Listener
 				tries++;
 			}
 			if (ci != null)
-			{
 				setEquipment(ci, entity);
-			}
 		}
 	}
 
@@ -150,4 +153,6 @@ public class KillListener implements Listener
 				loc.getY() + ys, loc.getZ() + zs, mItem);
 		((CraftWorld) loc.getWorld()).getHandle().addEntity(entity);
 	}
+
+	
 }

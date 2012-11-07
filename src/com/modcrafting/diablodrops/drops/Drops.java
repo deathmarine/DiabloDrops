@@ -346,34 +346,74 @@ public class Drops
 		}
 		return false;
 	}
-	public boolean isArmor(Material mat){
-		if(isHelmet(mat)||isBoots(mat)||isChestPlate(mat)||isLeggings(mat)){
+
+	public boolean isArmor(Material mat)
+	{
+		if (isHelmet(mat) || isBoots(mat) || isChestPlate(mat)
+				|| isLeggings(mat))
+		{
 			return true;
 		}
 		return false;
 	}
-	public boolean isTool(Material mat){
-		if(mat.equals(Material.WOOD_SWORD)||
-				mat.equals(Material.WOOD_PICKAXE)||
-				mat.equals(Material.WOOD_SPADE)||
-				mat.equals(Material.WOOD_AXE)||
-				mat.equals(Material.WOOD_HOE)||
-				mat.equals(Material.GOLD_SWORD)||
-				mat.equals(Material.GOLD_PICKAXE)||
-				mat.equals(Material.GOLD_SPADE)||
-				mat.equals(Material.GOLD_AXE)||
-				mat.equals(Material.GOLD_HOE)||
-				mat.equals(Material.IRON_SWORD)||
-				mat.equals(Material.IRON_PICKAXE)||
-				mat.equals(Material.IRON_SPADE)||
-				mat.equals(Material.IRON_AXE)||
-				mat.equals(Material.IRON_HOE)||
-				mat.equals(Material.DIAMOND_SWORD)||
-				mat.equals(Material.DIAMOND_PICKAXE)||
-				mat.equals(Material.DIAMOND_SPADE)||
-				mat.equals(Material.DIAMOND_AXE)||
-				mat.equals(Material.DIAMOND_HOE)) return true;
+
+	public boolean isSword(Material mat)
+	{
+		if (mat.equals(Material.WOOD_SWORD) || mat.equals(Material.STONE_SWORD)
+				|| mat.equals(Material.GOLD_SWORD)
+				|| mat.equals(Material.IRON_SWORD)
+				|| mat.equals(Material.DIAMOND_SWORD))
+			return true;
 		return false;
-		
+	}
+
+	public boolean isAxe(Material mat)
+	{
+		if (mat.equals(Material.WOOD_AXE) || mat.equals(Material.STONE_AXE)
+				|| mat.equals(Material.GOLD_AXE)
+				|| mat.equals(Material.IRON_AXE)
+				|| mat.equals(Material.DIAMOND_AXE))
+			return true;
+		return false;
+	}
+
+	public boolean isSpade(Material mat)
+	{
+		if (mat.equals(Material.WOOD_SPADE) || mat.equals(Material.STONE_SPADE)
+				|| mat.equals(Material.GOLD_SPADE)
+				|| mat.equals(Material.IRON_SPADE)
+				|| mat.equals(Material.DIAMOND_SPADE))
+			return true;
+		return false;
+	}
+
+	public boolean isPickaxe(Material mat)
+	{
+		if (mat.equals(Material.WOOD_PICKAXE)
+				|| mat.equals(Material.STONE_PICKAXE)
+				|| mat.equals(Material.GOLD_PICKAXE)
+				|| mat.equals(Material.IRON_PICKAXE)
+				|| mat.equals(Material.DIAMOND_PICKAXE))
+			return true;
+		return false;
+	}
+
+	public boolean isHoe(Material mat)
+	{
+		if (mat.equals(Material.WOOD_HOE) || mat.equals(Material.STONE_HOE)
+				|| mat.equals(Material.GOLD_HOE)
+				|| mat.equals(Material.IRON_HOE)
+				|| mat.equals(Material.DIAMOND_HOE))
+			return true;
+		return false;
+	}
+
+	public boolean isTool(Material mat)
+	{
+		if (isSword(mat) || isSpade(mat) || isAxe(mat) || isPickaxe(mat)
+				|| isHoe(mat))
+			return true;
+		return false;
+
 	}
 }

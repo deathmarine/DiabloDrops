@@ -15,7 +15,7 @@
 	<target name="compile" depends="clean, init" description="Compile all the code">
 		<javac debug="true" debuglevel="lines,vars,source" deprecation="true" srcdir="src" destdir="bin">
 			<classpath>
-				<fileset dir="lib" includes="*.jar" />
+				<fileset dir="libraries" includes="*.jar" />
 			</classpath>
 		</javac>
 	</target>

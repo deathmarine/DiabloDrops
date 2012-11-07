@@ -15,14 +15,14 @@
 	<target name="compile" depends="clean, init" description="Compile all the code">
 		<javac debug="true" debuglevel="lines,vars,source" deprecation="true" srcdir="src" destdir="bin">
 			<classpath>
-				<fileset dir="lib" includes="*.jar" />
+				<fileset dir="libraries" includes="*.jar" />
 			</classpath>
 		</javac>
 	</target>
 
 	<target name="package" depends="compile" description="Make the distributable jar file">
 		<copy todir="bin" overwrite="true">
-			<fileset dir="." includes="plugin.yml,prefix.txt,suffix.txt" />
+			<fileset dir="." includes="plugin.yml,config.yml,prefix.txt,suffix.txt" />
 		</copy>
 		<jar basedir="bin" jarfile="dist/${ant.project.name}.jar" defaultexcludes="true" />
 	</target>

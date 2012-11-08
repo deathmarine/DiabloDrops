@@ -2,7 +2,6 @@ package com.modcrafting.diablodrops.drops;
 
 import java.util.Random;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
@@ -47,14 +46,13 @@ public class DropsAPI
 					int lvl = plugin.gen.nextInt(l + 1);
 					Enchantment ench = drops.enchant();
 					if (lvl != 0 && ench != null)
-						ci.addUnsafeEnchantment(ench, lvl);
+						makeSafe(ench, ci, lvl);
 				}
 				return ci;
 			}
 		}
-		if(gen.nextInt(100)<=plugin.config.getInt("Unidentified.Chance",3))
-			return new Drop(mat,ChatColor.MAGIC ,name());
-		if(gen.nextInt(100)<=plugin.config.getInt("IdentifyTome.Chance",3))
+		if(plugin.config.getBoolean("IdentifyTome.Enabled",true)&&
+				gen.nextInt(100)<=plugin.config.getInt("IdentifyTome.Chance",3))
 			return new Tome();
 		return null;
 	}
@@ -64,12 +62,12 @@ public class DropsAPI
 	 * 
 	 * @return CraftItemStack
 	 */
-	public CraftItemStack getItem(String name)
+	public CraftItemStack getItem(String type)
 	{
 		Material mat = dropPicker();
 		if(mat==null) return null;
 		for(Tier tier:plugin.tiers){
-			if(tier.getName().equalsIgnoreCase(name)){
+			if(tier.getName().equalsIgnoreCase(type)){
 				if(gen.nextInt(100)<=tier.getChance())
 				{
 					int e = tier.getAmount();
@@ -80,7 +78,7 @@ public class DropsAPI
 						int lvl = plugin.gen.nextInt(l + 1);
 						Enchantment ench = drops.enchant();
 						if (lvl != 0 && ench != null)
-							ci.addUnsafeEnchantment(ench, lvl);
+							makeSafe(ench, ci, lvl);
 					}
 					return ci;
 				}
@@ -131,5 +129,13 @@ public class DropsAPI
 		String suffix = plugin.suffix.get(plugin.gen.nextInt(plugin.suffix
 				.size() - 1));
 		return prefix + " " + suffix;
+	}
+
+	public void makeSafe(Enchantment ench, CraftItemStack citem, int level){
+		try{
+			citem.addEnchantment(ench, 1);
+		}catch (IllegalArgumentException e){
+			//Do nothing.
+		}
 	}
 }

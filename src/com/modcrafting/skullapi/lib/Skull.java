@@ -6,6 +6,7 @@ import net.minecraft.server.NBTTagString;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 
 public class Skull extends CraftItemStack implements SkullInterface{
+	
 	public Skull(int type) throws Exception {
 		super(type);
 		if(type!=397) throw new Exception("Item must be a skull."); 
@@ -25,19 +26,26 @@ public class Skull extends CraftItemStack implements SkullInterface{
 		}
 		
 	}
+	@Override
 	public void setOwner(String name){
     	this.setDurability((short)3);
     	NBTTagCompound tag = new NBTTagCompound();
     	tag.set("SkullOwner", new NBTTagString("SkullOwner", name));
     	this.getHandle().setTag(tag);
 	}
+	@Override
 	public String getOwner(String name){
 		if(this.getHandle().tag!=null&&this.getHandle().tag.getString("SkullOwner")!=null)
 			return this.getHandle().tag.getString("SkullOwner");
 		return null;
 	}
-	public void setType(SkullType type){
+	@Override
+	public void setSkullType(SkullType type){
 		this.getHandle().setData(type.getData());
+	}
+	@Override
+	public SkullType getSkullType(){
+		return SkullType.values()[this.getHandle().getData()];
 	}
 
 }

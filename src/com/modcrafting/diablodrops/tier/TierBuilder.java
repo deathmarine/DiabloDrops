@@ -13,9 +13,9 @@ public class TierBuilder {
 	public void build(){
 		ConfigurationSection cs = plugin.config.getConfigurationSection("Tier");
 		for(String name:cs.getKeys(false)){
-			int amt = cs.getInt(name+".Enchaments.Amt");
-			int lvl = cs.getInt(name+".Enchaments.Levels");
-			int chance = cs.getInt(name+".Enchaments.Chance");
+			int amt = cs.getInt(name+".Enchantments.Amt");
+			int lvl = cs.getInt(name+".Enchantments.Levels");
+			int chance = cs.getInt(name+".Chance");
 			String color = cs.getString(name+".Color");
 			plugin.tiers.add(new Tier(name,ChatColor.valueOf(color.toUpperCase()),amt,lvl,chance));
 		}

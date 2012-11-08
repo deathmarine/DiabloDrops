@@ -23,12 +23,10 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.Drops;
-import com.modcrafting.diablodrops.tier.Legendary;
 
 public class KillListener implements Listener
 {
 	DiabloDrops plugin;
-	Legendary legend;
 	Drops drops = new Drops();
 	boolean spawner;
 	boolean egg;

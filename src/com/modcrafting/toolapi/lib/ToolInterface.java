@@ -1,7 +1,5 @@
 package com.modcrafting.toolapi.lib;
 
-import com.modcrafting.diablodrops.drops.DropType;
-
 public interface ToolInterface {
 	/**
 	 * Gets the name of the Tool
@@ -22,9 +20,4 @@ public interface ToolInterface {
 	 * Sets the cost to repair
 	 */
 	public void setRepairCost(Integer i);
-	/**
-	 * Gets the type of drop
-	 * @return DropType
-	 */
-	public DropType getDropType();
 }

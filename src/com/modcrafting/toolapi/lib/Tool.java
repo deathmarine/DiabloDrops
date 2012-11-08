@@ -6,19 +6,15 @@ import net.minecraft.server.NBTTagString;
 
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
-
-import com.modcrafting.diablodrops.drops.DropType;
 public class Tool extends CraftItemStack implements ToolInterface {
 	private NBTTagCompound tag;
-	private DropType type;
-	public Tool(Material mat, DropType kind) {
+	public Tool(Material mat) {
 		super(mat, 1);
 		ItemStack mitem = this.getHandle();
         if(mitem.tag == null) {
             mitem.tag = new NBTTagCompound();
         }
         this.tag=mitem.tag;
-        this.type=kind;
 	}
 
 	@Override
@@ -51,10 +47,4 @@ public class Tool extends CraftItemStack implements ToolInterface {
 	public void setRepairCost(Integer i) {
 		tag.setInt("RepairCost",i);		
 	}
-	
-	@Override
-	public DropType getDropType(){
-		return type;
-	}
-
 }

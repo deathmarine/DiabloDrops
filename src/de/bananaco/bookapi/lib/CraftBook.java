@@ -96,7 +96,7 @@ public class CraftBook implements Book
 		// sanity checking on the title
 		if (t.length() > 16)
 		{
-			t = title.substring(0, 16);
+			t = t.substring(0, 16);
 		}
 		s.tag.setString("title", t);
 	}
@@ -108,7 +108,7 @@ public class CraftBook implements Book
 		// sanity checking on the author
 		if (a.length() > 16)
 		{
-			a = author.substring(0, 16);
+			a = a.substring(0, 16);
 		}
 		s.tag.setString("author", a);
 	}

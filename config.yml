@@ -8,28 +8,54 @@ Reason:
 #If false will on drop only special items#
 DropFix:
   Equipment: false  
+IdentifyTome:
+  Enabled: true
+  Chance: 2
 Precentages:
   ChancePerSpawn: 3
-Legendary:
-  Enchaments:
-    Amt: 7
-    Levels: 10
-Lore:
-  Enchaments:
-    Amt: 7
-    Levels: 9
-Magical:
-  Enchaments:
-    Amt: 3
-    Levels: 4
-Rare:
-  Enchaments:
-    Amt: 5
-    Levels: 5
-Set:
-  Enchaments:
-    Amt: 7
-    Levels: 6
+Tier:
+  Legendary:
+    Color: gold
+    Chance: 3
+    Enchantments:
+      Amt: 7
+      Levels: 10
+  Lore:
+    Color: grey
+    Chance: 3
+    Enchantments:
+      Amt: 7
+      Levels: 9
+  Magical:
+    Color: blue
+    Chance: 3
+    Enchantments:
+      Amt: 3
+      Levels: 4
+  Rare:
+    Color: red
+    Chance: 3
+    Enchantments:
+      Amt: 5
+      Levels: 5
+  Set:
+    Color: green
+    Chance: 3
+    Enchantments:
+      Amt: 7
+      Levels: 6
+  Unidentified:
+    Color: magic
+    Chance: 1
+    Enchantments:
+      Amt: 10
+      Levels: 10
+  ##Custom:
+    ##Color:
+    ##Chance:
+    ##Enchantments:
+      ##Amt: 7
+      ##Levels: 6
 #If enabled only worlds listed will be affected#
 Worlds:
   Enabled: false

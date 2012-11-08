@@ -7,22 +7,17 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.tier.Legendary;
-import com.modcrafting.diablodrops.tier.Lore;
-import com.modcrafting.diablodrops.tier.Magical;
-import com.modcrafting.diablodrops.tier.Rare;
-import com.modcrafting.diablodrops.tier.Set;
+import com.modcrafting.diablodrops.tier.Drop;
+import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.Tome;
-import com.modcrafting.diablodrops.tier.Unidentified;
 
 public class DropsAPI
 {
 
 	private Random gen = new Random();
-	private DropType[] types = DropType.values();
 	private Drops drops = new Drops();
 	private DiabloDrops plugin;
-
+	
 	public DropsAPI(DiabloDrops instance)
 	{
 		plugin = instance;
@@ -35,100 +30,30 @@ public class DropsAPI
 	 *            Material of itemstack
 	 * @return CraftItemStack
 	 */
-	public CraftItemStack getItem(Material material)
+	public CraftItemStack getItem(Material mat)
 	{
-		Material mat = Material.DIAMOND_SWORD;
-		if (gen.nextBoolean())
-		{
-			Material[] mats = drops.armorPicker();
-			if (mats != null)
-				mat = mats[gen.nextInt(mats.length - 1)];
-		}
-		else
-		{
-			mat = drops.weaponPicker();
-		}
 		if (mat == null)
 			return null;
-		DropType type = types[gen.nextInt(types.length - 1)];
-		if (type.equals(DropType.LEGENDARY))
+		for(Tier tier: plugin.tiers)
 		{
-			int e = plugin.config.getInt("Legendary.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Legendary.Enchaments.Levels", 10);
-			CraftItemStack ci = new Legendary(mat, name());
-			for (; e > 0; e--)
+			if(gen.nextInt(100)<=tier.getChance())
 			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
+				int e = tier.getAmount();
+				int l = tier.getLevels();
+				CraftItemStack ci = new Drop(mat,tier.getColor(),name());
+				for (; e > 0; e--)
+				{
+					int lvl = plugin.gen.nextInt(l + 1);
+					Enchantment ench = drops.enchant();
+					if (lvl != 0 && ench != null)
+						makeSafe(ench, ci, lvl);
+				}
+				return ci;
 			}
-			return ci;
 		}
-		if (type.equals(DropType.LORE))
-		{
-			int e = plugin.config.getInt("Lore.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Lore.Enchaments.Levels", 9);
-			CraftItemStack ci = new Lore(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equals(DropType.MAGICAL))
-		{
-			int e = plugin.config.getInt("Magical.Enchaments.Amt", 3);
-			int l = plugin.config.getInt("Magical.Enchaments.Levels", 4);
-			CraftItemStack ci = new Magical(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equals(DropType.RARE))
-		{
-			int e = plugin.config.getInt("Rare.Enchaments.Amt", 5);
-			int l = plugin.config.getInt("Rare.Enchaments.Levels", 5);
-			CraftItemStack ci = new Rare(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equals(DropType.SET))
-		{
-			int e = plugin.config.getInt("Set.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Set.Enchaments.Levels", 6);
-			CraftItemStack ci = new Set(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equals(DropType.UNIDENTIFIED))
-		{
-			return new Unidentified(mat, name());
-		}
-		if (type.equals(DropType.TOME))
-		{
+		if(plugin.config.getBoolean("IdentifyTome.Enabled",true)&&
+				gen.nextInt(100)<=plugin.config.getInt("IdentifyTome.Chance",3))
 			return new Tome();
-		}
 		return null;
 	}
 
@@ -137,112 +62,30 @@ public class DropsAPI
 	 * 
 	 * @return CraftItemStack
 	 */
-	public CraftItemStack getItem(String name)
+	public CraftItemStack getItem(String type)
 	{
-		return getItem(DropType.valueOf(name.toUpperCase()));
-	}
-
-	/**
-	 * Returns an specific type of itemstack that was randomly generated
-	 * 
-	 * @return CraftItemStack
-	 */
-	public CraftItemStack getItem(DropType type)
-	{
-		Material mat = Material.DIAMOND_SWORD;
-		if (gen.nextBoolean())
-		{
-			Material[] mats = drops.armorPicker();
-			if (mats != null)
-				mat = mats[gen.nextInt(mats.length - 1)];
-		}
-		else
-		{
-			mat = drops.weaponPicker();
-		}
-		if (mat == null)
-			return null;
-		if (type.equals(DropType.LEGENDARY))
-		{
-			int e = plugin.config.getInt("Legendary.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Legendary.Enchaments.Levels", 10);
-			CraftItemStack ci = new Legendary(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
+		Material mat = dropPicker();
+		if(mat==null) return null;
+		for(Tier tier:plugin.tiers){
+			if(tier.getName().equalsIgnoreCase(type)){
+				if(gen.nextInt(100)<=tier.getChance())
+				{
+					int e = tier.getAmount();
+					int l = tier.getLevels();
+					CraftItemStack ci = new Drop(mat,tier.getColor(),name());
+					for (; e > 0; e--)
+					{
+						int lvl = plugin.gen.nextInt(l + 1);
+						Enchantment ench = drops.enchant();
+						if (lvl != 0 && ench != null)
+							makeSafe(ench, ci, lvl);
+					}
+					return ci;
+				}
 			}
-			return ci;
-		}
-		if (type.equals(DropType.LORE))
-		{
-			int e = plugin.config.getInt("Lore.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Lore.Enchaments.Levels", 9);
-			CraftItemStack ci = new Lore(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equals(DropType.MAGICAL))
-		{
-			int e = plugin.config.getInt("Magical.Enchaments.Amt", 3);
-			int l = plugin.config.getInt("Magical.Enchaments.Levels", 4);
-			CraftItemStack ci = new Magical(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equals(DropType.RARE))
-		{
-			int e = plugin.config.getInt("Rare.Enchaments.Amt", 5);
-			int l = plugin.config.getInt("Rare.Enchaments.Levels", 5);
-			CraftItemStack ci = new Rare(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equals(DropType.SET))
-		{
-			int e = plugin.config.getInt("Set.Enchaments.Amt", 7);
-			int l = plugin.config.getInt("Set.Enchaments.Levels", 6);
-			CraftItemStack ci = new Set(mat, name());
-			for (; e > 0; e--)
-			{
-				int lvl = plugin.gen.nextInt(l + 1);
-				Enchantment ench = drops.enchant();
-				if (lvl != 0 && ench != null)
-					ci.addUnsafeEnchantment(ench, lvl);
-			}
-			return ci;
-		}
-		if (type.equals(DropType.UNIDENTIFIED))
-		{
-			return new Unidentified(mat, name());
-		}
-		if (type.equals(DropType.TOME))
-		{
-			return new Tome();
 		}
 		return null;
 	}
-
 	/**
 	 * Returns an itemstack that was randomly generated
 	 * 
@@ -250,23 +93,28 @@ public class DropsAPI
 	 */
 	public CraftItemStack getItem()
 	{
-		Material mat = Material.DIAMOND_SWORD;
+		Material mat = dropPicker();
+		if(mat==null) return null;
+		return getItem(mat);
+	}
+	/**
+	 * Returns a Material that was randomly picked
+	 * 
+	 * @return Material
+	 */
+	public Material dropPicker(){
 		if (gen.nextBoolean())
 		{
 			Material[] mats = drops.armorPicker();
 			if (mats != null)
-				mat = mats[gen.nextInt(mats.length - 1)];
+				return mats[gen.nextInt(mats.length - 1)];
 		}
 		else
 		{
-			mat = drops.weaponPicker();
+			return drops.weaponPicker();
 		}
-		if (mat == null)
-			return null;
-		DropType type = types[gen.nextInt(types.length - 1)];
-		return getItem(type);
+		return null;
 	}
-
 	public boolean canBeItem(Material material)
 	{
 		if (drops.isArmor(material) || drops.isTool(material))
@@ -281,5 +129,13 @@ public class DropsAPI
 		String suffix = plugin.suffix.get(plugin.gen.nextInt(plugin.suffix
 				.size() - 1));
 		return prefix + " " + suffix;
+	}
+
+	public void makeSafe(Enchantment ench, CraftItemStack citem, int level){
+		try{
+			citem.addEnchantment(ench, 1);
+		}catch (IllegalArgumentException e){
+			//Do nothing.
+		}
 	}
 }

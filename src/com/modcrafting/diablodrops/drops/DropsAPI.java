@@ -17,6 +17,7 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.tier.Drop;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.Tome;
+import com.modcrafting.toolapi.lib.Tool;
 
 public class DropsAPI
 {
@@ -211,5 +212,26 @@ public class DropsAPI
 				return false;
 		}
 		return true;
+	}
+
+	public Tool getItem(Tool tool) {
+		for (Tier tier : plugin.tiers)
+		{
+			if (gen.nextInt(100) <= tier.getChance())
+			{
+				int e = tier.getAmount();
+				int l = tier.getLevels();
+				tool.setName(tier.getColor()+name());
+				for (; e > 0; e--)
+				{
+					int lvl = plugin.gen.nextInt(l + 1);
+					Enchantment ench = drops.enchant();
+					if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC))
+						makeSafe(ench, tool, lvl);
+				}
+				return tool;
+			}
+		}
+		return tool;
 	}
 }

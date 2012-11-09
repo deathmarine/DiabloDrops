@@ -1,10 +1,17 @@
 package com.modcrafting.diablodrops.drops;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
+import net.minecraft.server.NBTTagCompound;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.tier.Drop;
@@ -17,7 +24,7 @@ public class DropsAPI
 	private Random gen = new Random();
 	private Drops drops = new Drops();
 	private DiabloDrops plugin;
-	
+
 	public DropsAPI(DiabloDrops instance)
 	{
 		plugin = instance;
@@ -34,26 +41,37 @@ public class DropsAPI
 	{
 		if (mat == null)
 			return null;
-		for(Tier tier: plugin.tiers)
+		CraftItemStack ci = null;
+		int attempts = 0;
+		while (ci != null && attempts < 10)
 		{
-			if(gen.nextInt(100)<=tier.getChance())
+			if (gen.nextBoolean())
 			{
-				int e = tier.getAmount();
-				int l = tier.getLevels();
-				CraftItemStack ci = new Drop(mat,tier.getColor(),name());
-				for (; e > 0; e--)
-				{
-					int lvl = plugin.gen.nextInt(l + 1);
-					Enchantment ench = drops.enchant();
-					if (lvl != 0 && ench != null)
-						makeSafe(ench, ci, lvl);
-				}
-				return ci;
+				if (plugin.config.getBoolean("IdentifyTome.Enabled", true)
+						&& gen.nextInt(100) <= plugin.config.getInt(
+								"IdentifyTome.Chance", 3))
+					return new Tome();
+				continue;
 			}
+			for (Tier tier : plugin.tiers)
+			{
+				if (gen.nextInt(100) <= tier.getChance())
+				{
+					int e = tier.getAmount();
+					int l = tier.getLevels();
+					ci = new Drop(mat, tier.getColor(), name());
+					for (; e > 0; e--)
+					{
+						int lvl = plugin.gen.nextInt(l + 1);
+						Enchantment ench = drops.enchant();
+						if (lvl != 0 && ench != null)
+							makeSafe(ench, ci, lvl);
+					}
+					return ci;
+				}
+			}
+			attempts++;
 		}
-		if(plugin.config.getBoolean("IdentifyTome.Enabled",true)&&
-				gen.nextInt(100)<=plugin.config.getInt("IdentifyTome.Chance",3))
-			return new Tome();
 		return null;
 	}
 
@@ -65,27 +83,37 @@ public class DropsAPI
 	public CraftItemStack getItem(String type)
 	{
 		Material mat = dropPicker();
-		if(mat==null) return null;
-		for(Tier tier:plugin.tiers){
-			if(tier.getName().equalsIgnoreCase(type)){
-				if(gen.nextInt(100)<=tier.getChance())
+		if (mat == null)
+			return null;
+		CraftItemStack ci = null;
+		int attempts = 0;
+		while (ci == null && attempts < 10)
+		{
+			for (Tier tier : plugin.tiers)
+			{
+				if (tier.getName().equalsIgnoreCase(type))
 				{
-					int e = tier.getAmount();
-					int l = tier.getLevels();
-					CraftItemStack ci = new Drop(mat,tier.getColor(),name());
-					for (; e > 0; e--)
+					if (gen.nextInt(100) <= tier.getChance())
 					{
-						int lvl = plugin.gen.nextInt(l + 1);
-						Enchantment ench = drops.enchant();
-						if (lvl != 0 && ench != null)
-							makeSafe(ench, ci, lvl);
+						int e = tier.getAmount();
+						int l = tier.getLevels();
+						ci = new Drop(mat, tier.getColor(), name());
+						for (; e > 0; e--)
+						{
+							int lvl = plugin.gen.nextInt(l + 1);
+							Enchantment ench = drops.enchant();
+							if (lvl != 0 && ench != null)
+								makeSafe(ench, ci, lvl);
+						}
+						return ci;
 					}
-					return ci;
 				}
 			}
+			attempts++;
 		}
 		return null;
 	}
+
 	/**
 	 * Returns an itemstack that was randomly generated
 	 * 
@@ -94,15 +122,18 @@ public class DropsAPI
 	public CraftItemStack getItem()
 	{
 		Material mat = dropPicker();
-		if(mat==null) return null;
+		if (mat == null)
+			return null;
 		return getItem(mat);
 	}
+
 	/**
 	 * Returns a Material that was randomly picked
 	 * 
 	 * @return Material
 	 */
-	public Material dropPicker(){
+	public Material dropPicker()
+	{
 		if (gen.nextBoolean())
 		{
 			Material[] mats = drops.armorPicker();
@@ -115,6 +146,7 @@ public class DropsAPI
 		}
 		return null;
 	}
+
 	public boolean canBeItem(Material material)
 	{
 		if (drops.isArmor(material) || drops.isTool(material))
@@ -131,11 +163,57 @@ public class DropsAPI
 		return prefix + " " + suffix;
 	}
 
-	public void makeSafe(Enchantment ench, CraftItemStack citem, int level){
-		try{
+	public void makeSafe(Enchantment ench, CraftItemStack citem, int level)
+	{
+		try
+		{
 			citem.addEnchantment(ench, 1);
-		}catch (IllegalArgumentException e){
-			//Do nothing.
 		}
+		catch (IllegalArgumentException e)
+		{
+		}
+	}
+
+	public boolean wearingSet(Player player)
+	{
+		ItemStack his = player.getInventory().getHelmet();
+		ItemStack cis = player.getInventory().getChestplate();
+		ItemStack lis = player.getInventory().getLeggings();
+		ItemStack bis = player.getInventory().getBoots();
+		if (his == null || cis == null || lis == null || bis == null)
+			return false;
+		Set<ItemStack> sis = new HashSet<ItemStack>();
+		sis.add(cis);
+		sis.add(lis);
+		sis.add(bis);
+		String potentialSet = new String();
+		CraftItemStack chis = ((CraftItemStack) his);
+		net.minecraft.server.ItemStack mistack = chis.getHandle();
+		NBTTagCompound tag = mistack.tag;
+		if (tag == null)
+		{
+			tag = new NBTTagCompound();
+			tag.setCompound("display", new NBTTagCompound());
+			mistack.tag = tag;
+		}
+		String[] ss = ChatColor.stripColor(tag.getString("Name")).split(" ");
+		potentialSet = ss[0];
+		for (ItemStack is : sis)
+		{
+			CraftItemStack c = ((CraftItemStack) is);
+			net.minecraft.server.ItemStack cstack = c.getHandle();
+			NBTTagCompound cstacktag = cstack.tag;
+			if (cstacktag == null)
+			{
+				cstacktag = new NBTTagCompound();
+				cstacktag.setCompound("display", new NBTTagCompound());
+				cstack.tag = cstacktag;
+			}
+			String[] splits = ChatColor.stripColor(cstacktag.getString("Name"))
+					.split(" ");
+			if (!splits[0].equalsIgnoreCase(potentialSet))
+				return false;
+		}
+		return true;
 	}
 }

@@ -58,8 +58,7 @@ public class TomeListener implements Listener
 						mis.tag = tag;
 					}
 					if (ChatColor.valueOf(
-							ChatColor.getLastColors(tag.getCompound("display")
-									.getString("Name")))
+							ChatColor.getLastColors(tag.getString("Name")))
 							.equals(ChatColor.MAGIC))
 					{
 						pi.setItem(i, plugin.dropsAPI.getItem(cis.getType()));

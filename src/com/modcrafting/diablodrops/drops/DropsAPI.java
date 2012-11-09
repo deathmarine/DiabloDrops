@@ -43,7 +43,7 @@ public class DropsAPI
 			return null;
 		CraftItemStack ci = null;
 		int attempts = 0;
-		while (ci != null && attempts < 10)
+		while (ci == null && attempts < 10)
 		{
 			if (gen.nextBoolean())
 			{
@@ -64,7 +64,7 @@ public class DropsAPI
 					{
 						int lvl = plugin.gen.nextInt(l + 1);
 						Enchantment ench = drops.enchant();
-						if (lvl != 0 && ench != null)
+						if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC))
 							makeSafe(ench, ci, lvl);
 					}
 					return ci;
@@ -102,7 +102,7 @@ public class DropsAPI
 						{
 							int lvl = plugin.gen.nextInt(l + 1);
 							Enchantment ench = drops.enchant();
-							if (lvl != 0 && ench != null)
+							if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC))
 								makeSafe(ench, ci, lvl);
 						}
 						return ci;
@@ -140,11 +140,7 @@ public class DropsAPI
 			if (mats != null)
 				return mats[gen.nextInt(mats.length - 1)];
 		}
-		else
-		{
-			return drops.weaponPicker();
-		}
-		return null;
+		return drops.weaponPicker();
 	}
 
 	public boolean canBeItem(Material material)

@@ -1,7 +1,5 @@
 package com.modcrafting.diablodrops.listeners;
 
-import net.minecraft.server.NBTTagCompound;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
@@ -13,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.toolapi.lib.Tool;
 
 import de.bananaco.bookapi.lib.Book;
 import de.bananaco.bookapi.lib.CraftBookBuilder;
@@ -39,7 +38,7 @@ public class TomeListener implements Listener
 					.getItemInHand());
 			if (b == null)
 				return;
-			if (b.getTitle().contains(ChatColor.DARK_AQUA + "Tome of Identify"))
+			if (b.getTitle().contains(ChatColor.DARK_AQUA+"Identity Tome"))
 			{
 				PlayerInventory pi = e.getPlayer().getInventory();
 				for (int i = 0; i < pi.getSize(); i++)
@@ -49,20 +48,10 @@ public class TomeListener implements Listener
 							|| !plugin.dropsAPI.canBeItem(is.getType()))
 						continue;
 					CraftItemStack cis = ((CraftItemStack) is);
-					net.minecraft.server.ItemStack mis = cis.getHandle();
-					NBTTagCompound tag = mis.tag;
-					if (tag == null)
-					{
-						tag = new NBTTagCompound();
-						tag.setCompound("display", new NBTTagCompound());
-						mis.tag = tag;
-					}
-					if (ChatColor.valueOf(
-							ChatColor.getLastColors(tag.getString("Name")))
-							.equals(ChatColor.MAGIC))
-					{
-						pi.setItem(i, plugin.dropsAPI.getItem(cis.getType()));
-						e.getPlayer().setItemInHand(null);
+					Tool tool = new Tool(cis.getHandle());
+					if(tool.getName().contains(ChatColor.MAGIC.toString())){
+						e.getPlayer().setItemInHand(plugin.dropsAPI.getItem(cis.getType()));
+						is.setType(Material.AIR);
 						return;
 					}
 				}

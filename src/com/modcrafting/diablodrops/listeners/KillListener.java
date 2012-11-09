@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
+import net.minecraft.server.Item;
 import net.minecraft.server.NBTTagCompound;
 
 import org.bukkit.Location;
@@ -114,7 +115,7 @@ public class KillListener implements Listener
 			{
 				if (mItem != null)
 				{
-					if (dropfix)
+					if (dropfix||mItem.getItem()==Item.WRITTEN_BOOK)
 					{
 						dropItem(mItem, loc);
 					}

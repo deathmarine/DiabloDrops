@@ -12,9 +12,10 @@ DropFix:
 SafeEnchant:
   Enabled: false
 #Allow the drop of book to "identify" Magic color items#
-IdentifyTome:
-  Enabled: true
-  Chance: 2
+#Coming Soon#
+#IdentifyTome:
+#  Enabled: true
+#  Chance: 2
 #This is the initial chance to retrieve an item#
 Precentages:
   ChancePerSpawn: 3
@@ -29,7 +30,7 @@ Tier:
 #           Aqua,Red,Light_Purple,Yellow,
 #           White,Magic,Bold,Strike,Underline,
 #           Italic)
-#   Chance:
+#   Chance: Precentage out of 100
 #   Enchantments:
 #     Amt: 7
 #     Levels: 6
@@ -63,12 +64,14 @@ Tier:
     Enchantments:
       Amt: 7
       Levels: 6
-  Unidentified:
-    Color: Magic
-    Chance: 33
-    Enchantments:
-      Amt: 10
-      Levels: 10
+#Not Recommended#
+#  Unidentified:
+#    Color: Magic
+#    Chance: 33
+#    #When Identified
+#    Enchantments:
+#      Amt: 10
+#      Levels: 10
 #If enabled only worlds listed will be affected#
 Worlds:
   Enabled: false

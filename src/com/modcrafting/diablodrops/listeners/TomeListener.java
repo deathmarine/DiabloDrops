@@ -55,7 +55,6 @@ public class TomeListener implements Listener
 						e.getPlayer().setItemInHand(null);
 						tool = plugin.dropsAPI.getItem(tool);
 						pi.setItem(i,tool);
-						//Works
 						return;
 					}
 				}

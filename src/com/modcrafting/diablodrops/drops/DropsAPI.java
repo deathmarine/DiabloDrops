@@ -44,9 +44,11 @@ public class DropsAPI
 			return null;
 		CraftItemStack ci = null;
 		int attempts = 0;
+		//TODO: Remove below when able to use tomes
+		boolean tomekiller = false;
 		while (ci == null && attempts < 10)
 		{
-			if (gen.nextBoolean())
+			if (gen.nextBoolean()&&tomekiller)
 			{
 				if (plugin.config.getBoolean("IdentifyTome.Enabled", true)
 						&& gen.nextInt(100) <= plugin.config.getInt(
@@ -65,8 +67,13 @@ public class DropsAPI
 					{
 						int lvl = plugin.gen.nextInt(l + 1);
 						Enchantment ench = drops.enchant();
-						if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC))
-							makeSafe(ench, ci, lvl);
+						if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC)){
+							if(plugin.config.getBoolean("SafeEnchant.Enabled",true)){
+								makeSafe(ench, ci, lvl);
+							}else{
+								ci.addEnchantment(ench, lvl);
+							}
+						}
 					}
 					return ci;
 				}
@@ -103,8 +110,13 @@ public class DropsAPI
 						{
 							int lvl = plugin.gen.nextInt(l + 1);
 							Enchantment ench = drops.enchant();
-							if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC))
-								makeSafe(ench, ci, lvl);
+							if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC)){
+								if(plugin.config.getBoolean("SafeEnchant.Enabled",true)){
+									makeSafe(ench, ci, lvl);
+								}else{
+									ci.addEnchantment(ench, lvl);
+								}
+							}
 						}
 						return ci;
 					}
@@ -226,8 +238,14 @@ public class DropsAPI
 				{
 					int lvl = plugin.gen.nextInt(l + 1);
 					Enchantment ench = drops.enchant();
-					if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC))
-						makeSafe(ench, tool, lvl);
+					if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC)){
+						if(plugin.config.getBoolean("SafeEnchant.Enabled",true)){
+							makeSafe(ench, tool, lvl);
+						}else{
+							tool.addEnchantment(ench, lvl);
+						}
+					}
+						
 				}
 				return tool;
 			}

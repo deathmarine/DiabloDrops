@@ -44,7 +44,7 @@ public class DiabloDrops extends JavaPlugin
 		config = this.getConfig();
 		dropsAPI = new DropsAPI(this);
 		this.getServer().getPluginManager().registerEvents(new KillListener(this), this);
-		this.getServer().getPluginManager().registerEvents(new TomeListener(this), this);
+		//this.getServer().getPluginManager().registerEvents(new TomeListener(this), this);
 		new TierBuilder(this).build();
 
 	}

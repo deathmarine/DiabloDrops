@@ -10,9 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.listeners.KillListener;
-import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
-import com.modcrafting.diablodrops.socket.SocketWindow;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.TierBuilder;
 
@@ -45,7 +43,8 @@ public class DiabloDrops extends JavaPlugin
 		config = this.getConfig();
 		dropsAPI = new DropsAPI(this);
 		this.getServer().getPluginManager().registerEvents(new KillListener(this), this);
-		this.getServer().getPluginManager().registerEvents(new SocketWindow(this), this);
+		//this.getServer().getPluginManager().registerEvents(new SocketWindow(this), this);
+		//this.getServer().getPluginManager().registerEvents(new TomeListener(this), this);
 		new TierBuilder(this).build();
 
 	}

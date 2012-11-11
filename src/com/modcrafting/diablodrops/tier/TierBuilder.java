@@ -16,6 +16,8 @@ public class TierBuilder
 
 	public void build()
 	{
+		plugin.tiers.clear();
+		plugin.usableTiers.clear();
 		ConfigurationSection cs = plugin.config.getConfigurationSection("Tier");
 		for (String name : cs.getKeys(false))
 		{

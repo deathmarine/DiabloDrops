@@ -53,6 +53,5 @@ public class DiabloDrops extends JavaPlugin
 		// this.getServer().getPluginManager().registerEvents(new
 		// SocketWindow(this), this);
 		new TierBuilder(this).build();
-
 	}
 }

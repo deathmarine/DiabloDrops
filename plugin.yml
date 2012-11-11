@@ -1,6 +1,6 @@
 name: DiabloDrops
 main: com.modcrafting.diablodrops.DiabloDrops
-version: 0.4
+version: 0.5
 website: http://modcrafting.com
 author: Deathmarine
 description: >
@@ -10,3 +10,7 @@ commands:
         description: Allows user to spawn a type of item.
         aliases: [dd, ddrops, diablod]
         usage: /<command> [type]
+permissions:
+    diablodrops.dd:
+        description: Allows user to spawn a type of item.
+        default: op

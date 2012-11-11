@@ -56,17 +56,17 @@ public class Drops
 
 	public Material[] armorPicker()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(4))
 		{
-		case 1:
+		case 0:
 			return diamondArmor();
-		case 2:
+		case 1:
 			return ironArmor();
-		case 3:
+		case 2:
 			return chainmailArmor();
-		case 4:
+		case 3:
 			return goldArmor();
-		case 5:
+		case 4:
 			return leatherArmor();
 		default:
 			return null;

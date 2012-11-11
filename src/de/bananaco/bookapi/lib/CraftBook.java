@@ -108,7 +108,7 @@ public class CraftBook implements Book
 		// sanity checking on the author
 		if (a.length() > 16)
 		{
-			a = a.substring(0, 16);
+			a = author.substring(0, 16);
 		}
 		s.tag.setString("author", a);
 	}

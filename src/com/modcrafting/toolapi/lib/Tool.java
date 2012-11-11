@@ -16,7 +16,14 @@ public class Tool extends CraftItemStack implements ToolInterface {
         }
         this.tag=mitem.tag;
 	}
-
+	public Tool(ItemStack item){
+		super(item);
+		ItemStack mitem = this.getHandle();
+        if(mitem.tag == null) {
+            mitem.tag = new NBTTagCompound();
+        }
+        this.tag=mitem.tag;
+	}
 	@Override
 	public String getName() {
 		NBTTagCompound nc = tag.getCompound("display");

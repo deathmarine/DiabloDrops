@@ -17,6 +17,7 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.tier.Drop;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.Tome;
+import com.modcrafting.toolapi.lib.Tool;
 
 public class DropsAPI
 {
@@ -28,6 +29,52 @@ public class DropsAPI
 	public DropsAPI(DiabloDrops instance)
 	{
 		plugin = instance;
+	}
+
+	public CraftItemStack getIdItem(Material mat, String name)
+	{
+		if (mat == null)
+			return null;
+		CraftItemStack ci = null;
+		while (ci == null)
+		{
+			for (Tier tier : plugin.usableTiers)
+			{
+				if (gen.nextInt(100) <= tier.getChance())
+				{
+					int e = tier.getAmount();
+					int l = tier.getLevels();
+					ci = new Drop(mat, tier.getColor(),
+							ChatColor.stripColor(name));
+					for (; e > 0; e--)
+					{
+						int lvl = plugin.gen.nextInt(l + 1);
+						Enchantment ench = drops.enchant();
+						if (lvl != 0 && ench != null
+								&& !tier.getColor().equals(ChatColor.MAGIC))
+						{
+							if (plugin.config.getBoolean("SafeEnchant.Enabled",
+									true))
+							{
+								makeSafe(ench, ci, lvl);
+							}
+							else
+							{
+								try
+								{
+									ci.addEnchantment(ench, lvl);
+								}
+								catch (IllegalArgumentException e1)
+								{
+									ci.addUnsafeEnchantment(ench, lvl);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return ci;
 	}
 
 	/**
@@ -43,7 +90,7 @@ public class DropsAPI
 			return null;
 		CraftItemStack ci = null;
 		int attempts = 0;
-		while (ci != null && attempts < 10)
+		while (ci == null && attempts < 10)
 		{
 			if (gen.nextBoolean())
 			{
@@ -64,8 +111,26 @@ public class DropsAPI
 					{
 						int lvl = plugin.gen.nextInt(l + 1);
 						Enchantment ench = drops.enchant();
-						if (lvl != 0 && ench != null)
-							makeSafe(ench, ci, lvl);
+						if (lvl != 0 && ench != null
+								&& !tier.getColor().equals(ChatColor.MAGIC))
+						{
+							if (plugin.config.getBoolean("SafeEnchant.Enabled",
+									true))
+							{
+								makeSafe(ench, ci, lvl);
+							}
+							else
+							{
+								try
+								{
+									ci.addEnchantment(ench, lvl);
+								}
+								catch (IllegalArgumentException e1)
+								{
+									ci.addUnsafeEnchantment(ench, lvl);
+								}
+							}
+						}
 					}
 					return ci;
 				}
@@ -102,8 +167,26 @@ public class DropsAPI
 						{
 							int lvl = plugin.gen.nextInt(l + 1);
 							Enchantment ench = drops.enchant();
-							if (lvl != 0 && ench != null)
-								makeSafe(ench, ci, lvl);
+							if (lvl != 0 && ench != null
+									&& !tier.getColor().equals(ChatColor.MAGIC))
+							{
+								if (plugin.config.getBoolean(
+										"SafeEnchant.Enabled", true))
+								{
+									makeSafe(ench, ci, lvl);
+								}
+								else
+								{
+									try
+									{
+										ci.addEnchantment(ench, lvl);
+									}
+									catch (IllegalArgumentException e1)
+									{
+										ci.addUnsafeEnchantment(ench, lvl);
+									}
+								}
+							}
 						}
 						return ci;
 					}
@@ -140,11 +223,7 @@ public class DropsAPI
 			if (mats != null)
 				return mats[gen.nextInt(mats.length - 1)];
 		}
-		else
-		{
-			return drops.weaponPicker();
-		}
-		return null;
+		return drops.weaponPicker();
 	}
 
 	public boolean canBeItem(Material material)
@@ -172,6 +251,16 @@ public class DropsAPI
 		catch (IllegalArgumentException e)
 		{
 		}
+	}
+
+	public boolean matchesTier(String type)
+	{
+		for (Tier tier : plugin.tiers)
+		{
+			if (tier.getName().equalsIgnoreCase(type))
+				return true;
+		}
+		return false;
 	}
 
 	public boolean wearingSet(Player player)
@@ -215,5 +304,46 @@ public class DropsAPI
 				return false;
 		}
 		return true;
+	}
+
+	public Tool getItem(Tool tool)
+	{
+		for (Tier tier : plugin.tiers)
+		{
+			if (gen.nextInt(100) <= tier.getChance())
+			{
+				int e = tier.getAmount();
+				int l = tier.getLevels();
+				tool.setName(tier.getColor() + name());
+				for (; e > 0; e--)
+				{
+					int lvl = plugin.gen.nextInt(l + 1);
+					Enchantment ench = drops.enchant();
+					if (lvl != 0 && ench != null
+							&& !tier.getColor().equals(ChatColor.MAGIC))
+					{
+						if (plugin.config.getBoolean("SafeEnchant.Enabled",
+								true))
+						{
+							makeSafe(ench, tool, lvl);
+						}
+						else
+						{
+							try
+							{
+								tool.addEnchantment(ench, lvl);
+							}
+							catch (IllegalArgumentException e1)
+							{
+								tool.addUnsafeEnchantment(ench, lvl);
+							}
+						}
+					}
+
+				}
+				return tool;
+			}
+		}
+		return tool;
 	}
 }

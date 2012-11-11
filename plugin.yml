@@ -5,3 +5,8 @@ website: http://modcrafting.com
 author: Deathmarine
 description: >
              Plugin for Bukkit.
+commands:
+    diablodrops:
+        description: Allows user to spawn a type of item.
+        aliases: [dd, ddrops, diablod]
+        usage: /<command> [type]

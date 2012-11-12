@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.socket.gem.SocketGem;
 import com.modcrafting.diablodrops.tier.Drop;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.Tome;
@@ -92,14 +93,6 @@ public class DropsAPI
 		int attempts = 0;
 		while (ci == null && attempts < 10)
 		{
-			if (gen.nextBoolean())
-			{
-				if (plugin.config.getBoolean("IdentifyTome.Enabled", true)
-						&& gen.nextInt(100) <= plugin.config.getInt(
-								"IdentifyTome.Chance", 3))
-					return new Tome();
-				continue;
-			}
 			for (Tier tier : plugin.tiers)
 			{
 				if (gen.nextInt(100) <= tier.getChance())
@@ -207,6 +200,20 @@ public class DropsAPI
 		Material mat = dropPicker();
 		if (mat == null)
 			return null;
+		if (gen.nextBoolean())
+		{
+			if (plugin.config.getBoolean("IdentifyTome.Enabled", true)
+					&& gen.nextInt(100) <= plugin.config.getInt(
+							"IdentifyTome.Chance", 3))
+				return new Tome();
+		}
+		if (gen.nextBoolean())
+		{
+			if (plugin.config.getBoolean("SocketItem.Enabled", true)
+					&& gen.nextInt(100) <= plugin.config.getInt(
+							"SocketItem.Chance", 5))
+				return new SocketGem();
+		}
 		return getItem(mat);
 	}
 

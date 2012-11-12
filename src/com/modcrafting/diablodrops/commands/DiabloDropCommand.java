@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.socket.gem.SocketGem;
 import com.modcrafting.diablodrops.tier.Tome;
+import com.stirante.ItemNamer.Namer;
 
 public class DiabloDropCommand implements CommandExecutor
 {
@@ -53,6 +55,17 @@ public class DiabloDropCommand implements CommandExecutor
 					pi.addItem(new Tome());
 					player.sendMessage(ChatColor.GREEN
 							+ "You have been given a tome.");
+					return true;
+				}
+				if (args[0].equalsIgnoreCase("socket")
+						|| args[0].equalsIgnoreCase("socketitem"))
+				{
+					pi.addItem(Namer.setLore(
+							Namer.setName(new SocketGem(), "SocketItem"),
+							"Put in bottom of furnace", "with item in top to",
+							"enhance it."));
+					player.sendMessage(ChatColor.GREEN
+							+ "You have been given a SocketItem.");
 					return true;
 				}
 				if (plugin.dropsAPI.matchesTier(args[0]))

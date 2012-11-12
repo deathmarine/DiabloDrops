@@ -13,9 +13,12 @@ SafeEnchant:
   Enabled: false
 #Allow the drop of book to "identify" Magic color items#
 #Coming Soon#
-#IdentifyTome:
-#  Enabled: true
-#  Chance: 2
+IdentifyTome:
+  Enabled: true
+  Chance: 2
+SocketItem:
+  Enabled: true
+  Chance: 5
 #This is the initial chance to retrieve an item#
 Precentages:
   ChancePerSpawn: 3
@@ -79,3 +82,46 @@ Worlds:
   - 'world'
   - 'world_nether'
   - 'world_the_end'
+SocketBonuses:
+  Weapon:
+  - +1 damage
+  - +2 damage
+  - +3 damage
+  - +4 damage
+  - +5 damage
+  - +6 damage
+  - +7 damage
+  - +8 damage
+  - +9 damage
+  - +10 damage
+  - -1 damage
+  - -2 damage
+  - -3 damage
+  - -4 damage
+  - -5 damage
+  - -6 damage
+  - -7 damage
+  - -8 damage
+  - -9 damage
+  - -10 damage
+  Armor:
+  - +1 damage
+  - +2 damage
+  - +3 damage
+  - +4 damage
+  - +5 damage
+  - +6 damage
+  - +7 damage
+  - +8 damage
+  - +9 damage
+  - +10 damage
+  - -1 damage
+  - -2 damage
+  - -3 damage
+  - -4 damage
+  - -5 damage
+  - -6 damage
+  - -7 damage
+  - -8 damage
+  - -9 damage
+  - -10 damage

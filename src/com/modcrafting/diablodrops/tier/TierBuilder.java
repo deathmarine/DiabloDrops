@@ -29,7 +29,7 @@ public class TierBuilder
 					.toUpperCase()), amt, lvl, chance));
 			if (!ChatColor.valueOf(color.toUpperCase()).equals(ChatColor.MAGIC))
 				plugin.usableTiers.add(new Tier(name, ChatColor.valueOf(color
-						.toUpperCase()), amt, lvl, chance));
+						.toUpperCase()), Math.abs(amt), Math.abs(lvl), Math.abs(chance)));
 		}
 	}
 }

@@ -13,9 +13,18 @@ SafeEnchant:
   Enabled: false
 #Allow the drop of book to "identify" Magic color items#
 #Coming Soon#
+<<<<<<< HEAD
 #IdentifyTome:
 #  Enabled: true
 #  Chance: 2
+=======
+IdentifyTome:
+  Enabled: true
+  Chance: 2
+SocketItem:
+  Enabled: true
+  Chance: 5
+>>>>>>> refs/remotes/fork/master
 #This is the initial chance to retrieve an item#
 Precentages:
   ChancePerSpawn: 3
@@ -65,6 +74,7 @@ Tier:
       Amt: 7
       Levels: 6
 #Not Recommended#
+<<<<<<< HEAD
 #  Unidentified:
 #    Color: Magic
 #    Chance: 33
@@ -79,3 +89,62 @@ Worlds:
   - 'world'
   - 'world_nether'
   - 'world_the_end'
+=======
+  Unidentified:
+    Color: Magic
+    Chance: 33
+    #When Identified
+    Enchantments:
+      Amt: 10
+      Levels: 10
+#If enabled only worlds listed will be affected#
+Worlds:
+  Enabled: false
+  Allowed:
+  - 'world'
+  - 'world_nether'
+  - 'world_the_end'
+SocketBonuses:
+  Weapon:
+  - +1 damage
+  - +2 damage
+  - +3 damage
+  - +4 damage
+  - +5 damage
+  - +6 damage
+  - +7 damage
+  - +8 damage
+  - +9 damage
+  - +10 damage
+  - -1 damage
+  - -2 damage
+  - -3 damage
+  - -4 damage
+  - -5 damage
+  - -6 damage
+  - -7 damage
+  - -8 damage
+  - -9 damage
+  - -10 damage
+  Armor:
+  - +1 damage
+  - +2 damage
+  - +3 damage
+  - +4 damage
+  - +5 damage
+  - +6 damage
+  - +7 damage
+  - +8 damage
+  - +9 damage
+  - +10 damage
+  - -1 damage
+  - -2 damage
+  - -3 damage
+  - -4 damage
+  - -5 damage
+  - -6 damage
+  - -7 damage
+  - -8 damage
+  - -9 damage
+  - -10 damage
+>>>>>>> refs/remotes/fork/master

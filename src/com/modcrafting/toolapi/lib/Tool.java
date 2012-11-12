@@ -37,6 +37,16 @@ public class Tool extends CraftItemStack implements ToolInterface
 		this.tag = mitem.tag;
 	}
 
+	public Tool(org.bukkit.inventory.ItemStack source) {
+		super(((CraftItemStack) source).getHandle());
+		ItemStack mitem = this.getHandle();
+		if (mitem.tag == null)
+		{
+			mitem.tag = new NBTTagCompound();
+		}
+		this.tag = mitem.tag;
+	}
+
 	@Override
 	public String getName()
 	{
@@ -97,5 +107,13 @@ public class Tool extends CraftItemStack implements ToolInterface
 			strings.add(((NBTTagString) list.get(i)).data);
 		strings.toArray(lores);
 		return lores;
+	}
+	@Override
+	public void setLore(String string) {
+		NBTTagCompound ntag = new NBTTagCompound();
+		NBTTagList p = new NBTTagList("Lore");
+		p.add(new NBTTagString("", string));
+		ntag.set("Lore", p);
+		tag.setCompound("display", ntag);
 	}
 }

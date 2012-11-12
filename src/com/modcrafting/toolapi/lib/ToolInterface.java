@@ -37,4 +37,10 @@ public interface ToolInterface
 	 * Returns the lore of the Tool
 	 */
 	public String[] getLore();
+	
+	/**
+	 * Sets a single line for lore.
+	 * @param string
+	 */
+	public void setLore(String string);
 }

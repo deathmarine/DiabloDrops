@@ -1,10 +1,6 @@
 name: DiabloDrops
 main: com.modcrafting.diablodrops.DiabloDrops
-<<<<<<< HEAD
-version: 0.3
-=======
 version: 0.5
->>>>>>> refs/remotes/fork/master
 website: http://modcrafting.com
 author: Deathmarine
 description: >

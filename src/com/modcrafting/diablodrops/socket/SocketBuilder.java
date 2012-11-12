@@ -1,6 +1,10 @@
 package com.modcrafting.diablodrops.socket;
 
-import org.bukkit.configuration.ConfigurationSection;
+import java.util.List;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 
@@ -12,50 +16,27 @@ public class SocketBuilder
 	{
 		this.plugin = plugin;
 	}
-
+	public static enum SocketType{
+		ARMOR(0),WEAPON(1),TOOL(2),ITEM(3);
+		int n;
+		SocketType(int i){
+			n=i;
+		}
+		public Integer getType(){
+			return n;
+		}
+	}
 	public void build()
 	{
-		plugin.weaponBonuses.clear();
-		plugin.armorBonuses.clear();
-		ConfigurationSection cs = plugin.config
-				.getConfigurationSection("SocketBonuses");
-		for (String s : cs.getStringList("Weapon"))
-		{
-			String[] bonus = s.split(" ");
-			int amt = 0;
-			String type;
-			try
-			{
-				amt = Integer.parseInt(bonus[0]);
+		//Catch on FurnaceSmeltEvent
+		List<String> l = plugin.config.getStringList("SocketItem.Items");
+		for(String name: l){
+			for(Material mat:plugin.drop.allItems()){
+				FurnaceRecipe recipe = new FurnaceRecipe(new ItemStack(mat), Material.valueOf(name.toUpperCase()));
+			    recipe.setInput(mat);
+			    plugin.getServer().addRecipe(recipe);
+				
 			}
-			catch (NumberFormatException e)
-			{
-			}
-			if (bonus.length >= 2)
-				type = bonus[1];
-			else
-				type = "damage";
-			SocketBonus sb = new SocketBonus(s, amt, type);
-			plugin.weaponBonuses.add(sb);
-		}
-		for (String s : cs.getStringList("Armor"))
-		{
-			String[] bonus = s.split(" ");
-			int amt = 0;
-			String type;
-			try
-			{
-				amt = Integer.parseInt(bonus[0]);
-			}
-			catch (NumberFormatException e)
-			{
-			}
-			if (bonus.length >= 2)
-				type = bonus[1];
-			else
-				type = "damage";
-			SocketBonus sb = new SocketBonus(s, amt, type);
-			plugin.armorBonuses.add(sb);
 		}
 	}
 }

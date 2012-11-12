@@ -10,9 +10,9 @@ public class SocketGem extends CraftItemStack
 {
 	private NBTTagCompound tag;
 
-	public SocketGem()
+	public SocketGem(Material mat)
 	{
-		super(Material.EMERALD);
+		super(mat);
 		ItemStack mitem = this.getHandle();
 		if (mitem.tag == null)
 		{

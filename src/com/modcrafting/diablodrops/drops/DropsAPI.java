@@ -1,6 +1,7 @@
 package com.modcrafting.diablodrops.drops;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -24,12 +25,13 @@ public class DropsAPI
 {
 
 	private Random gen = new Random();
-	private Drops drops = new Drops();
+	private Drops drops;
 	private DiabloDrops plugin;
 
 	public DropsAPI(DiabloDrops instance)
 	{
 		plugin = instance;
+		drops=instance.drop;
 	}
 
 	public CraftItemStack getIdItem(Material mat, String name)
@@ -211,8 +213,10 @@ public class DropsAPI
 		{
 			if (plugin.config.getBoolean("SocketItem.Enabled", true)
 					&& gen.nextInt(100) <= plugin.config.getInt(
-							"SocketItem.Chance", 5))
-				return new SocketGem();
+							"SocketItem.Chance", 5)){
+				List<String> l = plugin.config.getStringList("SocketItem.Items");
+				return new SocketGem(Material.valueOf(l.get(gen.nextInt(l.size())).toUpperCase()));
+			}
 		}
 		return getItem(mat);
 	}
@@ -243,9 +247,9 @@ public class DropsAPI
 	public String name()
 	{
 		String prefix = plugin.prefix.get(plugin.gen.nextInt(plugin.prefix
-				.size() - 1));
+				.size()));
 		String suffix = plugin.suffix.get(plugin.gen.nextInt(plugin.suffix
-				.size() - 1));
+				.size()));
 		return prefix + " " + suffix;
 	}
 

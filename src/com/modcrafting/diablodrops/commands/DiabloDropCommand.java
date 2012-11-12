@@ -1,6 +1,7 @@
 package com.modcrafting.diablodrops.commands;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -61,7 +62,7 @@ public class DiabloDropCommand implements CommandExecutor
 						|| args[0].equalsIgnoreCase("socketitem"))
 				{
 					pi.addItem(Namer.setLore(
-							Namer.setName(new SocketGem(), "SocketItem"),
+							Namer.setName(new SocketGem(Material.EMERALD), "SocketItem"),
 							"Put in bottom of furnace", "with item in top to",
 							"enhance it."));
 					player.sendMessage(ChatColor.GREEN

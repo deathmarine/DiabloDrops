@@ -14,10 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-<<<<<<< HEAD
-=======
 import com.modcrafting.diablodrops.socket.gem.SocketGem;
->>>>>>> refs/remotes/fork/master
 import com.modcrafting.diablodrops.tier.Drop;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.Tome;
@@ -35,49 +32,6 @@ public class DropsAPI
 		plugin = instance;
 	}
 
-<<<<<<< HEAD
-	/**
-	 * Returns a specific type of item randomly generated
-	 * 
-	 * @param material
-	 *            Material of itemstack
-	 * @return CraftItemStack
-	 */
-	public CraftItemStack getItem(Material mat)
-	{
-		if (mat == null)
-			return null;
-		CraftItemStack ci = null;
-		int attempts = 0;
-		//TODO: Remove below when able to use tomes
-		boolean tomekiller = false;
-		while (ci == null && attempts < 10)
-		{
-			if (gen.nextBoolean()&&tomekiller)
-			{
-				if (plugin.config.getBoolean("IdentifyTome.Enabled", true)
-						&& gen.nextInt(100) <= plugin.config.getInt(
-								"IdentifyTome.Chance", 3))
-					return new Tome();
-				continue;
-			}
-			for (Tier tier : plugin.tiers)
-			{
-				if (gen.nextInt(100) <= tier.getChance())
-				{
-					int e = tier.getAmount();
-					int l = tier.getLevels();
-					ci = new Drop(mat, tier.getColor(), name());
-					for (; e > 0; e--)
-					{
-						int lvl = plugin.gen.nextInt(l + 1);
-						Enchantment ench = drops.enchant();
-						if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC)){
-							if(plugin.config.getBoolean("SafeEnchant.Enabled",true)){
-								makeSafe(ench, ci, lvl);
-							}else{
-								ci.addEnchantment(ench, lvl);
-=======
 	public CraftItemStack getIdItem(Material mat, String name)
 	{
 		if (mat == null)
@@ -168,7 +122,6 @@ public class DropsAPI
 								{
 									ci.addUnsafeEnchantment(ench, lvl);
 								}
->>>>>>> refs/remotes/fork/master
 							}
 						}
 					}
@@ -207,13 +160,6 @@ public class DropsAPI
 						{
 							int lvl = plugin.gen.nextInt(l + 1);
 							Enchantment ench = drops.enchant();
-<<<<<<< HEAD
-							if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC)){
-								if(plugin.config.getBoolean("SafeEnchant.Enabled",true)){
-									makeSafe(ench, ci, lvl);
-								}else{
-									ci.addEnchantment(ench, lvl);
-=======
 							if (lvl != 0 && ench != null
 									&& !tier.getColor().equals(ChatColor.MAGIC))
 							{
@@ -232,7 +178,6 @@ public class DropsAPI
 									{
 										ci.addUnsafeEnchantment(ench, lvl);
 									}
->>>>>>> refs/remotes/fork/master
 								}
 							}
 						}
@@ -255,8 +200,6 @@ public class DropsAPI
 		Material mat = dropPicker();
 		if (mat == null)
 			return null;
-<<<<<<< HEAD
-=======
 		if (gen.nextBoolean())
 		{
 			if (plugin.config.getBoolean("IdentifyTome.Enabled", true)
@@ -271,7 +214,6 @@ public class DropsAPI
 							"SocketItem.Chance", 5))
 				return new SocketGem();
 		}
->>>>>>> refs/remotes/fork/master
 		return getItem(mat);
 	}
 
@@ -318,71 +260,6 @@ public class DropsAPI
 		}
 	}
 
-<<<<<<< HEAD
-	public boolean wearingSet(Player player)
-	{
-		ItemStack his = player.getInventory().getHelmet();
-		ItemStack cis = player.getInventory().getChestplate();
-		ItemStack lis = player.getInventory().getLeggings();
-		ItemStack bis = player.getInventory().getBoots();
-		if (his == null || cis == null || lis == null || bis == null)
-			return false;
-		Set<ItemStack> sis = new HashSet<ItemStack>();
-		sis.add(cis);
-		sis.add(lis);
-		sis.add(bis);
-		String potentialSet = new String();
-		CraftItemStack chis = ((CraftItemStack) his);
-		net.minecraft.server.ItemStack mistack = chis.getHandle();
-		NBTTagCompound tag = mistack.tag;
-		if (tag == null)
-		{
-			tag = new NBTTagCompound();
-			tag.setCompound("display", new NBTTagCompound());
-			mistack.tag = tag;
-		}
-		String[] ss = ChatColor.stripColor(tag.getString("Name")).split(" ");
-		potentialSet = ss[0];
-		for (ItemStack is : sis)
-		{
-			CraftItemStack c = ((CraftItemStack) is);
-			net.minecraft.server.ItemStack cstack = c.getHandle();
-			NBTTagCompound cstacktag = cstack.tag;
-			if (cstacktag == null)
-			{
-				cstacktag = new NBTTagCompound();
-				cstacktag.setCompound("display", new NBTTagCompound());
-				cstack.tag = cstacktag;
-			}
-			String[] splits = ChatColor.stripColor(cstacktag.getString("Name"))
-					.split(" ");
-			if (!splits[0].equalsIgnoreCase(potentialSet))
-				return false;
-		}
-		return true;
-	}
-
-	public Tool getItem(Tool tool) {
-		for (Tier tier : plugin.tiers)
-		{
-			if (gen.nextInt(100) <= tier.getChance())
-			{
-				int e = tier.getAmount();
-				int l = tier.getLevels();
-				tool.setName(tier.getColor()+name());
-				for (; e > 0; e--)
-				{
-					int lvl = plugin.gen.nextInt(l + 1);
-					Enchantment ench = drops.enchant();
-					if (lvl != 0 && ench != null && !tier.getColor().equals(ChatColor.MAGIC)){
-						if(plugin.config.getBoolean("SafeEnchant.Enabled",true)){
-							makeSafe(ench, tool, lvl);
-						}else{
-							tool.addEnchantment(ench, lvl);
-						}
-					}
-						
-=======
 	public boolean matchesTier(String type)
 	{
 		for (Tier tier : plugin.tiers)
@@ -470,7 +347,6 @@ public class DropsAPI
 						}
 					}
 
->>>>>>> refs/remotes/fork/master
 				}
 				return tool;
 			}

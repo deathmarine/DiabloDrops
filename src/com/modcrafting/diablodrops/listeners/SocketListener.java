@@ -4,12 +4,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.socket.SocketBonus;
 import com.modcrafting.diablodrops.socket.SocketBuilder.SocketType;
 import com.modcrafting.toolapi.lib.Tool;
+import com.stirante.ItemNamer.Namer;
 
 public class SocketListener implements Listener
 {
@@ -18,6 +20,23 @@ public class SocketListener implements Listener
 	public SocketListener(DiabloDrops instance)
 	{
 		plugin = instance;
+	}
+
+	@EventHandler
+	public void burnGem(FurnaceBurnEvent event)
+	{
+		for (String name : plugin.config.getStringList("SocketItem.Items"))
+		{
+			String isn = Namer.getName(event.getFuel());
+			if (isn == null)
+				return;
+			if (event.getFuel().getType().equals(Material.matchMaterial(name))
+					&& isn.contains("SocketItem"))
+			{
+				event.setBurnTime(240);
+				event.setBurning(true);
+			}
+		}
 	}
 
 	@SuppressWarnings("unused")

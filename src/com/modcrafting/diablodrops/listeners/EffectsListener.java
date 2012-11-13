@@ -10,17 +10,29 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.toolapi.lib.Tool;
 
-public class EffectsListener implements Listener{
+public class EffectsListener implements Listener
+{
 	DiabloDrops plugin;
-	public EffectsListener(DiabloDrops instance){
-		plugin=instance;
+
+	public EffectsListener(DiabloDrops instance)
+	{
+		plugin = instance;
 	}
+
+	@SuppressWarnings("unused")
 	@EventHandler
-	public void onEntityDamageByEntity(EntityDamageByEntityEvent event){
-		if(event.getDamager() instanceof Player){
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+	{
+		if (event.getDamager() instanceof Player)
+		{
 			Player player = (Player) event.getDamager();
-			for(String string:new Tool(((CraftItemStack)player.getItemInHand()).getHandle()).getLore()){
-				if(string.contains("damage")){
+			for (String string : new Tool(
+					((CraftItemStack) player.getItemInHand()).getHandle())
+					.getLore())
+			{
+				if (string.contains("damage"))
+				{
+					/* Finish this later */
 					String[] args = ChatColor.stripColor(string).split(" ");
 				}
 			}

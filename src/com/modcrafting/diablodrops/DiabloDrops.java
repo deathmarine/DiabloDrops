@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.drops.DropsAPI;
+import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.KillListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
@@ -30,8 +31,8 @@ public class DiabloDrops extends JavaPlugin
 	public List<String> lore = new ArrayList<String>();
 	public HashSet<Tier> tiers = new HashSet<Tier>();
 	public HashSet<Tier> usableTiers = new HashSet<Tier>();
-	
-	public HashMap<SocketType,SocketBonus> bonuses = new HashMap<SocketType,SocketBonus>();
+
+	public HashMap<SocketType, SocketBonus> bonuses = new HashMap<SocketType, SocketBonus>();
 	private NamesLoader nameLoader;
 	public Random gen = new Random();
 	public FileConfiguration config;
@@ -66,6 +67,8 @@ public class DiabloDrops extends JavaPlugin
 		getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 		this.getServer().getPluginManager()
 				.registerEvents(new SocketListener(this), this);
+		this.getServer().getPluginManager()
+				.registerEvents(new ChunkListener(this), this);
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();
 	}

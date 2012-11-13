@@ -86,6 +86,8 @@ Worlds:
   - 'world'
   - 'world_nether'
   - 'world_the_end'
+Ruins:
+  Enabled: true
 SocketBonuses:
   Weapon:
   - +1 damage

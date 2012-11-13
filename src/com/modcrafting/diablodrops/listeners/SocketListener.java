@@ -33,6 +33,7 @@ public class SocketListener implements Listener
 			if (event.getFuel().getType().equals(Material.matchMaterial(name))
 					&& isn.contains("SocketItem"))
 			{
+				plugin.furnanceMap.put(event.getBlock(), name);
 				event.setBurnTime(240);
 				event.setBurning(true);
 			}
@@ -43,6 +44,10 @@ public class SocketListener implements Listener
 	@EventHandler
 	public void onSmeltSocket(FurnaceSmeltEvent event)
 	{
+		if (!plugin.furnanceMap.containsKey(event.getBlock()))
+			return;
+		Material fuel = Material.matchMaterial(plugin.furnanceMap.remove(event
+				.getBlock()));
 		if (plugin.drop.isArmor(event.getResult().getType()))
 		{
 			SocketBonus sb = plugin.bonuses.get(SocketType.ARMOR);
@@ -59,18 +64,22 @@ public class SocketListener implements Listener
 			}
 			tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore.size()))); // Testing
 																					// code.
-			// if(name.equalsIgnoreCase("skull")){
-			ChatColor color = this.findColor(oldtool.getName());
-			String skullName = new String(); // PlaceHolder
-			tool.setName(color + skullName + "'s "
-					+ ChatColor.stripColor(oldtool.getName()));
-			// TODO: If player get player skull name/skull type from skull add
-			// to tool name
-			// i.e. color+ "Deathmarine's Prefix Suffix" or
-			// "Skeleton's Prefix Suffix"
-			// }else{
-			tool.setName(oldtool.getName());
-			// }
+			if (fuel.equals(Material.SKULL))
+			{
+				ChatColor color = this.findColor(oldtool.getName());
+				String skullName = new String(); // PlaceHolder
+				tool.setName(color + skullName + "'s "
+						+ ChatColor.stripColor(oldtool.getName()));
+				// TODO: If player get player skull name/skull type from skull
+				// add
+				// to tool name
+				// i.e. color+ "Deathmarine's Prefix Suffix" or
+				// "Skeleton's Prefix Suffix"
+			}
+			else
+			{
+				tool.setName(oldtool.getName());
+			}
 			return;
 		}
 		if (plugin.drop.isTool(event.getResult().getType())

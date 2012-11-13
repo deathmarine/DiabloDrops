@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,7 +35,7 @@ public class DiabloDrops extends JavaPlugin
 	public HashSet<Tier> tiers = new HashSet<Tier>();
 	public HashSet<Tier> usableTiers = new HashSet<Tier>();
 	public HashMap<SocketType, SocketBonus> bonuses = new HashMap<SocketType, SocketBonus>();
-	public HashMap<Block, String> furnanceMap = new HashMap<Block, String>();
+	public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
 	private NamesLoader nameLoader;
 	public Random gen = new Random();
 	public FileConfiguration config;

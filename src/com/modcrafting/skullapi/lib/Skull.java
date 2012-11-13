@@ -3,6 +3,7 @@ package com.modcrafting.skullapi.lib;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.server.ItemStack;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
@@ -17,6 +18,10 @@ public class Skull extends CraftItemStack implements SkullInterface
 		super(type);
 		if (type != 397)
 			throw new Exception("Item must be a skull.");
+	}
+	public Skull(ItemStack is)
+	{
+		super(is);
 	}
 
 	public enum SkullType

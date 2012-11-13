@@ -31,7 +31,8 @@ public class ChunkListener implements Listener
 		if (!plugin.config.getBoolean("Ruins.Enabled", true))
 			return;
 		Chunk chunk = event.getChunk();
-		if (plugin.gen.nextInt(100) != 1)
+		if ((plugin.gen.nextInt(100) + 1) != plugin.config.getInt(
+				"Ruins.Chance", 1))
 			return;
 		int realX = chunk.getX() * 16 + plugin.gen.nextInt(15);
 		int realZ = chunk.getX() * 16 + plugin.gen.nextInt(15);
@@ -42,9 +43,6 @@ public class ChunkListener implements Listener
 				&& blockUnder.getType() != Material.DIRT)
 			return;
 		block.setType(Material.CHEST);
-		plugin.getServer().broadcastMessage(
-				"DiabloDrops Chest spawned at " + String.valueOf(realX) + " "
-						+ String.valueOf(realY) + " " + String.valueOf(realZ));
 		addPattern(block);
 		Chest chestB = ((Chest) block.getState());
 		Inventory chest = chestB.getBlockInventory();

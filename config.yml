@@ -88,6 +88,7 @@ Worlds:
   - 'world_the_end'
 Ruins:
   Enabled: true
+  Chance: 1
 SocketBonuses:
   Weapon:
   - +1 damage

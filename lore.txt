@@ -1,3 +1,5 @@
+## These Lore Enhancements are Hardcoded ##
+## You can add/remove to these values ##
 +1 Damage
 +2 Damage
 +3 Damage
@@ -54,7 +56,45 @@
 80% Mob Frenzy
 90% Mob Frenzy
 100% Mob Frenzy
-Enemies Shrink 
+Enemies Shrink
+## Lightning and fire effects ##
+## Positive values affect the other ##
+## Negative values affect the holder ##
++1 Lightning
++2 Lightning
++3 Lightning
+-1 Lightning
+-2 Lightning
+-3 Lightning
++1 Fire
++2 Fire
++3 Fire
+-1 Fire
+-2 Fire
+-3 Fire
+## Life leeching effects ##
+## Positive values drain from those hit and heal the hitter ##
+## Negative values drain from the hitter and heal the hit ##
++1 Leech
++2 Leech
++3 Leech
++4 Leech
++5 Leech
++6 Leech
++7 Leech
++8 Leech
++9 Leech
++10 Leech
+-1 Leech
+-2 Leech
+-3 Leech
+-4 Leech
+-5 Leech
+-6 Leech
+-7 Leech
+-8 Leech
+-9 Leech
+-10 Leech
 ## Potions can be added by name ##
 ## Positive Affects Mobs, Negative Affects The Player ##
 1 Invisibility
@@ -77,3 +117,5 @@ Enemies Shrink
 -8 Invisibility
 -9 Invisibility
 -10 Invisibility
+#Example#
+-10 Heal

@@ -1,3 +1,13 @@
+##Format for custom items##
+#Name of item:
+# Material: BukkitItemName
+# Color: BukkitColorName
+# Enchantments:
+#   BukkitEnchantmentName: lvl
+# Lore:
+# - List of Strings enhanced 
+# - with ampersand color codes
+# - Not case sensitive
 Death Sword:
   Material: Diamond_Sword
   Color: White
@@ -8,5 +18,13 @@ Death Sword:
     DURABILITY: 9
     FIRE_ASPECT: 9
   Lore:
-  - '&8Mystic medievil sword for &6Marines'
+  - '&8Mystic medieval sword for &6Marines'
   - '&4Never need another one again.'
+Topple the Nun:
+  Material: Stick
+  Color: Bold
+  Enchantments:
+    KNOCKBACK: 10
+  Lore:
+  - '&bKeeps them kids in line.'
+  

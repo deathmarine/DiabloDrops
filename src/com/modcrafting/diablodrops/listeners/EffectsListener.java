@@ -31,81 +31,165 @@ public class EffectsListener implements Listener
 		if (event.getDamager() instanceof Player)
 		{
 			Player player = (Player) event.getDamager();
-			for (String string : new Tool(((CraftItemStack) player.getItemInHand()).getHandle()).getLoreList())
+			for (String string : new Tool(
+					((CraftItemStack) player.getItemInHand()).getHandle())
+					.getLoreList())
 			{
+				string = ChatColor.stripColor(string).replace("%", "")
+						.replace("+", "");
 				if (StringUtils.containsIgnoreCase(string, "damage"))
 				{
-					String[] args = ChatColor.stripColor(string).split(" ");
+					String[] args = string.split(" ");
 					int dam = event.getDamage();
-					try{
-						dam = dam+Integer.valueOf(args[0]);
-					}catch (NumberFormatException nfe){
+					try
+					{
+						dam = dam + Integer.valueOf(args[0]);
+					}
+					catch (NumberFormatException nfe)
+					{
 						dam = event.getDamage();
 					}
 					event.setDamage(dam);
 				}
-				if (StringUtils.containsIgnoreCase(string, "durability"))
+				else if (StringUtils.containsIgnoreCase(string, "durability"))
 				{
 					/* Finish this later */
-					String[] args = ChatColor.stripColor(string).split(" ");
-					player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability()*0.5));
+					String[] args = string.split(" ");
+					player.getItemInHand()
+							.setDurability(
+									(short) (player.getItemInHand()
+											.getDurability() * 0.5));
 				}
-				if (StringUtils.containsIgnoreCase(string, "money"))
+				else if (StringUtils.containsIgnoreCase(string, "money"))
 				{
 					/* Finish this later */
-					String[] args = ChatColor.stripColor(string).split(" ");
-					//Hook into MobBounty maybe hehe....
+					String[] args = string.split(" ");
+					// Hook into MobBounty maybe hehe....
 				}
-				if (StringUtils.containsIgnoreCase(string, "frenzy"))
+				else if (StringUtils.containsIgnoreCase(string, "frenzy"))
 				{
-					//Example: "50% Mob Frenzy"
-					if(event.getEntity() instanceof LivingEntity)
+					// Example: "50% Mob Frenzy"
+					if (event.getEntity() instanceof LivingEntity)
 					{
-						String[] args = ChatColor.stripColor(string).split(" ");
-						Effects.speed((LivingEntity) event.getEntity(), Float.valueOf(args[0].replace("%",""))/100);
-						//Float value 50/100=0.50 default 0.23
+						String[] args = string.split(" ");
+						Effects.speed((LivingEntity) event.getEntity(),
+								Float.valueOf(args[0].replace("%", "")) / 100);
+						// Float value 50/100=0.50 default 0.23
 					}
 				}
-				if (StringUtils.containsIgnoreCase(string, "freeze"))
+				else if (StringUtils.containsIgnoreCase(string, "freeze"))
 				{
-					//Example: "50% Mob Freeze" - Tested Good.
-					if(event.getEntity() instanceof LivingEntity)
+					// Example: "50% Mob Freeze" - Tested Good.
+					if (event.getEntity() instanceof LivingEntity)
 					{
-						String[] args = ChatColor.stripColor(string).split(" ");
+						String[] args = string.split(" ");
 						String speed = args[0];
-						if(speed.contains("%")) speed = args[0].replace("%","");
-						Effects.speed((LivingEntity) event.getEntity(), Float.valueOf(speed)/500);
-						//Float value 50/500=0.10 default 0.23
+						if (speed.contains("%"))
+							speed = args[0].replace("%", "");
+						Effects.speed((LivingEntity) event.getEntity(),
+								Float.valueOf(speed) / 500);
+						// Float value 50/500=0.10 default 0.23
 					}
 				}
-				if (StringUtils.containsIgnoreCase(string, "shrink"))
+				else if (StringUtils.containsIgnoreCase(string, "shrink"))
 				{
-					if(event.getEntity() instanceof LivingEntity)
+					if (event.getEntity() instanceof LivingEntity)
 					{
 						Effects.makeBaby((LivingEntity) event.getEntity());
 					}
 				}
-				for(PotionEffectType effect:PotionEffectType.values())
+				else if (StringUtils.containsIgnoreCase(string, "lightning"))
 				{
-					if(effect==null) continue;
-					if (StringUtils.containsIgnoreCase(string, effect.getName()))
+					String[] args = string.split(" ");
+					Integer integer = null;
+					try
 					{
-						//Args (int duration, Invisibility) 
+						integer = Integer.valueOf(args[0]);
+					}
+					catch (NumberFormatException e)
+					{
+					}
+					if (integer != null)
+					{
+						int value = integer.intValue();
+						if (value > 0)
+							Effects.strikeLightning(event.getEntity()
+									.getLocation(), value);
+						else if (value < 0)
+							Effects.strikeLightning(player.getLocation(), value);
+					}
+				}
+				else if (StringUtils.containsIgnoreCase(string, "fire"))
+				{
+					String[] args = string.split(" ");
+					Integer integer = null;
+					try
+					{
+						integer = Integer.valueOf(args[0]);
+					}
+					catch (NumberFormatException e)
+					{
+					}
+					if (integer != null)
+					{
+						int value = integer.intValue();
+						if (value > 0)
+							Effects.setOnFire((LivingEntity) event.getEntity(),
+									Math.abs(value));
+						else if (value < 0)
+							Effects.setOnFire(player, Math.abs(value));
+					}
+				}
+				else if (StringUtils.containsIgnoreCase(string, "leech"))
+				{
+					String[] args = string.split(" ");
+					Integer integer = null;
+					try
+					{
+						integer = Integer.valueOf(args[0]);
+					}
+					catch (NumberFormatException e)
+					{
+					}
+					if (integer != null)
+					{
+						int value = integer.intValue();
+						Effects.leechLife((LivingEntity) event.getEntity(),
+								player, value);
+					}
+				}
+				for (PotionEffectType effect : PotionEffectType.values())
+				{
+					if (effect == null)
+						continue;
+					if (StringUtils
+							.containsIgnoreCase(string, effect.getName()))
+					{
+						// Args (int duration, Invisibility)
 						String[] args = ChatColor.stripColor(string).split(" ");
-						if(event.getEntity() instanceof LivingEntity)
+						if (event.getEntity() instanceof LivingEntity)
 						{
 							int i = 600;
-							try{
-								i = Integer.valueOf(args[0])*100;
-							}catch (NumberFormatException nfe){
+							try
+							{
+								i = Integer.valueOf(args[0]) * 100;
+							}
+							catch (NumberFormatException nfe)
+							{
 								i = 600;
 							}
-							if(i<0){
-								player.addPotionEffect(new PotionEffect(effect,Math.abs(i),Math.abs(i)/100));
-							}else{
-								Effects.potionEffect((LivingEntity) event.getEntity(), effect, i);
+							if (i < 0)
+							{
+								player.addPotionEffect(new PotionEffect(effect,
+										Math.abs(i), Math.abs(i) / 100));
 							}
-							
+							else
+							{
+								Effects.potionEffect(
+										(LivingEntity) event.getEntity(),
+										effect, i);
+							}
+
 						}
 					}
 				}

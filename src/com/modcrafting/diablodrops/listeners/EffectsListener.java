@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -29,57 +30,85 @@ public class EffectsListener implements Listener
 		plugin = instance;
 	}
 	@EventHandler
-	public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+	public void onEntityDamage(EntityDamageEvent event)
 	{
-		if(event.getEntity() instanceof Player)
-		{
-			Player player = (Player) event.getEntity();
-			Set<Tool> toolSet = new HashSet<Tool>();
-			for (ItemStack is : player.getInventory().getArmorContents())
+		if(event instanceof EntityDamageByEntityEvent){
+			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+			if(e.getEntity() instanceof Player)
 			{
-				if (is != null && !is.getType().equals(Material.AIR))
-					toolSet.add(new Tool((CraftItemStack) is));
-			}
-			toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
-			for (Tool tool : toolSet)
-			{
+				Player player = (Player) e.getEntity();
+				Set<Tool> toolSet = new HashSet<Tool>();
+				for (ItemStack is : player.getInventory().getArmorContents())
+				{
+					if (is != null && !is.getType().equals(Material.AIR))
+						toolSet.add(new Tool((CraftItemStack) is));
+				}
+				toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				for (Tool tool : toolSet)
+				{
 
-				for (String string : tool
-						.getLoreList())
-				{
-					string = ChatColor.stripColor(string).replace("%", "")
-							.replace("+", "");
-					
-					addEffect(player,string,event);
+					for (String string : tool
+							.getLoreList())
+					{
+						string = ChatColor.stripColor(string).replace("%", "")
+								.replace("+", "");
+						
+						addEffect(player,string,e);
+					}
 				}
 			}
-			
-		}
-		if (event.getDamager() instanceof Player)
-		{
-			Player player = (Player) event.getDamager();
-			Set<Tool> toolSet = new HashSet<Tool>();
-			for (ItemStack is : player.getInventory().getArmorContents())
+			if (e.getDamager() instanceof Player)
 			{
-				if (is != null && !is.getType().equals(Material.AIR))
-					toolSet.add(new Tool((CraftItemStack) is));
-			}
-			toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
-			for (Tool tool : toolSet)
-			{
-				for (String string : tool.getLoreList())
+				Player player = (Player) e.getDamager();
+				Set<Tool> toolSet = new HashSet<Tool>();
+				for (ItemStack is : player.getInventory().getArmorContents())
 				{
-					string = ChatColor.stripColor(string).replace("%", "")
-							.replace("+", "");
-					
-					addEffect(player,string,event);
-					
-					
+					if (is != null && !is.getType().equals(Material.AIR))
+						toolSet.add(new Tool((CraftItemStack) is));
+				}
+				toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				for (Tool tool : toolSet)
+				{
+					for (String string : tool.getLoreList())
+					{
+						string = ChatColor.stripColor(string).replace("%", "")
+								.replace("+", "");
+						
+						addEffect(player,string,e);
+						
+						
+					}
+				}
+			}
+		}else{
+			if(event.getEntity() instanceof Player)
+			{
+				Player player = (Player) event.getEntity();
+				Set<Tool> toolSet = new HashSet<Tool>();
+				for (ItemStack is : player.getInventory().getArmorContents())
+				{
+					if (is != null && !is.getType().equals(Material.AIR))
+						toolSet.add(new Tool((CraftItemStack) is));
+				}
+				toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				for (Tool tool : toolSet)
+				{
+
+					for (String string : tool
+							.getLoreList())
+					{
+						string = ChatColor.stripColor(string).replace("%", "")
+								.replace("+", "");
+						
+						addEffect(player,string,event);
+					}
 				}
 			}
 		}
+		
 	}
-	public void addEffect(Player player,String string,EntityDamageByEntityEvent event){
+		
+	public void addEffect(Player player,String string,EntityDamageEvent event){
 		if (StringUtils.containsIgnoreCase(string, "damage"))
 
 		{

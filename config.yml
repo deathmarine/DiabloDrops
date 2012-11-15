@@ -12,8 +12,12 @@ DropFix:
 SafeEnchant:
   Enabled: false
 #Allow the drop of book to "identify" Magic color items#
+Custom:
+  Enabled: true
+  Chance: 1
 Lore:
   Enabled: true
+  Chance: 5
   EnhanceAmount: 2
 IdentifyTome:
   Enabled: true

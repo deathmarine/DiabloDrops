@@ -1,0 +1,12 @@
+Death Sword:
+  Material: Diamond_Sword
+  Color: White
+  Enchantments:
+    DAMAGE_ALL: 9
+    DAMAGE_ARTHROPODS: 9
+    DAMAGE_UNDEAD: 9
+    DURABILITY: 9
+    FIRE_ASPECT: 9
+  Lore:
+  - '&8Mystic medievil sword for &6Marines'
+  - '&4Never need another one again.'

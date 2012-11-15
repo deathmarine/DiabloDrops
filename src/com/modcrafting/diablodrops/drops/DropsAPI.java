@@ -249,6 +249,14 @@ public class DropsAPI
 				return new SocketItem(Material.valueOf(l.get(gen.nextInt(l.size())).toUpperCase()));
 			}
 		}
+		if (gen.nextBoolean())
+		{
+			if (plugin.config.getBoolean("Custom.Enabled", true)
+					&& gen.nextInt(100) <= plugin.config.getInt(
+							"Custom.Chance", 1)){
+				return plugin.custom.get(plugin.gen.nextInt(plugin.custom.size()));
+			}
+		}
 		return getItem(mat);
 	}
 

@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.drops.DropsAPI;
+import com.modcrafting.diablodrops.drops.DropsCustom;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
 import com.modcrafting.diablodrops.listeners.KillListener;
@@ -24,6 +25,7 @@ import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.socket.SocketBuilder;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.TierBuilder;
+import com.modcrafting.toolapi.lib.Tool;
 import com.stirante.ItemNamer.Namer;
 
 public class DiabloDrops extends JavaPlugin
@@ -32,6 +34,7 @@ public class DiabloDrops extends JavaPlugin
 	public List<String> suffix = new ArrayList<String>();
 	public List<String> lore = new ArrayList<String>();
 	public HashSet<Tier> tiers = new HashSet<Tier>();
+	public List<Tool> custom  = new ArrayList<Tool>();
 	public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
 	private NamesLoader nameLoader;
 	public Random gen = new Random();
@@ -46,6 +49,7 @@ public class DiabloDrops extends JavaPlugin
 		suffix.clear();
 		lore.clear();
 		tiers.clear();
+		custom.clear();
 		furnanceMap.clear();
 	}
 
@@ -54,6 +58,7 @@ public class DiabloDrops extends JavaPlugin
 		this.getDataFolder().mkdir();
 		nameLoader = new NamesLoader(this);
 		nameLoader.writeDefault("config.yml");
+		nameLoader.writeDefault("custom.yml");
 		nameLoader.writeDefault("prefix.txt");
 		nameLoader.writeDefault("suffix.txt");
 		nameLoader.writeDefault("lore.txt");
@@ -70,6 +75,7 @@ public class DiabloDrops extends JavaPlugin
 		pm.registerEvents(new ChunkListener(this), this);
 		pm.registerEvents(new EffectsListener(this), this);
 		this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
+		new DropsCustom(this);
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();
 		

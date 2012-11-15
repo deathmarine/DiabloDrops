@@ -89,13 +89,12 @@ public class SocketListener implements Listener
 		{
 			if (event.getFuel().getType().equals(Material.matchMaterial(name)))
 			{
-				if (Namer.getName(event.getFuel()) == null)
-					return;
-				if (!Namer.getName(event.getFuel()).contains("Socket"))
+				if (Namer.getName(event.getFuel()) == null||!Namer.getName(event.getFuel()).contains("Socket"))
 				{
 					event.setCancelled(true);
 					event.setBurning(false);
 					event.setBurnTime(120000);
+					return;
 				}
 				plugin.furnanceMap.put(event.getBlock(), event.getFuel());
 				event.setBurnTime(240);

@@ -159,11 +159,6 @@ public class Namer
 			craftStack = (CraftItemStack) item;
 			Namer.itemStack = craftStack.getHandle();
 		}
-		else if (item instanceof ItemStack)
-		{
-			craftStack = new CraftItemStack(item);
-			Namer.itemStack = craftStack.getHandle();
-		}
 		NBTTagCompound tag = itemStack.tag;
 		if (tag == null)
 		{

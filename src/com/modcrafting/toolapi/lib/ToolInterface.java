@@ -43,4 +43,6 @@ public interface ToolInterface
 	 * @param string
 	 */
 	public void setLore(String string);
+
+	List<String> getLoreList();
 }

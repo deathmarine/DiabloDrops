@@ -16,6 +16,7 @@ import com.modcrafting.diablodrops.commands.DiabloDropCommand;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
+import com.modcrafting.diablodrops.listeners.EffectsListener;
 import com.modcrafting.diablodrops.listeners.KillListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
@@ -68,10 +69,13 @@ public class DiabloDrops extends JavaPlugin
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(new KillListener(this), this);
 		pm.registerEvents(new TomeListener(this), this);
-		pm.registerEvents(new SocketListener(this), this);
+		//pm.registerEvents(new SocketListener(this), this);
 		pm.registerEvents(new ChunkListener(this), this);
+		//pm.registerEvents(new EffectsListener(this), this);
 		getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
-		new SocketBuilder(this).build();
+		//new SocketBuilder(this).build();
 		new TierBuilder(this).build();
+		
+		//Bug: ItemStack getLore() methods unable to retrieve information on events for sockets.
 	}
 }

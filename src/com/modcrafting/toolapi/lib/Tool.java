@@ -112,6 +112,24 @@ public class Tool extends CraftItemStack implements ToolInterface
 	}
 	
 	@Override
+	public List<String> getLoreList()
+	{
+		NBTTagList list = tag.getCompound("display").getList("Lore");
+		ArrayList<String> strings = new ArrayList<String>();
+
+		for (int i = 0; i < strings.size(); i++){
+			NBTTagString n = (NBTTagString) list.get(i);
+			if(n!=null){
+				if(n.getName()!=null||!(n.getName().length()<1)) strings.add(n.getName());
+				if(n.data!=null||!(n.data.length()<1)) strings.add(n.data);
+				if(n.toString()!=null||!(n.toString().length()<1)) strings.add(n.toString());
+			}
+			
+		}
+		return strings;
+	}
+	
+	@Override
 	public void setLore(String string) {
 		NBTTagCompound ntag = tag.getCompound("display");
 		if(ntag==null) ntag = new NBTTagCompound("display");

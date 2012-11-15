@@ -34,3 +34,23 @@
 -7 Durability
 -8 Durability
 -9 Durability
+10% Mob Freeze
+20% Mob Freeze
+30% Mob Freeze
+40% Mob Freeze
+50% Mob Freeze
+60% Mob Freeze
+70% Mob Freeze
+80% Mob Freeze
+90% Mob Freeze
+100% Mob Freeze
+10% Mob Frenzy
+20% Mob Frenzy
+30% Mob Frenzy
+40% Mob Frenzy
+50% Mob Frenzy
+60% Mob Frenzy
+70% Mob Frenzy
+80% Mob Frenzy
+90% Mob Frenzy
+100% Mob Frenzy

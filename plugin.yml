@@ -1,10 +1,11 @@
 name: DiabloDrops
 main: com.modcrafting.diablodrops.DiabloDrops
-version: 0.5
+version: 0.6
 website: http://modcrafting.com
 author: Deathmarine
 description: >
              Plugin for Bukkit.
+          
 commands:
     diablodrops:
         description: Allows user to spawn a type of item.

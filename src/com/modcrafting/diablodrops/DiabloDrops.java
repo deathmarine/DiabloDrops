@@ -6,9 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import net.h31ix.updater.Updater;
+import net.h31ix.updater.Updater.UpdateResult;
+import net.h31ix.updater.Updater.UpdateType;
+
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -79,6 +84,30 @@ public class DiabloDrops extends JavaPlugin
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();
 		
-		//Bug: ItemStack getLore() methods unable to retrieve information on events for sockets.
+		//AutoUpdater
+		final PluginDescriptionFile pdf = this.getDescription();
+		this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new Runnable(){
+
+			@Override
+			public void run() {
+				if(config.getBoolean("Plugin.AutoUpdate",true)){
+					Updater up = new Updater(getInstance(),pdf.getName().toLowerCase(),getFile(),UpdateType.DEFAULT,true);
+					if(!up.getResult().equals(UpdateResult.SUCCESS)||up.pluginFile(getFile().getName())){
+						if(up.getResult().equals(UpdateResult.FAIL_NOVERSION)){
+							getLogger().info("Unable to connect to dev.bukkit.org.");
+						}else{
+							getLogger().info("No Updates found on dev.bukkit.org.");
+						}
+					}else{
+						getLogger().info("Update "+up.getLatestVersionString()+" found and downloaded please restart your server.");
+					}
+				}
+				
+			}
+			
+		});
+	}
+	public DiabloDrops getInstance(){
+		return this;
 	}
 }

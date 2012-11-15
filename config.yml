@@ -1,4 +1,7 @@
 #Configuration#
+Plugin:
+#AutoUpdate the plugin when a update is found#
+  AutoUpdate: true
 #Reasons not to add special equipmemt#
 #If true blocks usage#
 Reason:
@@ -11,17 +14,24 @@ DropFix:
 #When adding enchantments, only allow safe or item specific enchantments#
 SafeEnchant:
   Enabled: false
-#Allow the drop of book to "identify" Magic color items#
+#Allow the generation of ruins in the map#
+Ruins:
+  Enabled: true
+  Chance: 1
+#Allow the drop of custom items (custom.yml)#
 Custom:
   Enabled: true
   Chance: 1
+#Allow the drop of lore items (lore.txt enhancements)#
 Lore:
   Enabled: true
   Chance: 5
   EnhanceAmount: 2
+#Allow the drop of book to "identify" Magic color items#
 IdentifyTome:
   Enabled: true
   Chance: 2
+#Allow the drop of socketted items#
 SocketItem:
   Enabled: true
   Chance: 5
@@ -79,7 +89,6 @@ Tier:
     Enchantments:
       Amt: 7
       Levels: 6
-#Not Recommended#
   Unidentified:
     Color: Magic
     Chance: 33
@@ -94,5 +103,3 @@ Worlds:
   - 'world'
   - 'world_nether'
   - 'world_the_end'
-Ruins:
-  Enabled: true

@@ -1,3 +1,5 @@
+## These Lore Enhancements are Hardcoded ##
+## You can add/remove to these values ##
 +1 Damage
 +2 Damage
 +3 Damage
@@ -55,7 +57,7 @@
 90% Mob Frenzy
 100% Mob Frenzy
 Enemies Shrink 
-## Potions can be added by name ##
+## PotionsNames can be added by name ##
 ## Positive Affects Mobs, Negative Affects The Player ##
 1 Invisibility
 2 Invisibility
@@ -77,3 +79,5 @@ Enemies Shrink
 -8 Invisibility
 -9 Invisibility
 -10 Invisibility
+#Example#
+-10 Heal

@@ -33,8 +33,8 @@ public class EffectsListener implements Listener
 			Player player = (Player) event.getDamager();
 			for (String string : 
 				//new Tool(((CraftItemStack) player.getItemInHand()).getHandle()).getLore())
-				//new Tool(((CraftItemStack) player.getItemInHand()).getHandle()).getLoreList())
-				Namer.getLore(player.getItemInHand()))
+				new Tool(((CraftItemStack) player.getItemInHand()).getHandle()).getLoreList())
+				//Namer.getLore(player.getItemInHand()))
 			{
 				
 				if (StringUtils.containsIgnoreCase(string, "damage"))

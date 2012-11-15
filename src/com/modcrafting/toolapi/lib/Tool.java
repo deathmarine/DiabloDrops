@@ -105,7 +105,7 @@ public class Tool extends CraftItemStack implements ToolInterface
 		NBTTagList list = tag.getCompound("display").getList("Lore");
 		ArrayList<String> strings = new ArrayList<String>();
 		String[] lores = new String[] {};
-		for (int i = 0; i < strings.size(); i++)
+		for (int i = 0; i < list.size(); i++)
 			strings.add(((NBTTagString) list.get(i)).data);
 		strings.toArray(lores);
 		return lores;
@@ -117,7 +117,7 @@ public class Tool extends CraftItemStack implements ToolInterface
 		NBTTagList list = tag.getCompound("display").getList("Lore");
 		ArrayList<String> strings = new ArrayList<String>();
 
-		for (int i = 0; i < strings.size(); i++){
+		for (int i = 0; i < list.size(); i++){
 			NBTTagString n = (NBTTagString) list.get(i);
 			if(n!=null){
 				if(n.getName()!=null||!(n.getName().length()<1)) strings.add(n.getName());

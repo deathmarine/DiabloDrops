@@ -171,7 +171,7 @@ public class Namer
 		NBTTagList list = tag.getCompound("display").getList("Lore");
 		ArrayList<String> strings = new ArrayList<String>();
 		String[] lores = new String[] {};
-		for (int i = 0; i < strings.size(); i++)
+		for (int i = 0; i < list.size(); i++)
 			strings.add(((NBTTagString) list.get(i)).data);
 		strings.toArray(lores);
 		return lores;

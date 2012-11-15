@@ -28,12 +28,12 @@ public class SocketListener implements Listener{
 		Material fuel = is.getType();
 		Tool tool = new Tool(event.getResult().getType());
 		Tool oldtool = new Tool(event.getSource());
-		/*
+		
 		boolean namTest = false;
 		for(String n:
 			//Namer.getLore(event.getSource())){
 			//oldtool.getLore()){
-			//oldtool.getLoreList(){
+			oldtool.getLoreList()){
 			if(n.equalsIgnoreCase("(Socket)")) namTest=true;
 			plugin.getLogger().info(n);
 		}
@@ -42,7 +42,7 @@ public class SocketListener implements Listener{
 			plugin.getLogger().info("Failed");
 			return;
 		}
-		 */
+		 
 		int eni = plugin.config.getInt("SocketItem.EnhanceBy",1);
 		int ene = plugin.config.getInt("SocketItem.EnhanceMax",10);
 		for(Enchantment ench:oldtool.getEnchantments().keySet()){

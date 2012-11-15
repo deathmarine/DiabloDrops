@@ -1,7 +1,11 @@
 package com.modcrafting.diablodrops.listeners;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -30,16 +34,23 @@ public class EffectsListener implements Listener
 		if(event.getEntity() instanceof Player)
 		{
 			Player player = (Player) event.getEntity();
-			for(ItemStack is :player.getInventory().getArmorContents()){
+			Set<Tool> toolSet = new HashSet<Tool>();
+			for (ItemStack is : player.getInventory().getArmorContents())
+			{
+				if (is != null && !is.getType().equals(Material.AIR))
+					toolSet.add(new Tool((CraftItemStack) is));
+			}
+			toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+			for (Tool tool : toolSet)
+			{
 
-				for (String string : new Tool(
-						((CraftItemStack) is).getHandle())
+				for (String string : tool
 						.getLoreList())
 				{
 					string = ChatColor.stripColor(string).replace("%", "")
 							.replace("+", "");
 					
-					addEffects(player,event,string);
+					addEffect(player,string,event);
 				}
 			}
 			
@@ -47,20 +58,30 @@ public class EffectsListener implements Listener
 		if (event.getDamager() instanceof Player)
 		{
 			Player player = (Player) event.getDamager();
-			for (String string : new Tool(
-					((CraftItemStack) player.getItemInHand()).getHandle())
-					.getLoreList())
+			Set<Tool> toolSet = new HashSet<Tool>();
+			for (ItemStack is : player.getInventory().getArmorContents())
 			{
-				string = ChatColor.stripColor(string).replace("%", "")
-						.replace("+", "");
-				
-				addEffects(player,event,string);
+				if (is != null && !is.getType().equals(Material.AIR))
+					toolSet.add(new Tool((CraftItemStack) is));
+			}
+			toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+			for (Tool tool : toolSet)
+			{
+				for (String string : tool.getLoreList())
+				{
+					string = ChatColor.stripColor(string).replace("%", "")
+							.replace("+", "");
+					
+					addEffect(player,string,event);
+					
+					
+				}
 			}
 		}
 	}
-	@SuppressWarnings("unused")
-	public void addEffects(Player player,EntityDamageByEntityEvent event,String string){
+	public void addEffect(Player player,String string,EntityDamageByEntityEvent event){
 		if (StringUtils.containsIgnoreCase(string, "damage"))
+
 		{
 			String[] args = string.split(" ");
 			int dam = event.getDamage();
@@ -74,7 +95,8 @@ public class EffectsListener implements Listener
 			}
 			event.setDamage(dam);
 		}
-		else if (StringUtils.containsIgnoreCase(string, "durability"))
+		else if (StringUtils.containsIgnoreCase(string,
+				"durability"))
 		{
 			/* Finish this later */
 			String[] args = string.split(" ");
@@ -95,7 +117,8 @@ public class EffectsListener implements Listener
 			if (event.getEntity() instanceof LivingEntity)
 			{
 				String[] args = string.split(" ");
-				Effects.speed((LivingEntity) event.getEntity(),
+				Effects.speed(
+						(LivingEntity) event.getEntity(),
 						Float.valueOf(args[0].replace("%", "")) / 100);
 				// Float value 50/100=0.50 default 0.23
 			}
@@ -121,7 +144,8 @@ public class EffectsListener implements Listener
 				Effects.makeBaby((LivingEntity) event.getEntity());
 			}
 		}
-		else if (StringUtils.containsIgnoreCase(string, "lightning"))
+		else if (StringUtils
+				.containsIgnoreCase(string, "lightning"))
 		{
 			String[] args = string.split(" ");
 			Integer integer = null;
@@ -139,7 +163,8 @@ public class EffectsListener implements Listener
 					Effects.strikeLightning(event.getEntity()
 							.getLocation(), value);
 				else if (value < 0)
-					Effects.strikeLightning(player.getLocation(), value);
+					Effects.strikeLightning(player.getLocation(),
+							value);
 			}
 		}
 		else if (StringUtils.containsIgnoreCase(string, "fire"))
@@ -157,7 +182,8 @@ public class EffectsListener implements Listener
 			{
 				int value = integer.intValue();
 				if (value > 0)
-					Effects.setOnFire((LivingEntity) event.getEntity(),
+					Effects.setOnFire(
+							(LivingEntity) event.getEntity(),
 							Math.abs(value));
 				else if (value < 0)
 					Effects.setOnFire(player, Math.abs(value));
@@ -185,11 +211,12 @@ public class EffectsListener implements Listener
 		{
 			if (effect == null)
 				continue;
-			if (StringUtils
-					.containsIgnoreCase(string, effect.getName()))
+			if (StringUtils.containsIgnoreCase(string,
+					effect.getName()))
 			{
 				// Args (int duration, Invisibility)
-				String[] args = ChatColor.stripColor(string).split(" ");
+				String[] args = ChatColor.stripColor(string).split(
+						" ");
 				if (event.getEntity() instanceof LivingEntity)
 				{
 					int i = 600;
@@ -203,8 +230,9 @@ public class EffectsListener implements Listener
 					}
 					if (i < 0)
 					{
-						player.addPotionEffect(new PotionEffect(effect,
-								Math.abs(i), Math.abs(i) / 100));
+						player.addPotionEffect(new PotionEffect(
+								effect, Math.abs(i),
+								Math.abs(i) / 100));
 					}
 					else
 					{
@@ -212,10 +240,8 @@ public class EffectsListener implements Listener
 								(LivingEntity) event.getEntity(),
 								effect, i);
 					}
-
 				}
 			}
 		}
-		
 	}
 }

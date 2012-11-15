@@ -1,3 +1,13 @@
+##Format for custom items##
+#Name of item:
+# Material: BukkitItemName
+# Color: BukkitColorName
+# Enchantments:
+#   BukkitEnchantmentName: lvl
+# Lore:
+# - List of Strings enchance 
+# - with ampersand color codes
+# - Not case sensitive
 Death Sword:
   Material: Diamond_Sword
   Color: White

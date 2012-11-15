@@ -43,7 +43,8 @@ public class EffectsListener implements Listener
 					if (is != null && !is.getType().equals(Material.AIR))
 						toolSet.add(new Tool((CraftItemStack) is));
 				}
-				toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				if(player.getItemInHand()!=null)
+					toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
 				for (Tool tool : toolSet)
 				{
 
@@ -66,7 +67,8 @@ public class EffectsListener implements Listener
 					if (is != null && !is.getType().equals(Material.AIR))
 						toolSet.add(new Tool((CraftItemStack) is));
 				}
-				toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				if(player.getItemInHand()!=null)
+					toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
 				for (Tool tool : toolSet)
 				{
 					for (String string : tool.getLoreList())
@@ -90,7 +92,8 @@ public class EffectsListener implements Listener
 					if (is != null && !is.getType().equals(Material.AIR))
 						toolSet.add(new Tool((CraftItemStack) is));
 				}
-				toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				if(player.getItemInHand()!=null)
+					toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
 				for (Tool tool : toolSet)
 				{
 

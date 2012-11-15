@@ -29,12 +29,14 @@ public class EffectsListener implements Listener
 	{
 		plugin = instance;
 	}
+
 	@EventHandler
 	public void onEntityDamage(EntityDamageEvent event)
 	{
-		if(event instanceof EntityDamageByEntityEvent){
+		if (event instanceof EntityDamageByEntityEvent)
+		{
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			if(e.getEntity() instanceof Player)
+			if (e.getEntity() instanceof Player)
 			{
 				Player player = (Player) e.getEntity();
 				Set<Tool> toolSet = new HashSet<Tool>();
@@ -43,18 +45,18 @@ public class EffectsListener implements Listener
 					if (is != null && !is.getType().equals(Material.AIR))
 						toolSet.add(new Tool((CraftItemStack) is));
 				}
-				if(player.getItemInHand()!=null)
-					toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				if (player.getItemInHand() != null)
+					toolSet.add(new Tool((CraftItemStack) player
+							.getItemInHand()));
 				for (Tool tool : toolSet)
 				{
 
-					for (String string : tool
-							.getLoreList())
+					for (String string : tool.getLoreList())
 					{
 						string = ChatColor.stripColor(string).replace("%", "")
 								.replace("+", "");
-						
-						addEffect(player,string,e);
+
+						addEffect(player, string, e);
 					}
 				}
 			}
@@ -67,23 +69,25 @@ public class EffectsListener implements Listener
 					if (is != null && !is.getType().equals(Material.AIR))
 						toolSet.add(new Tool((CraftItemStack) is));
 				}
-				if(player.getItemInHand()!=null)
-					toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				if (player.getItemInHand() != null)
+					toolSet.add(new Tool((CraftItemStack) player
+							.getItemInHand()));
 				for (Tool tool : toolSet)
 				{
 					for (String string : tool.getLoreList())
 					{
 						string = ChatColor.stripColor(string).replace("%", "")
 								.replace("+", "");
-						
-						addEffect(player,string,e);
-						
-						
+
+						addEffect(player, string, e);
+
 					}
 				}
 			}
-		}else{
-			if(event.getEntity() instanceof Player)
+		}
+		else
+		{
+			if (event.getEntity() instanceof Player)
 			{
 				Player player = (Player) event.getEntity();
 				Set<Tool> toolSet = new HashSet<Tool>();
@@ -92,26 +96,27 @@ public class EffectsListener implements Listener
 					if (is != null && !is.getType().equals(Material.AIR))
 						toolSet.add(new Tool((CraftItemStack) is));
 				}
-				if(player.getItemInHand()!=null)
-					toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
+				if (player.getItemInHand() != null)
+					toolSet.add(new Tool((CraftItemStack) player
+							.getItemInHand()));
 				for (Tool tool : toolSet)
 				{
 
-					for (String string : tool
-							.getLoreList())
+					for (String string : tool.getLoreList())
 					{
 						string = ChatColor.stripColor(string).replace("%", "")
 								.replace("+", "");
-						
-						addEffect(player,string,event);
+
+						addEffect(player, string, event);
 					}
 				}
 			}
 		}
-		
+
 	}
-		
-	public void addEffect(Player player,String string,EntityDamageEvent event){
+
+	public void addEffect(Player player, String string, EntityDamageEvent event)
+	{
 		if (StringUtils.containsIgnoreCase(string, "damage"))
 
 		{
@@ -127,19 +132,18 @@ public class EffectsListener implements Listener
 			}
 			event.setDamage(dam);
 		}
-		else if (StringUtils.containsIgnoreCase(string,
-				"durability"))
+		else if (StringUtils.containsIgnoreCase(string, "durability"))
 		{
 			/* Finish this later */
+			@SuppressWarnings("unused")
 			String[] args = string.split(" ");
-			player.getItemInHand()
-					.setDurability(
-							(short) (player.getItemInHand()
-									.getDurability() * 0.5));
+			player.getItemInHand().setDurability(
+					(short) (player.getItemInHand().getDurability() * 0.5));
 		}
 		else if (StringUtils.containsIgnoreCase(string, "money"))
 		{
 			/* Finish this later */
+			@SuppressWarnings("unused")
 			String[] args = string.split(" ");
 			// Hook into MobBounty maybe hehe....
 		}
@@ -149,8 +153,7 @@ public class EffectsListener implements Listener
 			if (event.getEntity() instanceof LivingEntity)
 			{
 				String[] args = string.split(" ");
-				Effects.speed(
-						(LivingEntity) event.getEntity(),
+				Effects.speed((LivingEntity) event.getEntity(),
 						Float.valueOf(args[0].replace("%", "")) / 100);
 				// Float value 50/100=0.50 default 0.23
 			}
@@ -176,8 +179,7 @@ public class EffectsListener implements Listener
 				Effects.makeBaby((LivingEntity) event.getEntity());
 			}
 		}
-		else if (StringUtils
-				.containsIgnoreCase(string, "lightning"))
+		else if (StringUtils.containsIgnoreCase(string, "lightning"))
 		{
 			String[] args = string.split(" ");
 			Integer integer = null;
@@ -192,11 +194,10 @@ public class EffectsListener implements Listener
 			{
 				int value = integer.intValue();
 				if (value > 0)
-					Effects.strikeLightning(event.getEntity()
-							.getLocation(), value);
-				else if (value < 0)
-					Effects.strikeLightning(player.getLocation(),
+					Effects.strikeLightning(event.getEntity().getLocation(),
 							value);
+				else if (value < 0)
+					Effects.strikeLightning(player.getLocation(), value);
 			}
 		}
 		else if (StringUtils.containsIgnoreCase(string, "fire"))
@@ -214,8 +215,7 @@ public class EffectsListener implements Listener
 			{
 				int value = integer.intValue();
 				if (value > 0)
-					Effects.setOnFire(
-							(LivingEntity) event.getEntity(),
+					Effects.setOnFire((LivingEntity) event.getEntity(),
 							Math.abs(value));
 				else if (value < 0)
 					Effects.setOnFire(player, Math.abs(value));
@@ -235,20 +235,18 @@ public class EffectsListener implements Listener
 			if (integer != null)
 			{
 				int value = integer.intValue();
-				Effects.leechLife((LivingEntity) event.getEntity(),
-						player, value);
+				Effects.leechLife((LivingEntity) event.getEntity(), player,
+						value);
 			}
 		}
 		for (PotionEffectType effect : PotionEffectType.values())
 		{
 			if (effect == null)
 				continue;
-			if (StringUtils.containsIgnoreCase(string,
-					effect.getName()))
+			if (StringUtils.containsIgnoreCase(string, effect.getName()))
 			{
 				// Args (int duration, Invisibility)
-				String[] args = ChatColor.stripColor(string).split(
-						" ");
+				String[] args = ChatColor.stripColor(string).split(" ");
 				if (event.getEntity() instanceof LivingEntity)
 				{
 					int i = 600;
@@ -262,14 +260,12 @@ public class EffectsListener implements Listener
 					}
 					if (i < 0)
 					{
-						player.addPotionEffect(new PotionEffect(
-								effect, Math.abs(i),
-								Math.abs(i) / 100));
+						player.addPotionEffect(new PotionEffect(effect, Math
+								.abs(i), Math.abs(i) / 100));
 					}
 					else
 					{
-						Effects.potionEffect(
-								(LivingEntity) event.getEntity(),
+						Effects.potionEffect((LivingEntity) event.getEntity(),
 								effect, i);
 					}
 				}

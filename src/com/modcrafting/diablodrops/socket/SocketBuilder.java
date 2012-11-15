@@ -16,16 +16,6 @@ public class SocketBuilder
 	{
 		this.plugin = plugin;
 	}
-	public static enum SocketType{
-		ARMOR(0),WEAPON(1),TOOL(2),ITEM(3);
-		int n;
-		SocketType(int i){
-			n=i;
-		}
-		public Integer getType(){
-			return n;
-		}
-	}
 	public void build()
 	{
 		//Catch on FurnaceSmeltEvent
@@ -38,5 +28,6 @@ public class SocketBuilder
 				
 			}
 		}
+		
 	}
 }

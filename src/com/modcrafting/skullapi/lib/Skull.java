@@ -8,15 +8,16 @@ import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
 
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 
 public class Skull extends CraftItemStack implements SkullInterface
 {
 
-	public Skull(int type) throws Exception
+	public Skull(Material type) throws Exception
 	{
 		super(type);
-		if (type != 397)
+		if (!type.equals(Material.SKULL))
 			throw new Exception("Item must be a skull.");
 	}
 	public Skull(ItemStack is)

@@ -1,5 +1,23 @@
 package com.modcrafting.diablodrops.effects;
 
+import java.lang.reflect.Field;
+
+import net.minecraft.server.EntityCreature;
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.EntityLiving;
+import net.minecraft.server.EntityVillager;
+import net.minecraft.server.PathfinderGoalBreakDoor;
+import net.minecraft.server.PathfinderGoalFloat;
+import net.minecraft.server.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.PathfinderGoalMeleeAttack;
+import net.minecraft.server.PathfinderGoalMoveThroughVillage;
+import net.minecraft.server.PathfinderGoalMoveTowardsRestriction;
+import net.minecraft.server.PathfinderGoalRandomLookaround;
+import net.minecraft.server.PathfinderGoalRandomStroll;
+import net.minecraft.server.PathfinderGoalSelector;
+
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftZombie;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
@@ -46,7 +64,40 @@ public class Effects {
 	public static void spawnBat(LivingEntity e){
 		e.getLocation().getWorld().spawnEntity(e.getLocation(), EntityType.BAT);
 	}
-	public static void potionEffect(LivingEntity e,PotionEffectType ef){
-		e.addPotionEffect(new PotionEffect(ef, 600, 2)); 
+	public static void potionEffect(LivingEntity e,PotionEffectType ef,int dur){
+		e.addPotionEffect(new PotionEffect(ef, dur, 2)); 
+	}
+	public static void speed(LivingEntity e,Float sp){
+        try {
+            EntityLiving a = ((CraftLivingEntity) e).getHandle();
+            if(a instanceof EntityCreature){
+            	EntityCreature le = (EntityCreature) a;
+        		Field fGoalSelector = EntityLiving.class.getDeclaredField("goalSelector");
+                fGoalSelector.setAccessible(true);
+                PathfinderGoalSelector gs = new PathfinderGoalSelector(((CraftWorld) e.getWorld()).getHandle() != null && ((CraftWorld) e.getWorld()).getHandle().methodProfiler != null ? ((CraftWorld) e.getWorld()).getHandle().methodProfiler : null);
+                gs.a(0, new PathfinderGoalFloat(le));
+                gs.a(1, new PathfinderGoalBreakDoor(le));
+                gs.a(2, new PathfinderGoalMeleeAttack(le, EntityHuman.class, sp, false));
+                gs.a(3, new PathfinderGoalMeleeAttack(le, EntityVillager.class, sp, true));
+                gs.a(4, new PathfinderGoalMoveTowardsRestriction(le, sp));
+                gs.a(5, new PathfinderGoalMoveThroughVillage(le, sp, false));
+                gs.a(6, new PathfinderGoalRandomStroll(le, sp));
+                gs.a(7, new PathfinderGoalLookAtPlayer(le, EntityHuman.class, 15.0F));
+                gs.a(7, new PathfinderGoalRandomLookaround(le));
+        		fGoalSelector.set(le,gs);
+            }
+		} catch (IllegalArgumentException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchFieldException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	  
 	}
 }

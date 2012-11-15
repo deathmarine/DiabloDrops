@@ -58,18 +58,18 @@ public class Drops
 	{
 		switch (gen.nextInt(4))
 		{
-			case 0:
-				return diamondArmor();
-			case 1:
-				return ironArmor();
-			case 2:
-				return chainmailArmor();
-			case 3:
-				return goldArmor();
-			case 4:
-				return leatherArmor();
-			default:
-				return null;
+		case 0:
+			return diamondArmor();
+		case 1:
+			return ironArmor();
+		case 2:
+			return chainmailArmor();
+		case 3:
+			return goldArmor();
+		case 4:
+			return leatherArmor();
+		default:
+			return null;
 		}
 	}
 
@@ -77,18 +77,18 @@ public class Drops
 	{
 		switch (num)
 		{
-			case 1:
-				return Material.DIAMOND_SWORD;
-			case 2:
-				return Material.DIAMOND_PICKAXE;
-			case 3:
-				return Material.DIAMOND_SPADE;
-			case 4:
-				return Material.DIAMOND_AXE;
-			case 5:
-				return Material.DIAMOND_HOE;
-			default:
-				return null;
+		case 1:
+			return Material.DIAMOND_SWORD;
+		case 2:
+			return Material.DIAMOND_PICKAXE;
+		case 3:
+			return Material.DIAMOND_SPADE;
+		case 4:
+			return Material.DIAMOND_AXE;
+		case 5:
+			return Material.DIAMOND_HOE;
+		default:
+			return null;
 		}
 	}
 
@@ -96,18 +96,18 @@ public class Drops
 	{
 		switch (num)
 		{
-			case 1:
-				return Material.IRON_SWORD;
-			case 2:
-				return Material.IRON_PICKAXE;
-			case 3:
-				return Material.IRON_SPADE;
-			case 4:
-				return Material.IRON_AXE;
-			case 5:
-				return Material.IRON_HOE;
-			default:
-				return null;
+		case 1:
+			return Material.IRON_SWORD;
+		case 2:
+			return Material.IRON_PICKAXE;
+		case 3:
+			return Material.IRON_SPADE;
+		case 4:
+			return Material.IRON_AXE;
+		case 5:
+			return Material.IRON_HOE;
+		default:
+			return null;
 		}
 	}
 
@@ -115,18 +115,18 @@ public class Drops
 	{
 		switch (num)
 		{
-			case 1:
-				return Material.GOLD_SWORD;
-			case 2:
-				return Material.GOLD_PICKAXE;
-			case 3:
-				return Material.GOLD_SPADE;
-			case 4:
-				return Material.GOLD_AXE;
-			case 5:
-				return Material.GOLD_HOE;
-			default:
-				return null;
+		case 1:
+			return Material.GOLD_SWORD;
+		case 2:
+			return Material.GOLD_PICKAXE;
+		case 3:
+			return Material.GOLD_SPADE;
+		case 4:
+			return Material.GOLD_AXE;
+		case 5:
+			return Material.GOLD_HOE;
+		default:
+			return null;
 		}
 	}
 
@@ -134,18 +134,18 @@ public class Drops
 	{
 		switch (num)
 		{
-			case 1:
-				return Material.WOOD_SWORD;
-			case 2:
-				return Material.WOOD_PICKAXE;
-			case 3:
-				return Material.WOOD_SPADE;
-			case 4:
-				return Material.WOOD_AXE;
-			case 5:
-				return Material.WOOD_HOE;
-			default:
-				return null;
+		case 1:
+			return Material.WOOD_SWORD;
+		case 2:
+			return Material.WOOD_PICKAXE;
+		case 3:
+			return Material.WOOD_SPADE;
+		case 4:
+			return Material.WOOD_AXE;
+		case 5:
+			return Material.WOOD_HOE;
+		default:
+			return null;
 		}
 	}
 
@@ -153,18 +153,18 @@ public class Drops
 	{
 		switch (gen.nextInt(5))
 		{
-			case 0:
-				return diamondWeapon(gen.nextInt(5));
-			case 1:
-				return ironWeapon(gen.nextInt(5));
-			case 2:
-				return goldWeapon(gen.nextInt(5));
-			case 3:
-				return woodWeapon(gen.nextInt(5));
-			case 4:
-				return Material.BOW;
-			default:
-				return null;
+		case 0:
+			return diamondWeapon(gen.nextInt(5));
+		case 1:
+			return ironWeapon(gen.nextInt(5));
+		case 2:
+			return goldWeapon(gen.nextInt(5));
+		case 3:
+			return woodWeapon(gen.nextInt(5));
+		case 4:
+			return Material.BOW;
+		default:
+			return null;
 		}
 	}
 
@@ -172,50 +172,50 @@ public class Drops
 	{
 		switch (gen.nextInt(22))
 		{
-			case 1:
-				return Enchantment.DAMAGE_ALL; // Weapons Only
-			case 2:
-				return Enchantment.DAMAGE_ARTHROPODS; // Weapons Only
-			case 3:
-				return Enchantment.DAMAGE_UNDEAD; // Weapons Only
-			case 4:
-				return Enchantment.DIG_SPEED; // Tools except Hoe.
-			case 5:
-				return Enchantment.DURABILITY; // Tools except Hoe.
-			case 6:
-				return Enchantment.FIRE_ASPECT; // Weapons Only
-			case 7:
-				return Enchantment.KNOCKBACK; // Weapons Only
-			case 8:
-				return Enchantment.LOOT_BONUS_BLOCKS; // Tools except Hoe.
-			case 9:
-				return Enchantment.LOOT_BONUS_MOBS; // Weapons Only
-			case 10:
-				return Enchantment.OXYGEN; // Armor Helmet Only
-			case 11:
-				return Enchantment.PROTECTION_ENVIRONMENTAL; // All Armor
-			case 12:
-				return Enchantment.PROTECTION_EXPLOSIONS; // All Armor
-			case 13:
-				return Enchantment.PROTECTION_FALL; // All Armor
-			case 14:
-				return Enchantment.PROTECTION_FIRE; // All Armor
-			case 15:
-				return Enchantment.PROTECTION_PROJECTILE; // All Armor
-			case 16:
-				return Enchantment.SILK_TOUCH; // Tools except Hoe
-			case 17:
-				return Enchantment.WATER_WORKER; // Armor Helmet Only
-			case 18:
-				return Enchantment.ARROW_DAMAGE;
-			case 19:
-				return Enchantment.ARROW_FIRE;
-			case 20:
-				return Enchantment.ARROW_KNOCKBACK;
-			case 21:
-				return Enchantment.ARROW_INFINITE;
-			default:
-				return null;
+		case 1:
+			return Enchantment.DAMAGE_ALL; // Weapons Only
+		case 2:
+			return Enchantment.DAMAGE_ARTHROPODS; // Weapons Only
+		case 3:
+			return Enchantment.DAMAGE_UNDEAD; // Weapons Only
+		case 4:
+			return Enchantment.DIG_SPEED; // Tools except Hoe.
+		case 5:
+			return Enchantment.DURABILITY; // Tools except Hoe.
+		case 6:
+			return Enchantment.FIRE_ASPECT; // Weapons Only
+		case 7:
+			return Enchantment.KNOCKBACK; // Weapons Only
+		case 8:
+			return Enchantment.LOOT_BONUS_BLOCKS; // Tools except Hoe.
+		case 9:
+			return Enchantment.LOOT_BONUS_MOBS; // Weapons Only
+		case 10:
+			return Enchantment.OXYGEN; // Armor Helmet Only
+		case 11:
+			return Enchantment.PROTECTION_ENVIRONMENTAL; // All Armor
+		case 12:
+			return Enchantment.PROTECTION_EXPLOSIONS; // All Armor
+		case 13:
+			return Enchantment.PROTECTION_FALL; // All Armor
+		case 14:
+			return Enchantment.PROTECTION_FIRE; // All Armor
+		case 15:
+			return Enchantment.PROTECTION_PROJECTILE; // All Armor
+		case 16:
+			return Enchantment.SILK_TOUCH; // Tools except Hoe
+		case 17:
+			return Enchantment.WATER_WORKER; // Armor Helmet Only
+		case 18:
+			return Enchantment.ARROW_DAMAGE;
+		case 19:
+			return Enchantment.ARROW_FIRE;
+		case 20:
+			return Enchantment.ARROW_KNOCKBACK;
+		case 21:
+			return Enchantment.ARROW_INFINITE;
+		default:
+			return null;
 		}
 	}
 
@@ -223,18 +223,18 @@ public class Drops
 	{
 		switch (gen.nextInt(6))
 		{
-			case 0:
-				return Material.LEATHER_HELMET;
-			case 1:
-				return Material.GOLD_HELMET;
-			case 2:
-				return Material.CHAINMAIL_HELMET;
-			case 3:
-				return Material.IRON_HELMET;
-			case 4:
-				return Material.DIAMOND_HELMET;
-			default:
-				return null;
+		case 0:
+			return Material.LEATHER_HELMET;
+		case 1:
+			return Material.GOLD_HELMET;
+		case 2:
+			return Material.CHAINMAIL_HELMET;
+		case 3:
+			return Material.IRON_HELMET;
+		case 4:
+			return Material.DIAMOND_HELMET;
+		default:
+			return null;
 		}
 	}
 
@@ -242,18 +242,18 @@ public class Drops
 	{
 		switch (gen.nextInt(6))
 		{
-			case 0:
-				return Material.LEATHER_CHESTPLATE;
-			case 1:
-				return Material.GOLD_CHESTPLATE;
-			case 2:
-				return Material.CHAINMAIL_CHESTPLATE;
-			case 3:
-				return Material.IRON_CHESTPLATE;
-			case 4:
-				return Material.DIAMOND_CHESTPLATE;
-			default:
-				return null;
+		case 0:
+			return Material.LEATHER_CHESTPLATE;
+		case 1:
+			return Material.GOLD_CHESTPLATE;
+		case 2:
+			return Material.CHAINMAIL_CHESTPLATE;
+		case 3:
+			return Material.IRON_CHESTPLATE;
+		case 4:
+			return Material.DIAMOND_CHESTPLATE;
+		default:
+			return null;
 		}
 	}
 
@@ -261,18 +261,18 @@ public class Drops
 	{
 		switch (gen.nextInt(6))
 		{
-			case 0:
-				return Material.LEATHER_LEGGINGS;
-			case 1:
-				return Material.GOLD_LEGGINGS;
-			case 2:
-				return Material.CHAINMAIL_LEGGINGS;
-			case 3:
-				return Material.IRON_LEGGINGS;
-			case 4:
-				return Material.DIAMOND_LEGGINGS;
-			default:
-				return null;
+		case 0:
+			return Material.LEATHER_LEGGINGS;
+		case 1:
+			return Material.GOLD_LEGGINGS;
+		case 2:
+			return Material.CHAINMAIL_LEGGINGS;
+		case 3:
+			return Material.IRON_LEGGINGS;
+		case 4:
+			return Material.DIAMOND_LEGGINGS;
+		default:
+			return null;
 		}
 	}
 
@@ -280,18 +280,18 @@ public class Drops
 	{
 		switch (gen.nextInt(6))
 		{
-			case 0:
-				return Material.LEATHER_BOOTS;
-			case 1:
-				return Material.GOLD_BOOTS;
-			case 2:
-				return Material.CHAINMAIL_BOOTS;
-			case 3:
-				return Material.IRON_BOOTS;
-			case 4:
-				return Material.DIAMOND_BOOTS;
-			default:
-				return null;
+		case 0:
+			return Material.LEATHER_BOOTS;
+		case 1:
+			return Material.GOLD_BOOTS;
+		case 2:
+			return Material.CHAINMAIL_BOOTS;
+		case 3:
+			return Material.IRON_BOOTS;
+		case 4:
+			return Material.DIAMOND_BOOTS;
+		default:
+			return null;
 		}
 	}
 
@@ -408,44 +408,60 @@ public class Drops
 		return false;
 	}
 
-	public boolean isBow(Material mat)
-	{
-		if (mat.equals(Material.BOW))
-			return true;
-		return false;
-	}
-
+	
 	public boolean isTool(Material mat)
 	{
 		if (isSword(mat) || isSpade(mat) || isAxe(mat) || isPickaxe(mat)
-				|| isHoe(mat) || isBow(mat))
+				|| isHoe(mat)||mat.equals(Material.BOW))
 			return true;
 		return false;
 
 	}
-
+	
 	public Material[] allItems()
 	{
-		return new Material[]
-		{
-				Material.DIAMOND_SWORD, Material.DIAMOND_PICKAXE,
-				Material.DIAMOND_SPADE, Material.DIAMOND_AXE,
-				Material.DIAMOND_HOE, Material.IRON_SWORD,
-				Material.IRON_PICKAXE, Material.IRON_SPADE, Material.IRON_AXE,
-				Material.IRON_HOE, Material.GOLD_SWORD, Material.GOLD_PICKAXE,
-				Material.GOLD_SPADE, Material.GOLD_AXE, Material.GOLD_HOE,
-				Material.WOOD_SWORD, Material.WOOD_PICKAXE,
-				Material.WOOD_SPADE, Material.WOOD_AXE, Material.WOOD_HOE,
-				Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
-				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS,
-				Material.IRON_HELMET, Material.IRON_CHESTPLATE,
-				Material.IRON_LEGGINGS, Material.IRON_BOOTS,
-				Material.CHAINMAIL_HELMET, Material.CHAINMAIL_CHESTPLATE,
-				Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS,
-				Material.GOLD_HELMET, Material.GOLD_CHESTPLATE,
-				Material.GOLD_LEGGINGS, Material.GOLD_BOOTS,
-				Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS, Material.BOW
-		};
+		return new Material[]{
+			Material.DIAMOND_SWORD,
+			Material.DIAMOND_PICKAXE,
+			Material.DIAMOND_SPADE, 
+			Material.DIAMOND_AXE,
+			Material.DIAMOND_HOE,
+			Material.IRON_SWORD,
+			Material.IRON_PICKAXE,
+			Material.IRON_SPADE,
+			Material.IRON_AXE,
+			Material.IRON_HOE,
+			Material.GOLD_SWORD,
+			Material.GOLD_PICKAXE,
+			Material.GOLD_SPADE,
+			Material.GOLD_AXE,
+			Material.GOLD_HOE,
+			Material.WOOD_SWORD,
+			Material.WOOD_PICKAXE,
+			Material.WOOD_SPADE,
+			Material.WOOD_AXE,
+			Material.WOOD_HOE,
+			Material.DIAMOND_HELMET, 
+			Material.DIAMOND_CHESTPLATE,	
+			Material.DIAMOND_LEGGINGS, 
+			Material.DIAMOND_BOOTS,
+			Material.IRON_HELMET,
+			Material.IRON_CHESTPLATE,
+			Material.IRON_LEGGINGS, 
+			Material.IRON_BOOTS,
+			Material.CHAINMAIL_HELMET, 
+			Material.CHAINMAIL_CHESTPLATE,
+			Material.CHAINMAIL_LEGGINGS, 
+			Material.CHAINMAIL_BOOTS,
+			Material.GOLD_HELMET, 
+			Material.GOLD_CHESTPLATE,
+			Material.GOLD_LEGGINGS, 
+			Material.GOLD_BOOTS,
+			Material.LEATHER_LEGGINGS, 
+			Material.LEATHER_BOOTS,
+			Material.BOW
+			};
 	}
-
+		
+	
 }

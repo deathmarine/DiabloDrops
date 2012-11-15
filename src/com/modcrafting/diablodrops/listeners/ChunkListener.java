@@ -29,27 +29,22 @@ public class ChunkListener implements Listener
 	public void onChunkPopulate(ChunkPopulateEvent event)
 	{
 		if (!plugin.config.getBoolean("Ruins.Enabled", true))
-		{
 			return;
-		}
 		Chunk chunk = event.getChunk();
-		int genInt = plugin.gen.nextInt(100) + 1;
-		int confChance = plugin.config.getInt("Ruins.Chance", 1);
-		if (genInt > confChance)
-		{
+		if (plugin.gen.nextInt(100) != 1)
 			return;
-		}
 		int realX = chunk.getX() * 16 + plugin.gen.nextInt(15);
-		int realZ = chunk.getZ() * 16 + plugin.gen.nextInt(15);
-		Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
+		int realZ = chunk.getX() * 16 + plugin.gen.nextInt(15);
+		int realY = chunk.getWorld().getHighestBlockYAt(realX, realZ);
+		Block block = chunk.getWorld().getBlockAt(realX, realY, realZ);
 		Block blockUnder = block.getRelative(BlockFace.DOWN);
 		if (blockUnder.getType() != Material.GRASS
-				&& blockUnder.getType() != Material.DIRT
-				&& blockUnder.getType() != Material.SAND)
-		{
+				&& blockUnder.getType() != Material.DIRT)
 			return;
-		}
 		block.setType(Material.CHEST);
+		plugin.getServer().broadcastMessage(
+				"DiabloDrops Chest spawned at " + String.valueOf(realX) + " "
+						+ String.valueOf(realY) + " " + String.valueOf(realZ));
 		addPattern(block);
 		Chest chestB = ((Chest) block.getState());
 		Inventory chest = chestB.getBlockInventory();

@@ -20,6 +20,7 @@ import com.modcrafting.diablodrops.tier.Drop;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.Tome;
 import com.modcrafting.toolapi.lib.Tool;
+import com.stirante.ItemNamer.Namer;
 
 public class DropsAPI
 {
@@ -41,7 +42,7 @@ public class DropsAPI
 		CraftItemStack ci = null;
 		while (ci == null)
 		{
-			for (Tier tier : plugin.usableTiers)
+			for (Tier tier : plugin.tiers)
 			{
 				if (gen.nextInt(100) <= tier.getChance())
 				{
@@ -51,7 +52,7 @@ public class DropsAPI
 							ChatColor.stripColor(name));
 					for (; e > 0; e--)
 					{
-						int lvl = plugin.gen.nextInt(l + 1);
+						int lvl = gen.nextInt(l + 1);
 						Enchantment ench = drops.enchant();
 						if (lvl != 0 && ench != null
 								&& !tier.getColor().equals(ChatColor.MAGIC))
@@ -63,20 +64,15 @@ public class DropsAPI
 							}
 							else
 							{
-								try
-								{
-									ci.addEnchantment(ench, lvl);
-								}
-								catch (IllegalArgumentException e1)
-								{
-									ci.addUnsafeEnchantment(ench, lvl);
-								}
+								ci.addUnsafeEnchantment(ench, lvl);
 							}
 						}
 					}
 				}
 			}
 		}
+		if(plugin.config.getBoolean("SocketItem.Enabled",true)&&
+				gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance",5)) Namer.addLore(ci, "(Socket)");
 		return ci;
 	}
 
@@ -104,7 +100,7 @@ public class DropsAPI
 					ci = new Drop(mat, tier.getColor(), name());
 					for (; e > 0; e--)
 					{
-						int lvl = plugin.gen.nextInt(l + 1);
+						int lvl = gen.nextInt(l + 1);
 						Enchantment ench = drops.enchant();
 						if (lvl != 0 && ench != null
 								&& !tier.getColor().equals(ChatColor.MAGIC))
@@ -116,17 +112,14 @@ public class DropsAPI
 							}
 							else
 							{
-								try
-								{
-									ci.addEnchantment(ench, lvl);
-								}
-								catch (IllegalArgumentException e1)
-								{
-									ci.addUnsafeEnchantment(ench, lvl);
-								}
+								ci.addUnsafeEnchantment(ench, lvl);
 							}
 						}
 					}
+
+					if(plugin.config.getBoolean("SocketItem.Enabled",true)&&
+							gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance",5)&&
+							!tier.getColor().equals(ChatColor.MAGIC)) Namer.addLore(ci, "(Socket)");
 					return ci;
 				}
 			}
@@ -160,7 +153,7 @@ public class DropsAPI
 						ci = new Drop(mat, tier.getColor(), name());
 						for (; e > 0; e--)
 						{
-							int lvl = plugin.gen.nextInt(l + 1);
+							int lvl = gen.nextInt(l + 1);
 							Enchantment ench = drops.enchant();
 							if (lvl != 0 && ench != null
 									&& !tier.getColor().equals(ChatColor.MAGIC))
@@ -172,17 +165,14 @@ public class DropsAPI
 								}
 								else
 								{
-									try
-									{
-										ci.addEnchantment(ench, lvl);
-									}
-									catch (IllegalArgumentException e1)
-									{
-										ci.addUnsafeEnchantment(ench, lvl);
-									}
+									ci.addUnsafeEnchantment(ench, lvl);
 								}
 							}
 						}
+
+						if(plugin.config.getBoolean("SocketItem.Enabled",true)&&
+								gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance",5)&&
+								!tier.getColor().equals(ChatColor.MAGIC)) Namer.addLore(ci, "(Socket)");
 						return ci;
 					}
 				}
@@ -246,9 +236,9 @@ public class DropsAPI
 
 	public String name()
 	{
-		String prefix = plugin.prefix.get(plugin.gen.nextInt(plugin.prefix
+		String prefix = plugin.prefix.get(gen.nextInt(plugin.prefix
 				.size()));
-		String suffix = plugin.suffix.get(plugin.gen.nextInt(plugin.suffix
+		String suffix = plugin.suffix.get(gen.nextInt(plugin.suffix
 				.size()));
 		return prefix + " " + suffix;
 	}
@@ -328,7 +318,7 @@ public class DropsAPI
 				tool.setName(tier.getColor() + name());
 				for (; e > 0; e--)
 				{
-					int lvl = plugin.gen.nextInt(l + 1);
+					int lvl = gen.nextInt(l + 1);
 					Enchantment ench = drops.enchant();
 					if (lvl != 0 && ench != null
 							&& !tier.getColor().equals(ChatColor.MAGIC))
@@ -336,24 +326,20 @@ public class DropsAPI
 						if (plugin.config.getBoolean("SafeEnchant.Enabled",
 								true))
 						{
-							makeSafe(ench, tool, lvl);
+								makeSafe(ench, tool, lvl);
 						}
 						else
 						{
-							try
-							{
-								tool.addEnchantment(ench, lvl);
-							}
-							catch (IllegalArgumentException e1)
-							{
 								tool.addUnsafeEnchantment(ench, lvl);
-							}
 						}
 					}
 
 				}
-				return tool;
+				
 			}
+			if(plugin.config.getBoolean("SocketItem.Enabled",true)&&
+					gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance",5)&& 
+					!tier.getColor().equals(ChatColor.MAGIC)) Namer.addLore(tool, "(Socket)");
 		}
 		return tool;
 	}

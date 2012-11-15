@@ -87,7 +87,9 @@ public class Tool extends CraftItemStack implements ToolInterface
 	@Override
 	public void setLore(List<String> lore)
 	{
-		NBTTagCompound ntag = new NBTTagCompound();
+		
+		NBTTagCompound ntag = tag.getCompound("display");
+		if(ntag==null) ntag = new NBTTagCompound("display");
 		NBTTagList p = new NBTTagList("Lore");
 		for (String s : lore)
 		{
@@ -108,9 +110,11 @@ public class Tool extends CraftItemStack implements ToolInterface
 		strings.toArray(lores);
 		return lores;
 	}
+	
 	@Override
 	public void setLore(String string) {
-		NBTTagCompound ntag = new NBTTagCompound();
+		NBTTagCompound ntag = tag.getCompound("display");
+		if(ntag==null) ntag = new NBTTagCompound("display");
 		NBTTagList p = new NBTTagList("Lore");
 		p.add(new NBTTagString("", string));
 		ntag.set("Lore", p);

@@ -1,6 +1,5 @@
 package com.modcrafting.diablodrops.listeners;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
@@ -28,18 +27,13 @@ public class SocketListener implements Listener{
 		Material fuel = is.getType();
 		Tool tool = new Tool(event.getResult().getType());
 		Tool oldtool = new Tool(event.getSource());
-		
 		boolean namTest = false;
 		for(String n:
-			//Namer.getLore(event.getSource())){
-			//oldtool.getLore()){
 			oldtool.getLoreList()){
 			if(n.equalsIgnoreCase("(Socket)")) namTest=true;
-			plugin.getLogger().info(n);
 		}
 		if(!namTest){
 			event.setResult(event.getSource());
-			plugin.getLogger().info("Failed");
 			return;
 		}
 		 
@@ -59,7 +53,11 @@ public class SocketListener implements Listener{
 			tool.setName(oldtool.getName());
 		}
 		//TODO: Find specific lore per item type. Current just random
-		Namer.addLore(tool, plugin.lore.get(plugin.gen.nextInt(plugin.lore.size())));
+		if(plugin.config.getBoolean("Lore.Enabled",true)){
+			for(int i=0;i<plugin.config.getInt("Lore.EnhanceAmount",2);i++){
+				tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore.size())));
+			}
+		}
 		event.setResult(tool);
 		return;
 
@@ -68,6 +66,11 @@ public class SocketListener implements Listener{
 	public void burnGem(FurnaceBurnEvent event){
 		for(String name: plugin.config.getStringList("SocketItem.Items")){
 			if(event.getFuel().getType().equals(Material.matchMaterial(name))){
+				if(!Namer.getName(event.getFuel()).contains("Socket")){
+					event.setCancelled(true);
+					event.setBurning(false);
+					event.setBurnTime(120000);
+				}
 				plugin.furnanceMap.put(event.getBlock(), event.getFuel());
 				event.setBurnTime(240);
 				event.setBurning(true);

@@ -12,19 +12,21 @@ DropFix:
 SafeEnchant:
   Enabled: false
 #Allow the drop of book to "identify" Magic color items#
-#Coming Soon#
+Lore:
+  Enabled: true
+  EnhanceAmount: 2
 IdentifyTome:
   Enabled: true
   Chance: 2
 SocketItem:
   Enabled: true
   Chance: 5
-  EnhanceBy: 1
+  EnhanceLevelBy: 1
   EnhanceMax: 10
   Items: 
   - Emerald
   - Diamond
-  - Skull
+  #- Skull#
 #This is the initial chance to retrieve an item#
 Precentages:
   ChancePerSpawn: 3

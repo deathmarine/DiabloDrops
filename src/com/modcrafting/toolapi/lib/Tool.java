@@ -133,7 +133,8 @@ public class Tool extends CraftItemStack implements ToolInterface
 	public void setLore(String string) {
 		NBTTagCompound ntag = tag.getCompound("display");
 		if(ntag==null) ntag = new NBTTagCompound("display");
-		NBTTagList p = new NBTTagList("Lore");
+		NBTTagList p = ntag.getList("Lore");
+		if(p==null) p =new NBTTagList("Lore");
 		p.add(new NBTTagString("", string));
 		ntag.set("Lore", p);
 		tag.setCompound("display", ntag);

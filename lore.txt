@@ -54,3 +54,26 @@
 80% Mob Frenzy
 90% Mob Frenzy
 100% Mob Frenzy
+Enemies Shrink 
+## Potions can be added by name ##
+## Positive Affects Mobs, Negative Affects The Player ##
+1 Invisibility
+2 Invisibility
+3 Invisibility
+4 Invisibility
+5 Invisibility
+6 Invisibility
+7 Invisibility
+8 Invisibility
+9 Invisibility
+10 Invisibility
+-1 Invisibility
+-2 Invisibility
+-3 Invisibility
+-4 Invisibility
+-5 Invisibility
+-6 Invisibility
+-7 Invisibility
+-8 Invisibility
+-9 Invisibility
+-10 Invisibility

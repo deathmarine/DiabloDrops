@@ -11,6 +11,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.socket.gem.SocketGem;
+import com.modcrafting.diablodrops.socket.gem.SocketItem;
 import com.modcrafting.diablodrops.tier.Tome;
 import com.stirante.ItemNamer.Namer;
 
@@ -24,20 +25,14 @@ public class DiabloDropCommand implements CommandExecutor
 		setPlugin(plugin);
 	}
 
-	public boolean onCommand(CommandSender sender, Command command,
-			String commandLabel, String[] args)
+	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args)
 	{
-		if (!(sender instanceof Player))
+		if (!(sender instanceof Player)||!sender.hasPermission(command.getPermission()))
 		{
 			sender.sendMessage(ChatColor.RED + "You cannot run this command.");
 			return true;
 		}
 		Player player = ((Player) sender);
-		if (!player.hasPermission("diablodrops.dd"))
-		{
-			player.sendMessage(ChatColor.RED + "You don't have permission.");
-			return true;
-		}
 		PlayerInventory pi = player.getInventory();
 		switch (args.length)
 		{
@@ -61,10 +56,7 @@ public class DiabloDropCommand implements CommandExecutor
 				if (args[0].equalsIgnoreCase("socket")
 						|| args[0].equalsIgnoreCase("socketitem"))
 				{
-					pi.addItem(Namer.setLore(
-							Namer.setName(new SocketGem(Material.EMERALD), "SocketItem"),
-							"Put in bottom of furnace", "with item in top to",
-							"enhance it."));
+					pi.addItem(new SocketItem(Material.EMERALD));
 					player.sendMessage(ChatColor.GREEN
 							+ "You have been given a SocketItem.");
 					return true;

@@ -21,8 +21,6 @@ import com.modcrafting.diablodrops.listeners.KillListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
-import com.modcrafting.diablodrops.socket.SocketBonus;
-import com.modcrafting.diablodrops.socket.SocketBonus.SocketType;
 import com.modcrafting.diablodrops.socket.SocketBuilder;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.TierBuilder;
@@ -35,7 +33,6 @@ public class DiabloDrops extends JavaPlugin
 	public List<String> lore = new ArrayList<String>();
 	public HashSet<Tier> tiers = new HashSet<Tier>();
 	public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
-	public HashMap<SocketType, SocketBonus> bonuses = new HashMap<SocketType, SocketBonus>();
 	private NamesLoader nameLoader;
 	public Random gen = new Random();
 	public FileConfiguration config;
@@ -72,7 +69,7 @@ public class DiabloDrops extends JavaPlugin
 		pm.registerEvents(new SocketListener(this), this);
 		pm.registerEvents(new ChunkListener(this), this);
 		pm.registerEvents(new EffectsListener(this), this);
-		getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
+		this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();
 		

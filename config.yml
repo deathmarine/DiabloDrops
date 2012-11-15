@@ -96,3 +96,4 @@ Worlds:
   - 'world_the_end'
 Ruins:
   Enabled: true
+  Chance: 1

@@ -20,3 +20,11 @@ Death Sword:
   Lore:
   - '&8Mystic medievil sword for &6Marines'
   - '&4Never need another one again.'
+Topple the Nun:
+  Material: Stick
+  Color: Bold
+  Enchantments:
+    KNOCKBACK: 10
+  Lore:
+  - '&bKeeps them kids in line.'
+  

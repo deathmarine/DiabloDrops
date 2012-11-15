@@ -61,7 +61,7 @@ public class DiabloDropCommand implements CommandExecutor
 				}
 				if (args[0].equalsIgnoreCase("custom"))
 				{
-					pi.addItem(plugin.custom.iterator().next());
+					pi.addItem(plugin.custom.get(plugin.gen.nextInt(plugin.custom.size())));
 					player.sendMessage(ChatColor.GREEN
 							+ "You have been given a DiabloDrops item.");
 					return true;

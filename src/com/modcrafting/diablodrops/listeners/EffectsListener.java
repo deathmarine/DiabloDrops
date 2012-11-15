@@ -33,6 +33,7 @@ public class EffectsListener implements Listener
 			Player player = (Player) event.getDamager();
 			for (String string : new Tool(((CraftItemStack) player.getItemInHand()).getHandle()).getLoreList())
 			{
+				string = string.replace("+", "").replace("%", "");
 				if (StringUtils.containsIgnoreCase(string, "damage"))
 				{
 					String[] args = ChatColor.stripColor(string).split(" ");

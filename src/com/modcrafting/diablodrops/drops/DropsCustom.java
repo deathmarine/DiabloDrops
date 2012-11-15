@@ -48,7 +48,7 @@ public class DropsCustom {
 			}
 			ConfigurationSection cs1 = cs.getConfigurationSection("Enchantments");
 			for(String ench:cs1.getKeys(false)){
-				tool.addUnsafeEnchantment(Enchantment.getByName(ench), cs1.getInt(ench));
+				tool.addUnsafeEnchantment(Enchantment.getByName(ench.toUpperCase()), cs1.getInt(ench));
 			}
 			plugin.custom.add(tool);
 		}

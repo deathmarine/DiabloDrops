@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -38,7 +39,8 @@ public class EffectsListener implements Listener
 			Set<Tool> toolSet = new HashSet<Tool>();
 			for (ItemStack is : player.getInventory().getArmorContents())
 			{
-				toolSet.add(new Tool((CraftItemStack) is));
+				if (is != null && !is.getType().equals(Material.AIR))
+					toolSet.add(new Tool((CraftItemStack) is));
 			}
 			toolSet.add(new Tool((CraftItemStack) player.getItemInHand()));
 			for (Tool tool : toolSet)

@@ -14,6 +14,7 @@ import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.events.RuinGenerateEvent;
 
 public class ChunkListener implements Listener
 {
@@ -39,6 +40,10 @@ public class ChunkListener implements Listener
 		{
 			return;
 		}
+		RuinGenerateEvent rge = new RuinGenerateEvent(chunk);
+		plugin.getServer().getPluginManager().callEvent(rge);
+		if (rge.isCancelled())
+			return;
 		int realX = chunk.getX() * 16 + plugin.gen.nextInt(15);
 		int realZ = chunk.getZ() * 16 + plugin.gen.nextInt(15);
 		Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);

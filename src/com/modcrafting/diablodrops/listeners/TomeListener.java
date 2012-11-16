@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.events.IdentifyItemEvent;
 import com.modcrafting.toolapi.lib.Tool;
 
 import de.bananaco.bookapi.lib.Book;
@@ -68,6 +69,14 @@ public class TomeListener implements Listener
 									.contains(ChatColor.MAGIC.toString())))
 					{
 						continue;
+					}
+					IdentifyItemEvent iie = new IdentifyItemEvent(tool);
+					if (iie.isCancelled())
+					{
+						p.sendMessage(ChatColor.RED
+								+ "You are unable to identify right now.");
+						e.setCancelled(true);
+						return;
 					}
 					pi.setItemInHand(null);
 					pi.removeItem(cis);

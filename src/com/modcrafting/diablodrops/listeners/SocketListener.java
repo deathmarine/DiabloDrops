@@ -12,6 +12,8 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.events.PreSocketEnhancementEvent;
+import com.modcrafting.diablodrops.events.SocketEnhancementEvent;
 import com.modcrafting.skullapi.lib.Skull;
 import com.modcrafting.toolapi.lib.Tool;
 import com.stirante.ItemNamer.Namer;
@@ -19,10 +21,12 @@ import com.stirante.ItemNamer.Namer;
 public class SocketListener implements Listener
 {
 	DiabloDrops plugin;
+
 	public SocketListener(DiabloDrops instance)
 	{
 		plugin = instance;
 	}
+
 	@EventHandler
 	public void onSmeltSocket(FurnaceSmeltEvent event)
 	{
@@ -75,6 +79,12 @@ public class SocketListener implements Listener
 						.size())));
 			}
 		}
+		SocketEnhancementEvent see = new SocketEnhancementEvent(
+				event.getSource(), is, tool, ((Furnace) event.getBlock()
+						.getState()));
+		plugin.getServer().getPluginManager().callEvent(see);
+		if (see.isCancelled())
+			return;
 		event.setResult(tool);
 		return;
 
@@ -85,18 +95,31 @@ public class SocketListener implements Listener
 	{
 		Furnace furn = (Furnace) event.getBlock().getState();
 		ItemStack tis = furn.getInventory().getSmelting();
-		if(plugin.drop.isArmor(tis.getType())||plugin.drop.isTool(tis.getType())){
+		if (plugin.drop.isArmor(tis.getType())
+				|| plugin.drop.isTool(tis.getType()))
+		{
 			for (String name : plugin.config.getStringList("SocketItem.Items"))
 			{
-				if (event.getFuel().getType().equals(Material.matchMaterial(name)))
+				if (event.getFuel().getType()
+						.equals(Material.matchMaterial(name)))
 				{
 					boolean test = false;
-					for(String t :new Tool(tis).getLoreList()){
-						if(t.contains("Socket")) test=true;
-					}
-					if (Namer.getName(event.getFuel()) != null&&Namer.getName(event.getFuel()).contains("Socket")&&test)
+					for (String t : new Tool(tis).getLoreList())
 					{
-						plugin.furnanceMap.put(event.getBlock(), event.getFuel());
+						if (t.contains("Socket"))
+							test = true;
+					}
+					if (Namer.getName(event.getFuel()) != null
+							&& Namer.getName(event.getFuel())
+									.contains("Socket") && test)
+					{
+						PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
+								tis, event.getFuel(), furn);
+						plugin.getServer().getPluginManager().callEvent(psee);
+						if (psee.isCancelled())
+							continue;
+						plugin.furnanceMap.put(event.getBlock(),
+								event.getFuel());
 						event.setBurnTime(240);
 						event.setBurning(true);
 						return;

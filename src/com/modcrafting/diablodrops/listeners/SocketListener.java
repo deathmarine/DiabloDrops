@@ -90,7 +90,7 @@ public class SocketListener implements Listener
 			{
 				if (event.getFuel().getType().equals(Material.matchMaterial(name)))
 				{
-					boolean test = true;
+					boolean test = false;
 					for(String t :new Tool(tis).getLoreList()){
 						if(t.contains("Socket")) test=true;
 					}

@@ -2,6 +2,7 @@ package com.modcrafting.diablodrops.listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Furnace;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -18,12 +19,10 @@ import com.stirante.ItemNamer.Namer;
 public class SocketListener implements Listener
 {
 	DiabloDrops plugin;
-
 	public SocketListener(DiabloDrops instance)
 	{
 		plugin = instance;
 	}
-
 	@EventHandler
 	public void onSmeltSocket(FurnaceSmeltEvent event)
 	{
@@ -68,7 +67,6 @@ public class SocketListener implements Listener
 		{
 			tool.setName(oldtool.getName());
 		}
-		// TODO: Find specific lore per item type. Current just random
 		if (plugin.config.getBoolean("Lore.Enabled", true))
 		{
 			for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
@@ -85,20 +83,29 @@ public class SocketListener implements Listener
 	@EventHandler
 	public void burnGem(FurnaceBurnEvent event)
 	{
-		for (String name : plugin.config.getStringList("SocketItem.Items"))
-		{
-			if (event.getFuel().getType().equals(Material.matchMaterial(name)))
+		Furnace furn = (Furnace) event.getBlock().getState();
+		ItemStack tis = furn.getInventory().getSmelting();
+		if(plugin.drop.isArmor(tis.getType())||plugin.drop.isTool(tis.getType())){
+			for (String name : plugin.config.getStringList("SocketItem.Items"))
 			{
-				if (Namer.getName(event.getFuel()) == null||!Namer.getName(event.getFuel()).contains("Socket"))
+				if (event.getFuel().getType().equals(Material.matchMaterial(name)))
 				{
-					event.setCancelled(true);
-					event.setBurning(false);
-					event.setBurnTime(120000);
-					return;
+					boolean test = true;
+					for(String t :new Tool(tis).getLoreList()){
+						if(t.contains("Socket")) test=true;
+					}
+					if (Namer.getName(event.getFuel()) != null&&Namer.getName(event.getFuel()).contains("Socket")&&test)
+					{
+						plugin.furnanceMap.put(event.getBlock(), event.getFuel());
+						event.setBurnTime(240);
+						event.setBurning(true);
+						return;
+					}
 				}
-				plugin.furnanceMap.put(event.getBlock(), event.getFuel());
-				event.setBurnTime(240);
-				event.setBurning(true);
+				event.setCancelled(true);
+				event.setBurning(false);
+				event.setBurnTime(120000);
+				return;
 			}
 		}
 	}

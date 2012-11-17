@@ -64,9 +64,14 @@ public class DropsCustom
 				tool.setLore(ChatColor.translateAlternateColorCodes(
 						"&".toCharArray()[0], s));
 			}
-			ConfigurationSection cs1 = cs.getConfigurationSection("Enchantments");
-			for(String ench:cs1.getKeys(false)){
-				tool.addUnsafeEnchantment(Enchantment.getByName(ench.toUpperCase()), cs1.getInt(ench));
+			ConfigurationSection cs1 = cs
+					.getConfigurationSection("Enchantments");
+			for (String ench : cs1.getKeys(false))
+			{
+				Enchantment encha = Enchantment.getByName(ench.toUpperCase());
+				if (encha == null)
+					continue;
+				tool.addUnsafeEnchantment(encha, cs1.getInt(ench));
 			}
 			plugin.custom.add(tool);
 		}

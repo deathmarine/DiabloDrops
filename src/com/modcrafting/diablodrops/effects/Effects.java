@@ -16,7 +16,9 @@ import net.minecraft.server.PathfinderGoalRandomLookaround;
 import net.minecraft.server.PathfinderGoalRandomStroll;
 import net.minecraft.server.PathfinderGoalSelector;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftZombie;
@@ -32,6 +34,8 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import com.modcrafting.diablodrops.DiabloDrops;
 
 public class Effects
 {
@@ -143,11 +147,22 @@ public class Effects
 		}
 	}
 
-	public static void strikeLightning(Location location, int times)
+	public static void strikeLightning(final Location location, final int times)
 	{
-		for (int i = 0; i < times; i++)
+		final World world = location.getWorld();
+		for (int i = times; i > 0; i--)
 		{
-			location.getWorld().strikeLightning(location);
+			Bukkit.getServer()
+					.getScheduler()
+					.scheduleSyncDelayedTask(DiabloDrops.getInstance(),
+							new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									world.strikeLightning(location);
+								}
+							}, 20L * i);
 		}
 	}
 

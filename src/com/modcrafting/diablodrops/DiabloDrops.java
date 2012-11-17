@@ -39,7 +39,7 @@ public class DiabloDrops extends JavaPlugin
 	public List<String> suffix = new ArrayList<String>();
 	public List<String> lore = new ArrayList<String>();
 	public HashSet<Tier> tiers = new HashSet<Tier>();
-	public List<Tool> custom  = new ArrayList<Tool>();
+	public List<Tool> custom = new ArrayList<Tool>();
 	public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
 	private NamesLoader nameLoader;
 	public Random gen = new Random();
@@ -47,6 +47,8 @@ public class DiabloDrops extends JavaPlugin
 	public DropsAPI dropsAPI;
 	public Drops drop = new Drops();
 	public Namer itemNamer;
+
+	private static DiabloDrops instance;
 
 	public void onDisable()
 	{
@@ -60,6 +62,7 @@ public class DiabloDrops extends JavaPlugin
 
 	public void onEnable()
 	{
+		instance = this;
 		this.getDataFolder().mkdir();
 		nameLoader = new NamesLoader(this);
 		nameLoader.writeDefault("config.yml");
@@ -83,31 +86,52 @@ public class DiabloDrops extends JavaPlugin
 		new DropsCustom(this);
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();
-		
-		//AutoUpdater
-		final PluginDescriptionFile pdf = this.getDescription();
-		this.getServer().getScheduler().scheduleAsyncDelayedTask(this, new Runnable(){
 
-			@Override
-			public void run() {
-				if(config.getBoolean("Plugin.AutoUpdate",true)){
-					Updater up = new Updater(getInstance(),pdf.getName().toLowerCase(),getFile(),UpdateType.DEFAULT,true);
-					if(!up.getResult().equals(UpdateResult.SUCCESS)||up.pluginFile(getFile().getName())){
-						if(up.getResult().equals(UpdateResult.FAIL_NOVERSION)){
-							getLogger().info("Unable to connect to dev.bukkit.org.");
-						}else{
-							getLogger().info("No Updates found on dev.bukkit.org.");
+		// AutoUpdater
+		final PluginDescriptionFile pdf = this.getDescription();
+		this.getServer().getScheduler()
+				.scheduleAsyncDelayedTask(this, new Runnable()
+				{
+
+					@Override
+					public void run()
+					{
+						if (config.getBoolean("Plugin.AutoUpdate", true))
+						{
+							Updater up = new Updater(getInstance(), pdf
+									.getName().toLowerCase(), getFile(),
+									UpdateType.DEFAULT, true);
+							if (!up.getResult().equals(UpdateResult.SUCCESS)
+									|| up.pluginFile(getFile().getName()))
+							{
+								if (up.getResult().equals(
+										UpdateResult.FAIL_NOVERSION))
+								{
+									getLogger()
+											.info("Unable to connect to dev.bukkit.org.");
+								}
+								else
+								{
+									getLogger()
+											.info("No Updates found on dev.bukkit.org.");
+								}
+							}
+							else
+							{
+								getLogger()
+										.info("Update "
+												+ up.getLatestVersionString()
+												+ " found and downloaded please restart your server.");
+							}
 						}
-					}else{
-						getLogger().info("Update "+up.getLatestVersionString()+" found and downloaded please restart your server.");
+
 					}
-				}
-				
-			}
-			
-		});
+
+				});
 	}
-	public DiabloDrops getInstance(){
-		return this;
+
+	public static DiabloDrops getInstance()
+	{
+		return instance;
 	}
 }

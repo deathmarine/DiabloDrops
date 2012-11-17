@@ -79,11 +79,9 @@ public class KillListener implements Listener
 			if (eswi.isCancelled())
 				return;
 			CraftItemStack ci = plugin.dropsAPI.getItem();
-			int tries = 0;
-			while (ci == null && tries < 5)
+			while (ci == null)
 			{
 				ci = plugin.dropsAPI.getItem();
-				tries++;
 			}
 			if (ci != null)
 				setEquipment(ci, entity);

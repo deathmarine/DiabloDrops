@@ -32,7 +32,7 @@ public class DropsAPI
 	public DropsAPI(DiabloDrops instance)
 	{
 		plugin = instance;
-		drops=instance.drop;
+		drops = instance.drop;
 	}
 
 	public CraftItemStack getIdItem(Material mat, String name)
@@ -67,19 +67,27 @@ public class DropsAPI
 								ci.addUnsafeEnchantment(ench, lvl);
 							}
 							boolean sock = false;
-							if(plugin.config.getBoolean("SocketItem.Enabled",true)&&
-									gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance",5)&& 
-									!tier.getColor().equals(ChatColor.MAGIC)){
+							if (plugin.config.getBoolean("SocketItem.Enabled",
+									true)
+									&& gen.nextInt(100) <= plugin.config
+											.getInt("SocketItem.Chance", 5)
+									&& !tier.getColor().equals(ChatColor.MAGIC))
+							{
 								Namer.addLore(ci, "(Socket)");
 								sock = true;
 							}
-							if(plugin.config.getBoolean("Lore.Enabled",true)&&
-									gen.nextInt(100) <= plugin.config.getInt("Lore.Chance",5)&&
-											!tier.getColor().equals(ChatColor.MAGIC)&&
-											!sock){
+							if (plugin.config.getBoolean("Lore.Enabled", true)
+									&& gen.nextInt(100) <= plugin.config
+											.getInt("Lore.Chance", 5)
+									&& !tier.getColor().equals(ChatColor.MAGIC)
+									&& !sock)
+							{
 								Tool tool = new Tool(ci);
-								for(int i=0;i<plugin.config.getInt("Lore.EnhanceAmount",2);i++){
-									tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore.size())));
+								for (int i = 0; i < plugin.config.getInt(
+										"Lore.EnhanceAmount", 2); i++)
+								{
+									tool.setLore(plugin.lore.get(plugin.gen
+											.nextInt(plugin.lore.size())));
 								}
 								return tool;
 							}
@@ -132,19 +140,26 @@ public class DropsAPI
 						}
 					}
 					boolean sock = false;
-					if(plugin.config.getBoolean("SocketItem.Enabled",true)&&
-							gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance",5)&& 
-							!tier.getColor().equals(ChatColor.MAGIC)){
+					if (plugin.config.getBoolean("SocketItem.Enabled", true)
+							&& gen.nextInt(100) <= plugin.config.getInt(
+									"SocketItem.Chance", 5)
+							&& !tier.getColor().equals(ChatColor.MAGIC))
+					{
 						Namer.addLore(ci, "(Socket)");
 						sock = true;
 					}
-					if(plugin.config.getBoolean("Lore.Enabled",true)&&
-							gen.nextInt(100) <= plugin.config.getInt("Lore.Chance",5)&&
-									!tier.getColor().equals(ChatColor.MAGIC)&&
-									!sock){
+					if (plugin.config.getBoolean("Lore.Enabled", true)
+							&& gen.nextInt(100) <= plugin.config.getInt(
+									"Lore.Chance", 5)
+							&& !tier.getColor().equals(ChatColor.MAGIC)
+							&& !sock)
+					{
 						Tool tool = new Tool(ci);
-						for(int i=0;i<plugin.config.getInt("Lore.EnhanceAmount",2);i++){
-							tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore.size())));
+						for (int i = 0; i < plugin.config.getInt(
+								"Lore.EnhanceAmount", 2); i++)
+						{
+							tool.setLore(plugin.lore.get(plugin.gen
+									.nextInt(plugin.lore.size())));
 						}
 						return tool;
 					}
@@ -198,19 +213,27 @@ public class DropsAPI
 							}
 						}
 						boolean sock = false;
-						if(plugin.config.getBoolean("SocketItem.Enabled",true)&&
-								gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance",5)&& 
-								!tier.getColor().equals(ChatColor.MAGIC)){
+						if (plugin.config
+								.getBoolean("SocketItem.Enabled", true)
+								&& gen.nextInt(100) <= plugin.config.getInt(
+										"SocketItem.Chance", 5)
+								&& !tier.getColor().equals(ChatColor.MAGIC))
+						{
 							Namer.addLore(ci, "(Socket)");
 							sock = true;
 						}
-						if(plugin.config.getBoolean("Lore.Enabled",true)&&
-								gen.nextInt(100) <= plugin.config.getInt("Lore.Chance",5)&&
-										!tier.getColor().equals(ChatColor.MAGIC)&&
-										!sock){
+						if (plugin.config.getBoolean("Lore.Enabled", true)
+								&& gen.nextInt(100) <= plugin.config.getInt(
+										"Lore.Chance", 5)
+								&& !tier.getColor().equals(ChatColor.MAGIC)
+								&& !sock)
+						{
 							Tool tool = new Tool(ci);
-							for(int i=0;i<plugin.config.getInt("Lore.EnhanceAmount",2);i++){
-								tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore.size())));
+							for (int i = 0; i < plugin.config.getInt(
+									"Lore.EnhanceAmount", 2); i++)
+							{
+								tool.setLore(plugin.lore.get(plugin.gen
+										.nextInt(plugin.lore.size())));
 							}
 							return tool;
 						}
@@ -244,17 +267,22 @@ public class DropsAPI
 		{
 			if (plugin.config.getBoolean("SocketItem.Enabled", true)
 					&& gen.nextInt(100) <= plugin.config.getInt(
-							"SocketItem.Chance", 5)){
-				List<String> l = plugin.config.getStringList("SocketItem.Items");
-				return new SocketItem(Material.valueOf(l.get(gen.nextInt(l.size())).toUpperCase()));
+							"SocketItem.Chance", 5))
+			{
+				List<String> l = plugin.config
+						.getStringList("SocketItem.Items");
+				return new SocketItem(Material.valueOf(l.get(
+						gen.nextInt(l.size())).toUpperCase()));
 			}
 		}
 		if (gen.nextBoolean())
 		{
 			if (plugin.config.getBoolean("Custom.Enabled", true)
 					&& gen.nextInt(100) <= plugin.config.getInt(
-							"Custom.Chance", 1)){
-				return plugin.custom.get(plugin.gen.nextInt(plugin.custom.size()));
+							"Custom.Chance", 1))
+			{
+				return plugin.custom.get(plugin.gen.nextInt(plugin.custom
+						.size()));
 			}
 		}
 		return getItem(mat);
@@ -285,10 +313,8 @@ public class DropsAPI
 
 	public String name()
 	{
-		String prefix = plugin.prefix.get(gen.nextInt(plugin.prefix
-				.size()));
-		String suffix = plugin.suffix.get(gen.nextInt(plugin.suffix
-				.size()));
+		String prefix = plugin.prefix.get(gen.nextInt(plugin.prefix.size()));
+		String suffix = plugin.suffix.get(gen.nextInt(plugin.suffix.size()));
 		return prefix + " " + suffix;
 	}
 
@@ -296,7 +322,7 @@ public class DropsAPI
 	{
 		try
 		{
-			citem.addEnchantment(ench, 1);
+			citem.addEnchantment(ench, level);
 		}
 		catch (IllegalArgumentException e)
 		{
@@ -375,30 +401,36 @@ public class DropsAPI
 						if (plugin.config.getBoolean("SafeEnchant.Enabled",
 								true))
 						{
-								makeSafe(ench, tool, lvl);
+							makeSafe(ench, tool, lvl);
 						}
 						else
 						{
-								tool.addUnsafeEnchantment(ench, lvl);
+							tool.addUnsafeEnchantment(ench, lvl);
 						}
 					}
 
 				}
-				
+
 			}
 			boolean sock = false;
-			if(plugin.config.getBoolean("SocketItem.Enabled",true)&&
-					gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance",5)&& 
-					!tier.getColor().equals(ChatColor.MAGIC)){
+			if (plugin.config.getBoolean("SocketItem.Enabled", true)
+					&& gen.nextInt(100) <= plugin.config.getInt(
+							"SocketItem.Chance", 5)
+					&& !tier.getColor().equals(ChatColor.MAGIC))
+			{
 				Namer.addLore(tool, "(Socket)");
 				sock = true;
 			}
-			if(plugin.config.getBoolean("Lore.Enabled",true)&&
-					gen.nextInt(100) <= plugin.config.getInt("Lore.Chance",5)&&
-							!tier.getColor().equals(ChatColor.MAGIC)&&
-							!sock){
-				for(int i=0;i<plugin.config.getInt("Lore.EnhanceAmount",2);i++){
-					tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore.size())));
+			if (plugin.config.getBoolean("Lore.Enabled", true)
+					&& gen.nextInt(100) <= plugin.config.getInt("Lore.Chance",
+							5) && !tier.getColor().equals(ChatColor.MAGIC)
+					&& !sock)
+			{
+				for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount",
+						2); i++)
+				{
+					tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore
+							.size())));
 				}
 			}
 		}

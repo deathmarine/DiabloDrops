@@ -19,6 +19,8 @@ public class Tool extends CraftItemStack implements ToolInterface
 	{
 		super(mat, 1);
 		ItemStack mitem = this.getHandle();
+		if (mitem == null)
+			return;
 		if (mitem.tag == null)
 		{
 			mitem.tag = new NBTTagCompound();
@@ -30,6 +32,8 @@ public class Tool extends CraftItemStack implements ToolInterface
 	{
 		super(item);
 		ItemStack mitem = this.getHandle();
+		if (mitem == null)
+			return;
 		if (mitem.tag == null)
 		{
 			mitem.tag = new NBTTagCompound();
@@ -37,9 +41,14 @@ public class Tool extends CraftItemStack implements ToolInterface
 		this.tag = mitem.tag;
 	}
 
-	public Tool(org.bukkit.inventory.ItemStack source) {
+	public Tool(org.bukkit.inventory.ItemStack source)
+	{
 		super(((CraftItemStack) source).getHandle());
 		ItemStack mitem = this.getHandle();
+		if (mitem == null)
+		{
+			return;
+		}
 		if (mitem.tag == null)
 		{
 			mitem.tag = new NBTTagCompound();
@@ -87,9 +96,10 @@ public class Tool extends CraftItemStack implements ToolInterface
 	@Override
 	public void setLore(List<String> lore)
 	{
-		
+
 		NBTTagCompound ntag = tag.getCompound("display");
-		if(ntag==null) ntag = new NBTTagCompound("display");
+		if (ntag == null)
+			ntag = new NBTTagCompound("display");
 		NBTTagList p = new NBTTagList("Lore");
 		for (String s : lore)
 		{
@@ -110,31 +120,39 @@ public class Tool extends CraftItemStack implements ToolInterface
 		strings.toArray(lores);
 		return lores;
 	}
-	
+
 	@Override
 	public List<String> getLoreList()
 	{
 		NBTTagList list = tag.getCompound("display").getList("Lore");
 		ArrayList<String> strings = new ArrayList<String>();
 
-		for (int i = 0; i < list.size(); i++){
+		for (int i = 0; i < list.size(); i++)
+		{
 			NBTTagString n = (NBTTagString) list.get(i);
-			if(n!=null){
-				if(n.getName()!=null||!(n.getName().length()<1)) strings.add(n.getName());
-				if(n.data!=null||!(n.data.length()<1)) strings.add(n.data);
-				if(n.toString()!=null||!(n.toString().length()<1)) strings.add(n.toString());
+			if (n != null)
+			{
+				if (n.getName() != null || !(n.getName().length() < 1))
+					strings.add(n.getName());
+				if (n.data != null || !(n.data.length() < 1))
+					strings.add(n.data);
+				if (n.toString() != null || !(n.toString().length() < 1))
+					strings.add(n.toString());
 			}
-			
+
 		}
 		return strings;
 	}
-	
+
 	@Override
-	public void setLore(String string) {
+	public void setLore(String string)
+	{
 		NBTTagCompound ntag = tag.getCompound("display");
-		if(ntag==null) ntag = new NBTTagCompound("display");
+		if (ntag == null)
+			ntag = new NBTTagCompound("display");
 		NBTTagList p = ntag.getList("Lore");
-		if(p==null) p =new NBTTagList("Lore");
+		if (p == null)
+			p = new NBTTagList("Lore");
 		p.add(new NBTTagString("", string));
 		ntag.set("Lore", p);
 		tag.setCompound("display", ntag);

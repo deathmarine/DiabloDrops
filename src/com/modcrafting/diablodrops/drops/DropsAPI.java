@@ -48,13 +48,9 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
-					if (gen.nextBoolean())
-						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name),
-								damageItemStack(mat));
-					else
-						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name));
+					ci = new Drop(mat, tier.getColor(),
+							ChatColor.stripColor(name), damageItemStack(mat),
+							tier.getColor() + tier.getName());
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);
@@ -125,7 +121,9 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
-					ci = new Drop(mat, tier.getColor(), name());
+					ci = new Drop(mat, tier.getColor(), name(),
+							damageItemStack(mat), tier.getColor()
+									+ tier.getName());
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);

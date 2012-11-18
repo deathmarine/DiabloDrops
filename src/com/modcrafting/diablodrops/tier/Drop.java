@@ -24,4 +24,22 @@ public class Drop extends Tool
 		Namer.setLore(this, lore);
 	}
 
+	public Drop(Material mat, ChatColor color, String name, short durability)
+	{
+		super(mat);
+		this.setRepairCost(2);
+		Namer.setName(this, color + name);
+		this.setDurability(durability);
+	}
+
+	public Drop(Material mat, ChatColor color, String name, short durability,
+			String... lore)
+	{
+		super(mat);
+		this.setRepairCost(2);
+		Namer.setName(this, color + name);
+		Namer.setLore(this, lore);
+		this.setDurability(durability);
+	}
+
 }

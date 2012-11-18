@@ -48,8 +48,13 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
-					ci = new Drop(mat, tier.getColor(),
-							ChatColor.stripColor(name));
+					if (gen.nextBoolean())
+						ci = new Drop(mat, tier.getColor(),
+								ChatColor.stripColor(name),
+								damageItemStack(mat));
+					else
+						ci = new Drop(mat, tier.getColor(),
+								ChatColor.stripColor(name));
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);
@@ -318,6 +323,20 @@ public class DropsAPI
 				return drops.getSword();
 
 		}
+	}
+
+	public short damageItemStack(Material itemstack)
+	{
+		short dur = itemstack.getMaxDurability();
+		try
+		{
+			int newDur = gen.nextInt(dur) + 1;
+			return (short) newDur;
+		}
+		catch (Exception e)
+		{
+		}
+		return dur;
 	}
 
 	public boolean canBeItem(Material material)

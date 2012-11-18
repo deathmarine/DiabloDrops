@@ -295,13 +295,29 @@ public class DropsAPI
 	 */
 	public Material dropPicker()
 	{
-		if (gen.nextBoolean())
+		int next = gen.nextInt(9);
+		switch (next)
 		{
-			Material[] mats = drops.armorPicker();
-			if (mats != null)
-				return mats[gen.nextInt(mats.length - 1)];
+			case 1:
+				return drops.getHelmet();
+			case 2:
+				return drops.getChestPlate();
+			case 3:
+				return drops.getLeggings();
+			case 4:
+				return drops.getBoots();
+			case 5:
+				return drops.getHoe();
+			case 6:
+				return drops.getPickaxe();
+			case 7:
+				return drops.getAxe();
+			case 8:
+				return drops.getSpade();
+			default:
+				return drops.getSword();
+
 		}
-		return drops.weaponPicker();
 	}
 
 	public boolean canBeItem(Material material)

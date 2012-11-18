@@ -94,7 +94,7 @@ public class KillListener implements Listener
 		EntityLiving ev = ((CraftLivingEntity) e).getHandle();
 		if (drops.isBoots(mat))
 		{
-			ev.setEquipment(4, ci.getHandle());
+			ev.setEquipment(1, ci.getHandle());
 		}
 		else if (drops.isChestPlate(mat))
 		{
@@ -106,7 +106,7 @@ public class KillListener implements Listener
 		}
 		else if (drops.isHelmet(mat))
 		{
-			ev.setEquipment(1, ci.getHandle());
+			ev.setEquipment(4, ci.getHandle());
 		}
 		else
 		{

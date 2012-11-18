@@ -9,48 +9,27 @@ public class Drops
 {
 	Random gen = new Random();
 
-	public Material[] diamondArmor()
+	public Material[] allItems()
 	{
 		return new Material[]
 		{
+				Material.DIAMOND_SWORD, Material.DIAMOND_PICKAXE,
+				Material.DIAMOND_SPADE, Material.DIAMOND_AXE,
+				Material.DIAMOND_HOE, Material.IRON_SWORD,
+				Material.IRON_PICKAXE, Material.IRON_SPADE, Material.IRON_AXE,
+				Material.IRON_HOE, Material.GOLD_SWORD, Material.GOLD_PICKAXE,
+				Material.GOLD_SPADE, Material.GOLD_AXE, Material.GOLD_HOE,
+				Material.WOOD_SWORD, Material.WOOD_PICKAXE,
+				Material.WOOD_SPADE, Material.WOOD_AXE, Material.WOOD_HOE,
 				Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
-				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS
-		};
-	}
-
-	public Material[] ironArmor()
-	{
-		return new Material[]
-		{
+				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS,
 				Material.IRON_HELMET, Material.IRON_CHESTPLATE,
-				Material.IRON_LEGGINGS, Material.IRON_BOOTS
-		};
-	}
-
-	public Material[] chainmailArmor()
-	{
-		return new Material[]
-		{
+				Material.IRON_LEGGINGS, Material.IRON_BOOTS,
 				Material.CHAINMAIL_HELMET, Material.CHAINMAIL_CHESTPLATE,
-				Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS
-		};
-	}
-
-	public Material[] goldArmor()
-	{
-		return new Material[]
-		{
+				Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS,
 				Material.GOLD_HELMET, Material.GOLD_CHESTPLATE,
-				Material.GOLD_LEGGINGS, Material.GOLD_BOOTS
-		};
-	}
-
-	public Material[] leatherArmor()
-	{
-		return new Material[]
-		{
-				Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE,
-				Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS
+				Material.GOLD_LEGGINGS, Material.GOLD_BOOTS,
+				Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS, Material.BOW
 		};
 	}
 
@@ -73,6 +52,24 @@ public class Drops
 		}
 	}
 
+	public Material[] chainmailArmor()
+	{
+		return new Material[]
+		{
+				Material.CHAINMAIL_HELMET, Material.CHAINMAIL_CHESTPLATE,
+				Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS
+		};
+	}
+
+	public Material[] diamondArmor()
+	{
+		return new Material[]
+		{
+				Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
+				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS
+		};
+	}
+
 	public Material diamondWeapon(int num)
 	{
 		switch (num)
@@ -87,82 +84,6 @@ public class Drops
 				return Material.DIAMOND_AXE;
 			case 5:
 				return Material.DIAMOND_HOE;
-			default:
-				return null;
-		}
-	}
-
-	public Material ironWeapon(int num)
-	{
-		switch (num)
-		{
-			case 1:
-				return Material.IRON_SWORD;
-			case 2:
-				return Material.IRON_PICKAXE;
-			case 3:
-				return Material.IRON_SPADE;
-			case 4:
-				return Material.IRON_AXE;
-			case 5:
-				return Material.IRON_HOE;
-			default:
-				return null;
-		}
-	}
-
-	public Material goldWeapon(int num)
-	{
-		switch (num)
-		{
-			case 1:
-				return Material.GOLD_SWORD;
-			case 2:
-				return Material.GOLD_PICKAXE;
-			case 3:
-				return Material.GOLD_SPADE;
-			case 4:
-				return Material.GOLD_AXE;
-			case 5:
-				return Material.GOLD_HOE;
-			default:
-				return null;
-		}
-	}
-
-	public Material woodWeapon(int num)
-	{
-		switch (num)
-		{
-			case 1:
-				return Material.WOOD_SWORD;
-			case 2:
-				return Material.WOOD_PICKAXE;
-			case 3:
-				return Material.WOOD_SPADE;
-			case 4:
-				return Material.WOOD_AXE;
-			case 5:
-				return Material.WOOD_HOE;
-			default:
-				return null;
-		}
-	}
-
-	public Material weaponPicker()
-	{
-		switch (gen.nextInt(5))
-		{
-			case 0:
-				return diamondWeapon(gen.nextInt(5));
-			case 1:
-				return ironWeapon(gen.nextInt(5));
-			case 2:
-				return goldWeapon(gen.nextInt(5));
-			case 3:
-				return woodWeapon(gen.nextInt(5));
-			case 4:
-				return Material.BOW;
 			default:
 				return null;
 		}
@@ -219,20 +140,20 @@ public class Drops
 		}
 	}
 
-	public Material getHelmet()
+	public Material getBoots()
 	{
 		switch (gen.nextInt(6))
 		{
 			case 0:
-				return Material.LEATHER_HELMET;
+				return Material.LEATHER_BOOTS;
 			case 1:
-				return Material.GOLD_HELMET;
+				return Material.GOLD_BOOTS;
 			case 2:
-				return Material.CHAINMAIL_HELMET;
+				return Material.CHAINMAIL_BOOTS;
 			case 3:
-				return Material.IRON_HELMET;
+				return Material.IRON_BOOTS;
 			case 4:
-				return Material.DIAMOND_HELMET;
+				return Material.DIAMOND_BOOTS;
 			default:
 				return null;
 		}
@@ -257,6 +178,25 @@ public class Drops
 		}
 	}
 
+	public Material getHelmet()
+	{
+		switch (gen.nextInt(6))
+		{
+			case 0:
+				return Material.LEATHER_HELMET;
+			case 1:
+				return Material.GOLD_HELMET;
+			case 2:
+				return Material.CHAINMAIL_HELMET;
+			case 3:
+				return Material.IRON_HELMET;
+			case 4:
+				return Material.DIAMOND_HELMET;
+			default:
+				return null;
+		}
+	}
+
 	public Material getLeggings()
 	{
 		switch (gen.nextInt(6))
@@ -276,23 +216,175 @@ public class Drops
 		}
 	}
 
-	public Material getBoots()
+	public Material getSword()
 	{
 		switch (gen.nextInt(6))
 		{
 			case 0:
-				return Material.LEATHER_BOOTS;
+				return Material.WOOD_SWORD;
 			case 1:
-				return Material.GOLD_BOOTS;
+				return Material.STONE_SWORD;
 			case 2:
-				return Material.CHAINMAIL_BOOTS;
+				return Material.GOLD_SWORD;
 			case 3:
-				return Material.IRON_BOOTS;
+				return Material.IRON_SWORD;
 			case 4:
-				return Material.DIAMOND_BOOTS;
+				return Material.DIAMOND_SWORD;
 			default:
 				return null;
 		}
+	}
+
+	public Material getPickaxe()
+	{
+		switch (gen.nextInt(6))
+		{
+			case 0:
+				return Material.WOOD_PICKAXE;
+			case 1:
+				return Material.STONE_PICKAXE;
+			case 2:
+				return Material.GOLD_PICKAXE;
+			case 3:
+				return Material.IRON_PICKAXE;
+			case 4:
+				return Material.DIAMOND_PICKAXE;
+			default:
+				return null;
+		}
+	}
+
+	public Material getAxe()
+	{
+		switch (gen.nextInt(6))
+		{
+			case 0:
+				return Material.WOOD_AXE;
+			case 1:
+				return Material.STONE_AXE;
+			case 2:
+				return Material.GOLD_AXE;
+			case 3:
+				return Material.IRON_AXE;
+			case 4:
+				return Material.DIAMOND_AXE;
+			default:
+				return null;
+		}
+	}
+
+	public Material getSpade()
+	{
+		switch (gen.nextInt(6))
+		{
+			case 0:
+				return Material.WOOD_SPADE;
+			case 1:
+				return Material.STONE_SPADE;
+			case 2:
+				return Material.GOLD_SPADE;
+			case 3:
+				return Material.IRON_SPADE;
+			case 4:
+				return Material.DIAMOND_SPADE;
+			default:
+				return null;
+		}
+	}
+
+	public Material getHoe()
+	{
+		switch (gen.nextInt(6))
+		{
+			case 0:
+				return Material.WOOD_HOE;
+			case 1:
+				return Material.STONE_HOE;
+			case 2:
+				return Material.GOLD_HOE;
+			case 3:
+				return Material.IRON_HOE;
+			case 4:
+				return Material.DIAMOND_HOE;
+			default:
+				return null;
+		}
+	}
+
+	public Material[] goldArmor()
+	{
+		return new Material[]
+		{
+				Material.GOLD_HELMET, Material.GOLD_CHESTPLATE,
+				Material.GOLD_LEGGINGS, Material.GOLD_BOOTS
+		};
+	}
+
+	public Material goldWeapon(int num)
+	{
+		switch (num)
+		{
+			case 1:
+				return Material.GOLD_SWORD;
+			case 2:
+				return Material.GOLD_PICKAXE;
+			case 3:
+				return Material.GOLD_SPADE;
+			case 4:
+				return Material.GOLD_AXE;
+			case 5:
+				return Material.GOLD_HOE;
+			default:
+				return null;
+		}
+	}
+
+	public Material[] ironArmor()
+	{
+		return new Material[]
+		{
+				Material.IRON_HELMET, Material.IRON_CHESTPLATE,
+				Material.IRON_LEGGINGS, Material.IRON_BOOTS
+		};
+	}
+
+	public Material ironWeapon(int num)
+	{
+		switch (num)
+		{
+			case 1:
+				return Material.IRON_SWORD;
+			case 2:
+				return Material.IRON_PICKAXE;
+			case 3:
+				return Material.IRON_SPADE;
+			case 4:
+				return Material.IRON_AXE;
+			case 5:
+				return Material.IRON_HOE;
+			default:
+				return null;
+		}
+	}
+
+	public boolean isArmor(Material mat)
+	{
+		if (isHelmet(mat) || isBoots(mat) || isChestPlate(mat)
+				|| isLeggings(mat))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isAxe(Material mat)
+	{
+		if (mat.equals(Material.WOOD_AXE) || mat.equals(Material.STONE_AXE)
+				|| mat.equals(Material.GOLD_AXE)
+				|| mat.equals(Material.IRON_AXE)
+				|| mat.equals(Material.DIAMOND_AXE))
+			return true;
+		return false;
 	}
 
 	public boolean isBoots(Material mat)
@@ -302,19 +394,6 @@ public class Drops
 				|| mat.equals(Material.CHAINMAIL_BOOTS)
 				|| mat.equals(Material.IRON_BOOTS)
 				|| mat.equals(Material.DIAMOND_BOOTS))
-		{
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isLeggings(Material mat)
-	{
-		if (mat.equals(Material.LEATHER_LEGGINGS)
-				|| mat.equals(Material.GOLD_LEGGINGS)
-				|| mat.equals(Material.CHAINMAIL_LEGGINGS)
-				|| mat.equals(Material.IRON_LEGGINGS)
-				|| mat.equals(Material.DIAMOND_LEGGINGS))
 		{
 			return true;
 		}
@@ -347,43 +426,26 @@ public class Drops
 		return false;
 	}
 
-	public boolean isArmor(Material mat)
+	public boolean isHoe(Material mat)
 	{
-		if (isHelmet(mat) || isBoots(mat) || isChestPlate(mat)
-				|| isLeggings(mat))
+		if (mat.equals(Material.WOOD_HOE) || mat.equals(Material.STONE_HOE)
+				|| mat.equals(Material.GOLD_HOE)
+				|| mat.equals(Material.IRON_HOE)
+				|| mat.equals(Material.DIAMOND_HOE))
+			return true;
+		return false;
+	}
+
+	public boolean isLeggings(Material mat)
+	{
+		if (mat.equals(Material.LEATHER_LEGGINGS)
+				|| mat.equals(Material.GOLD_LEGGINGS)
+				|| mat.equals(Material.CHAINMAIL_LEGGINGS)
+				|| mat.equals(Material.IRON_LEGGINGS)
+				|| mat.equals(Material.DIAMOND_LEGGINGS))
 		{
 			return true;
 		}
-		return false;
-	}
-
-	public boolean isSword(Material mat)
-	{
-		if (mat.equals(Material.WOOD_SWORD) || mat.equals(Material.STONE_SWORD)
-				|| mat.equals(Material.GOLD_SWORD)
-				|| mat.equals(Material.IRON_SWORD)
-				|| mat.equals(Material.DIAMOND_SWORD))
-			return true;
-		return false;
-	}
-
-	public boolean isAxe(Material mat)
-	{
-		if (mat.equals(Material.WOOD_AXE) || mat.equals(Material.STONE_AXE)
-				|| mat.equals(Material.GOLD_AXE)
-				|| mat.equals(Material.IRON_AXE)
-				|| mat.equals(Material.DIAMOND_AXE))
-			return true;
-		return false;
-	}
-
-	public boolean isSpade(Material mat)
-	{
-		if (mat.equals(Material.WOOD_SPADE) || mat.equals(Material.STONE_SPADE)
-				|| mat.equals(Material.GOLD_SPADE)
-				|| mat.equals(Material.IRON_SPADE)
-				|| mat.equals(Material.DIAMOND_SPADE))
-			return true;
 		return false;
 	}
 
@@ -398,12 +460,22 @@ public class Drops
 		return false;
 	}
 
-	public boolean isHoe(Material mat)
+	public boolean isSpade(Material mat)
 	{
-		if (mat.equals(Material.WOOD_HOE) || mat.equals(Material.STONE_HOE)
-				|| mat.equals(Material.GOLD_HOE)
-				|| mat.equals(Material.IRON_HOE)
-				|| mat.equals(Material.DIAMOND_HOE))
+		if (mat.equals(Material.WOOD_SPADE) || mat.equals(Material.STONE_SPADE)
+				|| mat.equals(Material.GOLD_SPADE)
+				|| mat.equals(Material.IRON_SPADE)
+				|| mat.equals(Material.DIAMOND_SPADE))
+			return true;
+		return false;
+	}
+
+	public boolean isSword(Material mat)
+	{
+		if (mat.equals(Material.WOOD_SWORD) || mat.equals(Material.STONE_SWORD)
+				|| mat.equals(Material.GOLD_SWORD)
+				|| mat.equals(Material.IRON_SWORD)
+				|| mat.equals(Material.DIAMOND_SWORD))
 			return true;
 		return false;
 	}
@@ -417,28 +489,51 @@ public class Drops
 
 	}
 
-	public Material[] allItems()
+	public Material[] leatherArmor()
 	{
 		return new Material[]
 		{
-				Material.DIAMOND_SWORD, Material.DIAMOND_PICKAXE,
-				Material.DIAMOND_SPADE, Material.DIAMOND_AXE,
-				Material.DIAMOND_HOE, Material.IRON_SWORD,
-				Material.IRON_PICKAXE, Material.IRON_SPADE, Material.IRON_AXE,
-				Material.IRON_HOE, Material.GOLD_SWORD, Material.GOLD_PICKAXE,
-				Material.GOLD_SPADE, Material.GOLD_AXE, Material.GOLD_HOE,
-				Material.WOOD_SWORD, Material.WOOD_PICKAXE,
-				Material.WOOD_SPADE, Material.WOOD_AXE, Material.WOOD_HOE,
-				Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
-				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS,
-				Material.IRON_HELMET, Material.IRON_CHESTPLATE,
-				Material.IRON_LEGGINGS, Material.IRON_BOOTS,
-				Material.CHAINMAIL_HELMET, Material.CHAINMAIL_CHESTPLATE,
-				Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS,
-				Material.GOLD_HELMET, Material.GOLD_CHESTPLATE,
-				Material.GOLD_LEGGINGS, Material.GOLD_BOOTS,
-				Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS, Material.BOW
+				Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE,
+				Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS
 		};
+	}
+
+	public Material weaponPicker()
+	{
+		switch (gen.nextInt(5))
+		{
+			case 0:
+				return diamondWeapon(gen.nextInt(5));
+			case 1:
+				return ironWeapon(gen.nextInt(5));
+			case 2:
+				return goldWeapon(gen.nextInt(5));
+			case 3:
+				return woodWeapon(gen.nextInt(5));
+			case 4:
+				return Material.BOW;
+			default:
+				return null;
+		}
+	}
+
+	public Material woodWeapon(int num)
+	{
+		switch (num)
+		{
+			case 1:
+				return Material.WOOD_SWORD;
+			case 2:
+				return Material.WOOD_PICKAXE;
+			case 3:
+				return Material.WOOD_SPADE;
+			case 4:
+				return Material.WOOD_AXE;
+			case 5:
+				return Material.WOOD_HOE;
+			default:
+				return null;
+		}
 	}
 
 }

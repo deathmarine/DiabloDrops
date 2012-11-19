@@ -328,7 +328,7 @@ public class DropsAPI
 		short dur = itemstack.getMaxDurability();
 		try
 		{
-			int newDur = gen.nextInt(dur) + 1;
+			int newDur = gen.nextInt(dur + 1);
 			return (short) newDur;
 		}
 		catch (Exception e)

@@ -176,13 +176,17 @@ public class Effects
 	{
 		if (value > 0)
 		{
-			hit.setHealth(hit.getHealth() - Math.abs(value));
-			hitter.setHealth(hitter.getHealth() + Math.abs(value));
+			int hitHealth = hit.getHealth() - Math.abs(value);
+			int hitterHealth = hitter.getHealth() + Math.abs(value);
+			hit.setHealth(hitHealth);
+			if(hitter.getMaxHealth()<=hitterHealth)hitter.setHealth(hitterHealth);
 		}
 		else if (value < 0)
 		{
-			hitter.setHealth(hitter.getHealth() - Math.abs(value));
-			hit.setHealth(hit.getHealth() + Math.abs(value));
+			int hitterHealth = hitter.getHealth() - Math.abs(value);
+			int hitHealth = hit.getHealth() + Math.abs(value);
+			hitter.setHealth(hitterHealth);
+			if(hit.getMaxHealth()<=hitHealth)hit.setHealth(hitHealth);
 		}
 	}
 }

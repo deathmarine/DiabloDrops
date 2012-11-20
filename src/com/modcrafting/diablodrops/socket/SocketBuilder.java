@@ -5,8 +5,10 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapelessRecipe;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.tier.Tome;
 
 public class SocketBuilder
 {
@@ -28,6 +30,10 @@ public class SocketBuilder
 				
 			}
 		}
+		ShapelessRecipe re = new ShapelessRecipe(new Tome());
+		re.addIngredient(3,Material.BOOK);
+		re.addIngredient(Material.EYE_OF_ENDER);
+		plugin.getServer().addRecipe(re);
 		
 	}
 }

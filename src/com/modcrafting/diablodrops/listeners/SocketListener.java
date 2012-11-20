@@ -7,6 +7,7 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.PreSocketEnhancementEvent;
 import com.modcrafting.diablodrops.events.SocketEnhancementEvent;
+import com.modcrafting.diablodrops.tier.Tome;
 import com.modcrafting.skullapi.lib.Skull;
 import com.modcrafting.toolapi.lib.Tool;
 import com.stirante.PrettyScaryLib.Namer;
@@ -132,7 +134,14 @@ public class SocketListener implements Listener
 			}
 		}
 	}
-
+	//Close enough.
+	@EventHandler
+	public void onCraftItem(CraftItemEvent e) {
+	    ItemStack item = e.getCurrentItem();
+	    if(item.getType().equals(Material.WRITTEN_BOOK)){
+	        e.setCurrentItem(new Tome());
+	    }
+	}
 	public ChatColor findColor(String s)
 	{
 		char[] c = s.toCharArray();

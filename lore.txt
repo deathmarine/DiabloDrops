@@ -96,7 +96,10 @@ Enemies Shrink
 -9 Leech
 -10 Leech
 ## Potions can be added by name ##
+## Configurable ## 
 ## Positive Affects Mobs, Negative Affects The Player ##
+## Note: Some Potion Effects may not effect Mobs/Entities ##
+## Format: {amt} {Name} ##
 1 Invisibility
 2 Invisibility
 3 Invisibility
@@ -117,5 +120,23 @@ Enemies Shrink
 -8 Invisibility
 -9 Invisibility
 -10 Invisibility
-#Example#
--10 Heal
+1 Speed
+2 Speed
+3 Speed
+4 Speed
+5 Speed
+6 Speed
+7 Speed
+8 Speed
+9 Speed
+10 Speed
+-1 Speed
+-2 Speed
+-3 Speed
+-4 Speed
+-5 Speed
+-6 Speed
+-7 Speed
+-8 Speed
+-9 Speed
+-10 Speed

@@ -91,30 +91,43 @@ public class KillListener implements Listener
 	public void setEquipment(CraftItemStack ci, Entity e)
 	{
 		Material mat = ci.getType();
-		EntityLiving ev = ((CraftLivingEntity) e).getHandle();
-		if (drops.isBoots(mat))
-		{
-			ev.setEquipment(1, ci.getHandle());
-		}
-		else if (drops.isChestPlate(mat))
-		{
-			ev.setEquipment(3, ci.getHandle());
-		}
-		else if (drops.isLeggings(mat))
-		{
-			ev.setEquipment(2, ci.getHandle());
-		}
-		else if (drops.isHelmet(mat))
-		{
-			ev.setEquipment(4, ci.getHandle());
-		}
-		else
-		{
-			ev.setEquipment(0, ci.getHandle());
+		if(equipEntity((LivingEntity) e)){
+			EntityLiving ev = ((CraftLivingEntity) e).getHandle();
+			if (drops.isBoots(mat))
+			{
+				ev.setEquipment(1, ci.getHandle());
+			}
+			else if (drops.isChestPlate(mat))
+			{
+				ev.setEquipment(3, ci.getHandle());
+			}
+			else if (drops.isLeggings(mat))
+			{
+				ev.setEquipment(2, ci.getHandle());
+			}
+			else if (drops.isHelmet(mat))
+			{
+				ev.setEquipment(4, ci.getHandle());
+			}
+			else
+			{
+				ev.setEquipment(0, ci.getHandle());
+			}
+			
 		}
 
 	}
-
+	public boolean equipEntity(LivingEntity e){
+		switch(e.getType()){
+			case ZOMBIE:
+			case PIG_ZOMBIE:
+			case SKELETON:
+				return true;
+		default:
+			return false;
+		}
+	}
+	
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent event)
 	{

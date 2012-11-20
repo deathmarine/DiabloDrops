@@ -20,7 +20,7 @@ import com.modcrafting.diablodrops.tier.Drop;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.Tome;
 import com.modcrafting.toolapi.lib.Tool;
-import com.stirante.ItemNamer.Namer;
+import com.stirante.PrettyScaryLib.Namer;
 
 public class DropsAPI
 {
@@ -48,9 +48,19 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
-					ci = new Drop(mat, tier.getColor(),
-							ChatColor.stripColor(name), damageItemStack(mat),
+					if (plugin.config.getBoolean("DropFix.Damage",
+							true)){
+						
+						ci = new Drop(mat, tier.getColor(),
+								ChatColor.stripColor(name), damageItemStack(mat),
+								tier.getColor() + tier.getName());
+						
+					}else{
+						ci = new Drop(mat, tier.getColor(),
+							ChatColor.stripColor(name), mat.getMaxDurability(),
 							tier.getColor() + tier.getName());
+						
+					}
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);
@@ -121,9 +131,18 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
-					ci = new Drop(mat, tier.getColor(), name(),
-							damageItemStack(mat), tier.getColor()
-									+ tier.getName());
+					if (plugin.config.getBoolean("DropFix.Damage",
+							true)){
+						
+						ci = new Drop(mat, tier.getColor(),
+								ChatColor.stripColor(name()), damageItemStack(mat),
+								tier.getColor() + tier.getName());
+						
+					}else{
+						ci = new Drop(mat, tier.getColor(),
+							ChatColor.stripColor(name()), mat.getMaxDurability(),
+							tier.getColor() + tier.getName());
+					}
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);

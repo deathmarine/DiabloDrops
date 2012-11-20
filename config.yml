@@ -11,6 +11,8 @@ Reason:
 #If false will on drop only special items#
 DropFix:
   Equipment: false
+  #Adds Damages to all drops#
+  Damage: true
 #When adding enchantments, only allow safe or item specific enchantments#
 SafeEnchant:
   Enabled: false

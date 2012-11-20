@@ -1,4 +1,4 @@
-package com.stirante.ItemNamer;
+package com.stirante.PrettyScaryLib;
 
 import java.util.ArrayList;
 

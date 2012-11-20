@@ -16,7 +16,7 @@ import com.modcrafting.diablodrops.events.PreSocketEnhancementEvent;
 import com.modcrafting.diablodrops.events.SocketEnhancementEvent;
 import com.modcrafting.skullapi.lib.Skull;
 import com.modcrafting.toolapi.lib.Tool;
-import com.stirante.ItemNamer.Namer;
+import com.stirante.PrettyScaryLib.Namer;
 
 public class SocketListener implements Listener
 {

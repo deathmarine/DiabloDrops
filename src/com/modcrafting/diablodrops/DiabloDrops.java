@@ -31,7 +31,7 @@ import com.modcrafting.diablodrops.socket.SocketBuilder;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.TierBuilder;
 import com.modcrafting.toolapi.lib.Tool;
-import com.stirante.ItemNamer.Namer;
+import com.stirante.PrettyScaryLib.Namer;
 
 public class DiabloDrops extends JavaPlugin
 {

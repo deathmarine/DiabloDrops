@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import com.modcrafting.toolapi.lib.Tool;
-import com.stirante.ItemNamer.Namer;
+import com.stirante.PrettyScaryLib.Namer;
 
 public class Drop extends Tool
 {

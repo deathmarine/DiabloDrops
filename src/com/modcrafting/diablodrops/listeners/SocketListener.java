@@ -127,11 +127,11 @@ public class SocketListener implements Listener
 						return;
 					}
 				}
-				event.setCancelled(true);
-				event.setBurning(false);
-				event.setBurnTime(120000);
-				return;
 			}
+			event.setCancelled(true);
+			event.setBurning(false);
+			event.setBurnTime(120000);
+			return;
 		}
 	}
 	//Close enough.

@@ -170,23 +170,4 @@ public class Effects
 	{
 		entity.setFireTicks(20 * 3 * Math.abs(value));
 	}
-
-	public static void leechLife(LivingEntity hit, LivingEntity hitter,
-			int value)
-	{
-		if (value > 0)
-		{
-			int hitHealth = hit.getHealth() - Math.abs(value);
-			int hitterHealth = hitter.getHealth() + Math.abs(value);
-			hit.setHealth(hitHealth);
-			if(hitter.getMaxHealth()<=hitterHealth)hitter.setHealth(hitterHealth);
-		}
-		else if (value < 0)
-		{
-			int hitterHealth = hitter.getHealth() - Math.abs(value);
-			int hitHealth = hit.getHealth() + Math.abs(value);
-			hitter.setHealth(hitterHealth);
-			if(hit.getMaxHealth()<=hitHealth)hit.setHealth(hitHealth);
-		}
-	}
 }

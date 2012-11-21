@@ -96,9 +96,10 @@ public class EffectsListener implements Listener
 					if (is != null && !is.getType().equals(Material.AIR))
 						toolSet.add(new Tool((CraftItemStack) is));
 				}
-				if (player.getItemInHand() != null)
-					toolSet.add(new Tool((CraftItemStack) player
-							.getItemInHand()));
+				//No armor effects for damage on player holding drop.
+				//if (player.getItemInHand() != null)
+					//toolSet.add(new Tool((CraftItemStack) player
+							//.getItemInHand()));
 				for (Tool tool : toolSet)
 				{
 
@@ -223,6 +224,7 @@ public class EffectsListener implements Listener
 		}
 		else if (StringUtils.containsIgnoreCase(string, "leech"))
 		{
+			//Was throwing IllegalArgumentException. Put it in line, but works.
 			String[] args = string.split(" ");
 			Integer integer = null;
 			try
@@ -232,11 +234,24 @@ public class EffectsListener implements Listener
 			catch (NumberFormatException e)
 			{
 			}
-			if (integer != null)
+			if (integer != null&&
+					event.getEntity() instanceof LivingEntity&&
+					event instanceof EntityDamageByEntityEvent)
 			{
-				int value = integer.intValue();
-				Effects.leechLife((LivingEntity) event.getEntity(), player,
-						value);
+				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+				LivingEntity dam = (LivingEntity) e.getEntity();
+				LivingEntity damr = (LivingEntity) e.getDamager();
+				if(integer>0){
+					int chng = integer-dam.getHealth();
+					if(chng<dam.getMaxHealth()&&chng>0)dam.setHealth(chng);
+					chng = integer+damr.getHealth();
+					if(chng<damr.getMaxHealth()&&chng>0)damr.setHealth(chng);
+				}else if(integer<0){
+					int chng = integer+dam.getHealth();
+					if(chng<dam.getMaxHealth()&&chng>0)dam.setHealth(chng);
+					chng = integer-damr.getHealth();
+					if(chng<damr.getMaxHealth()&&chng>0)damr.setHealth(chng);
+				}
 			}
 		}
 		for (PotionEffectType effect : PotionEffectType.values())

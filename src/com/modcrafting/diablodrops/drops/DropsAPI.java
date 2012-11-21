@@ -48,18 +48,22 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
-					if (plugin.config.getBoolean("DropFix.Damage",
-							true)){
-						
+					if (plugin.config.getBoolean("DropFix.Damage", true))
+					{
+
 						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name), damageItemStack(mat),
-								tier.getColor() + tier.getName());
-						
-					}else{
+								ChatColor.stripColor(name),
+								damageItemStack(mat), tier.getColor()
+										+ tier.getName());
+
+					}
+					else
+					{
 						ci = new Drop(mat, tier.getColor(),
-							ChatColor.stripColor(name), mat.getMaxDurability(),
-							tier.getColor() + tier.getName());
-						
+								ChatColor.stripColor(name),
+								mat.getMaxDurability(), tier.getColor()
+										+ tier.getName());
+
 					}
 					for (; e > 0; e--)
 					{
@@ -131,17 +135,21 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
-					if (plugin.config.getBoolean("DropFix.Damage",
-							true)){
-						
+					if (plugin.config.getBoolean("DropFix.Damage", true))
+					{
+
 						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name()), damageItemStack(mat),
-								tier.getColor() + tier.getName());
-						
-					}else{
+								ChatColor.stripColor(name()),
+								damageItemStack(mat), tier.getColor()
+										+ tier.getName());
+
+					}
+					else
+					{
 						ci = new Drop(mat, tier.getColor(),
-							ChatColor.stripColor(name()), mat.getMaxDurability(),
-							tier.getColor() + tier.getName());
+								ChatColor.stripColor(name()),
+								mat.getMaxDurability(), tier.getColor()
+										+ tier.getName());
 					}
 					for (; e > 0; e--)
 					{
@@ -389,6 +397,16 @@ public class DropsAPI
 				return true;
 		}
 		return false;
+	}
+
+	public Tier getTier(String name)
+	{
+		for (Tier tier : plugin.tiers)
+		{
+			if (tier.getName().equalsIgnoreCase(name))
+				return tier;
+		}
+		return null;
 	}
 
 	public boolean wearingSet(Player player)

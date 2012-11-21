@@ -26,7 +26,6 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
-import com.modcrafting.diablodrops.socket.gem.SocketItem;
 
 public class KillListener implements Listener
 {
@@ -113,10 +112,9 @@ public class KillListener implements Listener
 		{
 			ev.setEquipment(0, ci.getHandle());
 		}
-			
 
 	}
-	
+
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent event)
 	{
@@ -130,41 +128,39 @@ public class KillListener implements Listener
 				{
 					List<String> l = plugin.config
 							.getStringList("SocketItem.Items");
-					for(String m:l){
-						if(CraftItemStack.asBukkitStack(mItem).getType().equals(
-								Material.valueOf(m.toUpperCase()))){
-							dropItem(mItem,loc);
-							return;							
+					for (String m : l)
+					{
+						if (CraftItemStack.asBukkitStack(mItem).getType()
+								.equals(Material.valueOf(m.toUpperCase())))
+						{
+							dropItem(mItem, loc);
+							return;
 						}
-						
+
 					}
 					if (dropfix || mItem.getItem() == Item.WRITTEN_BOOK)
 					{
-						dropItem(mItem,loc);
-						return;		
+						dropItem(mItem, loc);
+						return;
 					}
-					else
+					if (mItem.tag != null)
 					{
-						if (mItem.tag != null)
+						NBTTagCompound nc = mItem.tag.getCompound("display");
+						if (nc != null)
 						{
-							NBTTagCompound nc = mItem.tag
-									.getCompound("display");
-							if (nc != null)
+							String sg = nc.getString("Name");
+							if (sg != null
+									&& sg.contains(new Character((char) 167)
+											.toString()))
 							{
-								String sg = nc.getString("Name");
-								if (sg != null
-										&& sg.contains(new Character((char) 167)
-												.toString()))
-								{
-									EntityDropItemEvent edie = new EntityDropItemEvent(
-											event.getEntity());
-									plugin.getServer().getPluginManager()
-											.callEvent(edie);
-									if (edie.isCancelled())
-										return;
-									dropItem(mItem,loc);
-									return;		
-								}
+								EntityDropItemEvent edie = new EntityDropItemEvent(
+										event.getEntity());
+								plugin.getServer().getPluginManager()
+										.callEvent(edie);
+								if (edie.isCancelled())
+									return;
+								dropItem(mItem, loc);
+								return;
 							}
 						}
 					}

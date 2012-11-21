@@ -47,7 +47,7 @@ public class DiabloDrops extends JavaPlugin
 	public DropsAPI dropsAPI;
 	public Drops drop = new Drops();
 	public Namer itemNamer;
-	public List<String> multiW;
+	public List<String> multiW = new ArrayList<String>();
 
 	private static DiabloDrops instance;
 

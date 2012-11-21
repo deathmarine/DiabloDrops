@@ -29,6 +29,9 @@ Lore:
   Enabled: true
   Chance: 5
   EnhanceAmount: 2
+#Changing the way that a few things are displayed#
+Display:
+  TierName: true
 #Allow the drop of book to "identify" Magic color items#
 IdentifyTome:
   Enabled: true

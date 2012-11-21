@@ -50,20 +50,35 @@ public class DropsAPI
 					int l = tier.getLevels();
 					if (plugin.config.getBoolean("DropFix.Damage", true))
 					{
-
-						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name),
-								damageItemStack(mat), tier.getColor()
-										+ tier.getName());
-
+						if (plugin.config.getBoolean("Display.TierName", true))
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									damageItemStack(mat), tier.getColor()
+											+ tier.getName());
+						}
+						else
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									damageItemStack(mat));
+						}
 					}
 					else
 					{
-						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name),
-								mat.getMaxDurability(), tier.getColor()
-										+ tier.getName());
-
+						if (plugin.config.getBoolean("Display.TierName", true))
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									(short) (mat.getMaxDurability() - 1),
+									tier.getColor() + tier.getName());
+						}
+						else
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									(short) (mat.getMaxDurability() - 1));
+						}
 					}
 					for (; e > 0; e--)
 					{
@@ -75,37 +90,48 @@ public class DropsAPI
 							if (plugin.config.getBoolean("SafeEnchant.Enabled",
 									true))
 							{
-								makeSafe(ench, ci, lvl);
+								if (ench.canEnchantItem(ci))
+								{
+									if (lvl >= ench.getStartLevel()
+											&& lvl <= ench.getMaxLevel())
+									{
+										try
+										{
+											ci.addEnchantment(ench, lvl);
+										}
+										catch (Exception e1)
+										{
+										}
+									}
+								}
 							}
 							else
 							{
 								ci.addUnsafeEnchantment(ench, lvl);
 							}
-							
 						}
-						if (plugin.config.getBoolean("SocketItem.Enabled",
-								true)
-								&& gen.nextInt(100) <= plugin.config
-										.getInt("SocketItem.Chance", 5)
-								&& !tier.getColor().equals(ChatColor.MAGIC))
+					}
+					if (plugin.config.getBoolean("SocketItem.Enabled", true)
+							&& gen.nextInt(100) <= plugin.config.getInt(
+									"SocketItem.Chance", 5)
+							&& !tier.getColor().equals(ChatColor.MAGIC))
+					{
+						Namer.addLore(ci, "(Socket)");
+						return ci;
+					}
+					if (plugin.config.getBoolean("Lore.Enabled", true)
+							&& gen.nextInt(100) <= plugin.config.getInt(
+									"Lore.Chance", 5)
+							&& !tier.getColor().equals(ChatColor.MAGIC))
+					{
+						Tool tool = new Tool(ci);
+						for (int i = 0; i < plugin.config.getInt(
+								"Lore.EnhanceAmount", 2); i++)
 						{
-							Namer.addLore(ci, "(Socket)");
-							return ci;
+							tool.setLore(plugin.lore.get(plugin.gen
+									.nextInt(plugin.lore.size())));
 						}
-						if (plugin.config.getBoolean("Lore.Enabled", true)
-								&& gen.nextInt(100) <= plugin.config
-										.getInt("Lore.Chance", 5)
-								&& !tier.getColor().equals(ChatColor.MAGIC))
-						{
-							Tool tool = new Tool(ci);
-							for (int i = 0; i < plugin.config.getInt(
-									"Lore.EnhanceAmount", 2); i++)
-							{
-								tool.setLore(plugin.lore.get(plugin.gen
-										.nextInt(plugin.lore.size())));
-							}
-							return tool;
-						}
+						return tool;
 					}
 				}
 			}
@@ -136,19 +162,35 @@ public class DropsAPI
 					int l = tier.getLevels();
 					if (plugin.config.getBoolean("DropFix.Damage", true))
 					{
-
-						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name()),
-								damageItemStack(mat), tier.getColor()
-										+ tier.getName());
-
+						if (plugin.config.getBoolean("Display.TierName", true))
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									damageItemStack(mat), tier.getColor()
+											+ tier.getName());
+						}
+						else
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									damageItemStack(mat));
+						}
 					}
 					else
 					{
-						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name()),
-								mat.getMaxDurability(), tier.getColor()
-										+ tier.getName());
+						if (plugin.config.getBoolean("Display.TierName", true))
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									(short) (mat.getMaxDurability() - 1),
+									tier.getColor() + tier.getName());
+						}
+						else
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									(short) (mat.getMaxDurability() - 1));
+						}
 					}
 					for (; e > 0; e--)
 					{
@@ -160,7 +202,20 @@ public class DropsAPI
 							if (plugin.config.getBoolean("SafeEnchant.Enabled",
 									true))
 							{
-								makeSafe(ench, ci, lvl);
+								if (ench.canEnchantItem(ci))
+								{
+									if (lvl >= ench.getStartLevel()
+											&& lvl <= ench.getMaxLevel())
+									{
+										try
+										{
+											ci.addEnchantment(ench, lvl);
+										}
+										catch (Exception e1)
+										{
+										}
+									}
+								}
 							}
 							else
 							{
@@ -220,7 +275,40 @@ public class DropsAPI
 					{
 						int e = tier.getAmount();
 						int l = tier.getLevels();
-						ci = new Drop(mat, tier.getColor(), name());
+						if (plugin.config.getBoolean("DropFix.Damage", true))
+						{
+							if (plugin.config.getBoolean("Display.TierName",
+									true))
+							{
+								ci = new Drop(mat, tier.getColor(),
+										ChatColor.stripColor(name()),
+										damageItemStack(mat), tier.getColor()
+												+ tier.getName());
+							}
+							else
+							{
+								ci = new Drop(mat, tier.getColor(),
+										ChatColor.stripColor(name()),
+										damageItemStack(mat));
+							}
+						}
+						else
+						{
+							if (plugin.config.getBoolean("Display.TierName",
+									true))
+							{
+								ci = new Drop(mat, tier.getColor(),
+										ChatColor.stripColor(name()),
+										(short) (mat.getMaxDurability() - 1),
+										tier.getColor() + tier.getName());
+							}
+							else
+							{
+								ci = new Drop(mat, tier.getColor(),
+										ChatColor.stripColor(name()),
+										(short) (mat.getMaxDurability() - 1));
+							}
+						}
 						for (; e > 0; e--)
 						{
 							int lvl = gen.nextInt(l + 1);
@@ -231,7 +319,20 @@ public class DropsAPI
 								if (plugin.config.getBoolean(
 										"SafeEnchant.Enabled", true))
 								{
-									makeSafe(ench, ci, lvl);
+									if (ench.canEnchantItem(ci))
+									{
+										if (lvl >= ench.getStartLevel()
+												&& lvl <= ench.getMaxLevel())
+										{
+											try
+											{
+												ci.addEnchantment(ench, lvl);
+											}
+											catch (Exception e1)
+											{
+											}
+										}
+									}
 								}
 								else
 								{
@@ -373,15 +474,18 @@ public class DropsAPI
 		return prefix + " " + suffix;
 	}
 
-	public void makeSafe(Enchantment ench, CraftItemStack citem, int level)
+	public CraftItemStack makeSafe(Enchantment ench, CraftItemStack citem,
+			int level)
 	{
-		try
+		CraftItemStack cis = citem;
+		if (ench.canEnchantItem(cis))
 		{
-			citem.addEnchantment(ench, level);
+			if (level >= ench.getStartLevel() && level <= ench.getMaxLevel())
+			{
+				cis.addEnchantment(ench, level);
+			}
 		}
-		catch (IllegalArgumentException e)
-		{
-		}
+		return cis;
 	}
 
 	public boolean matchesTier(String type)

@@ -47,6 +47,7 @@ public class DiabloDrops extends JavaPlugin
 	public DropsAPI dropsAPI;
 	public Drops drop = new Drops();
 	public Namer itemNamer;
+	public List<String> multiW;
 
 	private static DiabloDrops instance;
 
@@ -76,6 +77,16 @@ public class DiabloDrops extends JavaPlugin
 		config = this.getConfig();
 		dropsAPI = new DropsAPI(this);
 		itemNamer = new Namer();
+		if (config.getBoolean("Worlds.Enabled", false))
+		{
+			List<String> fixCase = new ArrayList<String>();
+			for (String s : config.getStringList("Worlds.Allowed"))
+			{
+				fixCase.add(s.toLowerCase());
+			}
+			if (fixCase.size() > 0)
+				multiW = fixCase;
+		}
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(new KillListener(this), this);
 		pm.registerEvents(new TomeListener(this), this);

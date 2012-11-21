@@ -33,6 +33,10 @@ public class ChunkListener implements Listener
 		{
 			return;
 		}
+		if (!plugin.multiW.contains(event.getWorld().getName()))
+		{
+			return;
+		}
 		Chunk chunk = event.getChunk();
 		int genInt = plugin.gen.nextInt(100) + 1;
 		int confChance = plugin.config.getInt("Ruins.Chance", 1);

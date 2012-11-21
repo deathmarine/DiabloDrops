@@ -1,6 +1,5 @@
 package com.modcrafting.diablodrops.listeners;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.EntityItem;
@@ -29,13 +28,12 @@ import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
 
 public class KillListener implements Listener
 {
-	DiabloDrops plugin;
-	Drops drops = new Drops();
-	boolean spawner;
-	boolean egg;
-	int chance;
-	boolean dropfix;
-	List<String> multiW;
+	private DiabloDrops plugin;
+	private Drops drops = new Drops();
+	private boolean spawner;
+	private boolean egg;
+	private int chance;
+	private boolean dropfix;
 
 	public KillListener(DiabloDrops instance)
 	{
@@ -44,26 +42,15 @@ public class KillListener implements Listener
 		egg = plugin.config.getBoolean("Reason.Egg", true);
 		chance = plugin.config.getInt("Precentages.ChancePerSpawn", 3);
 		dropfix = plugin.config.getBoolean("DropFix.Equipment", false);
-		// Fix Case
-		if (plugin.config.getBoolean("Worlds.Enabled", false))
-		{
-			List<String> fixCase = new ArrayList<String>();
-			for (String s : plugin.config.getStringList("Worlds.Allowed"))
-			{
-				fixCase.add(s.toLowerCase());
-			}
-			if (fixCase.size() > 0)
-				multiW = fixCase;
-		}
 	}
 
 	@EventHandler
 	public void onSpawn(CreatureSpawnEvent event)
 	{
 		LivingEntity entity = event.getEntity();
-		if (multiW != null
-				&& !multiW.contains(entity.getLocation().getWorld().getName()
-						.toLowerCase()))
+		if (plugin.multiW != null
+				&& !plugin.multiW.contains(entity.getLocation().getWorld()
+						.getName().toLowerCase()))
 			return;
 		if (spawner && event.getSpawnReason().equals(SpawnReason.SPAWNER))
 			return;
@@ -121,6 +108,10 @@ public class KillListener implements Listener
 		if (event.getEntity() instanceof Monster)
 		{
 			Location loc = event.getEntity().getLocation();
+			if (!plugin.multiW.contains(loc.getWorld().getName()))
+			{
+				return;
+			}
 			for (net.minecraft.server.ItemStack mItem : ((CraftLivingEntity) event
 					.getEntity()).getHandle().getEquipment())
 			{

@@ -26,6 +26,7 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
+import com.modcrafting.diablodrops.socket.gem.SocketItem;
 
 public class KillListener implements Listener
 {
@@ -127,9 +128,20 @@ public class KillListener implements Listener
 			{
 				if (mItem != null)
 				{
+					List<String> l = plugin.config
+							.getStringList("SocketItem.Items");
+					for(String m:l){
+						if(CraftItemStack.asBukkitStack(mItem).getType().equals(
+								Material.valueOf(m.toUpperCase()))){
+							dropItem(mItem,loc);
+							return;							
+						}
+						
+					}
 					if (dropfix || mItem.getItem() == Item.WRITTEN_BOOK)
 					{
-						dropItem(mItem, loc);
+						dropItem(mItem,loc);
+						return;		
 					}
 					else
 					{
@@ -150,7 +162,8 @@ public class KillListener implements Listener
 											.callEvent(edie);
 									if (edie.isCancelled())
 										return;
-									dropItem(mItem, loc);
+									dropItem(mItem,loc);
+									return;		
 								}
 							}
 						}

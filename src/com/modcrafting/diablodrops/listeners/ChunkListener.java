@@ -33,7 +33,7 @@ public class ChunkListener implements Listener
 		{
 			return;
 		}
-		if (!plugin.multiW.contains(event.getWorld().getName()))
+		if (!plugin.multiW.contains(event.getWorld().getName())&& plugin.config.getBoolean("Worlds.Enabled", false))
 		{
 			return;
 		}

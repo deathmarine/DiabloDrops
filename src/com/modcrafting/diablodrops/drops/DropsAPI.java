@@ -101,6 +101,7 @@ public class DropsAPI
 										}
 										catch (Exception e1)
 										{
+											e++;
 										}
 									}
 								}
@@ -213,6 +214,7 @@ public class DropsAPI
 										}
 										catch (Exception e1)
 										{
+											e++;
 										}
 									}
 								}
@@ -330,6 +332,7 @@ public class DropsAPI
 											}
 											catch (Exception e1)
 											{
+												e++;
 											}
 										}
 									}
@@ -474,20 +477,6 @@ public class DropsAPI
 		return prefix + " " + suffix;
 	}
 
-	public CraftItemStack makeSafe(Enchantment ench, CraftItemStack citem,
-			int level)
-	{
-		CraftItemStack cis = citem;
-		if (ench.canEnchantItem(cis))
-		{
-			if (level >= ench.getStartLevel() && level <= ench.getMaxLevel())
-			{
-				cis.addEnchantment(ench, level);
-			}
-		}
-		return cis;
-	}
-
 	public boolean matchesTier(String type)
 	{
 		for (Tier tier : plugin.tiers)
@@ -570,7 +559,14 @@ public class DropsAPI
 						if (plugin.config.getBoolean("SafeEnchant.Enabled",
 								true))
 						{
-							makeSafe(ench, tool, lvl);
+							try
+							{
+								tool.addEnchantment(ench, lvl);
+							}
+							catch (Exception e1)
+							{
+								e++;
+							}
 						}
 						else
 						{

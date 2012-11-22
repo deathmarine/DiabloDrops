@@ -12,6 +12,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.toolapi.lib.Tool;
 
@@ -60,16 +61,21 @@ public class DropsCustom
 			tool.setName(color + name);
 			for (String s : lore)
 			{
-				tool.setLore(ChatColor.translateAlternateColorCodes("&".toCharArray()[0], s));
+				tool.setLore(ChatColor.translateAlternateColorCodes(
+						"&".toCharArray()[0], s));
 			}
 			ConfigurationSection cs1 = cs
 					.getConfigurationSection("Enchantments");
-			for (String ench : cs1.getKeys(false))
+			if (cs1 != null)
 			{
-				Enchantment encha = Enchantment.getByName(ench.toUpperCase());
-				if (encha == null)
-					continue;
-				tool.addUnsafeEnchantment(encha, cs1.getInt(ench));
+				for (String ench : cs1.getKeys(false))
+				{
+					Enchantment encha = Enchantment.getByName(ench
+							.toUpperCase());
+					if (encha == null)
+						continue;
+					tool.addUnsafeEnchantment(encha, cs1.getInt(ench));
+				}
 			}
 			plugin.custom.add(tool);
 		}

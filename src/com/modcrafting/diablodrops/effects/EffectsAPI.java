@@ -30,10 +30,11 @@ public class EffectsAPI
 			Player striker = (Player) entityStriker;
 			List<ItemStack> strikerEquipment = new ArrayList<ItemStack>();
 			strikerEquipment.add(striker.getItemInHand());
-			strikerEquipment.addAll(Arrays.asList(striker.getInventory()
-					.getArmorContents()));
-			for(String s:listEffects(strikerEquipment)){
-				addEffect(s,event,true);
+			// strikerEquipment.addAll(Arrays.asList(striker.getInventory()
+			// .getArmorContents()));
+			for (String s : listEffects(strikerEquipment))
+			{
+				addEffect(s, event, true);
 			}
 		}
 		if (entityStruck instanceof Player)
@@ -42,8 +43,9 @@ public class EffectsAPI
 			List<ItemStack> struckEquipment = new ArrayList<ItemStack>();
 			struckEquipment.addAll(Arrays.asList(struck.getInventory()
 					.getArmorContents()));
-			for(String s:listEffects(struckEquipment)){
-				addEffect(s,event,false);
+			for (String s : listEffects(struckEquipment))
+			{
+				addEffect(s, event, false);
 			}
 		}
 	}
@@ -72,27 +74,33 @@ public class EffectsAPI
 	}
 
 	private static void addEffect(String string,
-			EntityDamageByEntityEvent event,boolean strike)
+			EntityDamageByEntityEvent event, boolean strike)
 	{
-		
 		LivingEntity struck = null;
 		LivingEntity striker = null;
-		if(strike){
+		if (strike)
+		{
 			struck = (LivingEntity) event.getEntity();
-			if(event.getDamager() instanceof Projectile){
+			if (event.getDamager() instanceof Projectile)
+			{
 				striker = ((Projectile) event.getDamager()).getShooter();
-			}else if (event.getDamager() instanceof LivingEntity){
+			}
+			else if (event.getDamager() instanceof LivingEntity)
+			{
 				striker = (LivingEntity) event.getDamager();
 			}
-		}else{
+		}
+		else
+		{
 			striker = (LivingEntity) event.getEntity();
-			if(event.getDamager() instanceof Projectile){
+			if (event.getDamager() instanceof Projectile)
+			{
 				struck = ((Projectile) event.getDamager()).getShooter();
-			}else if (event.getDamager() instanceof LivingEntity){
+			}
+			else if (event.getDamager() instanceof LivingEntity)
+			{
 				struck = (LivingEntity) event.getDamager();
 			}
-			
-			
 		}
 		String[] args = string.split(" ");
 		if (args.length == 0 || args.length == 1)
@@ -132,9 +140,9 @@ public class EffectsAPI
 			{
 				return;
 			}
-			if (fl > 0&&struck instanceof Monster)
+			if (fl > 0 && struck instanceof Monster)
 				Effects.speed(struck, Math.abs(fl) / 500);
-			else if (fl < 0&&striker instanceof Monster)
+			else if (fl < 0 && striker instanceof Monster)
 				Effects.speed(striker, Math.abs(fl) / 500);
 			return;
 		}
@@ -190,19 +198,20 @@ public class EffectsAPI
 		{
 			for (PotionEffectType potionEffect : PotionEffectType.values())
 			{
-				if (potionEffect == null||!potionEffect.getName().equalsIgnoreCase(args[1]))
+				if (potionEffect == null
+						|| !potionEffect.getName().equalsIgnoreCase(args[1]))
 					continue;
 				if (level.intValue() > 0)
 				{
-					struck.addPotionEffect(new PotionEffect(potionEffect,
-							Math.abs(level.intValue()) * 100, Math
-									.abs(level.intValue())));
+					struck.addPotionEffect(new PotionEffect(potionEffect, Math
+							.abs(level.intValue()) * 100, Math.abs(level
+							.intValue())));
 				}
 				else if (level.intValue() < 0)
 				{
-					striker.addPotionEffect(new PotionEffect(potionEffect,
-							Math.abs(level.intValue()) * 100, Math
-									.abs(level.intValue())));
+					striker.addPotionEffect(new PotionEffect(potionEffect, Math
+							.abs(level.intValue()) * 100, Math.abs(level
+							.intValue())));
 				}
 				return;
 			}

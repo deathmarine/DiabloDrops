@@ -39,6 +39,11 @@ import com.modcrafting.diablodrops.DiabloDrops;
 public class Effects
 {
 	// Why? Cause we can.
+	/**
+	 * Makes entity into baby
+	 * 
+	 * @param entity
+	 */
 	public static void makeBaby(LivingEntity e)
 	{
 		if (e instanceof Zombie)
@@ -84,11 +89,26 @@ public class Effects
 		}
 	}
 
+	/**
+	 * Add potion effect to entity
+	 * 
+	 * @param entity
+	 * @param potion
+	 *            type
+	 * @param duration
+	 */
 	public static void potionEffect(LivingEntity e, PotionEffectType ef, int dur)
 	{
 		e.addPotionEffect(new PotionEffect(ef, dur, 2));
 	}
 
+	/**
+	 * Change the speed of an entity
+	 * 
+	 * @param entity
+	 * @param speed
+	 *            modifier
+	 */
 	public static void speed(LivingEntity e, Float sp)
 	{
 		try
@@ -125,6 +145,14 @@ public class Effects
 		}
 	}
 
+	/**
+	 * Strikes lightning on location a specified number of times
+	 * 
+	 * @param location
+	 *            to strike
+	 * @param times
+	 *            to strike
+	 */
 	public static void strikeLightning(final Location location, final int times)
 	{
 		final World world = location.getWorld();
@@ -144,6 +172,14 @@ public class Effects
 		}
 	}
 
+	/**
+	 * Set entity on fire for specified value of time
+	 * 
+	 * @param entity
+	 *            to set on fire
+	 * @param value
+	 *            of time
+	 */
 	public static void setOnFire(LivingEntity entity, int value)
 	{
 		entity.setFireTicks(20 * 3 * Math.abs(value));

@@ -9,6 +9,11 @@ public class Drops
 {
 	Random gen = new Random();
 
+	/**
+	 * Returns an array of Materials that the plugin can use
+	 * 
+	 * @return all items that the plugin can use
+	 */
 	public Material[] allItems()
 	{
 		return new Material[]
@@ -35,6 +40,12 @@ public class Drops
 		};
 	}
 
+	/**
+	 * Returns the helmet, chestplate, leggings, and boots of a random material
+	 * type
+	 * 
+	 * @return the helmet, chestplate, leggings, and boots of a random material
+	 */
 	public Material[] armorPicker()
 	{
 		switch (gen.nextInt(4))
@@ -54,6 +65,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Returns the helmet, chestplate, leggings, and boots
+	 * 
+	 * @return helmet, chestplate, leggings, and boots
+	 */
 	public Material[] chainmailArmor()
 	{
 		return new Material[]
@@ -63,6 +79,11 @@ public class Drops
 		};
 	}
 
+	/**
+	 * Returns the helmet, chestplate, leggings, and boots
+	 * 
+	 * @return helmet, chestplate, leggings, and boots
+	 */
 	public Material[] diamondArmor()
 	{
 		return new Material[]
@@ -72,6 +93,18 @@ public class Drops
 		};
 	}
 
+	/**
+	 * Returns a kind of diamond tool
+	 * 1 - DIAMOND_SWORD
+	 * 2 - DIAMOND_PICKAXE
+	 * 3 - DIAMOND_SPADE
+	 * 4 - DIAMOND_AXE
+	 * 5 - DIAMOND_HOE
+	 * 
+	 * @param kind
+	 *            to return
+	 * @return kind of diamond tool
+	 */
 	public Material diamondWeapon(int num)
 	{
 		switch (num)
@@ -91,6 +124,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Returns a random enchantment
+	 * 
+	 * @return random enchantment
+	 */
 	public Enchantment enchant()
 	{
 		switch (gen.nextInt(22))
@@ -142,6 +180,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets a random kind of boot
+	 * 
+	 * @return random kind of boot
+	 */
 	public Material getBoots()
 	{
 		switch (gen.nextInt(6))
@@ -161,6 +204,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets random kind of chestplate
+	 * 
+	 * @return random kind of chestplate
+	 */
 	public Material getChestPlate()
 	{
 		switch (gen.nextInt(6))
@@ -180,6 +228,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets random kind of helmet
+	 * 
+	 * @return random kind of helmet
+	 */
 	public Material getHelmet()
 	{
 		switch (gen.nextInt(6))
@@ -199,6 +252,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets random kind of leggings
+	 * 
+	 * @return random kind of leggings
+	 */
 	public Material getLeggings()
 	{
 		switch (gen.nextInt(6))
@@ -218,6 +276,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets random kind of sword
+	 * 
+	 * @return random kind of sword
+	 */
 	public Material getSword()
 	{
 		switch (gen.nextInt(6))
@@ -237,6 +300,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets random kind of pickaxe
+	 * 
+	 * @return random kind of pickaxe
+	 */
 	public Material getPickaxe()
 	{
 		switch (gen.nextInt(6))
@@ -256,6 +324,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets random type of axe
+	 * 
+	 * @return random type of axe
+	 */
 	public Material getAxe()
 	{
 		switch (gen.nextInt(6))
@@ -275,6 +348,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets random kind of spade
+	 * 
+	 * @return random kind of spade
+	 */
 	public Material getSpade()
 	{
 		switch (gen.nextInt(6))
@@ -294,6 +372,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Gets random kind of hoe
+	 * 
+	 * @return random kind of hoe
+	 */
 	public Material getHoe()
 	{
 		switch (gen.nextInt(6))
@@ -313,6 +396,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Returns the helmet, chestplate, leggings, and boots
+	 * 
+	 * @return helmet, chestplate, leggings, and boots
+	 */
 	public Material[] goldArmor()
 	{
 		return new Material[]
@@ -322,6 +410,18 @@ public class Drops
 		};
 	}
 
+	/**
+	 * Returns a kind of gold tool
+	 * 1 - GOLD_SWORD
+	 * 2 - GOLD_PICKAXE
+	 * 3 - GOLD_SPADE
+	 * 4 - GOLD_AXE
+	 * 5 - GOLD_HOE
+	 * 
+	 * @param kind
+	 *            to return
+	 * @return kind of gold tool
+	 */
 	public Material goldWeapon(int num)
 	{
 		switch (num)
@@ -341,6 +441,11 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Returns the helmet, chestplate, leggings, and boots
+	 * 
+	 * @return helmet, chestplate, leggings, and boots
+	 */
 	public Material[] ironArmor()
 	{
 		return new Material[]
@@ -350,6 +455,18 @@ public class Drops
 		};
 	}
 
+	/**
+	 * Returns a kind of iron tool
+	 * 1 - IRON_SWORD
+	 * 2 - IRON_PICKAXE
+	 * 3 - IRON_SPADE
+	 * 4 - IRON_AXE
+	 * 5 - IRON_HOE
+	 * 
+	 * @param kind
+	 *            to return
+	 * @return kind of iron tool
+	 */
 	public Material ironWeapon(int num)
 	{
 		switch (num)
@@ -369,6 +486,13 @@ public class Drops
 		}
 	}
 
+	/**
+	 * Is material a piece of armor?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is armor or not
+	 */
 	public boolean isArmor(Material mat)
 	{
 		if (isHelmet(mat) || isBoots(mat) || isChestPlate(mat)
@@ -379,6 +503,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material an axe?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is axe or not
+	 */
 	public boolean isAxe(Material mat)
 	{
 		if (mat.equals(Material.WOOD_AXE) || mat.equals(Material.STONE_AXE)
@@ -389,6 +520,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material boots?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is boots or not
+	 */
 	public boolean isBoots(Material mat)
 	{
 		if (mat.equals(Material.LEATHER_BOOTS)
@@ -402,6 +540,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material a chestplate?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is chestplate or not
+	 */
 	public boolean isChestPlate(Material mat)
 	{
 		if (mat.equals(Material.LEATHER_CHESTPLATE)
@@ -415,6 +560,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material a helmet?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is helmet or not
+	 */
 	public boolean isHelmet(Material mat)
 	{
 		if (mat.equals(Material.LEATHER_HELMET)
@@ -428,6 +580,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material a hoe?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is hoe or not
+	 */
 	public boolean isHoe(Material mat)
 	{
 		if (mat.equals(Material.WOOD_HOE) || mat.equals(Material.STONE_HOE)
@@ -438,6 +597,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material leggings?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is leggings or not
+	 */
 	public boolean isLeggings(Material mat)
 	{
 		if (mat.equals(Material.LEATHER_LEGGINGS)
@@ -451,6 +617,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material a pickaxe?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is pickaxe or not
+	 */
 	public boolean isPickaxe(Material mat)
 	{
 		if (mat.equals(Material.WOOD_PICKAXE)
@@ -462,6 +635,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material a spade?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is spade or not
+	 */
 	public boolean isSpade(Material mat)
 	{
 		if (mat.equals(Material.WOOD_SPADE) || mat.equals(Material.STONE_SPADE)
@@ -472,6 +652,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material a sword?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is sword or not
+	 */
 	public boolean isSword(Material mat)
 	{
 		if (mat.equals(Material.WOOD_SWORD) || mat.equals(Material.STONE_SWORD)
@@ -482,6 +669,13 @@ public class Drops
 		return false;
 	}
 
+	/**
+	 * Is material an tool?
+	 * 
+	 * @param material
+	 *            to check
+	 * @return is tool or not
+	 */
 	public boolean isTool(Material mat)
 	{
 		if (isSword(mat) || isSpade(mat) || isAxe(mat) || isPickaxe(mat)
@@ -491,6 +685,11 @@ public class Drops
 
 	}
 
+	/**
+	 * Returns the helmet, chestplate, leggings, and boots
+	 * 
+	 * @return helmet, chestplate, leggings, and boots
+	 */
 	public Material[] leatherArmor()
 	{
 		return new Material[]
@@ -500,9 +699,14 @@ public class Drops
 		};
 	}
 
+	/**
+	 * Get a random weapon
+	 * 
+	 * @return a random weapon
+	 */
 	public Material weaponPicker()
 	{
-		switch (gen.nextInt(5))
+		switch (gen.nextInt(6))
 		{
 			case 0:
 				return diamondWeapon(gen.nextInt(5));
@@ -511,14 +715,59 @@ public class Drops
 			case 2:
 				return goldWeapon(gen.nextInt(5));
 			case 3:
-				return woodWeapon(gen.nextInt(5));
+				return stoneWeapon(gen.nextInt(5));
 			case 4:
+				return woodWeapon(gen.nextInt(5));
+			case 5:
 				return Material.BOW;
 			default:
 				return null;
 		}
 	}
 
+	/**
+	 * Returns a kind of stone tool
+	 * 1 - STONE_SWORD
+	 * 2 - STONE_PICKAXE
+	 * 3 - STONE_SPADE
+	 * 4 - STONE_AXE
+	 * 5 - STONE_HOE
+	 * 
+	 * @param kind
+	 *            to return
+	 * @return kind of stone tool
+	 */
+	public Material stoneWeapon(int num)
+	{
+		switch (num)
+		{
+			case 1:
+				return Material.STONE_SWORD;
+			case 2:
+				return Material.STONE_PICKAXE;
+			case 3:
+				return Material.STONE_SPADE;
+			case 4:
+				return Material.STONE_AXE;
+			case 5:
+				return Material.STONE_HOE;
+			default:
+				return null;
+		}
+	}
+
+	/**
+	 * Returns a kind of wood tool
+	 * 1 - WOOD_SWORD
+	 * 2 - WOOD_PICKAXE
+	 * 3 - WOOD_SPADE
+	 * 4 - WOOD_AXE
+	 * 5 - WOOD_HOE
+	 * 
+	 * @param kind
+	 *            to return
+	 * @return kind of wood tool
+	 */
 	public Material woodWeapon(int num)
 	{
 		switch (num)

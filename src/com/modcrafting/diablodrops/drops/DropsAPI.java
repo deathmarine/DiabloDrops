@@ -35,6 +35,13 @@ public class DropsAPI
 		drops = instance.drop;
 	}
 
+	/**
+	 * Used for identifying items
+	 * 
+	 * @param material
+	 * @param name
+	 * @return identified item
+	 */
 	public CraftItemStack getIdItem(Material mat, String name)
 	{
 		if (mat == null)
@@ -145,7 +152,7 @@ public class DropsAPI
 	 * 
 	 * @param material
 	 *            Material of itemstack
-	 * @return CraftItemStack
+	 * @return item
 	 */
 	public CraftItemStack getItem(Material mat)
 	{
@@ -256,9 +263,11 @@ public class DropsAPI
 	}
 
 	/**
-	 * Returns an specific typename of itemstack that was randomly generated
+	 * Returns an specific type of ItemStack that was randomly generated
 	 * 
-	 * @return CraftItemStack
+	 * @param tier
+	 *            name
+	 * @return item
 	 */
 	public CraftItemStack getItem(String type)
 	{
@@ -378,7 +387,7 @@ public class DropsAPI
 	/**
 	 * Returns an itemstack that was randomly generated
 	 * 
-	 * @return CraftItemStack
+	 * @return item
 	 */
 	public CraftItemStack getItem()
 	{
@@ -420,7 +429,7 @@ public class DropsAPI
 	/**
 	 * Returns a Material that was randomly picked
 	 * 
-	 * @return Material
+	 * @return random material
 	 */
 	public Material dropPicker()
 	{
@@ -449,6 +458,13 @@ public class DropsAPI
 		}
 	}
 
+	/**
+	 * Gets a random amount of damage for an ItemStack
+	 * 
+	 * @param material
+	 *            of ItemStack
+	 * @return durability to be set
+	 */
 	public short damageItemStack(Material itemstack)
 	{
 		short dur = itemstack.getMaxDurability();
@@ -463,6 +479,12 @@ public class DropsAPI
 		return dur;
 	}
 
+	/**
+	 * Is material armor or tool?
+	 * 
+	 * @param material
+	 * @return is armor or tool
+	 */
 	public boolean canBeItem(Material material)
 	{
 		if (drops.isArmor(material) || drops.isTool(material))
@@ -470,6 +492,11 @@ public class DropsAPI
 		return false;
 	}
 
+	/**
+	 * Gets a random name from prefix.txt and suffix.txt
+	 * 
+	 * @return name
+	 */
 	public String name()
 	{
 		String prefix = plugin.prefix.get(gen.nextInt(plugin.prefix.size()));
@@ -477,6 +504,12 @@ public class DropsAPI
 		return prefix + " " + suffix;
 	}
 
+	/**
+	 * Is type an actual tier?
+	 * 
+	 * @param type
+	 * @return is tier
+	 */
 	public boolean matchesTier(String type)
 	{
 		for (Tier tier : plugin.tiers)
@@ -487,6 +520,12 @@ public class DropsAPI
 		return false;
 	}
 
+	/**
+	 * Gets tier from name
+	 * 
+	 * @param name
+	 * @return tier
+	 */
 	public Tier getTier(String name)
 	{
 		for (Tier tier : plugin.tiers)
@@ -497,6 +536,12 @@ public class DropsAPI
 		return null;
 	}
 
+	/**
+	 * Is player wearing a set of matching armor?
+	 * 
+	 * @param player
+	 * @return is set
+	 */
 	public boolean wearingSet(Player player)
 	{
 		ItemStack his = player.getInventory().getHelmet();
@@ -540,6 +585,12 @@ public class DropsAPI
 		return true;
 	}
 
+	/**
+	 * Gets a new tool from an existing tool
+	 * 
+	 * @param tool
+	 * @return brand new tool
+	 */
 	public Tool getItem(Tool tool)
 	{
 		for (Tier tier : plugin.tiers)

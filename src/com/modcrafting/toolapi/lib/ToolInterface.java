@@ -7,7 +7,7 @@ public interface ToolInterface
 	/**
 	 * Gets the name of the Tool Will return null if not named
 	 * 
-	 * @returns String
+	 * @returns name
 	 */
 	public String getName();
 
@@ -19,7 +19,7 @@ public interface ToolInterface
 	/**
 	 * Gets the cost to repair
 	 * 
-	 * @return Integer
+	 * @return repair cost
 	 */
 	public Integer getRepairCost();
 
@@ -35,14 +35,22 @@ public interface ToolInterface
 
 	/**
 	 * Returns the lore of the Tool
+	 * 
+	 * @return lore
 	 */
 	public String[] getLore();
-	
+
 	/**
 	 * Sets a single line for lore.
+	 * 
 	 * @param string
 	 */
 	public void setLore(String string);
 
-	List<String> getLoreList();
+	/**
+	 * Get the lore of the Tool as a list
+	 * 
+	 * @return list
+	 */
+	public List<String> getLoreList();
 }

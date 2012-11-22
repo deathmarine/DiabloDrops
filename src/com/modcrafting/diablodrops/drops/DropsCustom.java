@@ -41,6 +41,13 @@ public class DropsCustom
 		}
 	}
 
+	/**
+	 * Loads custom drops
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws InvalidConfigurationException
+	 */
 	public void load() throws FileNotFoundException, IOException,
 			InvalidConfigurationException
 	{

@@ -22,6 +22,15 @@ import com.modcrafting.toolapi.lib.Tool;
 
 public class EffectsAPI
 {
+	/**
+	 * Handles any effects caused by an EntityDamageByEntityEvent
+	 * 
+	 * @param entity
+	 *            damaged by event
+	 * @param entity
+	 *            that caused the damage
+	 * @param event
+	 */
 	public static void handlePluginEffects(LivingEntity entityStruck,
 			LivingEntity entityStriker, EntityDamageByEntityEvent event)
 	{

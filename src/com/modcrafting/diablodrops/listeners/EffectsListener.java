@@ -1,25 +1,21 @@
 package com.modcrafting.diablodrops.listeners;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.effects.Effects;
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablodrops.effects.EffectsAPI;
 
 public class EffectsListener implements Listener
 {
@@ -31,90 +27,106 @@ public class EffectsListener implements Listener
 	}
 
 	@EventHandler
-	public void onEntityDamage(EntityDamageEvent event)
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
 	{
-		if (event instanceof EntityDamageByEntityEvent)
-		{
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			if (e.getEntity() instanceof Player)
-			{
-				Player player = (Player) e.getEntity();
-				Set<Tool> toolSet = new HashSet<Tool>();
-				for (ItemStack is : player.getInventory().getArmorContents())
-				{
-					if (is != null && !is.getType().equals(Material.AIR))
-						toolSet.add(new Tool((CraftItemStack) is));
-				}
-				if (player.getItemInHand() != null)
-					toolSet.add(new Tool((CraftItemStack) player
-							.getItemInHand()));
-				for (Tool tool : toolSet)
-				{
-
-					for (String string : tool.getLoreList())
-					{
-						string = ChatColor.stripColor(string).replace("%", "")
-								.replace("+", "");
-
-						addEffect(player, string, e);
-					}
-				}
-			}
-			if (e.getDamager() instanceof Player)
-			{
-				Player player = (Player) e.getDamager();
-				Set<Tool> toolSet = new HashSet<Tool>();
-				for (ItemStack is : player.getInventory().getArmorContents())
-				{
-					if (is != null && !is.getType().equals(Material.AIR))
-						toolSet.add(new Tool((CraftItemStack) is));
-				}
-				if (player.getItemInHand() != null)
-					toolSet.add(new Tool((CraftItemStack) player
-							.getItemInHand()));
-				for (Tool tool : toolSet)
-				{
-					for (String string : tool.getLoreList())
-					{
-						string = ChatColor.stripColor(string).replace("%", "")
-								.replace("+", "");
-
-						addEffect(player, string, e);
-
-					}
-				}
-			}
-		}
-		else
-		{
-			if (event.getEntity() instanceof Player)
-			{
-				Player player = (Player) event.getEntity();
-				Set<Tool> toolSet = new HashSet<Tool>();
-				for (ItemStack is : player.getInventory().getArmorContents())
-				{
-					if (is != null && !is.getType().equals(Material.AIR))
-						toolSet.add(new Tool((CraftItemStack) is));
-				}
-				//No armor effects for damage on player holding drop.
-				//if (player.getItemInHand() != null)
-					//toolSet.add(new Tool((CraftItemStack) player
-							//.getItemInHand()));
-				for (Tool tool : toolSet)
-				{
-
-					for (String string : tool.getLoreList())
-					{
-						string = ChatColor.stripColor(string).replace("%", "")
-								.replace("+", "");
-
-						addEffect(player, string, event);
-					}
-				}
-			}
-		}
-
+		Entity struckEntity = event.getEntity();
+		Entity strikerEntity = event.getDamager();
+		if (!(struckEntity instanceof LivingEntity))
+			return;
+		LivingEntity struck = (LivingEntity) struckEntity;
+		if (strikerEntity instanceof LivingEntity)
+			EffectsAPI.handlePluginEffects(struck,
+					(LivingEntity) strikerEntity, event);
+		if (strikerEntity instanceof Projectile)
+			EffectsAPI.handlePluginEffects(struck,
+					((Projectile) strikerEntity).getShooter(), event);
 	}
+
+	// @EventHandler
+	// public void onEntityDamage(EntityDamageEvent event)
+	// {
+	// if (event instanceof EntityDamageByEntityEvent)
+	// {
+	// EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+	// if (e.getEntity() instanceof Player)
+	// {
+	// Player player = (Player) e.getEntity();
+	// Set<Tool> toolSet = new HashSet<Tool>();
+	// for (ItemStack is : player.getInventory().getArmorContents())
+	// {
+	// if (is != null && !is.getType().equals(Material.AIR))
+	// toolSet.add(new Tool((CraftItemStack) is));
+	// }
+	// if (player.getItemInHand() != null)
+	// toolSet.add(new Tool((CraftItemStack) player
+	// .getItemInHand()));
+	// for (Tool tool : toolSet)
+	// {
+	//
+	// for (String string : tool.getLoreList())
+	// {
+	// string = ChatColor.stripColor(string).replace("%", "")
+	// .replace("+", "");
+	//
+	// addEffect(player, string, e);
+	// }
+	// }
+	// }
+	// if (e.getDamager() instanceof Player)
+	// {
+	// Player player = (Player) e.getDamager();
+	// Set<Tool> toolSet = new HashSet<Tool>();
+	// for (ItemStack is : player.getInventory().getArmorContents())
+	// {
+	// if (is != null && !is.getType().equals(Material.AIR))
+	// toolSet.add(new Tool((CraftItemStack) is));
+	// }
+	// if (player.getItemInHand() != null)
+	// toolSet.add(new Tool((CraftItemStack) player
+	// .getItemInHand()));
+	// for (Tool tool : toolSet)
+	// {
+	// for (String string : tool.getLoreList())
+	// {
+	// string = ChatColor.stripColor(string).replace("%", "")
+	// .replace("+", "");
+	//
+	// addEffect(player, string, e);
+	//
+	// }
+	// }
+	// }
+	// }
+	// else
+	// {
+	// if (event.getEntity() instanceof Player)
+	// {
+	// Player player = (Player) event.getEntity();
+	// Set<Tool> toolSet = new HashSet<Tool>();
+	// for (ItemStack is : player.getInventory().getArmorContents())
+	// {
+	// if (is != null && !is.getType().equals(Material.AIR))
+	// toolSet.add(new Tool((CraftItemStack) is));
+	// }
+	// // No armor effects for damage on player holding drop.
+	// // if (player.getItemInHand() != null)
+	// // toolSet.add(new Tool((CraftItemStack) player
+	// // .getItemInHand()));
+	// for (Tool tool : toolSet)
+	// {
+	//
+	// for (String string : tool.getLoreList())
+	// {
+	// string = ChatColor.stripColor(string).replace("%", "")
+	// .replace("+", "");
+	//
+	// addEffect(player, string, event);
+	// }
+	// }
+	// }
+	// }
+	//
+	// }
 
 	public void addEffect(Player player, String string, EntityDamageEvent event)
 	{
@@ -224,7 +236,7 @@ public class EffectsListener implements Listener
 		}
 		else if (StringUtils.containsIgnoreCase(string, "leech"))
 		{
-			//Was throwing IllegalArgumentException. Put it in line, but works.
+			// Was throwing IllegalArgumentException. Put it in line, but works.
 			String[] args = string.split(" ");
 			Integer integer = null;
 			try
@@ -234,23 +246,29 @@ public class EffectsListener implements Listener
 			catch (NumberFormatException e)
 			{
 			}
-			if (integer != null&&
-					event.getEntity() instanceof LivingEntity&&
-					event instanceof EntityDamageByEntityEvent)
+			if (integer != null && event.getEntity() instanceof LivingEntity
+					&& event instanceof EntityDamageByEntityEvent)
 			{
 				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 				LivingEntity dam = (LivingEntity) e.getEntity();
 				LivingEntity damr = (LivingEntity) e.getDamager();
-				if(integer>0){
-					int chng = integer-dam.getHealth();
-					if(chng<dam.getMaxHealth()&&chng>0)dam.setHealth(chng);
-					chng = integer+damr.getHealth();
-					if(chng<damr.getMaxHealth()&&chng>0)damr.setHealth(chng);
-				}else if(integer<0){
-					int chng = integer+dam.getHealth();
-					if(chng<dam.getMaxHealth()&&chng>0)dam.setHealth(chng);
-					chng = integer-damr.getHealth();
-					if(chng<damr.getMaxHealth()&&chng>0)damr.setHealth(chng);
+				if (integer > 0)
+				{
+					int chng = integer - dam.getHealth();
+					if (chng < dam.getMaxHealth() && chng > 0)
+						dam.setHealth(chng);
+					chng = integer + damr.getHealth();
+					if (chng < damr.getMaxHealth() && chng > 0)
+						damr.setHealth(chng);
+				}
+				else if (integer < 0)
+				{
+					int chng = integer + dam.getHealth();
+					if (chng < dam.getMaxHealth() && chng > 0)
+						dam.setHealth(chng);
+					chng = integer - damr.getHealth();
+					if (chng < damr.getMaxHealth() && chng > 0)
+						damr.setHealth(chng);
 				}
 			}
 		}
@@ -260,7 +278,6 @@ public class EffectsListener implements Listener
 				continue;
 			if (StringUtils.containsIgnoreCase(string, effect.getName()))
 			{
-				// Args (int duration, Invisibility)
 				String[] args = ChatColor.stripColor(string).split(" ");
 				if (event.getEntity() instanceof LivingEntity)
 				{

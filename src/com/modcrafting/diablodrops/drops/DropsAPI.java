@@ -55,44 +55,30 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
+					short damage = 0;
 					if (plugin.config.getBoolean("DropFix.Damage", true))
 					{
-						if (plugin.config.getBoolean("Display.TierName", true))
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									damageItemStack(mat), tier.getColor()
-											+ tier.getName());
-						}
-						else
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									damageItemStack(mat));
-						}
+						damage = damageItemStack(mat);
+					}
+					if (plugin.config.getBoolean("Display.TierName", true)&&!tier.getColor().equals(ChatColor.MAGIC))
+					{
+						ci = new Drop(mat, tier.getColor(),
+								ChatColor.stripColor(name()),
+								damage, tier.getColor()
+										+ tier.getName());
 					}
 					else
 					{
-						if (plugin.config.getBoolean("Display.TierName", true))
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									(short) (mat.getMaxDurability() - 1),
-									tier.getColor() + tier.getName());
-						}
-						else
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									(short) (mat.getMaxDurability() - 1));
-						}
+						ci = new Drop(mat, tier.getColor(),
+								ChatColor.stripColor(name()),
+								damage);
 					}
+					if(tier.getColor().equals(ChatColor.MAGIC)) return ci;
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);
 						Enchantment ench = drops.enchant();
-						if (lvl != 0 && ench != null
-								&& !tier.getColor().equals(ChatColor.MAGIC))
+						if (lvl != 0 && ench != null)
 						{
 							if (plugin.config.getBoolean("SafeEnchant.Enabled",
 									true))
@@ -121,16 +107,14 @@ public class DropsAPI
 					}
 					if (plugin.config.getBoolean("SocketItem.Enabled", true)
 							&& gen.nextInt(100) <= plugin.config.getInt(
-									"SocketItem.Chance", 5)
-							&& !tier.getColor().equals(ChatColor.MAGIC))
+									"SocketItem.Chance", 5))
 					{
 						Namer.addLore(ci, "(Socket)");
 						return ci;
 					}
 					if (plugin.config.getBoolean("Lore.Enabled", true)
 							&& gen.nextInt(100) <= plugin.config.getInt(
-									"Lore.Chance", 5)
-							&& !tier.getColor().equals(ChatColor.MAGIC))
+									"Lore.Chance", 5))
 					{
 						Tool tool = new Tool(ci);
 						for (int i = 0; i < plugin.config.getInt(
@@ -168,38 +152,25 @@ public class DropsAPI
 				{
 					int e = tier.getAmount();
 					int l = tier.getLevels();
+					short damage = 0;
 					if (plugin.config.getBoolean("DropFix.Damage", true))
 					{
-						if (plugin.config.getBoolean("Display.TierName", true))
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									damageItemStack(mat), tier.getColor()
-											+ tier.getName());
-						}
-						else
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									damageItemStack(mat));
-						}
+						damage = damageItemStack(mat);
+					}
+					if (plugin.config.getBoolean("Display.TierName", true)&&!tier.getColor().equals(ChatColor.MAGIC))
+					{
+						ci = new Drop(mat, tier.getColor(),
+								ChatColor.stripColor(name()),
+								damage, tier.getColor()
+										+ tier.getName());
 					}
 					else
 					{
-						if (plugin.config.getBoolean("Display.TierName", true))
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									(short) (mat.getMaxDurability() - 1),
-									tier.getColor() + tier.getName());
-						}
-						else
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									(short) (mat.getMaxDurability() - 1));
-						}
+						ci = new Drop(mat, tier.getColor(),
+								ChatColor.stripColor(name()),
+								damage);
 					}
+					if(tier.getColor().equals(ChatColor.MAGIC)) return ci;
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);
@@ -286,40 +257,25 @@ public class DropsAPI
 					{
 						int e = tier.getAmount();
 						int l = tier.getLevels();
+						short damage = 0;
 						if (plugin.config.getBoolean("DropFix.Damage", true))
 						{
-							if (plugin.config.getBoolean("Display.TierName",
-									true))
-							{
-								ci = new Drop(mat, tier.getColor(),
-										ChatColor.stripColor(name()),
-										damageItemStack(mat), tier.getColor()
-												+ tier.getName());
-							}
-							else
-							{
-								ci = new Drop(mat, tier.getColor(),
-										ChatColor.stripColor(name()),
-										damageItemStack(mat));
-							}
+							damage = damageItemStack(mat);
+						}
+						if (plugin.config.getBoolean("Display.TierName", true)&&!tier.getColor().equals(ChatColor.MAGIC))
+						{
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									damage, tier.getColor()
+											+ tier.getName());
 						}
 						else
 						{
-							if (plugin.config.getBoolean("Display.TierName",
-									true))
-							{
-								ci = new Drop(mat, tier.getColor(),
-										ChatColor.stripColor(name()),
-										(short) (mat.getMaxDurability() - 1),
-										tier.getColor() + tier.getName());
-							}
-							else
-							{
-								ci = new Drop(mat, tier.getColor(),
-										ChatColor.stripColor(name()),
-										(short) (mat.getMaxDurability() - 1));
-							}
+							ci = new Drop(mat, tier.getColor(),
+									ChatColor.stripColor(name()),
+									damage);
 						}
+						if(tier.getColor().equals(ChatColor.MAGIC)) return ci;
 						for (; e > 0; e--)
 						{
 							int lvl = gen.nextInt(l + 1);

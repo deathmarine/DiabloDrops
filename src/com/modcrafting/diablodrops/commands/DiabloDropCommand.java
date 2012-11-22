@@ -1,17 +1,24 @@
 package com.modcrafting.diablodrops.commands;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.socket.gem.SocketItem;
 import com.modcrafting.diablodrops.tier.Tome;
+import com.modcrafting.toolapi.lib.Tool;
 
 public class DiabloDropCommand implements CommandExecutor
 {
@@ -69,6 +76,62 @@ public class DiabloDropCommand implements CommandExecutor
 							+ "You have been given a DiabloDrops item.");
 					return true;
 				}
+				if (args[0].equalsIgnoreCase("modify"))
+				{
+					if(args.length<2) return true;
+					if (args[1].equalsIgnoreCase("lore"))
+					{
+						String lore = combineSplit(2,args," ");
+						lore = ChatColor.translateAlternateColorCodes("&".toCharArray()[0], lore);
+						new Tool(player.getItemInHand()).setLore(Arrays.asList(lore.split(",")));
+						player.sendMessage(ChatColor.GREEN+"Set the lore for the item!");
+						return true;
+					}
+					if (args[1].equalsIgnoreCase("name"))
+					{
+						String name = combineSplit(2,args," ");
+						name = ChatColor.translateAlternateColorCodes("&".toCharArray()[0], name);
+						new Tool(player.getItemInHand()).setName(name);
+						player.sendMessage(ChatColor.GREEN+"Set the name for the item!");
+						return true;
+					}
+					if (args[1].equalsIgnoreCase("enchant"))
+					{
+						if(args.length<4) return true;
+						if(args[2].equalsIgnoreCase("add"))
+						{
+							if(args.length<5) return true;
+							int i=1;
+							try{
+								i = Integer.parseInt(args[4]);
+							}catch (NumberFormatException nfe){
+								i=1;
+							}
+							Enchantment ech = Enchantment.getByName(args[3].toUpperCase());
+							if(ech!=null){
+								player.getItemInHand().addUnsafeEnchantment(ech, i);
+								player.sendMessage(ChatColor.GREEN+"Added enchantment.");
+							}else{
+								player.sendMessage(ChatColor.RED+args[3]+" :enchantment does not exist!");
+							}
+							return true;
+						}
+						if(args[2].equalsIgnoreCase("remove"))
+						{		
+							ItemStack is = player.getItemInHand();
+							Map<Enchantment,Integer> hm = new HashMap<Enchantment,Integer>();
+							for(Enchantment e1:is.getEnchantments().keySet()){
+								if(!e1.getName().equalsIgnoreCase(args[3])){
+									hm.put(e1, is.getEnchantmentLevel(e1));
+								}
+							}
+							is.addUnsafeEnchantments(hm);
+							player.sendMessage(ChatColor.GREEN+"Removed enchantment.");
+							return true;
+							
+						}
+					}
+				}
 				if (plugin.dropsAPI.matchesTier(args[0]))
 				{
 					CraftItemStack ci2 = plugin.dropsAPI.getItem(args[0]);
@@ -96,5 +159,19 @@ public class DiabloDropCommand implements CommandExecutor
 	{
 		this.plugin = plugin;
 	}
-
+	
+	public String combineSplit(int startIndex, String[] string, String seperator) {
+		StringBuilder builder = new StringBuilder();
+		if(string.length >= 1){
+			for (int i = startIndex; i < string.length; i++) {
+				builder.append(string[i]);
+				builder.append(seperator);
+			}
+			if(builder.length() > seperator.length()){
+				builder.deleteCharAt(builder.length() - seperator.length()); // remove
+				return builder.toString();
+			}
+		}
+		return "";
+	}
 }

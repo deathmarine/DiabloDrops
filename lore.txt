@@ -46,16 +46,7 @@
 80% Mob Freeze
 90% Mob Freeze
 100% Mob Freeze
-10% Mob Frenzy
-20% Mob Frenzy
-30% Mob Frenzy
-40% Mob Frenzy
-50% Mob Frenzy
-60% Mob Frenzy
-70% Mob Frenzy
-80% Mob Frenzy
-90% Mob Frenzy
-100% Mob Frenzy
+# Frenzy no longer needed Speed potions effect mobs#
 Enemies Shrink
 ## Lightning and fire effects ##
 ## Positive values affect the other ##

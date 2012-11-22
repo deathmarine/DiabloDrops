@@ -24,7 +24,6 @@ import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftZombie;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Pig;
@@ -85,11 +84,6 @@ public class Effects
 		}
 	}
 
-	public static void spawnBat(LivingEntity e)
-	{
-		e.getLocation().getWorld().spawnEntity(e.getLocation(), EntityType.BAT);
-	}
-
 	public static void potionEffect(LivingEntity e, PotionEffectType ef, int dur)
 	{
 		e.addPotionEffect(new PotionEffect(ef, dur, 2));
@@ -125,24 +119,8 @@ public class Effects
 				fGoalSelector.set(le, gs);
 			}
 		}
-		catch (IllegalArgumentException e1)
+		catch (Exception e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		catch (IllegalAccessException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		catch (SecurityException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		catch (NoSuchFieldException e1)
-		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}

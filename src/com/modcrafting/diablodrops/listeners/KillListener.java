@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
-import net.minecraft.server.Item;
 import net.minecraft.server.NBTTagCompound;
 
 import org.bukkit.Location;
@@ -16,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
@@ -44,11 +44,11 @@ public class KillListener implements Listener
 		dropfix = plugin.config.getBoolean("DropFix.Equipment", false);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onSpawn(CreatureSpawnEvent event)
 	{
 		LivingEntity entity = event.getEntity();
-		if (plugin.multiW != null
+		if (plugin.multiW != null && plugin.config.getBoolean("Worlds.Enabled", false)
 				&& !plugin.multiW.contains(entity.getLocation().getWorld()
 						.getName().toLowerCase()))
 			return;
@@ -102,13 +102,13 @@ public class KillListener implements Listener
 
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onEntityDeath(EntityDeathEvent event)
 	{
 		if (event.getEntity() instanceof Monster)
 		{
 			Location loc = event.getEntity().getLocation();
-			if (!plugin.multiW.contains(loc.getWorld().getName()))
+			if (!plugin.multiW.contains(loc.getWorld().getName())&&plugin.config.getBoolean("Worlds.Enabled", false))
 			{
 				return;
 			}
@@ -117,8 +117,20 @@ public class KillListener implements Listener
 			{
 				if (mItem != null)
 				{
+					EntityDropItemEvent edie = new EntityDropItemEvent(
+							event.getEntity());
+					plugin.getServer().getPluginManager()
+							.callEvent(edie);
+					if (edie.isCancelled())
+						return;
+					if (dropfix)
+					{
+						dropItem(mItem, loc);
+						return;
+					}
 					List<String> l = plugin.config
 							.getStringList("SocketItem.Items");
+					l.add("WRITTEN_BOOK");
 					for (String m : l)
 					{
 						if (CraftItemStack.asBukkitStack(mItem).getType()
@@ -128,11 +140,6 @@ public class KillListener implements Listener
 							return;
 						}
 
-					}
-					if (dropfix || mItem.getItem() == Item.WRITTEN_BOOK)
-					{
-						dropItem(mItem, loc);
-						return;
 					}
 					if (mItem.tag != null)
 					{
@@ -144,12 +151,7 @@ public class KillListener implements Listener
 									&& sg.contains(new Character((char) 167)
 											.toString()))
 							{
-								EntityDropItemEvent edie = new EntityDropItemEvent(
-										event.getEntity());
-								plugin.getServer().getPluginManager()
-										.callEvent(edie);
-								if (edie.isCancelled())
-									return;
+								
 								dropItem(mItem, loc);
 								return;
 							}
@@ -162,6 +164,7 @@ public class KillListener implements Listener
 
 	public void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
 	{
+		
 		double xs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
 		double ys = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
 		double zs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;

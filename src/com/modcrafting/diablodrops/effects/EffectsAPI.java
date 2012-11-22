@@ -10,7 +10,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -20,65 +22,78 @@ import com.modcrafting.toolapi.lib.Tool;
 
 public class EffectsAPI
 {
-
 	public static void handlePluginEffects(LivingEntity entityStruck,
 			LivingEntity entityStriker, EntityDamageByEntityEvent event)
 	{
-		if (!(entityStruck instanceof Player)
-				&& !(entityStriker instanceof Player))
-			return;
-		boolean struckIsPlayer = (entityStruck instanceof Player);
-		Player struck = null;
-		if (struckIsPlayer)
-			struck = (Player) entityStruck;
-		boolean strikerIsPlayer = (entityStriker instanceof Player);
-		Player striker = null;
-		if (strikerIsPlayer)
-			striker = (Player) entityStriker;
-		List<ItemStack> struckEquipment = new ArrayList<ItemStack>();
-		if (struck != null)
+		if (entityStriker instanceof Player)
 		{
+			Player striker = (Player) entityStriker;
+			List<ItemStack> strikerEquipment = new ArrayList<ItemStack>();
+			strikerEquipment.add(striker.getItemInHand());
+			strikerEquipment.addAll(Arrays.asList(striker.getInventory()
+					.getArmorContents()));
+			for(String s:listEffects(strikerEquipment)){
+				addEffect(s,event,true);
+			}
+		}
+		if (entityStruck instanceof Player)
+		{
+			Player struck = (Player) entityStruck;
+			List<ItemStack> struckEquipment = new ArrayList<ItemStack>();
 			struckEquipment.addAll(Arrays.asList(struck.getInventory()
 					.getArmorContents()));
+			for(String s:listEffects(struckEquipment)){
+				addEffect(s,event,false);
+			}
 		}
-		List<ItemStack> strikerEquipment = new ArrayList<ItemStack>();
-		if (striker != null)
-		{
-			strikerEquipment.add(striker.getItemInHand());
-		}
-		handleStruckEffects(entityStruck, entityStriker, struckEquipment, event);
-		handleStrikerEffects(entityStruck, entityStriker, strikerEquipment,
-				event);
 	}
 
-	private static void handleStrikerEffects(LivingEntity entityStruck,
-			LivingEntity entityStriker, List<ItemStack> strikerEquipment,
-			EntityDamageByEntityEvent event)
+	private static List<String> listEffects(List<ItemStack> equipment)
 	{
 		Set<Tool> toolSet = new HashSet<Tool>();
-		for (ItemStack is : strikerEquipment)
+		for (ItemStack is : equipment)
 		{
 			if (is != null && !is.getType().equals(Material.AIR))
 			{
 				toolSet.add(new Tool((CraftItemStack) is));
 			}
 		}
+		List<String> effects = new ArrayList<String>();
 		for (Tool tool : toolSet)
 		{
 			for (String string : tool.getLoreList())
 			{
 				string = ChatColor.stripColor(string).replace("%", "")
 						.replace("+", "");
-				addStrikerEffect(entityStruck, entityStriker, tool, string,
-						event);
+				effects.add(string);
 			}
 		}
+		return effects;
 	}
 
-	private static void addStrikerEffect(LivingEntity struck,
-			LivingEntity striker, Tool tool, String string,
-			EntityDamageByEntityEvent event)
+	private static void addEffect(String string,
+			EntityDamageByEntityEvent event,boolean strike)
 	{
+		
+		LivingEntity struck = null;
+		LivingEntity striker = null;
+		if(strike){
+			struck = (LivingEntity) event.getEntity();
+			if(event.getDamager() instanceof Projectile){
+				striker = ((Projectile) event.getDamager()).getShooter();
+			}else if (event.getDamager() instanceof LivingEntity){
+				striker = (LivingEntity) event.getDamager();
+			}
+		}else{
+			striker = (LivingEntity) event.getEntity();
+			if(event.getDamager() instanceof Projectile){
+				struck = ((Projectile) event.getDamager()).getShooter();
+			}else if (event.getDamager() instanceof LivingEntity){
+				struck = (LivingEntity) event.getDamager();
+			}
+			
+			
+		}
 		String[] args = string.split(" ");
 		if (args.length == 0 || args.length == 1)
 			return;
@@ -89,11 +104,11 @@ public class EffectsAPI
 		}
 		catch (NumberFormatException e)
 		{
-			level = new Integer(0);
+			level = 0;
 		}
 		if (args[1].equalsIgnoreCase("damage"))
 		{
-			// change damage of event
+			// Add to strike damage
 			int damage = event.getDamage() + level.intValue();
 			if (damage >= 0)
 			{
@@ -103,300 +118,93 @@ public class EffectsAPI
 			{
 				event.setDamage(0);
 			}
-		}
-		else if (args[1].equalsIgnoreCase("frenzy"))
-		{
-			// frenzy (speed up) entities
-			Float fl;
-			try
-			{
-				fl = Float.valueOf(args[0]);
-			}
-			catch (NumberFormatException e)
-			{
-				fl = new Float(0);
-			}
-			if (fl > 0)
-				Effects.speed(struck, Math.abs(fl.floatValue()) / 100);
-			else if (fl < 0)
-				Effects.speed(striker, Math.abs(fl.floatValue()) / 100);
+			return;
 		}
 		else if (args[1].equalsIgnoreCase("freeze"))
 		{
 			// freeze entities
-			Float fl;
+			float fl;
 			try
 			{
-				fl = Float.valueOf(args[0]);
+				fl = Float.parseFloat(args[0]);
 			}
 			catch (NumberFormatException e)
 			{
-				fl = new Float(0);
+				return;
 			}
-			if (fl > 0)
-				Effects.speed(struck, Math.abs(fl.floatValue()) / 500);
-			else if (fl < 0)
-				Effects.speed(striker, Math.abs(fl.floatValue()) / 500);
+			if (fl > 0&&struck instanceof Monster)
+				Effects.speed(struck, Math.abs(fl) / 500);
+			else if (fl < 0&&striker instanceof Monster)
+				Effects.speed(striker, Math.abs(fl) / 500);
+			return;
 		}
 		else if (args[1].equalsIgnoreCase("shrink"))
 		{
 			// turn into baby
 			Effects.makeBaby(struck);
-		}
-		else if (args[1].equalsIgnoreCase("lightning"))
-		{
-			// strike lightning
-			if (level.intValue() > 0)
-				Effects.strikeLightning(struck.getLocation(),
-						Math.abs(level.intValue()));
-			else if (level.intValue() < 0)
-				Effects.strikeLightning(striker.getLocation(),
-						Math.abs(level.intValue()));
-		}
-		else if (args[1].equalsIgnoreCase("fire"))
-		{
-			// Set entity on fire
-			if (level.intValue() > 0)
-				Effects.setOnFire(struck, Math.abs(level.intValue()));
-			else if (level.intValue() < 0)
-				Effects.setOnFire(striker, Math.abs(level.intValue()));
-		}
-		else if (args[1].equalsIgnoreCase("leech"))
-		{
-			if (level.intValue() > 0)
-			{
-				// Take from struck and give to striker
-				int struckHealth = struck.getHealth();
-				int struckNewHealth = struckHealth - Math.abs(level.intValue());
-				if (struckNewHealth < 0)
-					struckNewHealth = 0;
-				if (struckNewHealth > 20)
-					struckNewHealth = 20;
-				struck.setHealth(struckNewHealth);
-				int strikerHealth = striker.getHealth();
-				int strikerNewHealth = strikerHealth
-						+ Math.abs(level.intValue());
-				if (strikerNewHealth < 0)
-					strikerNewHealth = 0;
-				if (strikerNewHealth > 20)
-					strikerNewHealth = 20;
-				striker.setHealth(strikerNewHealth);
-			}
-			else if (level.intValue() < 0)
-			{
-				// Take from striker and give to struck
-				int strikerHealth = striker.getHealth();
-				int strikerNewHealth = strikerHealth
-						- Math.abs(level.intValue());
-				if (strikerNewHealth < 0)
-					strikerNewHealth = 0;
-				if (strikerNewHealth > 20)
-					strikerNewHealth = 20;
-				striker.setHealth(strikerNewHealth);
-				int struckHealth = struck.getHealth();
-				int struckNewHealth = struckHealth + Math.abs(level.intValue());
-				if (struckNewHealth < 0)
-					struckNewHealth = 0;
-				if (struckNewHealth > 20)
-					struckNewHealth = 20;
-				struck.setHealth(struckNewHealth);
-			}
-			else
-			{
-				for (PotionEffectType potionEffect : PotionEffectType.values())
-				{
-					if (potionEffect == null)
-						return;
-					if (!potionEffect.getName().equalsIgnoreCase(args[1]))
-						continue;
-					if (level.intValue() > 0)
-					{
-						struck.addPotionEffect(new PotionEffect(potionEffect,
-								Math.abs(level.intValue()) * 100, Math
-										.abs(level.intValue())));
-					}
-					else if (level.intValue() < 0)
-					{
-						striker.addPotionEffect(new PotionEffect(potionEffect,
-								Math.abs(level.intValue()) * 100, Math
-										.abs(level.intValue())));
-					}
-				}
-			}
-		}
-	}
-
-	private static void handleStruckEffects(LivingEntity entityStruck,
-			LivingEntity entityStriker, List<ItemStack> struckEquipment,
-			EntityDamageByEntityEvent event)
-	{
-		Set<Tool> toolSet = new HashSet<Tool>();
-		for (ItemStack is : struckEquipment)
-		{
-			if (is != null && !is.getType().equals(Material.AIR))
-			{
-				toolSet.add(new Tool((CraftItemStack) is));
-			}
-		}
-		for (Tool tool : toolSet)
-		{
-			for (String string : tool.getLoreList())
-			{
-				string = ChatColor.stripColor(string).replace("%", "")
-						.replace("+", "");
-				addStruckEffect(entityStruck, entityStriker, tool, string,
-						event);
-			}
-		}
-	}
-
-	private static void addStruckEffect(LivingEntity struck,
-			LivingEntity striker, Tool tool, String string,
-			EntityDamageByEntityEvent event)
-	{
-		String[] args = string.split(" ");
-		if (args.length == 0 || args.length == 1)
 			return;
-		Integer level = null;
-		try
-		{
-			level = Integer.valueOf(args[0]);
-		}
-		catch (NumberFormatException e)
-		{
-			level = new Integer(0);
-		}
-		if (args[1].equalsIgnoreCase("damage"))
-		{
-			// change damage of event
-			int damage = event.getDamage() + level.intValue();
-			if (damage >= 0)
-			{
-				event.setDamage(damage);
-			}
-			else
-			{
-				event.setDamage(0);
-			}
-		}
-		else if (args[1].equalsIgnoreCase("frenzy"))
-		{
-			// frenzy (speed up) entities
-			Float fl;
-			try
-			{
-				fl = Float.valueOf(args[0]);
-			}
-			catch (NumberFormatException e)
-			{
-				fl = new Float(0);
-			}
-			if (fl > 0)
-				Effects.speed(striker, Math.abs(fl.floatValue()) / 100);
-			else if (fl < 0)
-				Effects.speed(struck, Math.abs(fl.floatValue()) / 100);
-		}
-		else if (args[1].equalsIgnoreCase("freeze"))
-		{
-			// freeze entities
-			Float fl;
-			try
-			{
-				fl = Float.valueOf(args[0]);
-			}
-			catch (NumberFormatException e)
-			{
-				fl = new Float(0);
-			}
-			if (fl > 0)
-				Effects.speed(striker, Math.abs(fl.floatValue()) / 500);
-			else if (fl < 0)
-				Effects.speed(struck, Math.abs(fl.floatValue()) / 500);
-		}
-		else if (args[1].equalsIgnoreCase("shrink"))
-		{
-			// turn into baby
-			Effects.makeBaby(striker);
 		}
 		else if (args[1].equalsIgnoreCase("lightning"))
 		{
 			// strike lightning
 			if (level.intValue() > 0)
-				Effects.strikeLightning(striker.getLocation(),
-						Math.abs(level.intValue()));
-			else if (level.intValue() < 0)
 				Effects.strikeLightning(struck.getLocation(),
 						Math.abs(level.intValue()));
+			else if (level.intValue() < 0)
+				Effects.strikeLightning(striker.getLocation(),
+						Math.abs(level.intValue()));
+			return;
 		}
 		else if (args[1].equalsIgnoreCase("fire"))
 		{
 			// Set entity on fire
 			if (level.intValue() > 0)
-				Effects.setOnFire(striker, Math.abs(level.intValue()));
-			else if (level.intValue() < 0)
 				Effects.setOnFire(struck, Math.abs(level.intValue()));
+			else if (level.intValue() < 0)
+				Effects.setOnFire(striker, Math.abs(level.intValue()));
+			return;
 		}
 		else if (args[1].equalsIgnoreCase("leech"))
 		{
 			if (level.intValue() > 0)
 			{
-				// Take from striker and give to struck
-				int strikerHealth = striker.getHealth();
-				int strikerNewHealth = strikerHealth
-						- Math.abs(level.intValue());
-				if (strikerNewHealth < 0)
-					strikerNewHealth = 0;
-				if (strikerNewHealth > 20)
-					strikerNewHealth = 20;
-				striker.setHealth(strikerNewHealth);
-				int struckHealth = struck.getHealth();
-				int struckNewHealth = struckHealth + Math.abs(level.intValue());
-				if (struckNewHealth < 0)
-					struckNewHealth = 0;
-				if (struckNewHealth > 20)
-					struckNewHealth = 20;
-				struck.setHealth(struckNewHealth);
+				int chng = level.intValue() - struck.getHealth();
+				if (chng < struck.getMaxHealth() && chng > 0)
+					struck.setHealth(chng);
+				chng = level.intValue() + striker.getHealth();
+				if (chng < striker.getMaxHealth() && chng > 0)
+					striker.setHealth(chng);
 			}
 			else if (level.intValue() < 0)
 			{
-				// Take from struck and give to striker
-				int struckHealth = struck.getHealth();
-				int struckNewHealth = struckHealth - Math.abs(level.intValue());
-				if (struckNewHealth < 0)
-					struckNewHealth = 0;
-				if (struckNewHealth > 20)
-					struckNewHealth = 20;
-				struck.setHealth(struckNewHealth);
-				int strikerHealth = striker.getHealth();
-				int strikerNewHealth = strikerHealth
-						+ Math.abs(level.intValue());
-				if (strikerNewHealth < 0)
-					strikerNewHealth = 0;
-				if (strikerNewHealth > 20)
-					strikerNewHealth = 20;
-				striker.setHealth(strikerNewHealth);
+				int chng = level.intValue() + struck.getHealth();
+				if (chng < struck.getMaxHealth() && chng > 0)
+					struck.setHealth(chng);
+				chng = level.intValue() - striker.getHealth();
+				if (chng < striker.getMaxHealth() && chng > 0)
+					striker.setHealth(chng);
 			}
-			else
+			return;
+		}
+		else
+		{
+			for (PotionEffectType potionEffect : PotionEffectType.values())
 			{
-				for (PotionEffectType potionEffect : PotionEffectType.values())
+				if (potionEffect == null||!potionEffect.getName().equalsIgnoreCase(args[1]))
+					continue;
+				if (level.intValue() > 0)
 				{
-					if (potionEffect == null)
-						return;
-					if (!potionEffect.getName().equalsIgnoreCase(args[1]))
-						continue;
-					if (level.intValue() > 0)
-					{
-						striker.addPotionEffect(new PotionEffect(potionEffect,
-								Math.abs(level.intValue()) * 100, Math
-										.abs(level.intValue())));
-					}
-					else if (level.intValue() < 0)
-					{
-						struck.addPotionEffect(new PotionEffect(potionEffect,
-								Math.abs(level.intValue()) * 100, Math
-										.abs(level.intValue())));
-					}
+					struck.addPotionEffect(new PotionEffect(potionEffect,
+							Math.abs(level.intValue()) * 100, Math
+									.abs(level.intValue())));
 				}
+				else if (level.intValue() < 0)
+				{
+					striker.addPotionEffect(new PotionEffect(potionEffect,
+							Math.abs(level.intValue()) * 100, Math
+									.abs(level.intValue())));
+				}
+				return;
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package com.modcrafting.diablodrops.listeners;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.EntityItem;
@@ -48,7 +49,8 @@ public class KillListener implements Listener
 	public void onSpawn(CreatureSpawnEvent event)
 	{
 		LivingEntity entity = event.getEntity();
-		if (plugin.multiW != null && plugin.config.getBoolean("Worlds.Enabled", false)
+		if (plugin.multiW != null
+				&& plugin.config.getBoolean("Worlds.Enabled", false)
 				&& !plugin.multiW.contains(entity.getLocation().getWorld()
 						.getName().toLowerCase()))
 			return;
@@ -61,17 +63,23 @@ public class KillListener implements Listener
 		Integer random = plugin.gen.nextInt(100) + 1;
 		if (entity instanceof Monster && chance >= random)
 		{
-			EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(entity);
-			plugin.getServer().getPluginManager().callEvent(eswi);
-			if (eswi.isCancelled())
-				return;
+			List<CraftItemStack> items = new ArrayList<CraftItemStack>();
 			CraftItemStack ci = plugin.dropsAPI.getItem();
 			while (ci == null)
 			{
 				ci = plugin.dropsAPI.getItem();
 			}
 			if (ci != null)
-				setEquipment(ci, entity);
+				items.add(ci);
+			EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(
+					entity, items);
+			plugin.getServer().getPluginManager().callEvent(eswi);
+			if (eswi.isCancelled())
+				return;
+			for (CraftItemStack cis : eswi.getItems())
+			{
+				setEquipment(cis, entity);
+			}
 		}
 	}
 
@@ -108,7 +116,8 @@ public class KillListener implements Listener
 		if (event.getEntity() instanceof Monster)
 		{
 			Location loc = event.getEntity().getLocation();
-			if (!plugin.multiW.contains(loc.getWorld().getName())&&plugin.config.getBoolean("Worlds.Enabled", false))
+			if (!plugin.multiW.contains(loc.getWorld().getName())
+					&& plugin.config.getBoolean("Worlds.Enabled", false))
 			{
 				return;
 			}
@@ -119,8 +128,7 @@ public class KillListener implements Listener
 				{
 					EntityDropItemEvent edie = new EntityDropItemEvent(
 							event.getEntity());
-					plugin.getServer().getPluginManager()
-							.callEvent(edie);
+					plugin.getServer().getPluginManager().callEvent(edie);
 					if (edie.isCancelled())
 						return;
 					if (dropfix)
@@ -151,7 +159,7 @@ public class KillListener implements Listener
 									&& sg.contains(new Character((char) 167)
 											.toString()))
 							{
-								
+
 								dropItem(mItem, loc);
 								return;
 							}
@@ -164,7 +172,7 @@ public class KillListener implements Listener
 
 	public void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
 	{
-		
+
 		double xs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
 		double ys = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
 		double zs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;

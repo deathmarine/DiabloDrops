@@ -19,8 +19,30 @@
 			</classpath>
 		</javac>
 	</target>
+	
+	<target name="document" depends="compile" description="Create JavaDocs">
+	        <delete dir="javadoc" includes="**/*" failonerror="false" />
+	            <javadoc packagenames="com.modcrafting.*"
+	                            sourcepath="src"
+	                            destdir="javadoc"
+	                            access="public"
+	                            windowtitle="DiabloDrops"
+	                            verbose="false"
+	                            author="true"
+	                            version="true">
+	                <link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
+	                <link href="http://jd.bukkit.org/apidocs/" />
 
-	<target name="package" depends="compile" description="Make the distributable jar file">
+	                <classpath>
+	                    <fileset dir="lib" includes="**/*.jar"/>
+	                </classpath>
+	                <bottom>
+	                    <![CDATA[<b>deathmarine and rmh4209, 2012</b>]]>
+	                </bottom>
+	            </javadoc>
+	    </target>
+
+	<target name="package" depends="document" description="Make the distributable jar file">
 		<copy todir="bin" overwrite="true">
 			<fileset dir="." includes="plugin.yml,config.yml,custom.yml,lore.txt,prefix.txt,suffix.txt" />
 		</copy>

@@ -142,6 +142,11 @@ public class DiabloDrops extends JavaPlugin
 				});
 	}
 
+	/**
+	 * Gets the instance of DiabloDrops
+	 * 
+	 * @return plugin's instance
+	 */
 	public static DiabloDrops getInstance()
 	{
 		return instance;

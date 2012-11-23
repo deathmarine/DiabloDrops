@@ -21,6 +21,11 @@ public class NamesLoader
 		dataFolder = instance.getDataFolder();
 	}
 
+	/**
+	 * Creates a file with given name
+	 * 
+	 * @param name
+	 */
 	public void writeDefault(String name)
 	{
 		File actual = new File(dataFolder, name);
@@ -47,6 +52,12 @@ public class NamesLoader
 		}
 	}
 
+	/**
+	 * Takes values from fileName and adds them to list
+	 * 
+	 * @param list
+	 * @param fileName
+	 */
 	public void loadFile(List<String> l, String name)
 	{
 		try

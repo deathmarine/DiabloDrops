@@ -18,24 +18,24 @@
 -7 Damage
 -8 Damage
 -9 Damage
-+1 Durability
-+2 Durability
-+3 Durability
-+4 Durability
-+5 Durability
-+6 Durability
-+7 Durability
-+8 Durability
-+9 Durability
--1 Durability
--2 Durability
--3 Durability
--4 Durability
--5 Durability
--6 Durability
--7 Durability
--8 Durability
--9 Durability
++1 Defense
++2 Defense
++3 Defense
++4 Defense
++5 Defense
++6 Defense
++7 Defense
++8 Defense
++9 Defense
+-1 Defense
+-2 Defense
+-3 Defense
+-4 Defense
+-5 Defense
+-6 Defense
+-7 Defense
+-8 Defense
+-9 Defense
 10% Mob Freeze
 20% Mob Freeze
 30% Mob Freeze

@@ -1,14 +1,11 @@
 package com.modcrafting.diablodrops.drops;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -16,39 +13,26 @@ import org.bukkit.enchantments.Enchantment;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.toolapi.lib.Tool;
 
-public class DropsCustom
+public class CustomBuilder
 {
 	DiabloDrops plugin;
 
-	public DropsCustom(DiabloDrops instance)
+	public CustomBuilder(DiabloDrops instance)
 	{
 		plugin = instance;
-		try
-		{
-			load();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		catch (InvalidConfigurationException e)
-		{
-			e.printStackTrace();
-		}
 	}
 
-	public void load() throws FileNotFoundException, IOException,
-			InvalidConfigurationException
+	public void build()
 	{
 		FileConfiguration fc = new YamlConfiguration();
 		File f = new File(plugin.getDataFolder(), "custom.yml");
 		if (f.exists())
 		{
-			fc.load(f);
+			try {
+				fc.load(f);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		for (String name : fc.getKeys(false))
 		{

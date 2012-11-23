@@ -1,7 +1,17 @@
 package com.modcrafting.diablodrops.tier;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 
@@ -17,16 +27,29 @@ public class TierBuilder
 	public void build()
 	{
 		plugin.tiers.clear();
-		//plugin.usableTiers.clear();
-		ConfigurationSection cs = plugin.config.getConfigurationSection("Tier");
+		FileConfiguration cs = new YamlConfiguration();
+		File f = new File(plugin.getDataFolder(), "tier.yml");
+		if (f.exists())
+		{
+			try {
+				cs.load(f);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		for (String name : cs.getKeys(false))
 		{
 			int amt = cs.getInt(name + ".Enchantments.Amt");
 			int lvl = cs.getInt(name + ".Enchantments.Levels");
 			int chance = cs.getInt(name + ".Chance");
 			String color = cs.getString(name + ".Color");
+			List<Material> l = new ArrayList<Material>();
+			for(String s: cs.getStringList(name+".Materials")){
+				Material mat = Material.matchMaterial(s);
+				if(mat!=null) l.add(mat);
+			}
 			plugin.tiers.add(new Tier(name, ChatColor.valueOf(color
-					.toUpperCase()), Math.abs(amt), Math.abs(lvl), Math.abs(chance)));
+					.toUpperCase()), Math.abs(amt), Math.abs(lvl), Math.abs(chance),l));
 		}
 	}
 }

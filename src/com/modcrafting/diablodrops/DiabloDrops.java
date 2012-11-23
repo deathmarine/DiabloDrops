@@ -20,7 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.drops.DropsAPI;
-import com.modcrafting.diablodrops.drops.DropsCustom;
+import com.modcrafting.diablodrops.drops.CustomBuilder;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
 import com.modcrafting.diablodrops.listeners.KillListener;
@@ -40,6 +40,7 @@ public class DiabloDrops extends JavaPlugin
 	public List<String> lore = new ArrayList<String>();
 	public HashSet<Tier> tiers = new HashSet<Tier>();
 	public List<Tool> custom = new ArrayList<Tool>();
+	public List<String> multiW = new ArrayList<String>();
 	public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
 	private NamesLoader nameLoader;
 	public Random gen = new Random();
@@ -47,7 +48,6 @@ public class DiabloDrops extends JavaPlugin
 	public DropsAPI dropsAPI;
 	public Drops drop = new Drops();
 	public Namer itemNamer;
-	public List<String> multiW = new ArrayList<String>();
 
 	private static DiabloDrops instance;
 
@@ -68,12 +68,16 @@ public class DiabloDrops extends JavaPlugin
 		nameLoader = new NamesLoader(this);
 		nameLoader.writeDefault("config.yml");
 		nameLoader.writeDefault("custom.yml");
+		nameLoader.writeDefault("tier.yml");
 		nameLoader.writeDefault("prefix.txt");
 		nameLoader.writeDefault("suffix.txt");
 		nameLoader.writeDefault("lore.txt");
 		nameLoader.loadFile(prefix, "prefix.txt");
 		nameLoader.loadFile(suffix, "suffix.txt");
 		nameLoader.loadFile(lore, "lore.txt");
+		new CustomBuilder(this).build();
+		new SocketBuilder(this).build();
+		new TierBuilder(this).build();
 		config = this.getConfig();
 		dropsAPI = new DropsAPI(this);
 		itemNamer = new Namer();
@@ -94,9 +98,6 @@ public class DiabloDrops extends JavaPlugin
 		pm.registerEvents(new ChunkListener(this), this);
 		pm.registerEvents(new EffectsListener(this), this);
 		this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
-		new DropsCustom(this);
-		new SocketBuilder(this).build();
-		new TierBuilder(this).build();
 
 		// AutoUpdater
 		final PluginDescriptionFile pdf = this.getDescription();

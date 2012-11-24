@@ -89,7 +89,7 @@ Enemies Shrink
 ## Potions can be added by name ##
 ## Configurable ## 
 ## Positive Affects Mobs, Negative Affects The Player ##
-## Note: Some Potion Effects may not effect Mobs/Entities ##
+## Note: Some Potion Effects may not affect Mobs/Entities ##
 ## Format: {amt} {Name} ##
 1 Invisibility
 2 Invisibility

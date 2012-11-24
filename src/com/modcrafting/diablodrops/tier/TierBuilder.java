@@ -1,15 +1,11 @@
 package com.modcrafting.diablodrops.tier;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -31,9 +27,12 @@ public class TierBuilder
 		File f = new File(plugin.getDataFolder(), "tier.yml");
 		if (f.exists())
 		{
-			try {
+			try
+			{
 				cs.load(f);
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}
@@ -44,12 +43,15 @@ public class TierBuilder
 			int chance = cs.getInt(name + ".Chance");
 			String color = cs.getString(name + ".Color");
 			List<Material> l = new ArrayList<Material>();
-			for(String s: cs.getStringList(name+".Materials")){
+			for (String s : cs.getStringList(name + ".Materials"))
+			{
 				Material mat = Material.matchMaterial(s);
-				if(mat!=null) l.add(mat);
+				if (mat != null)
+					l.add(mat);
 			}
 			plugin.tiers.add(new Tier(name, ChatColor.valueOf(color
-					.toUpperCase()), Math.abs(amt), Math.abs(lvl), Math.abs(chance),l));
+					.toUpperCase()), Math.abs(amt), Math.abs(lvl), Math
+					.abs(chance), l));
 		}
 	}
 }

@@ -78,57 +78,78 @@ public class DiabloDropCommand implements CommandExecutor
 				}
 				if (args[0].equalsIgnoreCase("modify"))
 				{
-					if(args.length<2) return true;
+					if (args.length < 2)
+						return true;
 					if (args[1].equalsIgnoreCase("lore"))
 					{
-						String lore = combineSplit(2,args," ");
-						lore = ChatColor.translateAlternateColorCodes("&".toCharArray()[0], lore);
-						new Tool(player.getItemInHand()).setLore(Arrays.asList(lore.split(",")));
-						player.sendMessage(ChatColor.GREEN+"Set the lore for the item!");
+						String lore = combineSplit(2, args, " ");
+						lore = ChatColor.translateAlternateColorCodes(
+								"&".toCharArray()[0], lore);
+						new Tool(player.getItemInHand()).setLore(Arrays
+								.asList(lore.split(",")));
+						player.sendMessage(ChatColor.GREEN
+								+ "Set the lore for the item!");
 						return true;
 					}
 					if (args[1].equalsIgnoreCase("name"))
 					{
-						String name = combineSplit(2,args," ");
-						name = ChatColor.translateAlternateColorCodes("&".toCharArray()[0], name);
+						String name = combineSplit(2, args, " ");
+						name = ChatColor.translateAlternateColorCodes(
+								"&".toCharArray()[0], name);
 						new Tool(player.getItemInHand()).setName(name);
-						player.sendMessage(ChatColor.GREEN+"Set the name for the item!");
+						player.sendMessage(ChatColor.GREEN
+								+ "Set the name for the item!");
 						return true;
 					}
 					if (args[1].equalsIgnoreCase("enchant"))
 					{
-						if(args.length<4) return true;
-						if(args[2].equalsIgnoreCase("add"))
+						if (args.length < 4)
+							return true;
+						if (args[2].equalsIgnoreCase("add"))
 						{
-							if(args.length<5) return true;
-							int i=1;
-							try{
+							if (args.length < 5)
+								return true;
+							int i = 1;
+							try
+							{
 								i = Integer.parseInt(args[4]);
-							}catch (NumberFormatException nfe){
-								i=1;
 							}
-							Enchantment ech = Enchantment.getByName(args[3].toUpperCase());
-							if(ech!=null){
-								player.getItemInHand().addUnsafeEnchantment(ech, i);
-								player.sendMessage(ChatColor.GREEN+"Added enchantment.");
-							}else{
-								player.sendMessage(ChatColor.RED+args[3]+" :enchantment does not exist!");
+							catch (NumberFormatException nfe)
+							{
+								i = 1;
+							}
+							Enchantment ech = Enchantment.getByName(args[3]
+									.toUpperCase());
+							if (ech != null)
+							{
+								player.getItemInHand().addUnsafeEnchantment(
+										ech, i);
+								player.sendMessage(ChatColor.GREEN
+										+ "Added enchantment.");
+							}
+							else
+							{
+								player.sendMessage(ChatColor.RED + args[3]
+										+ " :enchantment does not exist!");
 							}
 							return true;
 						}
-						if(args[2].equalsIgnoreCase("remove"))
-						{		
+						if (args[2].equalsIgnoreCase("remove"))
+						{
 							ItemStack is = player.getItemInHand();
-							Map<Enchantment,Integer> hm = new HashMap<Enchantment,Integer>();
-							for(Enchantment e1:is.getEnchantments().keySet()){
-								if(!e1.getName().equalsIgnoreCase(args[3])){
+							Map<Enchantment, Integer> hm = new HashMap<Enchantment, Integer>();
+							for (Enchantment e1 : is.getEnchantments().keySet())
+							{
+								if (!e1.getName().equalsIgnoreCase(args[3]))
+								{
 									hm.put(e1, is.getEnchantmentLevel(e1));
 								}
 							}
 							is.addUnsafeEnchantments(hm);
-							player.sendMessage(ChatColor.GREEN+"Removed enchantment.");
+							player.sendMessage(ChatColor.GREEN
+									+ "Removed enchantment.");
 							return true;
-							
+
 						}
 					}
 				}
@@ -159,15 +180,19 @@ public class DiabloDropCommand implements CommandExecutor
 	{
 		this.plugin = plugin;
 	}
-	
-	public String combineSplit(int startIndex, String[] string, String seperator) {
+
+	public String combineSplit(int startIndex, String[] string, String seperator)
+	{
 		StringBuilder builder = new StringBuilder();
-		if(string.length >= 1){
-			for (int i = startIndex; i < string.length; i++) {
+		if (string.length >= 1)
+		{
+			for (int i = startIndex; i < string.length; i++)
+			{
 				builder.append(string[i]);
 				builder.append(seperator);
 			}
-			if(builder.length() > seperator.length()){
+			if (builder.length() > seperator.length())
+			{
 				builder.deleteCharAt(builder.length() - seperator.length()); // remove
 				return builder.toString();
 			}

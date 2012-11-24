@@ -27,6 +27,7 @@ public class DropsAPI
 	private Random gen = new Random();
 	private Drops drops;
 	private DiabloDrops plugin;
+
 	public DropsAPI(DiabloDrops instance)
 	{
 		plugin = instance;
@@ -41,21 +42,24 @@ public class DropsAPI
 	public CraftItemStack getItem()
 	{
 		if (gen.nextBoolean()
-			&&plugin.config.getBoolean("IdentifyTome.Enabled", true)
-			&& gen.nextInt(100) <= plugin.config.getInt("IdentifyTome.Chance", 3))
+				&& plugin.config.getBoolean("IdentifyTome.Enabled", true)
+				&& gen.nextInt(100) <= plugin.config.getInt(
+						"IdentifyTome.Chance", 3))
 		{
-				return new Tome();
+			return new Tome();
 		}
 		if (gen.nextBoolean()
-			&&plugin.config.getBoolean("SocketItem.Enabled", true)
-			&&gen.nextInt(100) <= plugin.config.getInt("SocketItem.Chance", 5))
+				&& plugin.config.getBoolean("SocketItem.Enabled", true)
+				&& gen.nextInt(100) <= plugin.config.getInt(
+						"SocketItem.Chance", 5))
 		{
-				List<String> l = plugin.config.getStringList("SocketItem.Items");
-				return new SocketItem(Material.valueOf(l.get(gen.nextInt(l.size())).toUpperCase()));
+			List<String> l = plugin.config.getStringList("SocketItem.Items");
+			return new SocketItem(Material.valueOf(l.get(gen.nextInt(l.size()))
+					.toUpperCase()));
 		}
 		if (gen.nextBoolean()
-			&&plugin.config.getBoolean("Custom.Enabled", true)
-			&& gen.nextInt(100) <= plugin.config.getInt("Custom.Chance", 1))
+				&& plugin.config.getBoolean("Custom.Enabled", true)
+				&& gen.nextInt(100) <= plugin.config.getInt("Custom.Chance", 1))
 		{
 			return plugin.custom.get(plugin.gen.nextInt(plugin.custom.size()));
 		}
@@ -81,7 +85,8 @@ public class DropsAPI
 			{
 				if (gen.nextInt(100) <= tier.getChance())
 				{
-					if(tier.getMaterials().size()>0&&!tier.getMaterials().contains(mat))
+					if (tier.getMaterials().size() > 0
+							&& !tier.getMaterials().contains(mat))
 						return null;
 					int e = tier.getAmount();
 					int l = tier.getLevels();
@@ -90,20 +95,20 @@ public class DropsAPI
 					{
 						damage = damageItemStack(mat);
 					}
-					if (plugin.config.getBoolean("Display.TierName", true)&&!tier.getColor().equals(ChatColor.MAGIC))
+					if (plugin.config.getBoolean("Display.TierName", true)
+							&& !tier.getColor().equals(ChatColor.MAGIC))
 					{
 						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name()),
-								damage, tier.getColor()
-										+ tier.getName());
+								ChatColor.stripColor(name()), damage,
+								tier.getColor() + tier.getName());
 					}
 					else
 					{
 						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name()),
-								damage);
+								ChatColor.stripColor(name()), damage);
 					}
-					if(tier.getColor().equals(ChatColor.MAGIC)) return ci;
+					if (tier.getColor().equals(ChatColor.MAGIC))
+						return ci;
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);
@@ -153,10 +158,13 @@ public class DropsAPI
 						for (int i = 0; i < plugin.config.getInt(
 								"Lore.EnhanceAmount", 2); i++)
 						{
-							if(drops.isArmor(mat)){
+							if (drops.isArmor(mat))
+							{
 								tool.setLore(plugin.defenselore.get(plugin.gen
 										.nextInt(plugin.defenselore.size())));
-							}else if(drops.isTool(mat)){
+							}
+							else if (drops.isTool(mat))
+							{
 								tool.setLore(plugin.offenselore.get(plugin.gen
 										.nextInt(plugin.offenselore.size())));
 							}
@@ -175,6 +183,7 @@ public class DropsAPI
 	{
 		if (mat == null)
 			return null;
+		Material material = mat;
 		CraftItemStack ci = null;
 		while (ci == null)
 		{
@@ -182,8 +191,11 @@ public class DropsAPI
 			{
 				if (gen.nextInt(100) <= tier.getChance())
 				{
-					if(tier.getMaterials().size()>0&&!tier.getMaterials().contains(mat)){
-						mat = tier.getMaterials().get(gen.nextInt(tier.getMaterials().size()));
+					if (tier.getMaterials().size() > 0
+							&& !tier.getMaterials().contains(material))
+					{
+						material = tier.getMaterials().get(
+								gen.nextInt(tier.getMaterials().size()));
 					}
 					int e = tier.getAmount();
 					int l = tier.getLevels();
@@ -192,20 +204,20 @@ public class DropsAPI
 					{
 						damage = damageItemStack(mat);
 					}
-					if (plugin.config.getBoolean("Display.TierName", true)&&!tier.getColor().equals(ChatColor.MAGIC))
+					if (plugin.config.getBoolean("Display.TierName", true)
+							&& !tier.getColor().equals(ChatColor.MAGIC))
 					{
-						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name()),
-								damage, tier.getColor()
-										+ tier.getName());
+						ci = new Drop(material, tier.getColor(),
+								ChatColor.stripColor(name()), damage,
+								tier.getColor() + tier.getName());
 					}
 					else
 					{
-						ci = new Drop(mat, tier.getColor(),
-								ChatColor.stripColor(name()),
-								damage);
+						ci = new Drop(material, tier.getColor(),
+								ChatColor.stripColor(name()), damage);
 					}
-					if(tier.getColor().equals(ChatColor.MAGIC)) return ci;
+					if (tier.getColor().equals(ChatColor.MAGIC))
+						return ci;
 					for (; e > 0; e--)
 					{
 						int lvl = gen.nextInt(l + 1);
@@ -252,13 +264,16 @@ public class DropsAPI
 						for (int i = 0; i < plugin.config.getInt(
 								"Lore.EnhanceAmount", 2); i++)
 						{
-							if(drops.isArmor(mat)){
-							tool.setLore(plugin.defenselore.get(plugin.gen
-									.nextInt(plugin.defenselore.size())));
-						}else if(drops.isTool(mat)){
-							tool.setLore(plugin.offenselore.get(plugin.gen
-									.nextInt(plugin.offenselore.size())));
-						}
+							if (drops.isArmor(mat))
+							{
+								tool.setLore(plugin.defenselore.get(plugin.gen
+										.nextInt(plugin.defenselore.size())));
+							}
+							else if (drops.isTool(mat))
+							{
+								tool.setLore(plugin.offenselore.get(plugin.gen
+										.nextInt(plugin.offenselore.size())));
+							}
 						}
 						return tool;
 					}
@@ -290,8 +305,11 @@ public class DropsAPI
 				{
 					if (gen.nextInt(100) <= tier.getChance())
 					{
-						if(tier.getMaterials().size()>0&&!tier.getMaterials().contains(mat)){
-							mat = tier.getMaterials().get(gen.nextInt(tier.getMaterials().size()));
+						if (tier.getMaterials().size() > 0
+								&& !tier.getMaterials().contains(mat))
+						{
+							mat = tier.getMaterials().get(
+									gen.nextInt(tier.getMaterials().size()));
 						}
 						int e = tier.getAmount();
 						int l = tier.getLevels();
@@ -300,20 +318,20 @@ public class DropsAPI
 						{
 							damage = damageItemStack(mat);
 						}
-						if (plugin.config.getBoolean("Display.TierName", true)&&!tier.getColor().equals(ChatColor.MAGIC))
+						if (plugin.config.getBoolean("Display.TierName", true)
+								&& !tier.getColor().equals(ChatColor.MAGIC))
 						{
 							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									damage, tier.getColor()
-											+ tier.getName());
+									ChatColor.stripColor(name()), damage,
+									tier.getColor() + tier.getName());
 						}
 						else
 						{
 							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()),
-									damage);
+									ChatColor.stripColor(name()), damage);
 						}
-						if(tier.getColor().equals(ChatColor.MAGIC)) return ci;
+						if (tier.getColor().equals(ChatColor.MAGIC))
+							return ci;
 						for (; e > 0; e--)
 						{
 							int lvl = gen.nextInt(l + 1);
@@ -364,12 +382,19 @@ public class DropsAPI
 							for (int i = 0; i < plugin.config.getInt(
 									"Lore.EnhanceAmount", 2); i++)
 							{
-								if(drops.isArmor(mat)){
-									tool.setLore(plugin.defenselore.get(plugin.gen
-											.nextInt(plugin.defenselore.size())));
-								}else if(drops.isTool(mat)){
-									tool.setLore(plugin.offenselore.get(plugin.gen
-											.nextInt(plugin.offenselore.size())));
+								if (drops.isArmor(mat))
+								{
+									tool.setLore(plugin.defenselore
+											.get(plugin.gen
+													.nextInt(plugin.defenselore
+															.size())));
+								}
+								else if (drops.isTool(mat))
+								{
+									tool.setLore(plugin.offenselore
+											.get(plugin.gen
+													.nextInt(plugin.offenselore
+															.size())));
 								}
 							}
 							return tool;
@@ -603,12 +628,15 @@ public class DropsAPI
 						2); i++)
 				{
 
-					if(drops.isArmor(tool.getType())){
+					if (drops.isArmor(tool.getType()))
+					{
 						tool.setLore(plugin.defenselore.get(plugin.gen
-							.nextInt(plugin.defenselore.size())));
-					}else if(drops.isTool(tool.getType())){
+								.nextInt(plugin.defenselore.size())));
+					}
+					else if (drops.isTool(tool.getType()))
+					{
 						tool.setLore(plugin.offenselore.get(plugin.gen
-							.nextInt(plugin.offenselore.size())));
+								.nextInt(plugin.offenselore.size())));
 					}
 				}
 			}

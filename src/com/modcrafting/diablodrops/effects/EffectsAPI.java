@@ -12,7 +12,6 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -39,11 +38,9 @@ public class EffectsAPI
 			Player striker = (Player) entityStriker;
 			List<ItemStack> strikerEquipment = new ArrayList<ItemStack>();
 			strikerEquipment.add(striker.getItemInHand());
-			// strikerEquipment.addAll(Arrays.asList(striker.getInventory()
-			// .getArmorContents()));
 			for (String s : listEffects(strikerEquipment))
 			{
-				addEffect(entityStruck,entityStriker,s, event, true);
+				addEffect(entityStruck, entityStriker, s, event, true);
 			}
 		}
 		if (entityStruck instanceof Player)
@@ -54,7 +51,7 @@ public class EffectsAPI
 					.getArmorContents()));
 			for (String s : listEffects(struckEquipment))
 			{
-				addEffect(entityStriker,entityStruck,s, event, true);
+				addEffect(entityStriker, entityStruck, s, event, true);
 			}
 		}
 	}
@@ -82,11 +79,10 @@ public class EffectsAPI
 		return effects;
 	}
 
-	private static void addEffect(LivingEntity struck,
-			LivingEntity striker,String string,
-			EntityDamageByEntityEvent event, boolean strike)
+	private static void addEffect(LivingEntity struck, LivingEntity striker,
+			String string, EntityDamageByEntityEvent event, boolean strike)
 	{
-		
+
 		String[] args = string.split(" ");
 		if (args.length == 0 || args.length == 1)
 			return;

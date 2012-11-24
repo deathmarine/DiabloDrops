@@ -72,13 +72,13 @@ public class DiabloDrops extends JavaPlugin
 		nameLoader.writeDefault("prefix.txt");
 		nameLoader.writeDefault("suffix.txt");
 		nameLoader.writeDefault("lore.txt");
+		config = this.getConfig();
 		nameLoader.loadFile(prefix, "prefix.txt");
 		nameLoader.loadFile(suffix, "suffix.txt");
 		nameLoader.loadFile(lore, "lore.txt");
 		new CustomBuilder(this).build();
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();
-		config = this.getConfig();
 		dropsAPI = new DropsAPI(this);
 		itemNamer = new Namer();
 		if (config.getBoolean("Worlds.Enabled", false))

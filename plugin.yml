@@ -5,7 +5,7 @@ website: http://modcrafting.com
 authors: [Deathmarine,Nunnery]
 description: >
              Plugin for Bukkit.
-loadbefore: [DiabloLoot]
+loadbefore: [DiabloLoot, DiabloDungeonBridge]
 load: STARTUP
              
 commands:

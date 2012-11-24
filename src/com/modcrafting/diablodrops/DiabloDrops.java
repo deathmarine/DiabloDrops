@@ -37,10 +37,11 @@ public class DiabloDrops extends JavaPlugin
 {
 	public List<String> prefix = new ArrayList<String>();
 	public List<String> suffix = new ArrayList<String>();
-	public List<String> lore = new ArrayList<String>();
 	public HashSet<Tier> tiers = new HashSet<Tier>();
 	public List<Tool> custom = new ArrayList<Tool>();
 	public List<String> multiW = new ArrayList<String>();
+	public List<String> defenselore = new ArrayList<String>();
+	public List<String> offenselore = new ArrayList<String>();
 	public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
 	private NamesLoader nameLoader;
 	public Random gen = new Random();
@@ -55,9 +56,11 @@ public class DiabloDrops extends JavaPlugin
 	{
 		prefix.clear();
 		suffix.clear();
-		lore.clear();
+		offenselore.clear();
+		defenselore.clear();
 		tiers.clear();
 		custom.clear();
+		multiW.clear();
 		furnanceMap.clear();
 	}
 
@@ -75,7 +78,8 @@ public class DiabloDrops extends JavaPlugin
 		config = this.getConfig();
 		nameLoader.loadFile(prefix, "prefix.txt");
 		nameLoader.loadFile(suffix, "suffix.txt");
-		nameLoader.loadFile(lore, "lore.txt");
+		nameLoader.loadFile(defenselore, "defenselore.txt");
+		nameLoader.loadFile(offenselore, "offenselore.txt");
 		new CustomBuilder(this).build();
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();

@@ -1,0 +1,113 @@
++1 Defense
++2 Defense
++3 Defense
++4 Defense
++5 Defense
++6 Defense
++7 Defense
++8 Defense
++9 Defense
+-1 Defense
+-2 Defense
+-3 Defense
+-4 Defense
+-5 Defense
+-6 Defense
+-7 Defense
+-8 Defense
+-9 Defense
+10% Mob Freeze
+20% Mob Freeze
+30% Mob Freeze
+40% Mob Freeze
+50% Mob Freeze
+60% Mob Freeze
+70% Mob Freeze
+80% Mob Freeze
+90% Mob Freeze
+100% Mob Freeze
+# Frenzy no longer needed Speed potions effect mobs#
+Enemies Shrink
+## Lightning and fire effects ##
+## Positive values affect the other ##
+## Negative values affect the holder ##
++1 Lightning
++2 Lightning
++3 Lightning
+-1 Lightning
+-2 Lightning
+-3 Lightning
++1 Fire
++2 Fire
++3 Fire
+-1 Fire
+-2 Fire
+-3 Fire
+## Life leeching effects ##
+## Positive values drain from those hit and heal the hitter ##
+## Negative values drain from the hitter and heal the hit ##
++1 Leech
++2 Leech
++3 Leech
++4 Leech
++5 Leech
++6 Leech
++7 Leech
++8 Leech
++9 Leech
++10 Leech
+-1 Leech
+-2 Leech
+-3 Leech
+-4 Leech
+-5 Leech
+-6 Leech
+-7 Leech
+-8 Leech
+-9 Leech
+-10 Leech
+## Potions can be added by name ##
+## Configurable ## 
+## Positive Affects Mobs, Negative Affects The Player ##
+## Note: Some Potion Effects may not effect Mobs/Entities ##
+## Format: {amt} {Name} ##
+1 Invisibility
+2 Invisibility
+3 Invisibility
+4 Invisibility
+5 Invisibility
+6 Invisibility
+7 Invisibility
+8 Invisibility
+9 Invisibility
+10 Invisibility
+-1 Invisibility
+-2 Invisibility
+-3 Invisibility
+-4 Invisibility
+-5 Invisibility
+-6 Invisibility
+-7 Invisibility
+-8 Invisibility
+-9 Invisibility
+-10 Invisibility
+1 Speed
+2 Speed
+3 Speed
+4 Speed
+5 Speed
+6 Speed
+7 Speed
+8 Speed
+9 Speed
+10 Speed
+-1 Speed
+-2 Speed
+-3 Speed
+-4 Speed
+-5 Speed
+-6 Speed
+-7 Speed
+-8 Speed
+-9 Speed
+-10 Speed

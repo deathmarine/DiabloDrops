@@ -43,7 +43,7 @@ public class EffectsAPI
 			// .getArmorContents()));
 			for (String s : listEffects(strikerEquipment))
 			{
-				addEffect(s, event, true);
+				addEffect(entityStruck,entityStriker,s, event, true);
 			}
 		}
 		if (entityStruck instanceof Player)
@@ -54,7 +54,7 @@ public class EffectsAPI
 					.getArmorContents()));
 			for (String s : listEffects(struckEquipment))
 			{
-				addEffect(s, event, false);
+				addEffect(entityStriker,entityStruck,s, event, true);
 			}
 		}
 	}
@@ -82,35 +82,11 @@ public class EffectsAPI
 		return effects;
 	}
 
-	private static void addEffect(String string,
+	private static void addEffect(LivingEntity struck,
+			LivingEntity striker,String string,
 			EntityDamageByEntityEvent event, boolean strike)
 	{
-		LivingEntity struck = null;
-		LivingEntity striker = null;
-		if (strike)
-		{
-			struck = (LivingEntity) event.getEntity();
-			if (event.getDamager() instanceof Projectile)
-			{
-				striker = ((Projectile) event.getDamager()).getShooter();
-			}
-			else if (event.getDamager() instanceof LivingEntity)
-			{
-				striker = (LivingEntity) event.getDamager();
-			}
-		}
-		else
-		{
-			striker = (LivingEntity) event.getEntity();
-			if (event.getDamager() instanceof Projectile)
-			{
-				struck = ((Projectile) event.getDamager()).getShooter();
-			}
-			else if (event.getDamager() instanceof LivingEntity)
-			{
-				struck = (LivingEntity) event.getDamager();
-			}
-		}
+		
 		String[] args = string.split(" ");
 		if (args.length == 0 || args.length == 1)
 			return;
@@ -222,8 +198,8 @@ public class EffectsAPI
 							.abs(level.intValue()) * 100, Math.abs(level
 							.intValue())));
 				}
-				return;
 			}
+			return;
 		}
 	}
 }

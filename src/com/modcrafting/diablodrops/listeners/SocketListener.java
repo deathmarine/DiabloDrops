@@ -77,8 +77,13 @@ public class SocketListener implements Listener
 		{
 			for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
 			{
-				tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore
-						.size())));
+				if(plugin.drop.isArmor(oldtool.getType())){
+					tool.setLore(plugin.defenselore.get(plugin.gen
+							.nextInt(plugin.defenselore.size())));
+				}else if(plugin.drop.isTool(oldtool.getType())){
+					tool.setLore(plugin.offenselore.get(plugin.gen
+							.nextInt(plugin.offenselore.size())));
+				}
 			}
 		}
 		SocketEnhancementEvent see = new SocketEnhancementEvent(

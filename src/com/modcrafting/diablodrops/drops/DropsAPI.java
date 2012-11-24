@@ -153,8 +153,13 @@ public class DropsAPI
 						for (int i = 0; i < plugin.config.getInt(
 								"Lore.EnhanceAmount", 2); i++)
 						{
-							tool.setLore(plugin.lore.get(plugin.gen
-									.nextInt(plugin.lore.size())));
+							if(drops.isArmor(mat)){
+								tool.setLore(plugin.defenselore.get(plugin.gen
+										.nextInt(plugin.defenselore.size())));
+							}else if(drops.isTool(mat)){
+								tool.setLore(plugin.offenselore.get(plugin.gen
+										.nextInt(plugin.offenselore.size())));
+							}
 						}
 						return tool;
 					}
@@ -247,8 +252,13 @@ public class DropsAPI
 						for (int i = 0; i < plugin.config.getInt(
 								"Lore.EnhanceAmount", 2); i++)
 						{
-							tool.setLore(plugin.lore.get(plugin.gen
-									.nextInt(plugin.lore.size())));
+							if(drops.isArmor(mat)){
+							tool.setLore(plugin.defenselore.get(plugin.gen
+									.nextInt(plugin.defenselore.size())));
+						}else if(drops.isTool(mat)){
+							tool.setLore(plugin.offenselore.get(plugin.gen
+									.nextInt(plugin.offenselore.size())));
+						}
 						}
 						return tool;
 					}
@@ -354,8 +364,13 @@ public class DropsAPI
 							for (int i = 0; i < plugin.config.getInt(
 									"Lore.EnhanceAmount", 2); i++)
 							{
-								tool.setLore(plugin.lore.get(plugin.gen
-										.nextInt(plugin.lore.size())));
+								if(drops.isArmor(mat)){
+									tool.setLore(plugin.defenselore.get(plugin.gen
+											.nextInt(plugin.defenselore.size())));
+								}else if(drops.isTool(mat)){
+									tool.setLore(plugin.offenselore.get(plugin.gen
+											.nextInt(plugin.offenselore.size())));
+								}
 							}
 							return tool;
 						}
@@ -587,8 +602,14 @@ public class DropsAPI
 				for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount",
 						2); i++)
 				{
-					tool.setLore(plugin.lore.get(plugin.gen.nextInt(plugin.lore
-							.size())));
+
+					if(drops.isArmor(tool.getType())){
+						tool.setLore(plugin.defenselore.get(plugin.gen
+							.nextInt(plugin.defenselore.size())));
+					}else if(drops.isTool(tool.getType())){
+						tool.setLore(plugin.offenselore.get(plugin.gen
+							.nextInt(plugin.offenselore.size())));
+					}
 				}
 			}
 		}

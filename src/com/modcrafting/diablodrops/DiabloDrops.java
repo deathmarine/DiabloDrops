@@ -18,9 +18,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
+import com.modcrafting.diablodrops.drops.CustomBuilder;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.drops.DropsAPI;
-import com.modcrafting.diablodrops.drops.CustomBuilder;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
 import com.modcrafting.diablodrops.listeners.KillListener;
@@ -74,7 +74,8 @@ public class DiabloDrops extends JavaPlugin
 		nameLoader.writeDefault("tier.yml");
 		nameLoader.writeDefault("prefix.txt");
 		nameLoader.writeDefault("suffix.txt");
-		nameLoader.writeDefault("lore.txt");
+		nameLoader.writeDefault("defenselore.txt");
+		nameLoader.writeDefault("offenselore.txt");
 		config = this.getConfig();
 		nameLoader.loadFile(prefix, "prefix.txt");
 		nameLoader.loadFile(suffix, "suffix.txt");

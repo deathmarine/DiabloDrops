@@ -12,7 +12,7 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -22,7 +22,7 @@ import com.modcrafting.toolapi.lib.Tool;
 public class EffectsAPI
 {
 	/**
-	 * Handles any effects caused by an EntityDamageByEntityEvent
+	 * Handles any effects caused by an EntityDamageEvent
 	 * 
 	 * @param entity
 	 *            damaged by event
@@ -31,7 +31,7 @@ public class EffectsAPI
 	 * @param event
 	 */
 	public static void handlePluginEffects(LivingEntity entityStruck,
-			LivingEntity entityStriker, EntityDamageByEntityEvent event)
+			LivingEntity entityStriker, EntityDamageEvent event)
 	{
 		if (entityStriker instanceof Player)
 		{
@@ -55,7 +55,6 @@ public class EffectsAPI
 			}
 		}
 	}
-
 	private static List<String> listEffects(List<ItemStack> equipment)
 	{
 		Set<Tool> toolSet = new HashSet<Tool>();
@@ -80,7 +79,7 @@ public class EffectsAPI
 	}
 
 	private static void addEffect(LivingEntity struck, LivingEntity striker,
-			String string, EntityDamageByEntityEvent event, boolean strike)
+			String string, EntityDamageEvent event, boolean strike)
 	{
 
 		String[] args = string.split(" ");
@@ -140,7 +139,7 @@ public class EffectsAPI
 				Effects.speed(striker, Math.abs(fl) / 500);
 			return;
 		}
-		else if (args[1].equalsIgnoreCase("shrink"))
+		else if (args[1].equalsIgnoreCase("shrink")&&struck!=null)
 		{
 			// turn into baby
 			Effects.makeBaby(struck);
@@ -149,10 +148,10 @@ public class EffectsAPI
 		else if (args[1].equalsIgnoreCase("lightning"))
 		{
 			// strike lightning
-			if (level.intValue() > 0)
+			if (level.intValue() > 0&&struck!=null)
 				Effects.strikeLightning(struck.getLocation(),
 						Math.abs(level.intValue()));
-			else if (level.intValue() < 0)
+			else if (level.intValue() < 0&&striker!=null)
 				Effects.strikeLightning(striker.getLocation(),
 						Math.abs(level.intValue()));
 			return;
@@ -160,13 +159,15 @@ public class EffectsAPI
 		else if (args[1].equalsIgnoreCase("fire"))
 		{
 			// Set entity on fire
-			if (level.intValue() > 0)
+			if (level.intValue() > 0&&struck!=null)
 				Effects.setOnFire(struck, Math.abs(level.intValue()));
-			else if (level.intValue() < 0)
+			else if (level.intValue() < 0&&striker!=null)
 				Effects.setOnFire(striker, Math.abs(level.intValue()));
 			return;
 		}
-		else if (args[1].equalsIgnoreCase("leech"))
+		else if (args[1].equalsIgnoreCase("leech")
+				&&striker!=null
+				&&struck!=null)
 		{
 			if (level.intValue() > 0)
 			{
@@ -192,20 +193,21 @@ public class EffectsAPI
 		{
 			for (PotionEffectType potionEffect : PotionEffectType.values())
 			{
-				if (potionEffect == null
-						|| !potionEffect.getName().equalsIgnoreCase(args[1]))
-					continue;
-				if (level.intValue() > 0)
+				if (potionEffect!=null&&potionEffect.getName().equalsIgnoreCase(args[1]))
 				{
-					struck.addPotionEffect(new PotionEffect(potionEffect, Math
-							.abs(level.intValue()) * 100, Math.abs(level
-							.intValue())));
-				}
-				else if (level.intValue() < 0)
-				{
-					striker.addPotionEffect(new PotionEffect(potionEffect, Math
-							.abs(level.intValue()) * 100, Math.abs(level
-							.intValue())));
+					if (level.intValue() > 0&&struck!=null)
+					{
+						struck.addPotionEffect(new PotionEffect(potionEffect, Math
+								.abs(level.intValue()) * 100, Math.abs(level
+								.intValue())));
+					}
+					else if (level.intValue() < 0&&striker!=null)
+					{
+						striker.addPotionEffect(new PotionEffect(potionEffect, Math
+								.abs(level.intValue()) * 100, Math.abs(level
+								.intValue())));
+					}
+					
 				}
 			}
 			return;

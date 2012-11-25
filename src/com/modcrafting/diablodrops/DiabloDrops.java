@@ -75,12 +75,12 @@ public class DiabloDrops extends JavaPlugin
 		nameLoader.writeDefault("prefix.txt");
 		nameLoader.writeDefault("suffix.txt");
 		nameLoader.writeDefault("defenselore.txt");
-		nameLoader.writeDefault("offenselore.txt");
+		nameLoader.writeDefault("offensivelore.txt");
 		config = this.getConfig();
 		nameLoader.loadFile(prefix, "prefix.txt");
 		nameLoader.loadFile(suffix, "suffix.txt");
 		nameLoader.loadFile(defenselore, "defenselore.txt");
-		nameLoader.loadFile(offenselore, "offenselore.txt");
+		nameLoader.loadFile(offenselore, "offensivelore.txt");
 		new CustomBuilder(this).build();
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();

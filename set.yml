@@ -1,0 +1,50 @@
+#Follow the commented format guide lines
+#
+#CustomName:
+#  Color: (Black,Dark_Blue,Dark_Green,
+#          Dark_Aqua,Dark_Red,Dark_Purple,
+#          Gold,Gray,Dark_Gray,Blue,Green,
+#          Aqua,Red,Light_Purple,Yellow,
+#          White,Magic,Bold,Strike,Underline,
+#          Italic)
+#  Chance: Precentage out of 100
+#  Enchantments:
+#    Amt: 7
+#    Levels: 6
+Legendary:
+  Color: Gold
+  Chance: 3
+  Enchantments:
+    Amt: 7
+    Levels: 10
+Lore:
+  Color: Yellow
+  Chance: 7
+  Enchantments:
+    Amt: 7
+    Levels: 9
+Magical:
+  Color: Blue
+  Chance: 15
+  Enchantments:
+    Amt: 3
+    Levels: 4
+Rare:
+  Color: Red
+  Chance: 20
+  Enchantments:
+    Amt: 5
+    Levels: 5
+Set:
+  Color: Green
+  Chance: 10
+  Enchantments:
+    Amt: 7
+    Levels: 6
+Unidentified:
+  Color: Magic
+  Chance: 33
+  #When Identified
+  Enchantments:
+    Amt: 10
+    Levels: 10

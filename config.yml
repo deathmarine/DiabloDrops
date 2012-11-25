@@ -56,3 +56,6 @@ Worlds:
   - 'world'
   - 'world_nether'
   - 'world_the_end'
+#Debug Mode#
+Debug:
+  Enabled: false

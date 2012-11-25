@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 import net.h31ix.updater.Updater;
 import net.h31ix.updater.Updater.UpdateResult;
@@ -53,6 +54,7 @@ public class DiabloDrops extends JavaPlugin
 	public DropsAPI dropsAPI;
 	public Drops drop = new Drops();
 	public Namer itemNamer;
+	public boolean debugMode;
 
 	private static DiabloDrops instance;
 
@@ -75,15 +77,16 @@ public class DiabloDrops extends JavaPlugin
 		this.getDataFolder().mkdir();
 		nameLoader = new NamesLoader(this);
 		nameLoader.writeDefault("config.yml");
+		config = this.getConfig();
+		debugMode = config.getBoolean("Debug.Enabled", false);
 		nameLoader.writeDefault("custom.yml");
-		nameLoader.writeDefault("tier.yml");
 		nameLoader.writeDefault("set.yml");
+		nameLoader.writeDefault("tier.yml");
 		nameLoader.writeDefault("prefix.txt");
 		nameLoader.writeDefault("suffix.txt");
 		nameLoader.writeDefault("defenselore.txt");
 		nameLoader.writeDefault("offensivelore.txt");
 		nameLoader.writeDefault("setbonus.txt");
-		config = this.getConfig();
 		nameLoader.loadFile(prefix, "prefix.txt");
 		nameLoader.loadFile(suffix, "suffix.txt");
 		nameLoader.loadFile(defenselore, "defenselore.txt");
@@ -92,6 +95,10 @@ public class DiabloDrops extends JavaPlugin
 		new CustomBuilder(this).build();
 		new SocketBuilder(this).build();
 		new TierBuilder(this).build();
+		if (debugMode)
+		{
+			getLogger().log(Level.INFO, tiers.toArray().toString());
+		}
 		new ArmorSetBuilder(this).build();
 		dropsAPI = new DropsAPI(this);
 		itemNamer = new Namer();

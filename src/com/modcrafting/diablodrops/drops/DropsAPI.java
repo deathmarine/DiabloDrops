@@ -518,6 +518,26 @@ public class DropsAPI
 		return null;
 	}
 
+	public String getNameOfSet(Player player)
+	{
+		ItemStack his = player.getInventory().getHelmet();
+		if (his == null)
+			return null;
+		String potentialSet = new String();
+		CraftItemStack chis = ((CraftItemStack) his);
+		net.minecraft.server.ItemStack mistack = chis.getHandle();
+		NBTTagCompound tag = mistack.tag;
+		if (tag == null)
+		{
+			tag = new NBTTagCompound();
+			tag.setCompound("display", new NBTTagCompound());
+			mistack.tag = tag;
+		}
+		String[] ss = ChatColor.stripColor(tag.getString("Name")).split(" ");
+		potentialSet = ss[0];
+		return potentialSet;
+	}
+
 	/**
 	 * Is player wearing a set of matching armor?
 	 * 

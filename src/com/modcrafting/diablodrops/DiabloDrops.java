@@ -97,7 +97,10 @@ public class DiabloDrops extends JavaPlugin
 		new TierBuilder(this).build();
 		if (debugMode)
 		{
-			getLogger().log(Level.INFO, tiers.toArray().toString());
+			List<String> tierNames = new ArrayList<String>();
+			for (Tier t : this.tiers)
+				tierNames.add(t.getName());
+			getLogger().log(Level.INFO, tierNames.toString());
 		}
 		new ArmorSetBuilder(this).build();
 		dropsAPI = new DropsAPI(this);

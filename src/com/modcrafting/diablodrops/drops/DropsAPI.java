@@ -176,7 +176,7 @@ public class DropsAPI
 			}
 			attempts++;
 		}
-		return null;
+		return new CraftItemStack(mat, 1);
 	}
 
 	public CraftItemStack getIdItem(Material mat, String name)
@@ -185,8 +185,10 @@ public class DropsAPI
 			return null;
 		Material material = mat;
 		CraftItemStack ci = null;
-		while (ci == null)
+		int attempts = 0;
+		while (ci == null && attempts < 10)
 		{
+			attempts++;
 			for (Tier tier : plugin.tiers)
 			{
 				if (gen.nextInt(100) <= tier.getChance())
@@ -280,7 +282,7 @@ public class DropsAPI
 				}
 			}
 		}
-		return ci;
+		return new CraftItemStack(mat);
 	}
 
 	/**
@@ -405,7 +407,8 @@ public class DropsAPI
 			}
 			attempts++;
 		}
-		return null;
+		return new CraftItemStack(
+				drops.allItems()[gen.nextInt(drops.allItems().length - 1)]);
 	}
 
 	/**

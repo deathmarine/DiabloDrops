@@ -77,10 +77,13 @@ public class SocketListener implements Listener
 		{
 			for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
 			{
-				if(plugin.drop.isArmor(oldtool.getType())){
+				if (plugin.drop.isArmor(oldtool.getType()))
+				{
 					tool.setLore(plugin.defenselore.get(plugin.gen
 							.nextInt(plugin.defenselore.size())));
-				}else if(plugin.drop.isTool(oldtool.getType())){
+				}
+				else if (plugin.drop.isTool(oldtool.getType()))
+				{
 					tool.setLore(plugin.offenselore.get(plugin.gen
 							.nextInt(plugin.offenselore.size())));
 				}
@@ -90,8 +93,6 @@ public class SocketListener implements Listener
 				event.getSource(), is, tool, ((Furnace) event.getBlock()
 						.getState()));
 		plugin.getServer().getPluginManager().callEvent(see);
-		if (see.isCancelled())
-			return;
 		event.setResult(tool);
 		return;
 
@@ -139,14 +140,18 @@ public class SocketListener implements Listener
 			return;
 		}
 	}
-	//Close enough.
+
+	// Close enough.
 	@EventHandler
-	public void onCraftItem(CraftItemEvent e) {
-	    ItemStack item = e.getCurrentItem();
-	    if(item.getType().equals(Material.WRITTEN_BOOK)){
-	        e.setCurrentItem(new Tome());
-	    }
+	public void onCraftItem(CraftItemEvent e)
+	{
+		ItemStack item = e.getCurrentItem();
+		if (item.getType().equals(Material.WRITTEN_BOOK))
+		{
+			e.setCurrentItem(new Tome());
+		}
 	}
+
 	public ChatColor findColor(String s)
 	{
 		char[] c = s.toCharArray();

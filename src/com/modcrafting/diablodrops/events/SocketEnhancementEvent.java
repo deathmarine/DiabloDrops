@@ -1,16 +1,14 @@
 package com.modcrafting.diablodrops.events;
 
 import org.bukkit.block.Furnace;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-public class SocketEnhancementEvent extends Event implements Cancellable
+public class SocketEnhancementEvent extends Event
 {
 
 	private static final HandlerList handlers = new HandlerList();
-	private boolean isCancelled = false;
 	private final ItemStack input;
 	private final ItemStack fuel;
 	private final ItemStack result;
@@ -23,18 +21,6 @@ public class SocketEnhancementEvent extends Event implements Cancellable
 		this.fuel = fuel;
 		this.furnace = furnace;
 		this.result = result;
-	}
-
-	@Override
-	public boolean isCancelled()
-	{
-		return isCancelled;
-	}
-
-	@Override
-	public void setCancelled(boolean bln)
-	{
-		isCancelled = bln;
 	}
 
 	@Override

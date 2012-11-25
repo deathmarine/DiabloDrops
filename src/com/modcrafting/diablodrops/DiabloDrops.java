@@ -59,11 +59,12 @@ public class DiabloDrops extends JavaPlugin
 	{
 		prefix.clear();
 		suffix.clear();
-		offenselore.clear();
-		defenselore.clear();
 		tiers.clear();
+		armorSets.clear();
 		custom.clear();
 		multiW.clear();
+		offenselore.clear();
+		defenselore.clear();
 		furnanceMap.clear();
 	}
 

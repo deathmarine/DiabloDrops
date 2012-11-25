@@ -5,7 +5,7 @@ website: http://modcrafting.com
 authors: [Deathmarine,Nunnery]
 description: >
              Plugin for Bukkit.
-loadbefore: [DiabloLoot, DiabloDungeonBridge]
+loadbefore: [DiabloLoot, DiabloDungeonBridge, Identify]
 load: STARTUP
              
 commands:
@@ -17,4 +17,10 @@ commands:
 permissions:
     diablodrops.dd:
         description: Allows user to spawn a type of item.
+        default: op
+    diablodrops.debug:    
+        description: Allows user to receive debug messages.      
+        default: false
+    diablodrops.reload:
+        description: Allows user to reload the plugin.
         default: op

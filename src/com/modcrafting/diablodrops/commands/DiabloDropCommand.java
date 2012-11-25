@@ -23,12 +23,10 @@ import com.modcrafting.toolapi.lib.Tool;
 
 public class DiabloDropCommand implements CommandExecutor
 {
-
 	private DiabloDrops plugin;
-
 	public DiabloDropCommand(DiabloDrops plugin)
 	{
-		setPlugin(plugin);
+		this.plugin=plugin;
 	}
 
 	public boolean onCommand(CommandSender sender, Command command,
@@ -133,6 +131,14 @@ public class DiabloDropCommand implements CommandExecutor
 						}
 					}
 				}
+				if (args[0].equalsIgnoreCase("reload")&&sender.hasPermission("diablodrops.reload")){
+					plugin.getServer().getPluginManager().disablePlugin(plugin);
+					plugin.getServer().getPluginManager().enablePlugin(plugin);
+					plugin.reloadConfig();
+					plugin.getLogger().info("Reloaded");
+					sender.sendMessage(ChatColor.GREEN+"DiabloDrops Reloaded");
+					return true;
+				}
 				if (plugin.dropsAPI.matchesTier(args[0]))
 				{
 					Tier tier = plugin.dropsAPI.getTier(args[0]);
@@ -145,23 +151,15 @@ public class DiabloDropCommand implements CommandExecutor
 							+ args[0] + ChatColor.GREEN + " DiabloDrops item.");
 					return true;
 				}
-				pi.addItem(plugin.dropsAPI.getItem());
+				CraftItemStack ci2 = plugin.dropsAPI.getItem();
+				while (ci2 == null)
+					ci2 = plugin.dropsAPI.getItem();
+				pi.addItem(ci2);
 				player.sendMessage(ChatColor.GREEN
 						+ "You have been given a DiabloDrops item.");
 				return true;
 		}
 	}
-
-	public DiabloDrops getPlugin()
-	{
-		return plugin;
-	}
-
-	public void setPlugin(DiabloDrops plugin)
-	{
-		this.plugin = plugin;
-	}
-	
 	public String combineSplit(int startIndex, String[] string, String seperator) {
 		StringBuilder builder = new StringBuilder();
 		if(string.length >= 1){

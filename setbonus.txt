@@ -52,6 +52,7 @@ Enemies Shrink
 +1 Lightning
 +2 Lightning
 +3 Lightning
++4 Lightning
 -1 Lightning
 -2 Lightning
 -3 Lightning

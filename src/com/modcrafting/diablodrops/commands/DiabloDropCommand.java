@@ -156,20 +156,44 @@ public class DiabloDropCommand implements CommandExecutor
 				if (plugin.dropsAPI.matchesTier(args[0]))
 				{
 					CraftItemStack ci2 = plugin.dropsAPI.getItem(args[0]);
-					while (ci2 == null)
+					int attempts = 0;
+					while (ci2 == null && attempts < 10)
+					{
 						ci2 = plugin.dropsAPI.getItem(args[0]);
-					pi.addItem(ci2);
-					player.sendMessage(ChatColor.GREEN
-							+ "You have been given a " + ChatColor.WHITE
-							+ args[0] + ChatColor.GREEN + " DiabloDrops item.");
+						attempts++;
+					}
+					if (ci2 != null)
+					{
+						pi.addItem(ci2);
+						player.sendMessage(ChatColor.GREEN
+								+ "You have been given a " + ChatColor.WHITE
+								+ args[0] + ChatColor.GREEN
+								+ " DiabloDrops item.");
+					}
+					else
+					{
+						player.sendMessage(ChatColor.RED
+								+ "You were unable to be given an item at this time.");
+					}
 					return true;
 				}
 				CraftItemStack craftItemStack = plugin.dropsAPI.getItem();
-				while (craftItemStack == null)
+				int attempts = 0;
+				while (craftItemStack == null && attempts < 10)
+				{
 					craftItemStack = plugin.dropsAPI.getItem();
-				pi.addItem(craftItemStack);
-				player.sendMessage(ChatColor.GREEN
-						+ "You have been given a DiabloDrops item.");
+				}
+				if (craftItemStack != null)
+				{
+					pi.addItem(craftItemStack);
+					player.sendMessage(ChatColor.GREEN
+							+ "You have been given a DiabloDrops item.");
+				}
+				else
+				{
+					player.sendMessage(ChatColor.RED
+							+ "You were unable to be given an item at this time.");
+				}
 				return true;
 		}
 	}

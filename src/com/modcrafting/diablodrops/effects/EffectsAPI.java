@@ -109,6 +109,19 @@ public class EffectsAPI
 			}
 			return;
 		}
+		else if (args[1].equalsIgnoreCase("defense"))
+		{
+			int damage = event.getDamage() - level.intValue();
+			if (damage >= 0)
+			{
+				event.setDamage(damage);
+			}
+			else
+			{
+				event.setDamage(0);
+			}
+			return;
+		}
 		else if (args[1].equalsIgnoreCase("freeze"))
 		{
 			// freeze entities

@@ -164,7 +164,10 @@ public class DiabloDropCommand implements CommandExecutor
 							+ args[0] + ChatColor.GREEN + " DiabloDrops item.");
 					return true;
 				}
-				pi.addItem(plugin.dropsAPI.getItem());
+				CraftItemStack craftItemStack = plugin.dropsAPI.getItem();
+				while (craftItemStack == null)
+					craftItemStack = plugin.dropsAPI.getItem();
+				pi.addItem(craftItemStack);
 				player.sendMessage(ChatColor.GREEN
 						+ "You have been given a DiabloDrops item.");
 				return true;

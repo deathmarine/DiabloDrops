@@ -1,41 +1,23 @@
 ## These Lore Enhancements are Hardcoded ##
 ## You can add/remove to these values ##
-+1 Damage
-+2 Damage
-+3 Damage
-+4 Damage
-+5 Damage
-+6 Damage
-+7 Damage
-+8 Damage
-+9 Damage
--1 Damage
--2 Damage
--3 Damage
--4 Damage
--5 Damage
--6 Damage
--7 Damage
--8 Damage
--9 Damage
-+1 Defense
-+2 Defense
-+3 Defense
-+4 Defense
-+5 Defense
-+6 Defense
-+7 Defense
-+8 Defense
-+9 Defense
--1 Defense
--2 Defense
--3 Defense
--4 Defense
--5 Defense
--6 Defense
--7 Defense
--8 Defense
--9 Defense
++1 Attack
++2 Attack
++3 Attack
++4 Attack
++5 Attack
++6 Attack
++7 Attack
++8 Attack
++9 Attack
+-1 Attack
+-2 Attack
+-3 Attack
+-4 Attack
+-5 Attack
+-6 Attack
+-7 Attack
+-8 Attack
+-9 Attack
 10% Mob Freeze
 20% Mob Freeze
 30% Mob Freeze
@@ -91,16 +73,16 @@ Enemies Shrink
 ## Positive Affects Mobs, Negative Affects The Player ##
 ## Note: Some Potion Effects may not affect Mobs/Entities ##
 ## Format: {amt} {Name} ##
-1 Invisibility
-2 Invisibility
-3 Invisibility
-4 Invisibility
-5 Invisibility
-6 Invisibility
-7 Invisibility
-8 Invisibility
-9 Invisibility
-10 Invisibility
++1 Invisibility
++2 Invisibility
++3 Invisibility
++4 Invisibility
++5 Invisibility
++6 Invisibility
++7 Invisibility
++8 Invisibility
++9 Invisibility
++10 Invisibility
 -1 Invisibility
 -2 Invisibility
 -3 Invisibility
@@ -111,16 +93,16 @@ Enemies Shrink
 -8 Invisibility
 -9 Invisibility
 -10 Invisibility
-1 Speed
-2 Speed
-3 Speed
-4 Speed
-5 Speed
-6 Speed
-7 Speed
-8 Speed
-9 Speed
-10 Speed
++1 Speed
++2 Speed
++3 Speed
++4 Speed
++5 Speed
++6 Speed
++7 Speed
++8 Speed
++9 Speed
++10 Speed
 -1 Speed
 -2 Speed
 -3 Speed

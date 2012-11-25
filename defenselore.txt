@@ -71,16 +71,16 @@ Enemies Shrink
 ## Positive Affects Mobs, Negative Affects The Player ##
 ## Note: Some Potion Effects may not effect Mobs/Entities ##
 ## Format: {amt} {Name} ##
-1 Invisibility
-2 Invisibility
-3 Invisibility
-4 Invisibility
-5 Invisibility
-6 Invisibility
-7 Invisibility
-8 Invisibility
-9 Invisibility
-10 Invisibility
++1 Invisibility
++2 Invisibility
++3 Invisibility
++4 Invisibility
++5 Invisibility
++6 Invisibility
++7 Invisibility
++8 Invisibility
++9 Invisibility
++10 Invisibility
 -1 Invisibility
 -2 Invisibility
 -3 Invisibility
@@ -91,16 +91,16 @@ Enemies Shrink
 -8 Invisibility
 -9 Invisibility
 -10 Invisibility
-1 Speed
-2 Speed
-3 Speed
-4 Speed
-5 Speed
-6 Speed
-7 Speed
-8 Speed
-9 Speed
-10 Speed
++1 Speed
++2 Speed
++3 Speed
++4 Speed
++5 Speed
++6 Speed
++7 Speed
++8 Speed
++9 Speed
++10 Speed
 -1 Speed
 -2 Speed
 -3 Speed

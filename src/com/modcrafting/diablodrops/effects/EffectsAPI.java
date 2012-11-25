@@ -95,7 +95,7 @@ public class EffectsAPI
 		{
 			level = 0;
 		}
-		if (args[1].equalsIgnoreCase("damage"))
+		if (args[1].equalsIgnoreCase("attack"))
 		{
 			// Add to strike damage
 			int damage = event.getDamage() + level.intValue();

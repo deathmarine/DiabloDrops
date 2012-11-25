@@ -48,7 +48,7 @@ public class Drops
 	 */
 	public Material[] armorPicker()
 	{
-		switch (gen.nextInt(4))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return diamondArmor();
@@ -187,7 +187,7 @@ public class Drops
 	 */
 	public Material getBoots()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.LEATHER_BOOTS;
@@ -211,7 +211,7 @@ public class Drops
 	 */
 	public Material getChestPlate()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.LEATHER_CHESTPLATE;
@@ -235,7 +235,7 @@ public class Drops
 	 */
 	public Material getHelmet()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.LEATHER_HELMET;
@@ -259,7 +259,7 @@ public class Drops
 	 */
 	public Material getLeggings()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.LEATHER_LEGGINGS;
@@ -283,7 +283,7 @@ public class Drops
 	 */
 	public Material getSword()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.WOOD_SWORD;
@@ -307,7 +307,7 @@ public class Drops
 	 */
 	public Material getPickaxe()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.WOOD_PICKAXE;
@@ -331,7 +331,7 @@ public class Drops
 	 */
 	public Material getAxe()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.WOOD_AXE;
@@ -355,7 +355,7 @@ public class Drops
 	 */
 	public Material getSpade()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.WOOD_SPADE;
@@ -379,7 +379,7 @@ public class Drops
 	 */
 	public Material getHoe()
 	{
-		switch (gen.nextInt(6))
+		switch (gen.nextInt(5))
 		{
 			case 0:
 				return Material.WOOD_HOE;

@@ -20,7 +20,7 @@ public class ArmorSetBuilder
 
 	public void build()
 	{
-		plugin.tiers.clear();
+		plugin.armorSets.clear();
 		FileConfiguration cs = new YamlConfiguration();
 		File f = new File(plugin.getDataFolder(), "set.yml");
 		if (f.exists())

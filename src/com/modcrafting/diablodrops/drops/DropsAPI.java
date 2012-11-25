@@ -176,7 +176,7 @@ public class DropsAPI
 			}
 			attempts++;
 		}
-		return new CraftItemStack(mat, 1);
+		return null;
 	}
 
 	public CraftItemStack getIdItem(Material mat, String name)
@@ -185,10 +185,8 @@ public class DropsAPI
 			return null;
 		Material material = mat;
 		CraftItemStack ci = null;
-		int attempts = 0;
-		while (ci == null && attempts < 10)
+		while (ci == null)
 		{
-			attempts++;
 			for (Tier tier : plugin.tiers)
 			{
 				if (gen.nextInt(100) <= tier.getChance())
@@ -282,7 +280,7 @@ public class DropsAPI
 				}
 			}
 		}
-		return new CraftItemStack(mat);
+		return ci;
 	}
 
 	/**
@@ -292,7 +290,7 @@ public class DropsAPI
 	 *            name
 	 * @return item
 	 */
-	public CraftItemStack getItem(String type)
+	public CraftItemStack getItem(Tier tier)
 	{
 		Material mat = dropPicker();
 		if (mat == null)
@@ -301,114 +299,103 @@ public class DropsAPI
 		int attempts = 0;
 		while (ci == null && attempts < 10)
 		{
-			for (Tier tier : plugin.tiers)
+			if (tier.getMaterials().size() > 0
+					&& !tier.getMaterials().contains(mat))
 			{
-				if (tier.getName().equalsIgnoreCase(type))
+				mat = tier.getMaterials().get(
+						gen.nextInt(tier.getMaterials().size()));
+			}
+			int e = tier.getAmount();
+			int l = tier.getLevels();
+			short damage = 0;
+			if (plugin.config.getBoolean("DropFix.Damage", true))
+			{
+				damage = damageItemStack(mat);
+			}
+			if (plugin.config.getBoolean("Display.TierName", true)
+					&& !tier.getColor().equals(ChatColor.MAGIC))
+			{
+				ci = new Drop(mat, tier.getColor(),
+						ChatColor.stripColor(name()), damage,
+						tier.getColor() + tier.getName());
+			}
+			else
+			{
+				ci = new Drop(mat, tier.getColor(),
+						ChatColor.stripColor(name()), damage);
+			}
+			if (tier.getColor().equals(ChatColor.MAGIC))
+				return ci;
+			for (; e > 0; e--)
+			{
+				int lvl = gen.nextInt(l + 1);
+				Enchantment ench = drops.enchant();
+				if (lvl != 0 && ench != null
+						&& !tier.getColor().equals(ChatColor.MAGIC))
 				{
-					if (gen.nextInt(100) <= tier.getChance())
+					if (plugin.config.getBoolean(
+							"SafeEnchant.Enabled", true))
 					{
-						if (tier.getMaterials().size() > 0
-								&& !tier.getMaterials().contains(mat))
+						if (ench.canEnchantItem(ci))
 						{
-							mat = tier.getMaterials().get(
-									gen.nextInt(tier.getMaterials().size()));
-						}
-						int e = tier.getAmount();
-						int l = tier.getLevels();
-						short damage = 0;
-						if (plugin.config.getBoolean("DropFix.Damage", true))
-						{
-							damage = damageItemStack(mat);
-						}
-						if (plugin.config.getBoolean("Display.TierName", true)
-								&& !tier.getColor().equals(ChatColor.MAGIC))
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()), damage,
-									tier.getColor() + tier.getName());
-						}
-						else
-						{
-							ci = new Drop(mat, tier.getColor(),
-									ChatColor.stripColor(name()), damage);
-						}
-						if (tier.getColor().equals(ChatColor.MAGIC))
-							return ci;
-						for (; e > 0; e--)
-						{
-							int lvl = gen.nextInt(l + 1);
-							Enchantment ench = drops.enchant();
-							if (lvl != 0 && ench != null
-									&& !tier.getColor().equals(ChatColor.MAGIC))
+							if (lvl >= ench.getStartLevel()
+									&& lvl <= ench.getMaxLevel())
 							{
-								if (plugin.config.getBoolean(
-										"SafeEnchant.Enabled", true))
+								try
 								{
-									if (ench.canEnchantItem(ci))
-									{
-										if (lvl >= ench.getStartLevel()
-												&& lvl <= ench.getMaxLevel())
-										{
-											try
-											{
-												ci.addEnchantment(ench, lvl);
-											}
-											catch (Exception e1)
-											{
-												e++;
-											}
-										}
-									}
+									ci.addEnchantment(ench, lvl);
 								}
-								else
+								catch (Exception e1)
 								{
-									ci.addUnsafeEnchantment(ench, lvl);
+									e++;
 								}
 							}
 						}
-						if (plugin.config
-								.getBoolean("SocketItem.Enabled", true)
-								&& gen.nextInt(100) <= plugin.config.getInt(
-										"SocketItem.Chance", 5)
-								&& !tier.getColor().equals(ChatColor.MAGIC))
-						{
-							Namer.addLore(ci, "(Socket)");
-							return ci;
-						}
-						if (plugin.config.getBoolean("Lore.Enabled", true)
-								&& gen.nextInt(100) <= plugin.config.getInt(
-										"Lore.Chance", 5)
-								&& !tier.getColor().equals(ChatColor.MAGIC))
-						{
-							Tool tool = new Tool(ci);
-							for (int i = 0; i < plugin.config.getInt(
-									"Lore.EnhanceAmount", 2); i++)
-							{
-								if (drops.isArmor(mat))
-								{
-									tool.setLore(plugin.defenselore
-											.get(plugin.gen
-													.nextInt(plugin.defenselore
-															.size())));
-								}
-								else if (drops.isTool(mat))
-								{
-									tool.setLore(plugin.offenselore
-											.get(plugin.gen
-													.nextInt(plugin.offenselore
-															.size())));
-								}
-							}
-							return tool;
-						}
-						return ci;
+					}
+					else
+					{
+						ci.addUnsafeEnchantment(ench, lvl);
 					}
 				}
 			}
-			attempts++;
+			if (plugin.config
+					.getBoolean("SocketItem.Enabled", true)
+					&& gen.nextInt(100) <= plugin.config.getInt(
+							"SocketItem.Chance", 5)
+					&& !tier.getColor().equals(ChatColor.MAGIC))
+			{
+				Namer.addLore(ci, "(Socket)");
+				return ci;
+			}
+			if (plugin.config.getBoolean("Lore.Enabled", true)
+					&& gen.nextInt(100) <= plugin.config.getInt(
+							"Lore.Chance", 5)
+					&& !tier.getColor().equals(ChatColor.MAGIC))
+			{
+				Tool tool = new Tool(ci);
+				for (int i = 0; i < plugin.config.getInt(
+						"Lore.EnhanceAmount", 2); i++)
+				{
+					if (drops.isArmor(mat))
+					{
+						tool.setLore(plugin.defenselore
+								.get(plugin.gen
+										.nextInt(plugin.defenselore
+												.size())));
+					}
+					else if (drops.isTool(mat))
+					{
+						tool.setLore(plugin.offenselore
+								.get(plugin.gen
+										.nextInt(plugin.offenselore
+												.size())));
+					}
+				}
+				return tool;
+			}
+			return ci;
 		}
-		return new CraftItemStack(
-				drops.allItems()[gen.nextInt(drops.allItems().length - 1)]);
+		return null;
 	}
 
 	/**

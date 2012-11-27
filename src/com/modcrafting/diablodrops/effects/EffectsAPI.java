@@ -136,25 +136,25 @@ public class EffectsAPI
                 return;
             }
             if (fl > 0 && struck instanceof Monster)
-                Effects.speed(struck, Math.abs(fl) / 500);
+                EffectsUtil.speed(struck, Math.abs(fl) / 500);
             else if (fl < 0 && striker instanceof Monster)
-                Effects.speed(striker, Math.abs(fl) / 500);
+                EffectsUtil.speed(striker, Math.abs(fl) / 500);
             return;
         }
         else if (args[1].equalsIgnoreCase("shrink") && struck != null)
         {
             // turn into baby
-            Effects.makeBaby(struck);
+            EffectsUtil.makeBaby(struck);
             return;
         }
         else if (args[1].equalsIgnoreCase("lightning"))
         {
             // strike lightning
             if (level.intValue() > 0 && struck != null)
-                Effects.strikeLightning(struck.getLocation(),
+                EffectsUtil.strikeLightning(struck.getLocation(),
                         Math.abs(level.intValue()));
             else if (level.intValue() < 0 && striker != null)
-                Effects.strikeLightning(striker.getLocation(),
+                EffectsUtil.strikeLightning(striker.getLocation(),
                         Math.abs(level.intValue()));
             return;
         }
@@ -162,9 +162,9 @@ public class EffectsAPI
         {
             // Set entity on fire
             if (level.intValue() > 0 && struck != null)
-                Effects.setOnFire(struck, Math.abs(level.intValue()));
+                EffectsUtil.setOnFire(struck, Math.abs(level.intValue()));
             else if (level.intValue() < 0 && striker != null)
-                Effects.setOnFire(striker, Math.abs(level.intValue()));
+                EffectsUtil.setOnFire(striker, Math.abs(level.intValue()));
             return;
         }
         else if (args[1].equalsIgnoreCase("leech") && striker != null

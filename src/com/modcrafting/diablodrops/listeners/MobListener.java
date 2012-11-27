@@ -27,7 +27,7 @@ import com.modcrafting.diablodrops.drops.DropUtils;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
 
-public class KillListener implements Listener
+public class MobListener implements Listener
 {
 	private DiabloDrops plugin;
 	private DropUtils drops = new DropUtils();
@@ -36,7 +36,7 @@ public class KillListener implements Listener
 	private int chance;
 	private boolean dropfix;
 
-	public KillListener(DiabloDrops instance)
+	public MobListener(DiabloDrops instance)
 	{
 		plugin = instance;
 		spawner = plugin.config.getBoolean("Reason.Spawner", true);

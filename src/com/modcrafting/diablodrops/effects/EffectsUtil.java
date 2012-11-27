@@ -36,7 +36,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 
-public class Effects
+public class EffectsUtil
 {
 	// Why? Cause we can.
 	/**

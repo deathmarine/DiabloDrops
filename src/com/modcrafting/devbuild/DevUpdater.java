@@ -87,10 +87,6 @@ public class DevUpdater
 			}
 		}
 	}
-
-	/**
-	 * Initialize the updater
-	 */
 	public DevUpdater(Plugin plugin, File file,Integer build)
 	{
 		this.build = build;
@@ -210,11 +206,6 @@ public class DevUpdater
 			}
 		}
 	}
-
-	/**
-	 * Check if the name of a jar is one of the plugins currently installed,
-	 * used for extracting the correct files out of a zip.
-	 */
 	public boolean pluginFile(String name)
 	{
 		for (File file : new File("plugins").listFiles())
@@ -227,11 +218,6 @@ public class DevUpdater
 		return false;
 	}
 
-
-	/**
-	 * Check to see if the program should continue by evaluation whether the
-	 * plugin is already updated, or shouldn't be updated
-	 */
 	private boolean versionCheck(String title)
 	{
 		StringBuilder sb = new StringBuilder();

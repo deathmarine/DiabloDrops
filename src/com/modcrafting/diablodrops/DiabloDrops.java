@@ -11,6 +11,7 @@ import net.h31ix.updater.Updater.UpdateResult;
 import net.h31ix.updater.Updater.UpdateType;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -29,7 +30,7 @@ import com.modcrafting.diablodrops.drops.DropUtils;
 import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
-import com.modcrafting.diablodrops.listeners.KillListener;
+import com.modcrafting.diablodrops.listeners.MobListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
@@ -59,6 +60,7 @@ public class DiabloDrops extends JavaPlugin
 	public Namer itemNamer;
 	public Integer build;
 	private static DiabloDrops instance;
+	int id; 
 
 	public void onDisable()
 	{
@@ -110,7 +112,7 @@ public class DiabloDrops extends JavaPlugin
 				multiW = fixCase;
 		}
 		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvents(new KillListener(this), this);
+		pm.registerEvents(new MobListener(this), this);
 		pm.registerEvents(new TomeListener(this), this);
 		pm.registerEvents(new SocketListener(this), this);
 		pm.registerEvents(new ChunkListener(this), this);
@@ -159,7 +161,7 @@ public class DiabloDrops extends JavaPlugin
 
 				});
 		if(config.getBoolean("Plugin.Dev.Update",false)){
-			this.getServer().getScheduler()
+			id = this.getServer().getScheduler()
 			.scheduleAsyncRepeatingTask(this, new Runnable()
 			{
 				@Override
@@ -168,24 +170,22 @@ public class DiabloDrops extends JavaPlugin
 					DevUpdater up = new DevUpdater(getInstance(), getFile(),build);
 					if (up.getResult().equals(DevUpdateResult.SUCCESS))
 					{
-						getServer().broadcastMessage("Jenkins Update Downloaded Build#"+String.valueOf(up.getBuild()));
+						getServer().getScheduler().cancelTask(id);
+						getServer().broadcastMessage(ChatColor.AQUA+"Jenkins Update Downloaded Build#"+String.valueOf(up.getBuild()));
 						new Thread(new Runnable(){
 							@Override
 							public void run() {
-								try {
-									killTasks();
-									wait(900);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
+								long time = System.currentTimeMillis()+(30*1000);
+								boolean test = true;
+								while(test){
+									if(time>System.currentTimeMillis()){
+										test=false;
+										Bukkit.getServer().reload();
+									}
 								}
-								Bukkit.getServer().reload();
 								
 							}
 						}).start();
-					}else{
-						getLogger()
-						.info("No Updates found on Jenkins. Build#"+String.valueOf(up.getBuild()));
-						
 					}
 					build=up.getBuild();
 				}

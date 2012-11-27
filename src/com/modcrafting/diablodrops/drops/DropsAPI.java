@@ -405,7 +405,7 @@ public class DropsAPI
 	 */
 	public Material dropPicker()
 	{
-		int next = gen.nextInt(9);
+		int next = gen.nextInt(10);
 		switch (next)
 		{
 			case 1:
@@ -424,6 +424,8 @@ public class DropsAPI
 				return drops.getAxe();
 			case 8:
 				return drops.getSpade();
+			case 9:
+				return Material.BOW;
 			default:
 				return drops.getSword();
 
@@ -585,6 +587,9 @@ public class DropsAPI
 	 */
 	public Tool getItem(Tool tool)
 	{
+		short oldDam = tool.getDurability();
+		tool = new Tool(tool.getType());
+		tool.setDurability(oldDam);
 		for (Tier tier : plugin.tiers)
 		{
 			if (gen.nextInt(100) <= tier.getChance())

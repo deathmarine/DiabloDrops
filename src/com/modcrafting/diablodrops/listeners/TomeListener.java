@@ -79,14 +79,11 @@ public class TomeListener implements Listener
 						return;
 					}
 					pi.setItemInHand(null);
-					CraftItemStack newStack = plugin.dropsAPI.getIdItem(
-							cis.getType(), name);
-					while (newStack == null||newStack.getType().equals(Material.AIR))
-						newStack = plugin.dropsAPI.getIdItem(cis.getType(),
-								name);
-					Tool newTool = new Tool(newStack.getHandle());
+					Tool item = plugin.dropsAPI.getItem(tool);
+					while(item==null||item.getName().contains(ChatColor.MAGIC.toString()))
+						item = plugin.dropsAPI.getItem(tool);
 					pi.removeItem(tool);
-					pi.addItem(newTool);
+					pi.addItem(item);
 					p.sendMessage(ChatColor.GREEN
 							+ "You have identified an item!");
 					p.updateInventory();

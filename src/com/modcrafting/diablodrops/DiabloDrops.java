@@ -30,6 +30,7 @@ import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.ArmorSetBuilder;
+import com.modcrafting.diablodrops.sets.SetsAPI;
 import com.modcrafting.diablodrops.socket.SocketBuilder;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.TierBuilder;
@@ -51,6 +52,7 @@ public class DiabloDrops extends JavaPlugin
 	public Random gen = new Random();
 	public FileConfiguration config;
 	public DropsAPI dropsAPI;
+    public SetsAPI setsAPI;
 	public Drops drop = new Drops();
 	public Namer itemNamer;
 
@@ -93,6 +95,7 @@ public class DiabloDrops extends JavaPlugin
 		new TierBuilder(this).build();
 		new ArmorSetBuilder(this).build();
 		dropsAPI = new DropsAPI(this);
+		setsAPI = new SetsAPI(this);
 		itemNamer = new Namer();
 		if (config.getBoolean("Worlds.Enabled", false))
 		{

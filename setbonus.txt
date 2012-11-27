@@ -1,39 +1,3 @@
-+1 Attack
-+2 Attack
-+3 Attack
-+4 Attack
-+5 Attack
-+6 Attack
-+7 Attack
-+8 Attack
-+9 Attack
--1 Attack
--2 Attack
--3 Attack
--4 Attack
--5 Attack
--6 Attack
--7 Attack
--8 Attack
--9 Attack
-+1 Defense
-+2 Defense
-+3 Defense
-+4 Defense
-+5 Defense
-+6 Defense
-+7 Defense
-+8 Defense
-+9 Defense
--1 Defense
--2 Defense
--3 Defense
--4 Defense
--5 Defense
--6 Defense
--7 Defense
--8 Defense
--9 Defense
 10% Mob Freeze
 20% Mob Freeze
 30% Mob Freeze
@@ -44,7 +8,6 @@
 80% Mob Freeze
 90% Mob Freeze
 100% Mob Freeze
-# Frenzy no longer needed Speed potions effect mobs#
 Enemies Shrink
 ## Lightning and fire effects ##
 ## Positive values affect the other ##
@@ -130,3 +93,24 @@ Enemies Shrink
 -8 Speed
 -9 Speed
 -10 Speed
+##A couple strange ones##
+##It's not recommended you use these##
+##Unless you want weird things to go on##
++1 Entomb
++2 Entomb
++3 Entomb
+-1 Entomb
+-2 Entomb
+-3 Entomb
++1 Spine
++2 Spine
++3 Spine
+-1 Spine
+-2 Spine
+-3 Spine
++1 Launch
++2 Launch
++3 Launch
+-1 Launch
+-2 Launch
+-3 Launch

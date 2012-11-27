@@ -161,7 +161,7 @@ public class DiabloDrops extends JavaPlugin
 				@Override
 				public void run()
 				{
-					DevUpdater up = new DevUpdater(getInstance(), getFile(), true);
+					DevUpdater up = new DevUpdater(getInstance(), getFile());
 					if (up.getResult().equals(UpdateResult.SUCCESS))
 					{
 						getLogger()

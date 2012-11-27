@@ -182,8 +182,11 @@ public class DevUpdater
 	 *            True if the program should announce the progress of new
 	 *            updates in console
 	 */
-	public DevUpdater(Plugin plugin, File file)
+	public DevUpdater(Plugin plugin, File file,Integer build)
 	{
+		if(build!=null){
+			this.build=build;
+		}
 		this.plugin = plugin;
 		try
 		{
@@ -223,7 +226,9 @@ public class DevUpdater
 	{
 		return totalSize;
 	}
-
+	public int getBuild(){
+		return build;
+	}
 	/**
 	 * Get the version string latest file avaliable online.
 	 */

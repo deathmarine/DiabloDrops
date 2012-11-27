@@ -160,11 +160,11 @@ public class DiabloDrops extends JavaPlugin
 			this.getServer().getScheduler()
 			.scheduleAsyncRepeatingTask(this, new Runnable()
 			{
-
+				Integer build;
 				@Override
 				public void run()
 				{
-					DevUpdater up = new DevUpdater(getInstance(), getFile());
+					DevUpdater up = new DevUpdater(getInstance(), getFile(),build);
 					if (up.getResult().equals(UpdateResult.SUCCESS))
 					{
 						getLogger()
@@ -172,7 +172,7 @@ public class DiabloDrops extends JavaPlugin
 										+ up.getLatestVersionString()
 										+ " found and downloaded please restart your server.");
 					}		
-
+					build=up.getBuild();
 				}
 
 			}, 0, 1800);

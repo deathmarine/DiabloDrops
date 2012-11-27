@@ -55,7 +55,7 @@ public class DiabloDrops extends JavaPlugin
     public SetsAPI setsAPI;
 	public Drops drop = new Drops();
 	public Namer itemNamer;
-
+	public Integer build;
 	private static DiabloDrops instance;
 
 	public void onDisable()
@@ -160,18 +160,19 @@ public class DiabloDrops extends JavaPlugin
 			this.getServer().getScheduler()
 			.scheduleAsyncRepeatingTask(this, new Runnable()
 			{
-				Integer build;
 				@Override
 				public void run()
 				{
 					DevUpdater up = new DevUpdater(getInstance(), getFile(),build);
 					if (up.getResult().equals(UpdateResult.SUCCESS))
 					{
+						getServer().broadcastMessage("Jenkins Update Downloaded Build#"+String.valueOf(up.getBuild()));
+						getServer().reload();
+					}else{
 						getLogger()
-								.info("Update "
-										+ up.getLatestVersionString()
-										+ " found and downloaded please restart your server.");
-					}		
+						.info("No Updates found on Jenkins. Build#"+String.valueOf(up.getBuild()));
+						
+					}
 					build=up.getBuild();
 				}
 

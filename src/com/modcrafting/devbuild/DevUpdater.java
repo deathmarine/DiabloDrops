@@ -7,21 +7,17 @@
 package com.modcrafting.devbuild;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -63,31 +59,7 @@ public class DevUpdater
 		/**
 		 * The updater did not find an update, and nothing was downloaded.
 		 */
-		NO_UPDATE(2),
-		/**
-		 * The updater found an update, but was unable to download it.
-		 */
-		FAIL_DOWNLOAD(3),
-		/**
-		 * For some reason, the updater was unable to contact dev.bukkit.org to
-		 * download the file.
-		 */
-		FAIL_DBO(4),
-		/**
-		 * When running the version check, the file on DBO did not contain the a
-		 * version in the format 'vVersion' such as 'v1.0'.
-		 */
-		FAIL_NOVERSION(5),
-		/**
-		 * The slug provided by the plugin running the updater was invalid and
-		 * doesn't exist on DBO.
-		 */
-		FAIL_BADSLUG(6),
-		/**
-		 * The updater found an update, but because of the UpdateType being set
-		 * to NO_DOWNLOAD, it wasn't downloaded.
-		 */
-		UPDATE_AVAILABLE(7);
+		NO_UPDATE(2);
 
 		private static final Map<Integer, DevUpdater.UpdateResult> valueList = new HashMap<Integer, DevUpdater.UpdateResult>();
 		private final int value;
@@ -110,54 +82,6 @@ public class DevUpdater
 		static
 		{
 			for (DevUpdater.UpdateResult result : DevUpdater.UpdateResult.values())
-			{
-				valueList.put(result.value, result);
-			}
-		}
-	}
-
-	/**
-	 * Allows the dev to specify the type of update that will be run.
-	 */
-	public enum UpdateType
-	{
-		/**
-		 * Run a version check, and then if the file is out of date, download
-		 * the newest version.
-		 */
-		DEFAULT(1),
-		/**
-		 * Don't run a version check, just find the latest update and download
-		 * it.
-		 */
-		NO_VERSION_CHECK(2),
-		/**
-		 * Get information about the version and the download size, but don't
-		 * actually download anything.
-		 */
-		NO_DOWNLOAD(3);
-
-		private static final Map<Integer, DevUpdater.UpdateType> valueList = new HashMap<Integer, DevUpdater.UpdateType>();
-		private final int value;
-
-		private UpdateType(int value)
-		{
-			this.value = value;
-		}
-
-		public int getValue()
-		{
-			return this.value;
-		}
-
-		public static DevUpdater.UpdateType getResult(int value)
-		{
-			return valueList.get(value);
-		}
-
-		static
-		{
-			for (DevUpdater.UpdateType result : DevUpdater.UpdateType.values())
 			{
 				valueList.put(result.value, result);
 			}
@@ -195,7 +119,6 @@ public class DevUpdater
 		}
 		catch (MalformedURLException ex)
 		{
-			result = DevUpdater.UpdateResult.FAIL_BADSLUG; // Bad slug! Bad!
 		}
 		if (url != null)
 		{
@@ -271,30 +194,11 @@ public class DevUpdater
 									+ fileLength + " bytes.");
 				}
 			}
-			// Just a quick check to make sure we didn't leave any files from
-			// last time...
-			for (File xFile : new File("plugins/" + updateFolder).listFiles())
-			{
-				if (xFile.getName().endsWith(".zip"))
-				{
-					xFile.delete();
-				}
-			}
-			// Check to see if it's a zip file, if it is, unzip it.
-			File dFile = new File(folder.getAbsolutePath() + "/" + file);
-			if (dFile.getName().endsWith(".zip"))
-			{
-				// Unzip
-				unzip(dFile.getCanonicalPath());
-			}
 			plugin.getLogger().info("Finished updating.");
+			result = UpdateResult.SUCCESS;
 		}
 		catch (Exception ex)
 		{
-			plugin.getLogger()
-					.warning(
-							"The auto-updater tried to download a new update, but was unsuccessful.");
-			result = DevUpdater.UpdateResult.FAIL_DOWNLOAD;
 		}
 		finally
 		{
@@ -313,113 +217,6 @@ public class DevUpdater
 			{
 			}
 		}
-	}
-
-	/**
-	 * Part of Zip-File-Extractor, modified by H31IX for use with Bukkit
-	 */
-	private void unzip(String file)
-	{
-		try
-		{
-			File fSourceZip = new File(file);
-			String zipPath = file.substring(0, file.length() - 4);
-			ZipFile zipFile = new ZipFile(fSourceZip);
-			Enumeration<? extends ZipEntry> e = zipFile.entries();
-			while (e.hasMoreElements())
-			{
-				ZipEntry entry = (ZipEntry) e.nextElement();
-				File destinationFilePath = new File(zipPath, entry.getName());
-				destinationFilePath.getParentFile().mkdirs();
-				if (entry.isDirectory())
-				{
-					continue;
-				}
-				BufferedInputStream bis = new BufferedInputStream(
-						zipFile.getInputStream(entry));
-				int b;
-				byte buffer[] = new byte[BYTE_SIZE];
-				FileOutputStream fos = new FileOutputStream(destinationFilePath);
-				BufferedOutputStream bos = new BufferedOutputStream(fos,
-						BYTE_SIZE);
-				while ((b = bis.read(buffer, 0, BYTE_SIZE)) != -1)
-				{
-					bos.write(buffer, 0, b);
-				}
-				bos.flush();
-				bos.close();
-				bis.close();
-				String name = destinationFilePath.getName();
-				if (name.endsWith(".jar") && pluginFile(name))
-				{
-					destinationFilePath.renameTo(new File("plugins/"
-							+ updateFolder + "/" + name));
-				}
-				entry = null;
-				destinationFilePath = null;
-			}
-			e = null;
-			zipFile.close();
-			zipFile = null;
-			// Move any plugin data folders that were included to the right
-			// place, Bukkit won't do this for us.
-			for (File dFile : new File(zipPath).listFiles())
-			{
-				if (dFile.isDirectory())
-				{
-					if (pluginFile(dFile.getName()))
-					{
-						File oFile = new File("plugins/" + dFile.getName()); // Get
-																				// current
-																				// dir
-						File[] contents = oFile.listFiles(); // List of existing
-																// files in the
-																// current dir
-						for (File cFile : dFile.listFiles()) // Loop through all
-																// the files in
-																// the new dir
-						{
-							boolean found = false;
-							for (File xFile : contents) // Loop through contents
-														// to see if it exists
-							{
-								if (xFile.getName().equals(cFile.getName()))
-								{
-									found = true;
-									break;
-								}
-							}
-							if (!found)
-							{
-								// Move the new file into the current dir
-								cFile.renameTo(new File(oFile
-										.getCanonicalFile()
-										+ "/"
-										+ cFile.getName()));
-							}
-							else
-							{
-								// This file already exists, so we don't need it
-								// anymore.
-								cFile.delete();
-							}
-						}
-					}
-				}
-				dFile.delete();
-			}
-			new File(zipPath).delete();
-			fSourceZip.delete();
-		}
-		catch (IOException ex)
-		{
-			ex.printStackTrace();
-			plugin.getLogger()
-					.warning(
-							"The auto-updater tried to unzip a new update file, but was unsuccessful.");
-			result = DevUpdater.UpdateResult.FAIL_DOWNLOAD;
-		}
-		new File(file).delete();
 	}
 
 	/**

@@ -2,6 +2,8 @@ package com.modcrafting.toolapi.lib;
 
 import java.util.List;
 
+import net.minecraft.server.NBTTagCompound;
+
 public interface ToolInterface
 {
 	/**
@@ -53,4 +55,18 @@ public interface ToolInterface
 	 * @return list
 	 */
 	public List<String> getLoreList();
+
+	/**
+	 * Sets the compound for the item.
+	 * 
+	 * @param tag
+	 */
+	public void setTag(NBTTagCompound tag);
+
+	/**
+	 * Gets the compound for the item.
+	 * 
+	 * @return tag
+	 */
+	public NBTTagCompound getTag();
 }

@@ -1,4 +1,4 @@
-package com.modcrafting.diablodrops.tier;
+package com.modcrafting.diablodrops.builders;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.tier.Tier;
 
 public class TierBuilder
 {

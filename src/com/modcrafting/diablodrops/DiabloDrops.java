@@ -10,6 +10,7 @@ import net.h31ix.updater.Updater;
 import net.h31ix.updater.Updater.UpdateResult;
 import net.h31ix.updater.Updater.UpdateType;
 
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -19,10 +20,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.modcrafting.devbuild.DevUpdater;
 import com.modcrafting.devbuild.DevUpdater.DevUpdateResult;
+import com.modcrafting.diablodrops.builders.ArmorSetBuilder;
+import com.modcrafting.diablodrops.builders.CustomBuilder;
+import com.modcrafting.diablodrops.builders.SocketBuilder;
+import com.modcrafting.diablodrops.builders.TierBuilder;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
-import com.modcrafting.diablodrops.drops.Drops;
+import com.modcrafting.diablodrops.drops.DropUtils;
 import com.modcrafting.diablodrops.drops.DropsAPI;
-import com.modcrafting.diablodrops.drops.CustomBuilder;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
 import com.modcrafting.diablodrops.listeners.KillListener;
@@ -30,11 +34,8 @@ import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.sets.ArmorSet;
-import com.modcrafting.diablodrops.sets.ArmorSetBuilder;
 import com.modcrafting.diablodrops.sets.SetsAPI;
-import com.modcrafting.diablodrops.socket.SocketBuilder;
 import com.modcrafting.diablodrops.tier.Tier;
-import com.modcrafting.diablodrops.tier.TierBuilder;
 import com.modcrafting.toolapi.lib.Tool;
 import com.stirante.PrettyScaryLib.Namer;
 
@@ -54,14 +55,14 @@ public class DiabloDrops extends JavaPlugin
 	public FileConfiguration config;
 	public DropsAPI dropsAPI;
     public SetsAPI setsAPI;
-	public Drops drop = new Drops();
+	public DropUtils drop = new DropUtils();
 	public Namer itemNamer;
 	public Integer build;
 	private static DiabloDrops instance;
 
 	public void onDisable()
 	{
-		this.getServer().getScheduler().cancelTasks(this);
+		killTasks();
 		prefix.clear();
 		suffix.clear();
 		tiers.clear();
@@ -168,15 +169,19 @@ public class DiabloDrops extends JavaPlugin
 					if (up.getResult().equals(DevUpdateResult.SUCCESS))
 					{
 						getServer().broadcastMessage("Jenkins Update Downloaded Build#"+String.valueOf(up.getBuild()));
-						getServer().getScheduler().scheduleAsyncDelayedTask(getInstance(), new Runnable(){
-
+						new Thread(new Runnable(){
 							@Override
 							public void run() {
-								getServer().reload();
+								try {
+									killTasks();
+									wait(900);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								Bukkit.getServer().reload();
 								
 							}
-							
-						}, 1800);
+						}).start();
 					}else{
 						getLogger()
 						.info("No Updates found on Jenkins. Build#"+String.valueOf(up.getBuild()));
@@ -185,7 +190,7 @@ public class DiabloDrops extends JavaPlugin
 					build=up.getBuild();
 				}
 
-			}, 0, 1800);
+			}, 0, 2400);
 		}
 	}
 	
@@ -197,5 +202,9 @@ public class DiabloDrops extends JavaPlugin
 	public static DiabloDrops getInstance()
 	{
 		return instance;
+	}
+	public void killTasks()
+	{
+		this.getServer().getScheduler().cancelTasks(this);
 	}
 }

@@ -1,4 +1,4 @@
-package com.modcrafting.diablodrops.socket;
+package com.modcrafting.diablodrops.builders;
 
 import java.util.List;
 

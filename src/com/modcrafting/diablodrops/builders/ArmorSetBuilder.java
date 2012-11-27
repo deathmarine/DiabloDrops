@@ -1,4 +1,4 @@
-package com.modcrafting.diablodrops.sets;
+package com.modcrafting.diablodrops.builders;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.sets.ArmorSet;
 
 public class ArmorSetBuilder
 {

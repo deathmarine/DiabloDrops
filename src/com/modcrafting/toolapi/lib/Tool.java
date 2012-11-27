@@ -79,6 +79,7 @@ public class Tool extends CraftItemStack implements ToolInterface
 		ntag.set("Name", p);
 		ntag.setString("Name", name);
 		tag.setCompound("display", ntag);
+		setTag(tag);
 	}
 
 	@Override
@@ -91,6 +92,7 @@ public class Tool extends CraftItemStack implements ToolInterface
 	public void setRepairCost(Integer i)
 	{
 		tag.setInt("RepairCost", i);
+		setTag(tag);
 	}
 
 	@Override
@@ -107,14 +109,18 @@ public class Tool extends CraftItemStack implements ToolInterface
 		}
 		ntag.set("Lore", p);
 		tag.setCompound("display", ntag);
+		setTag(tag);
 	}
 
 	@Override
 	public String[] getLore()
 	{
-		NBTTagList list = tag.getCompound("display").getList("Lore");
 		ArrayList<String> strings = new ArrayList<String>();
 		String[] lores = new String[] {};
+		if(tag==null
+				||tag.getCompound("display")==null
+				||tag.getCompound("display").getList("Lore")==null) return lores; 
+		NBTTagList list = tag.getCompound("display").getList("Lore");
 		for (int i = 0; i < list.size(); i++)
 			strings.add(((NBTTagString) list.get(i)).data);
 		strings.toArray(lores);
@@ -125,9 +131,9 @@ public class Tool extends CraftItemStack implements ToolInterface
 	public List<String> getLoreList()
 	{
 		ArrayList<String> strings = new ArrayList<String>();
-		if(tag==null) return strings;
-		if(tag.getCompound("display")==null) return strings;
-		if(tag.getCompound("display").getList("Lore")==null) return strings; 
+		if(tag==null
+				||tag.getCompound("display")==null
+				||tag.getCompound("display").getList("Lore")==null) return strings; 
 		NBTTagList list = tag.getCompound("display").getList("Lore");
 		for (int i = 0; i < list.size(); i++)
 		{
@@ -158,5 +164,17 @@ public class Tool extends CraftItemStack implements ToolInterface
 		p.add(new NBTTagString("", string));
 		ntag.set("Lore", p);
 		tag.setCompound("display", ntag);
+		setTag(tag);
+	}
+	
+	@Override
+	public void setTag(NBTTagCompound tag){
+		this.tag=tag;
+		this.getHandle().tag=tag;
+	}
+	
+	@Override
+	public NBTTagCompound getTag(){
+		return this.tag;
 	}
 }

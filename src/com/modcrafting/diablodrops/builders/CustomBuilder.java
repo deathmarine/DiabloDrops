@@ -1,4 +1,4 @@
-package com.modcrafting.diablodrops.drops;
+package com.modcrafting.diablodrops.builders;
 
 import java.io.File;
 import java.util.List;

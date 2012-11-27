@@ -12,12 +12,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.drops.Drops;
+import com.modcrafting.diablodrops.drops.DropUtils;
 
 public class SetsAPI
 {
     private final Random gen;
-    private final Drops drops;
+    private final DropUtils drops;
     private final DiabloDrops plugin;
 
     public SetsAPI(DiabloDrops instance)
@@ -120,7 +120,7 @@ public class SetsAPI
         return true;
     }
 
-    public Drops getDrops()
+    public DropUtils getDrops()
     {
         return drops;
     }

@@ -23,14 +23,14 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.drops.Drops;
+import com.modcrafting.diablodrops.drops.DropUtils;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
 
 public class KillListener implements Listener
 {
 	private DiabloDrops plugin;
-	private Drops drops = new Drops();
+	private DropUtils drops = new DropUtils();
 	private boolean spawner;
 	private boolean egg;
 	private int chance;

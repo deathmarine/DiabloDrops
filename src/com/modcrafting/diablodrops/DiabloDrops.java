@@ -164,7 +164,7 @@ public class DiabloDrops extends JavaPlugin
 				@Override
 				public void run()
 				{
-					DevUpdater up = new DevUpdater(getInstance(), getFile());
+					DevUpdater up = new DevUpdater(getInstance(), getFile(),build);
 					if (up.getResult().equals(DevUpdateResult.SUCCESS))
 					{
 						getServer().broadcastMessage("Jenkins Update Downloaded Build#"+String.valueOf(up.getBuild()));

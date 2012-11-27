@@ -91,8 +91,9 @@ public class DevUpdater
 	/**
 	 * Initialize the updater
 	 */
-	public DevUpdater(Plugin plugin, File file)
+	public DevUpdater(Plugin plugin, File file,Integer build)
 	{
+		this.build = build;
 		this.plugin = plugin;
 		forceUpdate(file);
 		
@@ -243,7 +244,10 @@ public class DevUpdater
 		if(build==null){
 			build=buildNum;
 		}else{
-			if(buildNum>build) return true;
+			if(buildNum>build){
+				build=buildNum;				
+				return true;
+			}
 		}
 		
 		return false;

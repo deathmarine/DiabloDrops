@@ -129,11 +129,11 @@ public class DiabloDrops extends JavaPlugin
 							Updater up = new Updater(getInstance(), pdf
 									.getName().toLowerCase(), getFile(),
 									UpdateType.DEFAULT, true);
-							if (!up.getResult().equals(UpdateResult.SUCCESS)
+							if (!up.getResult().equals(Updater.UpdateResult.SUCCESS)
 									|| up.pluginFile(getFile().getName()))
 							{
 								if (up.getResult().equals(
-										UpdateResult.FAIL_NOVERSION))
+										Updater.UpdateResult.FAIL_NOVERSION))
 								{
 									getLogger()
 											.info("Unable to connect to dev.bukkit.org.");
@@ -164,7 +164,7 @@ public class DiabloDrops extends JavaPlugin
 				public void run()
 				{
 					DevUpdater up = new DevUpdater(getInstance(), getFile(),build);
-					if (up.getResult().equals(UpdateResult.SUCCESS))
+					if (up.getResult().equals(DevUpdater.UpdateResult.SUCCESS))
 					{
 						getServer().broadcastMessage("Jenkins Update Downloaded Build#"+String.valueOf(up.getBuild()));
 						getServer().reload();

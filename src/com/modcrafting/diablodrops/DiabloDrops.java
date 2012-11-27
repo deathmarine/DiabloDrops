@@ -17,6 +17,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.modcrafting.devbuild.DevUpdater;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.drops.DropsAPI;
@@ -57,6 +58,7 @@ public class DiabloDrops extends JavaPlugin
 
 	public void onDisable()
 	{
+		this.getServer().getScheduler().cancelTasks(this);
 		prefix.clear();
 		suffix.clear();
 		tiers.clear();
@@ -151,8 +153,29 @@ public class DiabloDrops extends JavaPlugin
 					}
 
 				});
-	}
+		if(config.getBoolean("Plugin.Dev.Update",false)){
+			this.getServer().getScheduler()
+			.scheduleAsyncRepeatingTask(this, new Runnable()
+			{
 
+				@Override
+				public void run()
+				{
+					DevUpdater up = new DevUpdater(getInstance(), getFile(), true);
+					if (up.getResult().equals(UpdateResult.SUCCESS))
+					{
+						getLogger()
+								.info("Update "
+										+ up.getLatestVersionString()
+										+ " found and downloaded please restart your server.");
+					}		
+
+				}
+
+			}, 0, 1800);
+		}
+	}
+	
 	/**
 	 * Gets the instance of DiabloDrops
 	 * 

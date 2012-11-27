@@ -43,13 +43,13 @@ public class DevUpdater
 	private static final int BYTE_SIZE = 1024; // Used for downloading files
 	private String updateFolder = YamlConfiguration.loadConfiguration(
 			new File("bukkit.yml")).getString("settings.update-folder");
-	private DevUpdater.UpdateResult result = DevUpdater.UpdateResult.SUCCESS; 
+	private DevUpdateResult result = DevUpdateResult.NO_UPDATE; 
 
 	/**
 	 * Gives the dev the result of the update process. Can be obtained by called
 	 * getResult().
 	 */
-	public enum UpdateResult
+	public enum DevUpdateResult
 	{
 		/**
 		 * The updater found an update, and has readied it to be loaded the next
@@ -61,10 +61,10 @@ public class DevUpdater
 		 */
 		NO_UPDATE(2);
 
-		private static final Map<Integer, DevUpdater.UpdateResult> valueList = new HashMap<Integer, DevUpdater.UpdateResult>();
+		private static final Map<Integer, DevUpdater.DevUpdateResult> valueList = new HashMap<Integer, DevUpdater.DevUpdateResult>();
 		private final int value;
 
-		private UpdateResult(int value)
+		private DevUpdateResult(int value)
 		{
 			this.value = value;
 		}
@@ -74,14 +74,14 @@ public class DevUpdater
 			return this.value;
 		}
 
-		public static DevUpdater.UpdateResult getResult(int value)
+		public static DevUpdater.DevUpdateResult getResult(int value)
 		{
 			return valueList.get(value);
 		}
 
 		static
 		{
-			for (DevUpdater.UpdateResult result : DevUpdater.UpdateResult.values())
+			for (DevUpdater.DevUpdateResult result : DevUpdater.DevUpdateResult.values())
 			{
 				valueList.put(result.value, result);
 			}
@@ -90,31 +90,22 @@ public class DevUpdater
 
 	/**
 	 * Initialize the updater
-	 * 
-	 * @param plugin
-	 *            The plugin that is checking for an update.
-	 * @param slug
-	 *            The dev.bukkit.org slug of the project
-	 *            (http://dev.bukkit.org/server-mods/SLUG_IS_HERE)
-	 * @param file
-	 *            The file that the plugin is running from, get this by doing
-	 *            this.getFile() from within your main class.
-	 * @param type
-	 *            Specify the type of update this will be. See
-	 *            {@link UpdateType}
-	 * @param announce
-	 *            True if the program should announce the progress of new
-	 *            updates in console
 	 */
-	public DevUpdater(Plugin plugin, File file,Integer build)
+	public DevUpdater(Plugin plugin, File file)
 	{
+		this.plugin = plugin;
+		forceUpdate(file);
+		
+	}
+	public void setBuild(Integer build){
 		if(build!=null){
 			this.build=build;
 		}
-		this.plugin = plugin;
+	}
+	public void forceUpdate(File file){
+		result=null;
 		try
 		{
-			// Obtain the results of the project's file feed
 			url = new URL(DBOUrl);
 		}
 		catch (MalformedURLException ex)
@@ -122,21 +113,21 @@ public class DevUpdater
 		}
 		if (url != null)
 		{
-			// Obtain the results of the project's file feed
 			readFeed();
 			if (versionCheck(versionTitle))
 			{
 				String fileLink = versionLink+"artifact/dist/DiabloDrops.jar";
 				String name = file.getName();
 				saveFile(new File("plugins/" + updateFolder), name, fileLink);
+			}else{
+				result=DevUpdateResult.NO_UPDATE;
 			}
 		}
 	}
-
 	/**
 	 * Get the result of the update process.
 	 */
-	public DevUpdater.UpdateResult getResult()
+	public DevUpdater.DevUpdateResult getResult()
 	{
 		return result;
 	}
@@ -195,7 +186,7 @@ public class DevUpdater
 				}
 			}
 			plugin.getLogger().info("Finished updating.");
-			result = UpdateResult.SUCCESS;
+			result = DevUpdateResult.SUCCESS;
 		}
 		catch (Exception ex)
 		{

@@ -18,6 +18,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.modcrafting.devbuild.DevUpdater;
+import com.modcrafting.devbuild.DevUpdater.DevUpdateResult;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
 import com.modcrafting.diablodrops.drops.Drops;
 import com.modcrafting.diablodrops.drops.DropsAPI;
@@ -129,7 +130,7 @@ public class DiabloDrops extends JavaPlugin
 							Updater up = new Updater(getInstance(), pdf
 									.getName().toLowerCase(), getFile(),
 									UpdateType.DEFAULT, true);
-							if (!up.getResult().equals(Updater.UpdateResult.SUCCESS)
+							if (!up.getResult().equals(UpdateResult.SUCCESS)
 									|| up.pluginFile(getFile().getName()))
 							{
 								if (up.getResult().equals(
@@ -163,11 +164,19 @@ public class DiabloDrops extends JavaPlugin
 				@Override
 				public void run()
 				{
-					DevUpdater up = new DevUpdater(getInstance(), getFile(),build);
-					if (up.getResult().equals(DevUpdater.UpdateResult.SUCCESS))
+					DevUpdater up = new DevUpdater(getInstance(), getFile());
+					if (up.getResult().equals(DevUpdateResult.SUCCESS))
 					{
 						getServer().broadcastMessage("Jenkins Update Downloaded Build#"+String.valueOf(up.getBuild()));
-						getServer().reload();
+						getServer().getScheduler().scheduleAsyncDelayedTask(getInstance(), new Runnable(){
+
+							@Override
+							public void run() {
+								getServer().reload();
+								
+							}
+							
+						}, 1800);
 					}else{
 						getLogger()
 						.info("No Updates found on Jenkins. Build#"+String.valueOf(up.getBuild()));

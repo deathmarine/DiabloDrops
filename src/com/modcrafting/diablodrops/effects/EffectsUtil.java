@@ -242,6 +242,7 @@ public class EffectsUtil
      */
     public static void entomb(final LivingEntity entity, final int value)
     {
+        // method doesn't actually work quite yet
         World world = entity.getWorld();
         Block block = world.getBlockAt(entity.getLocation());
         int x_start = block.getX() - 3;

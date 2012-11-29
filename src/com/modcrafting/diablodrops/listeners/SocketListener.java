@@ -15,6 +15,7 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.PreSocketEnhancementEvent;
 import com.modcrafting.diablodrops.events.SocketEnhancementEvent;
 import com.modcrafting.skullapi.lib.Skull;
+import com.modcrafting.skullapi.lib.Skull.SkullType;
 import com.modcrafting.toolapi.lib.Tool;
 
 public class SocketListener implements Listener
@@ -58,13 +59,41 @@ public class SocketListener implements Listener
 			tool.addUnsafeEnchantment(ench, il);
 		}
 
-		if (fuel.equals(Material.SKULL))
+		if (fuel.equals(Material.SKULL_ITEM))
 		{
+			
 			ChatColor color = this.findColor(oldtool.getName());
-			String skullName = new Skull(((CraftItemStack) is).getHandle())
-					.getOwner();
+			Skull skull = new Skull(((CraftItemStack) is).getHandle());
+			String skullName = skull.getOwner();
+			if(skullName==null||skullName.trim().length()<1){
+				switch(skull.getHandle().getData()){
+				case 4:{
+					skullName="Creeper";
+					break;
+					}
+				case 3:{
+					skullName = "Steve";
+					break;
+					}
+				case 0:{
+					skullName="Skeleton";
+					break;
+					}
+				case 1:{
+					skullName="Wither";
+					break;
+					}
+				case 2:{
+					skullName="Zombie";
+					break;
+					}
+				}
+				
+			}
+			String old = oldtool.getName();
+			if(old.contains("'"))old = old.split("'")[1].substring(2);
 			tool.setName(color + skullName + "'s "
-					+ ChatColor.stripColor(oldtool.getName()));
+					+ ChatColor.stripColor(old));
 		}
 		else
 		{
@@ -116,7 +145,7 @@ public class SocketListener implements Listener
 					}
 					Tool fuel = new Tool(((CraftItemStack) event.getFuel()).getHandle());
 					if (fuel.getName() != null
-							&& fuel.getName().contains("Socket") && test)
+							&&(fuel.getName().contains("Socket")||fuel.getType().equals(Material.SKULL_ITEM))&& test)
 					{
 						PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
 								tis, event.getFuel(), furn);

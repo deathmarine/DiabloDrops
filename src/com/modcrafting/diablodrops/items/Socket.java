@@ -6,6 +6,7 @@ import org.bukkit.Material;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.skullapi.lib.Skull;
+import com.modcrafting.skullapi.lib.Skull.SkullType;
 import com.modcrafting.toolapi.lib.Tool;
 
 public class Socket extends Tool
@@ -20,7 +21,12 @@ public class Socket extends Tool
 		this.addLore(ChatColor.GOLD+"to add socket enhancements.");
 		if(mat.equals(Material.SKULL_ITEM)){
 			Skull sk = new Skull(this.getHandle());
-			sk.setOwner(Bukkit.getServer().getOfflinePlayers()[DiabloDrops.getInstance().gen.nextInt(Bukkit.getServer().getOfflinePlayers().length)].getName());
+			SkullType type = SkullType.values()[DiabloDrops.getInstance().gen.nextInt(SkullType.values().length)];
+			if(type.equals(SkullType.PLAYER)){
+				sk.setOwner(Bukkit.getServer().getOfflinePlayers()[DiabloDrops.getInstance().gen.nextInt(Bukkit.getServer().getOfflinePlayers().length)].getName());				
+			}else{
+				sk.setSkullType(type);
+			}
 		}
 	}
 }

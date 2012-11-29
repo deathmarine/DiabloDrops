@@ -68,6 +68,7 @@ public class LogHandler extends Handler {
 				bw.newLine();
 				bw.write(arg.getMessage());
 				bw.newLine();
+				bw.flush();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

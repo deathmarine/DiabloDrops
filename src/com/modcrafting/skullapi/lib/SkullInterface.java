@@ -17,7 +17,7 @@ public interface SkullInterface
 
 	public void setSkullType(SkullType type);
 
-	public SkullType getSkullType();
+	public Integer getSkullType();
 
 	public void setLore(List<String> lore);
 

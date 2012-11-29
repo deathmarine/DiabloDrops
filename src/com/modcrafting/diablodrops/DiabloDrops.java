@@ -81,10 +81,9 @@ public class DiabloDrops extends JavaPlugin
     public void onEnable()
     {
         instance = this;
-        log = this.getLogger();
-        log.addHandler(new LogHandler(this));
-        
         this.getDataFolder().mkdir();
+        log = this.getLogger();		
+        log.addHandler(new LogHandler(this.getDataFolder()));
         nameLoader = new NamesLoader(this);
         nameLoader.writeDefault("config.yml");
         nameLoader.writeDefault("custom.yml");

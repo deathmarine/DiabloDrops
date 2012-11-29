@@ -1,78 +1,45 @@
 package com.modcrafting.diablodrops.log;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.PrintWriter;
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.LogRecord;
-
-import org.bukkit.plugin.Plugin;
+import java.util.logging.SimpleFormatter;
 
 public class LogHandler extends Handler {
-	File logFile;
-	BufferedWriter bw;
-	public LogHandler(Plugin plugin){
-		logFile = new File(plugin.getDataFolder(),"Error.log");
+	FileOutputStream fos;
+	PrintWriter pw;
+	public LogHandler(File dataFolder){
+		File logFile = new File(dataFolder,"Error.log");
 		try {
 			if(!logFile.exists()){
 				logFile.createNewFile();
 			}
-			bw = new BufferedWriter(new FileWriter(logFile,true));
+			fos = new FileOutputStream(logFile);
+			pw = new PrintWriter(fos);
+			setFormatter(new SimpleFormatter());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
-
 	@Override
 	public void close() throws SecurityException {
-		try {
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		pw.close();
 	}
 
 	@Override
 	public void flush() {
-		try {
-			bw.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		pw.flush();
 	}
 
 	@Override
-	public void publish(LogRecord arg) {
-		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-			Date now = new Date();
-			now.setTime(System.currentTimeMillis());
-			Level curlvl = arg.getLevel(); 
-			if(!curlvl.equals(Level.INFO)){
-				StringBuilder sb = new StringBuilder();
-				sb.append(format.format(now));
-				sb.append(" [");
-				sb.append(arg.getLevel());
-				sb.append("] Class:");
-				sb.append(arg.getSourceClassName());
-				sb.append(" Method:");
-				sb.append(arg.getSourceMethodName());
-				bw.write(sb.toString());
-				bw.newLine();
-				bw.write(arg.getMessage());
-				bw.newLine();
-				bw.flush();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void publish(LogRecord record) {
+		if (!isLoggable(record))
+			return;
+		pw.println(getFormatter().format(record));
 
 	}
 

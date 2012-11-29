@@ -33,6 +33,7 @@ import com.modcrafting.diablodrops.listeners.EffectsListener;
 import com.modcrafting.diablodrops.listeners.MobListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
+import com.modcrafting.diablodrops.log.Logging;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
@@ -42,169 +43,184 @@ import com.stirante.PrettyScaryLib.Namer;
 
 public class DiabloDrops extends JavaPlugin
 {
-	public List<String> prefix = new ArrayList<String>();
-	public List<String> suffix = new ArrayList<String>();
-	public HashSet<Tier> tiers = new HashSet<Tier>();
-	public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
-	public List<Tool> custom = new ArrayList<Tool>();
-	public List<String> multiW = new ArrayList<String>();
-	public List<String> defenselore = new ArrayList<String>();
-	public List<String> offenselore = new ArrayList<String>();
-	public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
-	private NamesLoader nameLoader;
-	public Random gen = new Random();
-	public FileConfiguration config;
-	public DropsAPI dropsAPI;
+    public List<String> prefix = new ArrayList<String>();
+    public List<String> suffix = new ArrayList<String>();
+    public HashSet<Tier> tiers = new HashSet<Tier>();
+    public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
+    public List<Tool> custom = new ArrayList<Tool>();
+    public List<String> multiW = new ArrayList<String>();
+    public List<String> defenselore = new ArrayList<String>();
+    public List<String> offenselore = new ArrayList<String>();
+    public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
+    private NamesLoader nameLoader;
+    public Random gen = new Random();
+    public FileConfiguration config;
+    public DropsAPI dropsAPI;
     public SetsAPI setsAPI;
-	public DropUtils drop = new DropUtils();
-	public Namer itemNamer;
-	public Integer build;
-	private static DiabloDrops instance;
-	int id; 
+    public DropUtils drop = new DropUtils();
+    public Namer itemNamer;
+    public Integer build;
+    private static DiabloDrops instance;
+    private int id;
+    public Logging log;
 
-	public void onDisable()
-	{
-		killTasks();
-		prefix.clear();
-		suffix.clear();
-		tiers.clear();
-		armorSets.clear();
-		custom.clear();
-		multiW.clear();
-		offenselore.clear();
-		defenselore.clear();
-		furnanceMap.clear();
-	}
+    public void onDisable()
+    {
+        killTasks();
+        prefix.clear();
+        suffix.clear();
+        tiers.clear();
+        armorSets.clear();
+        custom.clear();
+        multiW.clear();
+        offenselore.clear();
+        defenselore.clear();
+        furnanceMap.clear();
+    }
 
-	public void onEnable()
-	{
-		instance = this;
-		this.getDataFolder().mkdir();
-		nameLoader = new NamesLoader(this);
-		nameLoader.writeDefault("config.yml");
-		nameLoader.writeDefault("custom.yml");
-		nameLoader.writeDefault("tier.yml");
-		nameLoader.writeDefault("set.yml");
-		nameLoader.writeDefault("prefix.txt");
-		nameLoader.writeDefault("suffix.txt");
-		nameLoader.writeDefault("defenselore.txt");
-		nameLoader.writeDefault("offenselore.txt");
-		config = this.getConfig();
-		nameLoader.loadFile(prefix, "prefix.txt");
-		nameLoader.loadFile(suffix, "suffix.txt");
-		nameLoader.loadFile(defenselore, "defenselore.txt");
-		nameLoader.loadFile(offenselore, "offenselore.txt");
-		new CustomBuilder(this).build();
-		new SocketBuilder(this).build();
-		new TierBuilder(this).build();
-		new ArmorSetBuilder(this).build();
-		dropsAPI = new DropsAPI(this);
-		setsAPI = new SetsAPI(this);
-		itemNamer = new Namer();
-		if (config.getBoolean("Worlds.Enabled", false))
-		{
-			List<String> fixCase = new ArrayList<String>();
-			for (String s : config.getStringList("Worlds.Allowed"))
-			{
-				fixCase.add(s.toLowerCase());
-			}
-			if (fixCase.size() > 0)
-				multiW = fixCase;
-		}
-		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvents(new MobListener(this), this);
-		pm.registerEvents(new TomeListener(this), this);
-		pm.registerEvents(new SocketListener(this), this);
-		pm.registerEvents(new ChunkListener(this), this);
-		pm.registerEvents(new EffectsListener(this), this);
-		this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
+    public void onEnable()
+    {
+        instance = this;
+        log = new Logging(instance);
+        this.getDataFolder().mkdir();
+        nameLoader = new NamesLoader(this);
+        nameLoader.writeDefault("config.yml");
+        nameLoader.writeDefault("custom.yml");
+        nameLoader.writeDefault("tier.yml");
+        nameLoader.writeDefault("set.yml");
+        nameLoader.writeDefault("prefix.txt");
+        nameLoader.writeDefault("suffix.txt");
+        nameLoader.writeDefault("defenselore.txt");
+        nameLoader.writeDefault("offenselore.txt");
+        config = this.getConfig();
+        nameLoader.loadFile(prefix, "prefix.txt");
+        nameLoader.loadFile(suffix, "suffix.txt");
+        nameLoader.loadFile(defenselore, "defenselore.txt");
+        nameLoader.loadFile(offenselore, "offenselore.txt");
+        new CustomBuilder(this).build();
+        new SocketBuilder(this).build();
+        new TierBuilder(this).build();
+        new ArmorSetBuilder(this).build();
+        dropsAPI = new DropsAPI(this);
+        setsAPI = new SetsAPI(this);
+        itemNamer = new Namer();
+        if (config.getBoolean("Worlds.Enabled", false))
+        {
+            List<String> fixCase = new ArrayList<String>();
+            for (String s : config.getStringList("Worlds.Allowed"))
+            {
+                fixCase.add(s.toLowerCase());
+            }
+            if (fixCase.size() > 0)
+                multiW = fixCase;
+        }
+        PluginManager pm = this.getServer().getPluginManager();
+        pm.registerEvents(new MobListener(this), this);
+        pm.registerEvents(new TomeListener(this), this);
+        pm.registerEvents(new SocketListener(this), this);
+        pm.registerEvents(new ChunkListener(this), this);
+        pm.registerEvents(new EffectsListener(this), this);
+        this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 
-		// AutoUpdater
-		final PluginDescriptionFile pdf = this.getDescription();
-		this.getServer().getScheduler()
-				.scheduleAsyncDelayedTask(this, new Runnable()
-				{
+        // AutoUpdater
+        final PluginDescriptionFile pdf = this.getDescription();
+        this.getServer().getScheduler()
+                .scheduleAsyncDelayedTask(this, new Runnable()
+                {
 
-					@Override
-					public void run()
-					{
-						if (config.getBoolean("Plugin.AutoUpdate", true))
-						{
-							Updater up = new Updater(getInstance(), pdf
-									.getName().toLowerCase(), getFile(),
-									UpdateType.DEFAULT, true);
-							if (!up.getResult().equals(UpdateResult.SUCCESS)
-									|| up.pluginFile(getFile().getName()))
-							{
-								if (up.getResult().equals(
-										Updater.UpdateResult.FAIL_NOVERSION))
-								{
-									getLogger()
-											.info("Unable to connect to dev.bukkit.org.");
-								}
-								else
-								{
-									getLogger()
-											.info("No Updates found on dev.bukkit.org.");
-								}
-							}
-							else
-							{
-								getLogger()
-										.info("Update "
-												+ up.getLatestVersionString()
-												+ " found and downloaded please restart your server.");
-							}
-						}
+                    @Override
+                    public void run()
+                    {
+                        if (config.getBoolean("Plugin.AutoUpdate", true))
+                        {
+                            Updater up = new Updater(getInstance(), pdf
+                                    .getName().toLowerCase(), getFile(),
+                                    UpdateType.DEFAULT, true);
+                            if (!up.getResult().equals(UpdateResult.SUCCESS)
+                                    || up.pluginFile(getFile().getName()))
+                            {
+                                if (up.getResult().equals(
+                                        Updater.UpdateResult.FAIL_NOVERSION))
+                                {
+                                    getLogger()
+                                            .info("Unable to connect to dev.bukkit.org.");
+                                }
+                                else
+                                {
+                                    getLogger()
+                                            .info("No Updates found on dev.bukkit.org.");
+                                }
+                            }
+                            else
+                            {
+                                getLogger()
+                                        .info("Update "
+                                                + up.getLatestVersionString()
+                                                + " found and downloaded please restart your server.");
+                            }
+                        }
 
-					}
+                    }
 
-				});
-		if(config.getBoolean("Plugin.Dev.Update",false)){
-			id = this.getServer().getScheduler()
-			.scheduleAsyncRepeatingTask(this, new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					DevUpdater up = new DevUpdater(getInstance(), getFile(),build);
-					if (up.getResult().equals(DevUpdateResult.SUCCESS))
-					{
-						getServer().getScheduler().cancelTask(id);
-						getServer().broadcastMessage(ChatColor.AQUA+"Jenkins Update Downloaded Build#"+String.valueOf(up.getBuild()));
-						new Thread(new Runnable(){
-							@Override
-							public void run() {
-								long time = System.currentTimeMillis()+(30*1000);
-								boolean test = true;
-								while(test){
-									if(time>System.currentTimeMillis()){
-										test=false;
-										Bukkit.getServer().reload();
-									}
-								}
-								
-							}
-						}).start();
-					}
-					build=up.getBuild();
-				}
+                });
+        if (config.getBoolean("Plugin.Dev.Update", false))
+        {
+            id = this.getServer().getScheduler()
+                    .scheduleAsyncRepeatingTask(this, new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            DevUpdater up = new DevUpdater(getInstance(),
+                                    getFile(), build);
+                            if (up.getResult().equals(DevUpdateResult.SUCCESS))
+                            {
+                                getServer().getScheduler().cancelTask(id);
+                                getServer()
+                                        .broadcastMessage(
+                                                ChatColor.AQUA
+                                                        + "Jenkins Update Downloaded Build#"
+                                                        + String.valueOf(up
+                                                                .getBuild()));
+                                new Thread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        long time = System.currentTimeMillis()
+                                                + (30 * 1000);
+                                        boolean test = true;
+                                        while (test)
+                                        {
+                                            if (time > System
+                                                    .currentTimeMillis())
+                                            {
+                                                test = false;
+                                                Bukkit.getServer().reload();
+                                            }
+                                        }
 
-			}, 0, 2400);
-		}
-	}
-	
-	/**
-	 * Gets the instance of DiabloDrops
-	 * 
-	 * @return plugin's instance
-	 */
-	public static DiabloDrops getInstance()
-	{
-		return instance;
-	}
-	public void killTasks()
-	{
-		this.getServer().getScheduler().cancelTasks(this);
-	}
+                                    }
+                                }).start();
+                            }
+                            build = up.getBuild();
+                        }
+                    }, 0, 2400);
+        }
+    }
+
+    /**
+     * Gets the instance of DiabloDrops
+     * 
+     * @return plugin's instance
+     */
+    public static DiabloDrops getInstance()
+    {
+        return instance;
+    }
+
+    public void killTasks()
+    {
+        this.getServer().getScheduler().cancelTasks(this);
+    }
 }

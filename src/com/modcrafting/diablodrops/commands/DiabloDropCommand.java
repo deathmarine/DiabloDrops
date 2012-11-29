@@ -2,6 +2,7 @@ package com.modcrafting.diablodrops.commands;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
@@ -16,9 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.socket.gem.SocketItem;
+import com.modcrafting.diablodrops.items.Socket;
+import com.modcrafting.diablodrops.items.Tome;
 import com.modcrafting.diablodrops.tier.Tier;
-import com.modcrafting.diablodrops.tier.Tome;
 import com.modcrafting.toolapi.lib.Tool;
 
 public class DiabloDropCommand implements CommandExecutor
@@ -63,7 +64,9 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("socket")
                         || args[0].equalsIgnoreCase("socketitem"))
                 {
-                    pi.addItem(new SocketItem(Material.EMERALD));
+                	List<String> l = plugin.config.getStringList("SocketItem.Items");
+                    pi.addItem(new Socket(Material.valueOf(l.get(
+                            plugin.gen.nextInt(l.size())).toUpperCase())));
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a SocketItem.");
                     return true;

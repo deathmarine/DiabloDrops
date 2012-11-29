@@ -1,4 +1,4 @@
-package com.modcrafting.diablodrops.tier;
+package com.modcrafting.diablodrops.items;
 
 import java.util.ArrayList;
 import java.util.List;

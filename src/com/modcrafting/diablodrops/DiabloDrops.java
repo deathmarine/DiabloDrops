@@ -40,7 +40,6 @@ import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.toolapi.lib.Tool;
-import com.stirante.PrettyScaryLib.Namer;
 
 public class DiabloDrops extends JavaPlugin
 {
@@ -60,7 +59,6 @@ public class DiabloDrops extends JavaPlugin
     public DropsAPI dropsAPI;
     public SetsAPI setsAPI;
     public DropUtils drop = new DropUtils();
-    public Namer itemNamer;
     public Integer build;
     private static DiabloDrops instance;
     private int id;
@@ -107,7 +105,6 @@ public class DiabloDrops extends JavaPlugin
         new ArmorSetBuilder(this).build();
         dropsAPI = new DropsAPI(this);
         setsAPI = new SetsAPI(this);
-        itemNamer = new Namer();
         if (config.getBoolean("Worlds.Enabled", false))
         {
             for (String s : config.getStringList("Worlds.Allowed"))

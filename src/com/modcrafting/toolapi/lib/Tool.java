@@ -153,7 +153,7 @@ public class Tool extends CraftItemStack implements ToolInterface
 	}
 
 	@Override
-	public void setLore(String string)
+	public void addLore(String string)
 	{
 		NBTTagCompound ntag = tag.getCompound("display");
 		if (ntag == null)

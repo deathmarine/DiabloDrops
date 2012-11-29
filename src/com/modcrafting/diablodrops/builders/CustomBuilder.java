@@ -48,7 +48,7 @@ public class CustomBuilder
             tool.setName(color + name);
             for (String s : lore)
             {
-                tool.setLore(ChatColor.translateAlternateColorCodes(
+                tool.addLore(ChatColor.translateAlternateColorCodes(
                         "&".toCharArray()[0], s));
             }
             ConfigurationSection cs1 = cs

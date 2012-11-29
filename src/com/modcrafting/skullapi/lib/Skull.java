@@ -17,7 +17,7 @@ public class Skull extends CraftItemStack implements SkullInterface
 	public Skull(Material type) throws Exception
 	{
 		super(type);
-		if (!type.equals(Material.SKULL))
+		if (!type.equals(Material.SKULL_ITEM))
 			throw new Exception("Item must be a skull.");
 	}
 	public Skull(ItemStack is)

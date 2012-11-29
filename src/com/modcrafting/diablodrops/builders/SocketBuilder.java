@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.tier.Tome;
+import com.modcrafting.diablodrops.items.Tome;
 
 public class SocketBuilder
 {

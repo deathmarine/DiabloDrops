@@ -1,10 +1,9 @@
-package com.modcrafting.diablodrops.tier;
+package com.modcrafting.diablodrops.items;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import com.modcrafting.toolapi.lib.Tool;
-import com.stirante.PrettyScaryLib.Namer;
 
 public class Drop extends Tool
 {
@@ -13,22 +12,24 @@ public class Drop extends Tool
 	{
 		super(mat);
 		this.setRepairCost(2);
-		Namer.setName(this, color + name);
+		this.setName(color + name);
 	}
 
 	public Drop(Material mat, ChatColor color, String name, String... lore)
 	{
 		super(mat);
 		this.setRepairCost(2);
-		Namer.setName(this, color + name);
-		Namer.setLore(this, lore);
+		this.setName(color + name);
+		for(String e:lore){
+			this.addLore(e);
+		}
 	}
 
 	public Drop(Material mat, ChatColor color, String name, short durability)
 	{
 		super(mat);
 		this.setRepairCost(2);
-		Namer.setName(this, color + name);
+		this.setName(color + name);
 		this.setDurability(durability);
 	}
 
@@ -37,8 +38,10 @@ public class Drop extends Tool
 	{
 		super(mat);
 		this.setRepairCost(2);
-		Namer.setName(this, color + name);
-		Namer.setLore(this, lore);
+		this.setName(color + name);
+		for(String e:lore){
+			this.addLore(e);
+		}
 		this.setDurability(durability);
 	}
 

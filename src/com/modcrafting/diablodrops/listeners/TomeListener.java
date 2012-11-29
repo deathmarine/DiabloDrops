@@ -17,7 +17,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.IdentifyItemEvent;
-import com.modcrafting.diablodrops.tier.Tome;
+import com.modcrafting.diablodrops.items.Tome;
 import com.modcrafting.toolapi.lib.Tool;
 
 import de.bananaco.bookapi.lib.Book;

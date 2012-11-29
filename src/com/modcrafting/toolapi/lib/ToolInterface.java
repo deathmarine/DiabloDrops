@@ -47,7 +47,7 @@ public interface ToolInterface
 	 * 
 	 * @param string
 	 */
-	public void setLore(String string);
+	public void addLore(String string);
 
 	/**
 	 * Get the lore of the Tool as a list

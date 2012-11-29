@@ -7,7 +7,6 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
@@ -15,10 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.PreSocketEnhancementEvent;
 import com.modcrafting.diablodrops.events.SocketEnhancementEvent;
-import com.modcrafting.diablodrops.tier.Tome;
 import com.modcrafting.skullapi.lib.Skull;
 import com.modcrafting.toolapi.lib.Tool;
-import com.stirante.PrettyScaryLib.Namer;
 
 public class SocketListener implements Listener
 {
@@ -79,12 +76,12 @@ public class SocketListener implements Listener
 			{
 				if (plugin.drop.isArmor(oldtool.getType()))
 				{
-					tool.setLore(plugin.defenselore.get(plugin.gen
+					tool.addLore(plugin.defenselore.get(plugin.gen
 							.nextInt(plugin.defenselore.size())));
 				}
 				else if (plugin.drop.isTool(oldtool.getType()))
 				{
-					tool.setLore(plugin.offenselore.get(plugin.gen
+					tool.addLore(plugin.offenselore.get(plugin.gen
 							.nextInt(plugin.offenselore.size())));
 				}
 			}
@@ -117,9 +114,9 @@ public class SocketListener implements Listener
 						if (t.contains("Socket"))
 							test = true;
 					}
-					if (Namer.getName(event.getFuel()) != null
-							&& Namer.getName(event.getFuel())
-									.contains("Socket") && test)
+					Tool fuel = new Tool(((CraftItemStack) event.getFuel()).getHandle());
+					if (fuel.getName() != null
+							&& fuel.getName().contains("Socket") && test)
 					{
 						PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
 								tis, event.getFuel(), furn);

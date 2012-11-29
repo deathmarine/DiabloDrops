@@ -47,7 +47,7 @@ SocketItem:
   Items: 
   - Emerald
   - Diamond
-  #- Skull#
+  - Skull_Item
 #This is the initial chance to retrieve an item#
 Precentages:
   ChancePerSpawn: 3

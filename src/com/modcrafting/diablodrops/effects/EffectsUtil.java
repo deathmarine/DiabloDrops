@@ -18,9 +18,7 @@ import net.minecraft.server.PathfinderGoalSelector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftZombie;
@@ -240,80 +238,57 @@ public class EffectsUtil
      * @param entity
      * @param value
      */
-    public static void entomb(final LivingEntity entity, final int value)
+    public static void entomb(final Location loc, final int value)
     {
-        World world = entity.getWorld();
-        Block block = world.getBlockAt(entity.getLocation());
-        int x_start = block.getX() - 3;
-        int y_start = block.getY() - 3;
-        int z_start = block.getZ() - 3;
 
-        int x_length = x_start + 3;
-        int y_length = y_start + 3;
-        int z_length = z_start + 3;
-        for (int x_o = x_start; x_o <= x_length; x_o++)
+        int r = 3;
+
+        World world = loc.getWorld();
+
+        int x = loc.getBlockX();
+        int y = loc.getBlockY();
+        int z = loc.getBlockZ();
+
+        Location[] vertex = new Location[8];
+        int i = 0;
+        for (int dx = -1; dx <= 1; dx += 2)
         {
-
-            for (int y_o = y_start; y_o <= y_length; y_o++)
+            for (int dy = -1; dy <= 1; dy += 2)
             {
-
-                for (int z_o = z_start; z_o <= z_length; z_o++)
+                for (int dz = -1; dz <= 1; dz += 2)
                 {
-
-                    Block blockToChange = world.getBlockAt(x_o, y_o, z_o);
-                    if ((x_o == x_start + 2
-                            && (y_o == y_start || y_o == y_start + 1) && z_o == z_start)
-                            || (x_o != x_start && y_o != y_length && z_o != z_start)
-                            || (x_o != x_length && z_o != z_length))
-                    {
-                        blockToChange.setTypeId(0);
-                    }
-                    else
-                    {
-                        switch (value)
-                        {
-                            case 1:
-                                blockToChange.setType(Material.GLASS);
-                                break;
-                            case 2:
-                                blockToChange.setType(Material.ICE);
-                                break;
-                            case 3:
-                                blockToChange.setType(Material.DIRT);
-                                break;
-                            case 4:
-                                blockToChange.setType(Material.COBBLESTONE);
-                                break;
-                            case 5:
-                                blockToChange.setType(Material.STONE);
-                                break;
-                            case 6:
-                                blockToChange.setType(Material.BRICK);
-                                break;
-                            case 7:
-                                blockToChange.setTypeIdAndData(98,
-                                        (byte) DiabloDrops.getInstance().gen
-                                                .nextInt(4), false);
-                                break;
-                            case 8:
-                                blockToChange.setType(Material.IRON_FENCE);
-                                break;
-                            case 9:
-                                blockToChange.setType(Material.ENDER_CHEST);
-                                break;
-                            case 10:
-                                blockToChange.setType(Material.OBSIDIAN);
-                                break;
-                            default:
-                                blockToChange.setType(Material.ENDER_STONE);
-                                break;
-                        }
-                    }
-
+                    Location l = new Location(world, x + dx * r, y + dy * r, z
+                            + dz * r);
+                    vertex[i++] = l;
                 }
-
             }
-
         }
+
+        for (int x_o = vertex[0].getBlockX(); x_o <= vertex[4].getBlockX(); x_o++)
+        {
+            for (int z_o = vertex[0].getBlockZ(); z_o <= vertex[1].getBlockZ(); z_o++)
+            {
+                world.getBlockAt(x_o, vertex[0].getBlockY(), z_o).setTypeId(1);
+                world.getBlockAt(x_o, vertex[2].getBlockY(), z_o).setTypeId(1);
+            }
+        }
+        for (int y_o = vertex[0].getBlockY(); y_o <= vertex[2].getBlockY(); y_o++)
+        {
+            for (int z_o = vertex[0].getBlockZ(); z_o <= vertex[1].getBlockZ(); z_o++)
+            {
+                world.getBlockAt(vertex[0].getBlockX(), y_o, z_o).setTypeId(1);
+                world.getBlockAt(vertex[5].getBlockX(), y_o, z_o).setTypeId(1);
+            }
+        }
+
+        for (int x_o = vertex[0].getBlockX(); x_o <= vertex[4].getBlockX(); x_o++)
+        {
+            for (int y_o = vertex[0].getBlockY(); y_o <= vertex[6].getBlockY(); y_o++)
+            {
+                world.getBlockAt(x_o, y_o, vertex[0].getBlockZ()).setTypeId(1);
+                world.getBlockAt(x_o, y_o, vertex[5].getBlockZ()).setTypeId(1);
+            }
+        }
+
     }
 }

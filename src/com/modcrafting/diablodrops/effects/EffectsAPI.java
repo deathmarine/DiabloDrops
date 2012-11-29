@@ -29,7 +29,6 @@ public class EffectsAPI
      * @param entity
      *            that caused the damage
      * @param event
-     * 
      */
     public static void handlePluginEffects(LivingEntity entityStruck,
             LivingEntity entityStriker, EntityDamageEvent event)
@@ -165,6 +164,16 @@ public class EffectsAPI
                 EffectsUtil.setOnFire(struck, Math.abs(level.intValue()));
             else if (level.intValue() < 0 && striker != null)
                 EffectsUtil.setOnFire(striker, Math.abs(level.intValue()));
+            return;
+        }
+        else if (args[1].equalsIgnoreCase("entomb"))
+        {
+            if (level.intValue() > 0 && struck != null)
+                EffectsUtil.entomb(struck.getLocation(),
+                        Math.abs(level.intValue()));
+            else if (level.intValue() < 0 && striker != null)
+                EffectsUtil.entomb(striker.getLocation(),
+                        Math.abs(level.intValue()));
             return;
         }
         else if (args[1].equalsIgnoreCase("leech") && striker != null

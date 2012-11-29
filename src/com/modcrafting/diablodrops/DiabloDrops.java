@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import net.h31ix.updater.Updater;
 import net.h31ix.updater.Updater.UpdateResult;
@@ -33,7 +34,7 @@ import com.modcrafting.diablodrops.listeners.EffectsListener;
 import com.modcrafting.diablodrops.listeners.MobListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
-import com.modcrafting.diablodrops.log.Logging;
+import com.modcrafting.diablodrops.log.LogHandler;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
@@ -43,12 +44,13 @@ import com.stirante.PrettyScaryLib.Namer;
 
 public class DiabloDrops extends JavaPlugin
 {
-    public List<String> prefix = new ArrayList<String>();
+    public boolean debug;
+	public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
     public List<Tool> custom = new ArrayList<Tool>();
-    public List<String> multiW = new ArrayList<String>();
+    public List<String> worlds = new ArrayList<String>();
     public List<String> defenselore = new ArrayList<String>();
     public List<String> offenselore = new ArrayList<String>();
     public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
@@ -62,7 +64,7 @@ public class DiabloDrops extends JavaPlugin
     public Integer build;
     private static DiabloDrops instance;
     private int id;
-    public Logging log;
+    public Logger log;
 
     public void onDisable()
     {
@@ -72,7 +74,7 @@ public class DiabloDrops extends JavaPlugin
         tiers.clear();
         armorSets.clear();
         custom.clear();
-        multiW.clear();
+        worlds.clear();
         offenselore.clear();
         defenselore.clear();
         furnanceMap.clear();
@@ -81,7 +83,9 @@ public class DiabloDrops extends JavaPlugin
     public void onEnable()
     {
         instance = this;
-        log = new Logging(instance);
+        log = this.getLogger();
+        log.addHandler(new LogHandler(this));
+        
         this.getDataFolder().mkdir();
         nameLoader = new NamesLoader(this);
         nameLoader.writeDefault("config.yml");
@@ -106,20 +110,20 @@ public class DiabloDrops extends JavaPlugin
         itemNamer = new Namer();
         if (config.getBoolean("Worlds.Enabled", false))
         {
-            List<String> fixCase = new ArrayList<String>();
             for (String s : config.getStringList("Worlds.Allowed"))
             {
-                fixCase.add(s.toLowerCase());
+                worlds.add(s.toLowerCase());
             }
-            if (fixCase.size() > 0)
-                multiW = fixCase;
         }
+        debug = config.getBoolean("Plugin.Debug", false);
+        
         PluginManager pm = this.getServer().getPluginManager();
         pm.registerEvents(new MobListener(this), this);
         pm.registerEvents(new TomeListener(this), this);
         pm.registerEvents(new SocketListener(this), this);
         pm.registerEvents(new ChunkListener(this), this);
         pm.registerEvents(new EffectsListener(this), this);
+        
         this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 
         // AutoUpdater
@@ -142,19 +146,16 @@ public class DiabloDrops extends JavaPlugin
                                 if (up.getResult().equals(
                                         Updater.UpdateResult.FAIL_NOVERSION))
                                 {
-                                    getLogger()
-                                            .info("Unable to connect to dev.bukkit.org.");
+                                    log.info("Unable to connect to dev.bukkit.org.");
                                 }
                                 else
                                 {
-                                    getLogger()
-                                            .info("No Updates found on dev.bukkit.org.");
+                                    log.info("No Updates found on dev.bukkit.org.");
                                 }
                             }
                             else
                             {
-                                getLogger()
-                                        .info("Update "
+                                log.info("Update "
                                                 + up.getLatestVersionString()
                                                 + " found and downloaded please restart your server.");
                             }
@@ -163,6 +164,7 @@ public class DiabloDrops extends JavaPlugin
                     }
 
                 });
+        //Jenkins AutoUpdater
         if (config.getBoolean("Plugin.Dev.Update", false))
         {
             id = this.getServer().getScheduler()
@@ -173,6 +175,9 @@ public class DiabloDrops extends JavaPlugin
                         {
                             DevUpdater up = new DevUpdater(getInstance(),
                                     getFile(), build);
+                            if (up.getResult().equals(DevUpdateResult.FAILED))
+                            	return;
+                            
                             if (up.getResult().equals(DevUpdateResult.SUCCESS))
                             {
                                 getServer().getScheduler().cancelTask(id);
@@ -189,13 +194,14 @@ public class DiabloDrops extends JavaPlugin
                                     {
                                         long time = System.currentTimeMillis()
                                                 + (30 * 1000);
-                                        boolean test = true;
-                                        while (test)
+                                        boolean voodoo = true;
+                                        while (voodoo)
                                         {
+                                        	//Conducting Voodoo
                                             if (time > System
                                                     .currentTimeMillis())
                                             {
-                                                test = false;
+                                                voodoo = false;
                                                 Bukkit.getServer().reload();
                                             }
                                         }
@@ -218,7 +224,9 @@ public class DiabloDrops extends JavaPlugin
     {
         return instance;
     }
-
+    /**
+     * Stops all tasks for the plugin.
+     */
     public void killTasks()
     {
         this.getServer().getScheduler().cancelTasks(this);

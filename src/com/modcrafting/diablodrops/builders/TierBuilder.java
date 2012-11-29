@@ -10,7 +10,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.log.Logging;
 import com.modcrafting.diablodrops.tier.Tier;
 
 public class TierBuilder
@@ -35,7 +34,7 @@ public class TierBuilder
             }
             catch (Exception e)
             {
-                Logging.debug("", e, true);
+            	if(plugin.debug) plugin.log.warning(e.getMessage());
             }
         }
         for (String name : cs.getKeys(false))

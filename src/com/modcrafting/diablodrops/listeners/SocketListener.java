@@ -141,17 +141,6 @@ public class SocketListener implements Listener
 		}
 	}
 
-	// Close enough.
-	@EventHandler
-	public void onCraftItem(CraftItemEvent e)
-	{
-		ItemStack item = e.getCurrentItem();
-		if (item.getType().equals(Material.WRITTEN_BOOK))
-		{
-			e.setCurrentItem(new Tome());
-		}
-	}
-
 	public ChatColor findColor(String s)
 	{
 		char[] c = s.toCharArray();

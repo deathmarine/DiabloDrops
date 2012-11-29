@@ -59,7 +59,11 @@ public class DevUpdater
 		/**
 		 * The updater did not find an update, and nothing was downloaded.
 		 */
-		NO_UPDATE(2);
+		NO_UPDATE(2),
+		/**
+		 * Failed update Retry.
+		 */
+		FAILED(3);
 
 		private static final Map<Integer, DevUpdater.DevUpdateResult> valueList = new HashMap<Integer, DevUpdater.DevUpdateResult>();
 		private final int value;
@@ -187,6 +191,7 @@ public class DevUpdater
 		}
 		catch (Exception ex)
 		{
+			result = DevUpdateResult.FAILED;
 		}
 		finally
 		{
@@ -203,6 +208,7 @@ public class DevUpdater
 			}
 			catch (Exception ex)
 			{
+				result = DevUpdateResult.FAILED;
 			}
 		}
 	}

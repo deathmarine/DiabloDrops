@@ -2,6 +2,8 @@
 Plugin:
 #AutoUpdate the plugin when a update is found#
   AutoUpdate: true
+  #Debug Mode#
+  Debug: false
 #Reasons not to add special equipmemt#
 #If true blocks usage#
 Reason:
@@ -56,6 +58,3 @@ Worlds:
   - 'world'
   - 'world_nether'
   - 'world_the_end'
-#Debug Mode#
-Debug:
-  Enabled: false

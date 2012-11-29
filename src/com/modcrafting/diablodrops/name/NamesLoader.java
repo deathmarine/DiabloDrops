@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.log.Logging;
 
 public class NamesLoader
 {
@@ -47,7 +46,7 @@ public class NamesLoader
             }
             catch (Exception e)
             {
-                Logging.debug("", e, true);
+            	if(plugin.debug) plugin.log.warning(e.getMessage());
             }
         }
     }
@@ -76,7 +75,7 @@ public class NamesLoader
         }
         catch (Exception e)
         {
-            Logging.debug("", e, true);
+        	if(plugin.debug) plugin.log.warning(e.getMessage());
         }
     }
 }

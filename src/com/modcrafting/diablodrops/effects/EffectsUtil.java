@@ -39,7 +39,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.log.Logging;
 
 public class EffectsUtil
 {
@@ -146,7 +145,7 @@ public class EffectsUtil
         }
         catch (Exception e1)
         {
-            Logging.debug("", e1, true);
+        	if(DiabloDrops.getInstance().debug) DiabloDrops.getInstance().log.warning(e1.getMessage());
             e1.printStackTrace();
         }
     }

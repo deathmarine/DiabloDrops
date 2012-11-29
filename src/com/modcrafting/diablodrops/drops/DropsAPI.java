@@ -8,7 +8,6 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.log.Logging;
 import com.modcrafting.diablodrops.socket.gem.SocketItem;
 import com.modcrafting.diablodrops.tier.Drop;
 import com.modcrafting.diablodrops.tier.Tier;
@@ -123,7 +122,7 @@ public class DropsAPI
                                         }
                                         catch (Exception e1)
                                         {
-                                            Logging.debug("", e1, true);
+                                        	if(plugin.debug) plugin.log.warning(e1.getMessage());
                                             e++;
                                         }
                                     }
@@ -233,7 +232,7 @@ public class DropsAPI
                                         }
                                         catch (Exception e1)
                                         {
-                                            Logging.debug("", e1, true);
+                                        	if(plugin.debug) plugin.log.warning(e1.getMessage());
                                             e++;
                                         }
                                     }
@@ -343,7 +342,7 @@ public class DropsAPI
                                 }
                                 catch (Exception e1)
                                 {
-                                    Logging.debug("", e1, true);
+                                	if(plugin.debug) plugin.log.warning(e1.getMessage());
                                     e++;
                                 }
                             }
@@ -539,7 +538,7 @@ public class DropsAPI
                             }
                             catch (Exception e1)
                             {
-                                Logging.debug("", e1, true);
+                            	if(plugin.debug) plugin.log.warning(e1.getMessage());
                                 e++;
                             }
                         }

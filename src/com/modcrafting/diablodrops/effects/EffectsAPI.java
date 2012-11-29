@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.modcrafting.diablodrops.log.Logging;
+import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.toolapi.lib.Tool;
 
 public class EffectsAPI
@@ -94,7 +94,7 @@ public class EffectsAPI
         }
         catch (NumberFormatException e)
         {
-            Logging.debug("", e, true);
+        	if(DiabloDrops.getInstance().debug) DiabloDrops.getInstance().log.warning(e.getMessage());
             level = 0;
         }
         if (args[1].equalsIgnoreCase("attack"))
@@ -134,7 +134,7 @@ public class EffectsAPI
             }
             catch (NumberFormatException e)
             {
-                Logging.debug("", e, true);
+            	if(DiabloDrops.getInstance().debug) DiabloDrops.getInstance().log.warning(e.getMessage());
                 return;
             }
             if (fl > 0 && struck instanceof Monster)

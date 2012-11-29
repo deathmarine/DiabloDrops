@@ -10,12 +10,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.IdentifyItemEvent;
+import com.modcrafting.diablodrops.tier.Tome;
 import com.modcrafting.toolapi.lib.Tool;
 
 import de.bananaco.bookapi.lib.Book;
@@ -94,6 +96,17 @@ public class TomeListener implements Listener
 				e.setCancelled(true);
 				return;
 			}
+		}
+	}
+
+	@EventHandler
+	public void onCraftItem(CraftItemEvent e)
+	{
+		ItemStack item = e.getCurrentItem();
+		if (item.getType().equals(Material.WRITTEN_BOOK))
+		{
+			if(e.isShiftClick()) e.setCancelled(true);
+			e.setCurrentItem(new Tome());
 		}
 	}
 }

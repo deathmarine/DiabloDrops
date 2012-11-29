@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.log.Logging;
 import com.modcrafting.diablodrops.socket.gem.SocketItem;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablodrops.tier.Tome;
@@ -117,7 +116,7 @@ public class DiabloDropCommand implements CommandExecutor
                             }
                             catch (NumberFormatException nfe)
                             {
-                                Logging.debug("", nfe, true);
+                            	if(plugin.debug) plugin.log.warning(nfe.getMessage());
                             }
                             Enchantment ech = Enchantment.getByName(args[3]
                                     .toUpperCase());

@@ -25,6 +25,11 @@ public class EffectsListener implements Listener
 	@EventHandler(priority = EventPriority.LOW)
 	public void onEntityDamageByEntity(EntityDamageEvent event)
 	{
+		if (plugin.worlds.size()>0
+				&& plugin.config.getBoolean("Worlds.Enabled", false)
+				&& !plugin.worlds.contains(event.getEntity().getLocation().getWorld()
+						.getName().toLowerCase()))
+			return;
 		if(event instanceof EntityDamageByEntityEvent){
 			EntityDamageByEntityEvent ev=(EntityDamageByEntityEvent) event;
 

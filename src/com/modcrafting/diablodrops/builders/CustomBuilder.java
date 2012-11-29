@@ -11,7 +11,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.log.Logging;
 import com.modcrafting.toolapi.lib.Tool;
 
 public class CustomBuilder
@@ -35,7 +34,7 @@ public class CustomBuilder
             }
             catch (Exception e)
             {
-                Logging.debug("", e, true);
+            	if(plugin.debug) plugin.log.warning(e.getMessage());
             }
         }
         for (String name : fc.getKeys(false))

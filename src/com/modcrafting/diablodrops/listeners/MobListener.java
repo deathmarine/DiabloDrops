@@ -49,9 +49,9 @@ public class MobListener implements Listener
 	public void onSpawn(CreatureSpawnEvent event)
 	{
 		LivingEntity entity = event.getEntity();
-		if (plugin.multiW != null
+		if (plugin.worlds.size()>0
 				&& plugin.config.getBoolean("Worlds.Enabled", false)
-				&& !plugin.multiW.contains(entity.getLocation().getWorld()
+				&& !plugin.worlds.contains(entity.getLocation().getWorld()
 						.getName().toLowerCase()))
 			return;
 		if (spawner && event.getSpawnReason().equals(SpawnReason.SPAWNER))
@@ -116,7 +116,7 @@ public class MobListener implements Listener
 		if (event.getEntity() instanceof Monster)
 		{
 			Location loc = event.getEntity().getLocation();
-			if (!plugin.multiW.contains(loc.getWorld().getName())
+			if (!plugin.worlds.contains(loc.getWorld().getName())
 					&& plugin.config.getBoolean("Worlds.Enabled", false))
 			{
 				return;

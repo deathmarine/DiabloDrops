@@ -3,10 +3,6 @@ package de.bananaco.bookapi.lib;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import de.bananaco.bookapi.lib.Book;
-import de.bananaco.bookapi.lib.BookBuilder;
-import de.bananaco.bookapi.lib.CraftBook;
-
 /**
  * The implementation of BookBuilder
  */

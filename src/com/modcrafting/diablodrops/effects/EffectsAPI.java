@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -64,7 +63,7 @@ public class EffectsAPI
         {
             if (is != null && !is.getType().equals(Material.AIR))
             {
-                toolSet.add(new Tool((CraftItemStack) is));
+                toolSet.add(new Tool(is));
             }
         }
         List<String> effects = new ArrayList<String>();
@@ -94,7 +93,8 @@ public class EffectsAPI
         }
         catch (NumberFormatException e)
         {
-        	if(DiabloDrops.getInstance().debug) DiabloDrops.getInstance().log.warning(e.getMessage());
+            if (DiabloDrops.getInstance().debug)
+                DiabloDrops.getInstance().log.warning(e.getMessage());
             level = 0;
         }
         if (args[1].equalsIgnoreCase("attack"))
@@ -134,7 +134,8 @@ public class EffectsAPI
             }
             catch (NumberFormatException e)
             {
-            	if(DiabloDrops.getInstance().debug) DiabloDrops.getInstance().log.warning(e.getMessage());
+                if (DiabloDrops.getInstance().debug)
+                    DiabloDrops.getInstance().log.warning(e.getMessage());
                 return;
             }
             if (fl > 0 && struck instanceof Monster)

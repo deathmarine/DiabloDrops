@@ -64,6 +64,7 @@ public class DiabloDrops extends JavaPlugin
     private int id;
     public Logger log;
 
+    @Override
     public void onDisable()
     {
         killTasks();
@@ -78,6 +79,7 @@ public class DiabloDrops extends JavaPlugin
         furnanceMap.clear();
     }
 
+    @Override
     public void onEnable()
     {
         instance = this;

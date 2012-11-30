@@ -82,7 +82,7 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("modify"))
                 {
-                    if (args.length < 2)
+                    if (args.length < 2||player.getItemInHand()==null||player.getItemInHand().getType().equals(Material.AIR))
                         return true;
                     if (args[1].equalsIgnoreCase("lore"))
                     {

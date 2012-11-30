@@ -84,7 +84,7 @@ public class EffectsAPI
     {
 
         String[] args = string.split(" ");
-        if (args.length == 0 || args.length == 1)
+        if (args.length <= 1)
             return;
         Integer level = null;
         try
@@ -100,7 +100,7 @@ public class EffectsAPI
         if (args[1].equalsIgnoreCase("attack"))
         {
             // Add to strike damage
-            int damage = event.getDamage() + level.intValue();
+            int damage = event.getDamage() + level;
             if (damage >= 0)
             {
                 event.setDamage(damage);
@@ -113,7 +113,7 @@ public class EffectsAPI
         }
         else if (args[1].equalsIgnoreCase("defense"))
         {
-            int damage = event.getDamage() - level.intValue();
+            int damage = event.getDamage() - level;
             if (damage >= 0)
             {
                 event.setDamage(damage);
@@ -153,51 +153,51 @@ public class EffectsAPI
         else if (args[1].equalsIgnoreCase("lightning"))
         {
             // strike lightning
-            if (level.intValue() > 0 && struck != null)
+            if (level > 0 && struck != null)
                 EffectsUtil.strikeLightning(struck.getLocation(),
-                        Math.abs(level.intValue()));
-            else if (level.intValue() < 0 && striker != null)
+                        Math.abs(level));
+            else if (level < 0 && striker != null)
                 EffectsUtil.strikeLightning(striker.getLocation(),
-                        Math.abs(level.intValue()));
+                        Math.abs(level));
             return;
         }
         else if (args[1].equalsIgnoreCase("fire"))
         {
             // Set entity on fire
-            if (level.intValue() > 0 && struck != null)
-                EffectsUtil.setOnFire(struck, Math.abs(level.intValue()));
-            else if (level.intValue() < 0 && striker != null)
-                EffectsUtil.setOnFire(striker, Math.abs(level.intValue()));
+            if (level > 0 && struck != null)
+                EffectsUtil.setOnFire(struck, Math.abs(level));
+            else if (level < 0 && striker != null)
+                EffectsUtil.setOnFire(striker, Math.abs(level));
             return;
         }
         else if (args[1].equalsIgnoreCase("entomb"))
         {
-            if (level.intValue() > 0 && struck != null)
+            if (level > 0 && struck != null)
                 EffectsUtil.entomb(struck.getLocation(),
-                        Math.abs(level.intValue()));
-            else if (level.intValue() < 0 && striker != null)
+                        Math.abs(level));
+            else if (level < 0 && striker != null)
                 EffectsUtil.entomb(striker.getLocation(),
-                        Math.abs(level.intValue()));
+                        Math.abs(level));
             return;
         }
         else if (args[1].equalsIgnoreCase("leech") && striker != null
                 && struck != null)
         {
-            if (level.intValue() > 0)
+            if (level > 0)
             {
-                int chng = level.intValue() - struck.getHealth();
+                int chng = level - struck.getHealth();
                 if (chng < struck.getMaxHealth() && chng > 0)
                     struck.setHealth(chng);
-                chng = level.intValue() + striker.getHealth();
+                chng = level + striker.getHealth();
                 if (chng < striker.getMaxHealth() && chng > 0)
                     striker.setHealth(chng);
             }
-            else if (level.intValue() < 0)
+            else if (level < 0)
             {
-                int chng = level.intValue() + struck.getHealth();
+                int chng = level + struck.getHealth();
                 if (chng < struck.getMaxHealth() && chng > 0)
                     struck.setHealth(chng);
-                chng = level.intValue() - striker.getHealth();
+                chng = level - striker.getHealth();
                 if (chng < striker.getMaxHealth() && chng > 0)
                     striker.setHealth(chng);
             }
@@ -210,17 +210,17 @@ public class EffectsAPI
                 if (potionEffect != null
                         && potionEffect.getName().equalsIgnoreCase(args[1]))
                 {
-                    if (level.intValue() > 0 && struck != null)
+                    if (level > 0 && struck != null)
                     {
                         struck.addPotionEffect(new PotionEffect(potionEffect,
-                                Math.abs(level.intValue()) * 100, Math
-                                        .abs(level.intValue())));
+                                Math.abs(level) * 100, Math
+                                	.abs(level)-1));
                     }
-                    else if (level.intValue() < 0 && striker != null)
+                    else if (level < 0 && striker != null)
                     {
                         striker.addPotionEffect(new PotionEffect(potionEffect,
-                                Math.abs(level.intValue()) * 100, Math
-                                        .abs(level.intValue())));
+                                Math.abs(level) * 100, Math
+                                        .abs(level)-1));
                     }
 
                 }

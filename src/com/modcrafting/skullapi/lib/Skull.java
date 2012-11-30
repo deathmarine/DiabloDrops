@@ -92,9 +92,9 @@ public class Skull extends CraftItemStack implements SkullInterface
 	}
 
 	@Override
-	public Integer getSkullType()
+	public SkullType getSkullType()
 	{
-		return this.getHandle().getData();
+		return SkullType.values()[this.getHandle().getData()];
 	}
 
 	@Override

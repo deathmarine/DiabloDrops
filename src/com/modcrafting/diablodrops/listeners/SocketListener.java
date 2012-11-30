@@ -15,7 +15,6 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.PreSocketEnhancementEvent;
 import com.modcrafting.diablodrops.events.SocketEnhancementEvent;
 import com.modcrafting.skullapi.lib.Skull;
-import com.modcrafting.skullapi.lib.Skull.SkullType;
 import com.modcrafting.toolapi.lib.Tool;
 
 public class SocketListener implements Listener
@@ -66,24 +65,24 @@ public class SocketListener implements Listener
 			Skull skull = new Skull(((CraftItemStack) is).getHandle());
 			String skullName = skull.getOwner();
 			if(skullName==null||skullName.trim().length()<1){
-				switch(skull.getHandle().getData()){
-				case 4:{
+				switch(skull.getSkullType()){
+				case CREEPER:{
 					skullName="Creeper";
 					break;
 					}
-				case 3:{
+				case PLAYER:{
 					skullName = "Steve";
 					break;
 					}
-				case 0:{
+				case SKELETON:{
 					skullName="Skeleton";
 					break;
 					}
-				case 1:{
+				case WITHER:{
 					skullName="Wither";
 					break;
 					}
-				case 2:{
+				case ZOMBIE:{
 					skullName="Zombie";
 					break;
 					}
@@ -99,7 +98,7 @@ public class SocketListener implements Listener
 		{
 			tool.setName(oldtool.getName());
 		}
-		if (plugin.config.getBoolean("Lore.Enabled", true))
+		if (plugin.config.getBoolean("Socket.Lore", true))
 		{
 			for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
 			{

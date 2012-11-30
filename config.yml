@@ -42,6 +42,7 @@ IdentifyTome:
 SocketItem:
   Enabled: true
   Chance: 5
+  #Add levels to enchantment when socketting#
   EnhanceLevelBy: 1
   EnhanceMax: 10
   Lore: true

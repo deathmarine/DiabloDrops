@@ -101,7 +101,9 @@ public class DropsAPI
         for (; e > 0; e--)
         {
             int lvl = plugin.gen.nextInt(l + 1);
-            Enchantment ench = eStack.get(plugin.gen.nextInt(eStack.size()));
+            int size = eStack.size();
+            if(size<1) continue;
+            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
             	{
@@ -198,7 +200,9 @@ public class DropsAPI
         for (; e > 0; e--)
         {
             int lvl = plugin.gen.nextInt(l + 1);
-            Enchantment ench = eStack.get(plugin.gen.nextInt(eStack.size()));
+            int size = eStack.size();
+            if(size<1) continue;
+            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
             	{
@@ -298,7 +302,9 @@ public class DropsAPI
         for (; e > 0; e--)
         {
             int lvl = plugin.gen.nextInt(l + 1);
-            Enchantment ench = eStack.get(plugin.gen.nextInt(eStack.size()));
+            int size = eStack.size();
+            if(size<1) continue;
+            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
             	{
@@ -493,7 +499,9 @@ public class DropsAPI
         for (; e > 0; e--)
         {
             int lvl = plugin.gen.nextInt(l + 1);
-            Enchantment ench = eStack.get(plugin.gen.nextInt(eStack.size()));
+            int size = eStack.size();
+            if(size<1) continue;
+            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
             	{

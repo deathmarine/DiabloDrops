@@ -31,6 +31,7 @@ public class DiabloDropCommand implements CommandExecutor
         this.plugin = plugin;
     }
 
+    @Override
     public boolean onCommand(CommandSender sender, Command command,
             String commandLabel, String[] args)
     {

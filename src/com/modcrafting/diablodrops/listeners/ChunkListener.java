@@ -267,7 +267,7 @@ public class ChunkListener implements Listener
                         .getRelative(BlockFace.EAST) };
         for (Block b1 : ruinBase)
         {
-            pillarRuin2(b1, plugin.gen.nextInt(4) + 3, 49);
+            pillarRuin2(b1, plugin.gen.nextInt(4) + 3, blockType);
         }
         for (Block b2 : blockSurround)
         {
@@ -469,96 +469,113 @@ public class ChunkListener implements Listener
 
     private void deathRuin(Block block, Biome b)
     {
-    	List<Material> mats = new ArrayList<Material>();
-    	switch(b){
-		case BEACH:{
-			mats.add(Material.SANDSTONE);
-			break;
-		}
-		case DESERT:{
-			mats.add(Material.SANDSTONE);
-			break;
-		}
-		case DESERT_HILLS:{
-			mats.add(Material.SANDSTONE);
-			break;
-		}
-		case EXTREME_HILLS:{
-			mats.add(Material.COBBLESTONE);
-			mats.add(Material.COBBLESTONE);
-			break;
-		}
-		case FOREST:{
-			mats.add(Material.SMOOTH_BRICK);
-			mats.add(Material.STONE);
-			break;
-		}
-		case FOREST_HILLS:{
-			mats.add(Material.SMOOTH_BRICK);
-			mats.add(Material.STONE);
-			break;
-		}
-		case FROZEN_OCEAN:
-			break;
-		case FROZEN_RIVER:
-			break;
-		case HELL:{
-			mats.add(Material.NETHER_BRICK);
-			break;
-		}
-		case ICE_MOUNTAINS:{
-			mats.add(Material.ICE);
-			mats.add(Material.SNOW_BLOCK);
-			break;
-		}
-		case ICE_PLAINS:{
-			mats.add(Material.ICE);
-			mats.add(Material.SNOW_BLOCK);
-			break;
-		}
-		case JUNGLE:{
-			mats.add(Material.LOG);
-			break;
-		}
-		case JUNGLE_HILLS:{
-			mats.add(Material.LOG);
-			break;
-		}
-		case MUSHROOM_ISLAND:
-			break;
-		case MUSHROOM_SHORE:
-			break;
-		case OCEAN:
-			break;
-		case PLAINS:{
-			mats.add(Material.DOUBLE_STEP);
-			break;
-		}
-		case RIVER:
-			break;
-		case SKY:
-			break;
-		case SMALL_MOUNTAINS:
-			break;
-		case SWAMPLAND:{
-			mats.add(Material.DOUBLE_STEP);
-			break;
-		}
-		case TAIGA:{
-			mats.add(Material.SMOOTH_BRICK);
-			mats.add(Material.STONE);
-			break;
-		}
-		case TAIGA_HILLS:{
-			mats.add(Material.SMOOTH_BRICK);
-			mats.add(Material.STONE);
-			break;
-		}
-		default:
-			break;
-    
-    	}
-    	if(mats.size()<1) return;
+        List<Material> mats = new ArrayList<Material>();
+        switch (b)
+        {
+            case BEACH:
+            {
+                mats.add(Material.SANDSTONE);
+                break;
+            }
+            case DESERT:
+            {
+                mats.add(Material.SANDSTONE);
+                break;
+            }
+            case DESERT_HILLS:
+            {
+                mats.add(Material.SANDSTONE);
+                break;
+            }
+            case EXTREME_HILLS:
+            {
+                mats.add(Material.COBBLESTONE);
+                mats.add(Material.COBBLESTONE);
+                break;
+            }
+            case FOREST:
+            {
+                mats.add(Material.SMOOTH_BRICK);
+                mats.add(Material.STONE);
+                break;
+            }
+            case FOREST_HILLS:
+            {
+                mats.add(Material.SMOOTH_BRICK);
+                mats.add(Material.STONE);
+                break;
+            }
+            case FROZEN_OCEAN:
+                break;
+            case FROZEN_RIVER:
+                break;
+            case HELL:
+            {
+                mats.add(Material.NETHER_BRICK);
+                break;
+            }
+            case ICE_MOUNTAINS:
+            {
+                mats.add(Material.ICE);
+                mats.add(Material.SNOW_BLOCK);
+                break;
+            }
+            case ICE_PLAINS:
+            {
+                mats.add(Material.ICE);
+                mats.add(Material.SNOW_BLOCK);
+                break;
+            }
+            case JUNGLE:
+            {
+                mats.add(Material.LOG);
+                break;
+            }
+            case JUNGLE_HILLS:
+            {
+                mats.add(Material.LOG);
+                break;
+            }
+            case MUSHROOM_ISLAND:
+                break;
+            case MUSHROOM_SHORE:
+                break;
+            case OCEAN:
+                break;
+            case PLAINS:
+            {
+                mats.add(Material.DOUBLE_STEP);
+                break;
+            }
+            case RIVER:
+                break;
+            case SKY:
+                break;
+            case SMALL_MOUNTAINS:
+                break;
+            case SWAMPLAND:
+            {
+                mats.add(Material.DOUBLE_STEP);
+                break;
+            }
+            case TAIGA:
+            {
+                mats.add(Material.SMOOTH_BRICK);
+                mats.add(Material.STONE);
+                break;
+            }
+            case TAIGA_HILLS:
+            {
+                mats.add(Material.SMOOTH_BRICK);
+                mats.add(Material.STONE);
+                break;
+            }
+            default:
+                break;
+
+        }
+        if (mats.size() < 1)
+            return;
         Block under = block.getRelative(BlockFace.DOWN);
         int square = plugin.gen.nextInt(6);
         Location loc = under.getLocation();

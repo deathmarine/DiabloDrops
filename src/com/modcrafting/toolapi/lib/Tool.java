@@ -18,42 +18,19 @@ public class Tool extends CraftItemStack implements ToolInterface
 	public Tool(Material mat)
 	{
 		super(mat, 1);
-		ItemStack mitem = this.getHandle();
-		if (mitem == null)
-			return;
-		if (mitem.tag == null)
-		{
-			mitem.tag = new NBTTagCompound();
-		}
-		this.tag = mitem.tag;
+		tag();
 	}
 
 	public Tool(ItemStack item)
 	{
 		super(item);
-		ItemStack mitem = this.getHandle();
-		if (mitem == null)
-			return;
-		if (mitem.tag == null)
-		{
-			mitem.tag = new NBTTagCompound();
-		}
-		this.tag = mitem.tag;
+		tag();
 	}
 
 	public Tool(org.bukkit.inventory.ItemStack source)
 	{
 		super(((CraftItemStack) source).getHandle());
-		ItemStack mitem = this.getHandle();
-		if (mitem == null)
-		{
-			return;
-		}
-		if (mitem.tag == null)
-		{
-			mitem.tag = new NBTTagCompound();
-		}
-		this.tag = mitem.tag;
+		tag();
 	}
 
 	@Override
@@ -72,14 +49,16 @@ public class Tool extends CraftItemStack implements ToolInterface
 	@Override
 	public void setName(String name)
 	{
-		NBTTagCompound ntag = new NBTTagCompound();
+		NBTTagCompound nc = tag.getCompound("display");
+		if (nc != null)
+			nc = new NBTTagCompound();
 		NBTTagString p = new NBTTagString(name);
 		p.setName(name);
 		p.data = name;
-		ntag.set("Name", p);
-		ntag.setString("Name", name);
-		tag.setCompound("display", ntag);
-		setTag(tag);
+		nc.set("Name", p);
+		nc.setString("Name", name);
+		tag.setCompound("display", nc);
+		update();
 	}
 
 	@Override
@@ -92,24 +71,23 @@ public class Tool extends CraftItemStack implements ToolInterface
 	public void setRepairCost(Integer i)
 	{
 		tag.setInt("RepairCost", i);
-		setTag(tag);
+		update();
 	}
 
 	@Override
 	public void setLore(List<String> lore)
 	{
-
 		NBTTagCompound ntag = tag.getCompound("display");
 		if (ntag == null)
-			ntag = new NBTTagCompound("display");
-		NBTTagList p = new NBTTagList("Lore");
+			ntag = new NBTTagCompound();
+		NBTTagList p = new NBTTagList();
 		for (String s : lore)
 		{
 			p.add(new NBTTagString("", s.trim()));
 		}
 		ntag.set("Lore", p);
 		tag.setCompound("display", ntag);
-		setTag(tag);
+		update();
 	}
 
 	@Override
@@ -160,21 +138,37 @@ public class Tool extends CraftItemStack implements ToolInterface
 			ntag = new NBTTagCompound("display");
 		NBTTagList p = ntag.getList("Lore");
 		if (p == null)
-			p = new NBTTagList("Lore");
+			p = new NBTTagList();
 		p.add(new NBTTagString("", string));
 		ntag.set("Lore", p);
 		tag.setCompound("display", ntag);
-		setTag(tag);
+		update();
 	}
 	
 	@Override
 	public void setTag(NBTTagCompound tag){
 		this.tag=tag;
-		this.getHandle().tag=tag;
+		update();
 	}
 	
 	@Override
 	public NBTTagCompound getTag(){
 		return this.tag;
+	}
+	
+	private void tag(){
+		ItemStack mitem = this.getHandle();
+		if (mitem == null)
+		{
+			return;
+		}
+		if (mitem.tag == null)
+		{
+			mitem.tag = new NBTTagCompound();
+		}
+		this.tag = mitem.tag;
+	}
+	private void update(){
+		this.getHandle().tag=tag;
 	}
 }

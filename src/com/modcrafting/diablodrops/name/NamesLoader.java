@@ -21,6 +21,35 @@ public class NamesLoader
     }
 
     /**
+     * Takes values from fileName and adds them to list
+     * 
+     * @param list
+     * @param fileName
+     */
+    public void loadFile(List<String> l, String name)
+    {
+        try
+        {
+            BufferedReader list = new BufferedReader(new FileReader(new File(
+                    dataFolder, name)));
+            String p;
+            while ((p = list.readLine()) != null)
+            {
+                if (!p.contains("#") && p.length() > 0)
+                {
+                    l.add(p);
+                }
+            }
+            list.close();
+        }
+        catch (Exception e)
+        {
+            if (plugin.debug)
+                plugin.log.warning(e.getMessage());
+        }
+    }
+
+    /**
      * Creates a file with given name
      * 
      * @param name
@@ -46,36 +75,9 @@ public class NamesLoader
             }
             catch (Exception e)
             {
-            	if(plugin.debug) plugin.log.warning(e.getMessage());
+                if (plugin.debug)
+                    plugin.log.warning(e.getMessage());
             }
-        }
-    }
-
-    /**
-     * Takes values from fileName and adds them to list
-     * 
-     * @param list
-     * @param fileName
-     */
-    public void loadFile(List<String> l, String name)
-    {
-        try
-        {
-            BufferedReader list = new BufferedReader(new FileReader(new File(
-                    dataFolder, name)));
-            String p;
-            while ((p = list.readLine()) != null)
-            {
-                if (!p.contains("#") && p.length() > 0)
-                {
-                    l.add(p);
-                }
-            }
-            list.close();
-        }
-        catch (Exception e)
-        {
-        	if(plugin.debug) plugin.log.warning(e.getMessage());
         }
     }
 }

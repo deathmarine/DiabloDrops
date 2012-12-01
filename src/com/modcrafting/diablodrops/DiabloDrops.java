@@ -44,7 +44,7 @@ import com.modcrafting.toolapi.lib.Tool;
 public class DiabloDrops extends JavaPlugin
 {
     public boolean debug;
-	public List<String> prefix = new ArrayList<String>();
+    public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
@@ -61,8 +61,26 @@ public class DiabloDrops extends JavaPlugin
     public DropUtils drop = new DropUtils();
     public Integer build;
     private static DiabloDrops instance;
+    /**
+     * Gets the instance of DiabloDrops
+     * 
+     * @return plugin's instance
+     */
+    public static DiabloDrops getInstance()
+    {
+        return instance;
+    }
     private int id;
+
     public Logger log;
+
+    /**
+     * Stops all tasks for the plugin.
+     */
+    public void killTasks()
+    {
+        this.getServer().getScheduler().cancelTasks(this);
+    }
 
     @Override
     public void onDisable()
@@ -84,7 +102,7 @@ public class DiabloDrops extends JavaPlugin
     {
         instance = this;
         this.getDataFolder().mkdir();
-        log = this.getLogger();		
+        log = this.getLogger();
         log.addHandler(new LogHandler(this.getDataFolder()));
         nameLoader = new NamesLoader(this);
         nameLoader.writeDefault("config.yml");
@@ -114,14 +132,14 @@ public class DiabloDrops extends JavaPlugin
             }
         }
         debug = config.getBoolean("Plugin.Debug", false);
-        
+
         PluginManager pm = this.getServer().getPluginManager();
         pm.registerEvents(new MobListener(this), this);
         pm.registerEvents(new TomeListener(this), this);
         pm.registerEvents(new SocketListener(this), this);
         pm.registerEvents(new ChunkListener(this), this);
         pm.registerEvents(new EffectsListener(this), this);
-        
+
         this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 
         // AutoUpdater
@@ -154,15 +172,15 @@ public class DiabloDrops extends JavaPlugin
                             else
                             {
                                 log.info("Update "
-                                                + up.getLatestVersionString()
-                                                + " found and downloaded please restart your server.");
+                                        + up.getLatestVersionString()
+                                        + " found and downloaded please restart your server.");
                             }
                         }
 
                     }
 
                 });
-        //Jenkins AutoUpdater
+        // Jenkins AutoUpdater
         if (config.getBoolean("Plugin.Dev.Update", false))
         {
             id = this.getServer().getScheduler()
@@ -174,8 +192,8 @@ public class DiabloDrops extends JavaPlugin
                             DevUpdater up = new DevUpdater(getInstance(),
                                     getFile(), build);
                             if (up.getResult().equals(DevUpdateResult.FAILED))
-                            	return;
-                            
+                                return;
+
                             if (up.getResult().equals(DevUpdateResult.SUCCESS))
                             {
                                 getServer().getScheduler().cancelTask(id);
@@ -195,7 +213,7 @@ public class DiabloDrops extends JavaPlugin
                                         boolean voodoo = true;
                                         while (voodoo)
                                         {
-                                        	//Conducting Voodoo
+                                            // Conducting Voodoo
                                             if (time > System
                                                     .currentTimeMillis())
                                             {
@@ -211,22 +229,5 @@ public class DiabloDrops extends JavaPlugin
                         }
                     }, 0, 2400);
         }
-    }
-
-    /**
-     * Gets the instance of DiabloDrops
-     * 
-     * @return plugin's instance
-     */
-    public static DiabloDrops getInstance()
-    {
-        return instance;
-    }
-    /**
-     * Stops all tasks for the plugin.
-     */
-    public void killTasks()
-    {
-        this.getServer().getScheduler().cancelTasks(this);
     }
 }

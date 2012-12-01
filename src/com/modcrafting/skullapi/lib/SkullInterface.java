@@ -7,19 +7,19 @@ import com.modcrafting.skullapi.lib.Skull.SkullType;
 public interface SkullInterface
 {
 
-	public void setName(String name);
+    public String[] getLore();
 
-	public String getName();
+    public String getName();
 
-	public void setOwner(String name);
+    public String getOwner();
 
-	public String getOwner();
+    public SkullType getSkullType();
 
-	public void setSkullType(SkullType type);
+    public void setLore(List<String> lore);
 
-	public SkullType getSkullType();
+    public void setName(String name);
 
-	public void setLore(List<String> lore);
+    public void setOwner(String name);
 
-	public String[] getLore();
+    public void setSkullType(SkullType type);
 }

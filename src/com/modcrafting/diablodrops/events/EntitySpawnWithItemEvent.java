@@ -12,60 +12,60 @@ import org.bukkit.event.HandlerList;
 public class EntitySpawnWithItemEvent extends Event implements Cancellable
 {
 
-	private static final HandlerList handlers = new HandlerList();
-	private boolean isCancelled = false;
-	private final LivingEntity entity;
-	private List<CraftItemStack> items;
+    private static final HandlerList handlers = new HandlerList();
+    public static HandlerList getHandlerList()
+    {
+        return handlers;
+    }
+    private boolean isCancelled = false;
+    private final LivingEntity entity;
 
-	public EntitySpawnWithItemEvent(LivingEntity entity)
-	{
-		this.entity = entity;
-		this.setItems(new ArrayList<CraftItemStack>());
-	}
+    private List<CraftItemStack> items;
 
-	public EntitySpawnWithItemEvent(LivingEntity entity,
-			List<CraftItemStack> items)
-	{
-		this.entity = entity;
-		setItems(items);
-	}
+    public EntitySpawnWithItemEvent(LivingEntity entity)
+    {
+        this.entity = entity;
+        this.setItems(new ArrayList<CraftItemStack>());
+    }
 
-	@Override
-	public boolean isCancelled()
-	{
-		return isCancelled;
-	}
+    public EntitySpawnWithItemEvent(LivingEntity entity,
+            List<CraftItemStack> items)
+    {
+        this.entity = entity;
+        setItems(items);
+    }
 
-	@Override
-	public void setCancelled(boolean bln)
-	{
-		isCancelled = bln;
-	}
+    public LivingEntity getEntity()
+    {
+        return entity;
+    }
 
-	@Override
-	public HandlerList getHandlers()
-	{
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers()
+    {
+        return handlers;
+    }
 
-	public static HandlerList getHandlerList()
-	{
-		return handlers;
-	}
+    public List<CraftItemStack> getItems()
+    {
+        return items;
+    }
 
-	public LivingEntity getEntity()
-	{
-		return entity;
-	}
+    @Override
+    public boolean isCancelled()
+    {
+        return isCancelled;
+    }
 
-	public List<CraftItemStack> getItems()
-	{
-		return items;
-	}
+    @Override
+    public void setCancelled(boolean bln)
+    {
+        isCancelled = bln;
+    }
 
-	public void setItems(List<CraftItemStack> items)
-	{
-		this.items = items;
-	}
+    public void setItems(List<CraftItemStack> items)
+    {
+        this.items = items;
+    }
 
 }

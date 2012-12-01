@@ -6,67 +6,67 @@ import net.minecraft.server.NBTTagCompound;
 
 public interface ToolInterface
 {
-	/**
-	 * Gets the name of the Tool Will return null if not named
-	 * 
-	 * @returns name
-	 */
-	public String getName();
+    /**
+     * Sets a single line for lore.
+     * 
+     * @param string
+     */
+    public void addLore(String string);
 
-	/**
-	 * Sets the name of the Tool
-	 */
-	public void setName(String name);
+    /**
+     * Returns the lore of the Tool
+     * 
+     * @return lore
+     */
+    public String[] getLore();
 
-	/**
-	 * Gets the cost to repair
-	 * 
-	 * @return repair cost
-	 */
-	public Integer getRepairCost();
+    /**
+     * Get the lore of the Tool as a list
+     * 
+     * @return list
+     */
+    public List<String> getLoreList();
 
-	/**
-	 * Sets the cost to repair
-	 */
-	public void setRepairCost(Integer i);
+    /**
+     * Gets the name of the Tool Will return null if not named
+     * 
+     * @returns name
+     */
+    public String getName();
 
-	/**
-	 * Sets the lore of the Tool
-	 */
-	public void setLore(List<String> lore);
+    /**
+     * Gets the cost to repair
+     * 
+     * @return repair cost
+     */
+    public Integer getRepairCost();
 
-	/**
-	 * Returns the lore of the Tool
-	 * 
-	 * @return lore
-	 */
-	public String[] getLore();
+    /**
+     * Gets the compound for the item.
+     * 
+     * @return tag
+     */
+    public NBTTagCompound getTag();
 
-	/**
-	 * Sets a single line for lore.
-	 * 
-	 * @param string
-	 */
-	public void addLore(String string);
+    /**
+     * Sets the lore of the Tool
+     */
+    public void setLore(List<String> lore);
 
-	/**
-	 * Get the lore of the Tool as a list
-	 * 
-	 * @return list
-	 */
-	public List<String> getLoreList();
+    /**
+     * Sets the name of the Tool
+     */
+    public void setName(String name);
 
-	/**
-	 * Sets the compound for the item.
-	 * 
-	 * @param tag
-	 */
-	public void setTag(NBTTagCompound tag);
+    /**
+     * Sets the cost to repair
+     */
+    public void setRepairCost(Integer i);
 
-	/**
-	 * Gets the compound for the item.
-	 * 
-	 * @return tag
-	 */
-	public NBTTagCompound getTag();
+    /**
+     * Sets the compound for the item.
+     * 
+     * @param tag
+     */
+    public void setTag(NBTTagCompound tag);
 }

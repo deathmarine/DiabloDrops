@@ -30,6 +30,25 @@ public class DiabloDropCommand implements CommandExecutor
         this.plugin = plugin;
     }
 
+    public String combineSplit(int startIndex, String[] string, String seperator)
+    {
+        StringBuilder builder = new StringBuilder();
+        if (string.length >= 1)
+        {
+            for (int i = startIndex; i < string.length; i++)
+            {
+                builder.append(string[i]);
+                builder.append(seperator);
+            }
+            if (builder.length() > seperator.length())
+            {
+                builder.deleteCharAt(builder.length() - seperator.length()); // remove
+                return builder.toString();
+            }
+        }
+        return "";
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command,
             String commandLabel, String[] args)
@@ -64,7 +83,8 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("socket")
                         || args[0].equalsIgnoreCase("socketitem"))
                 {
-                	List<String> l = plugin.config.getStringList("SocketItem.Items");
+                    List<String> l = plugin.config
+                            .getStringList("SocketItem.Items");
                     pi.addItem(new Socket(Material.valueOf(l.get(
                             plugin.gen.nextInt(l.size())).toUpperCase())));
                     player.sendMessage(ChatColor.GREEN
@@ -81,7 +101,7 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("modify"))
                 {
-                    if (args.length < 2||player.getItemInHand()==null)
+                    if (args.length < 2 || player.getItemInHand() == null)
                         return true;
                     if (args[1].equalsIgnoreCase("lore"))
                     {
@@ -89,8 +109,10 @@ public class DiabloDropCommand implements CommandExecutor
                         lore = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], lore);
                         Tool tool = new Tool(player.getItemInHand());
-                        for(String s:lore.split(",")){
-                        	if(s.length()>0)tool.addLore(s);
+                        for (String s : lore.split(","))
+                        {
+                            if (s.length() > 0)
+                                tool.addLore(s);
                         }
                         player.sendMessage(ChatColor.GREEN
                                 + "Set the lore for the item!");
@@ -121,7 +143,8 @@ public class DiabloDropCommand implements CommandExecutor
                             }
                             catch (NumberFormatException nfe)
                             {
-                            	if(plugin.debug) plugin.log.warning(nfe.getMessage());
+                                if (plugin.debug)
+                                    plugin.log.warning(nfe.getMessage());
                             }
                             Enchantment ech = Enchantment.getByName(args[3]
                                     .toUpperCase());
@@ -200,24 +223,5 @@ public class DiabloDropCommand implements CommandExecutor
                         + "You have been given a DiabloDrops item.");
                 return true;
         }
-    }
-
-    public String combineSplit(int startIndex, String[] string, String seperator)
-    {
-        StringBuilder builder = new StringBuilder();
-        if (string.length >= 1)
-        {
-            for (int i = startIndex; i < string.length; i++)
-            {
-                builder.append(string[i]);
-                builder.append(seperator);
-            }
-            if (builder.length() > seperator.length())
-            {
-                builder.deleteCharAt(builder.length() - seperator.length()); // remove
-                return builder.toString();
-            }
-        }
-        return "";
     }
 }

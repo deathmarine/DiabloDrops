@@ -25,6 +25,195 @@ public class DropsAPI
     }
 
     /**
+     * Is material armor or tool?
+     * 
+     * @param material
+     * @return is armor or tool
+     */
+    public boolean canBeItem(Material material)
+    {
+        if (plugin.drop.isArmor(material) || plugin.drop.isTool(material))
+            return true;
+        return false;
+    }
+
+    /**
+     * Gets a random amount of damage for an ItemStack
+     * 
+     * @param material
+     *            of ItemStack
+     * @return durability to be set
+     */
+    public short damageItemStack(Material itemstack)
+    {
+        short dur = itemstack.getMaxDurability();
+        try
+        {
+            int newDur = plugin.gen.nextInt(dur + 1);
+            return (short) newDur;
+        }
+        catch (Exception e)
+        {
+        }
+        return dur;
+    }
+
+    /**
+     * Returns a Material that was randomly picked
+     * 
+     * @return random material
+     */
+    public Material dropPicker()
+    {
+        int next = plugin.gen.nextInt(10);
+        switch (next)
+        {
+            case 1:
+                return plugin.drop.getHelmet();
+            case 2:
+                return plugin.drop.getChestPlate();
+            case 3:
+                return plugin.drop.getLeggings();
+            case 4:
+                return plugin.drop.getBoots();
+            case 5:
+                return plugin.drop.getHoe();
+            case 6:
+                return plugin.drop.getPickaxe();
+            case 7:
+                return plugin.drop.getAxe();
+            case 8:
+                return plugin.drop.getSpade();
+            case 9:
+                return Material.BOW;
+            default:
+                return plugin.drop.getSword();
+
+        }
+    }
+
+    /**
+     * Gets a list of safe enchantments for an item.
+     * 
+     * @param ci
+     * @return set
+     */
+    public List<Enchantment> getEnchantStack(CraftItemStack ci)
+    {
+        List<Enchantment> set = new ArrayList<Enchantment>();
+        for (Enchantment e : Enchantment.values())
+        {
+            if (e.canEnchantItem(ci))
+            {
+                set.add(e);
+            }
+        }
+        return set;
+    }
+
+    public CraftItemStack getIdItem(Material mat, String name)
+    {
+        while (mat == null)
+            mat = dropPicker();
+        Material material = mat;
+        CraftItemStack ci = null;
+        Tier tier = getTier();
+        while (tier == null)
+        {
+            tier = getTier();
+        }
+        if (tier.getMaterials().size() > 0
+                && !tier.getMaterials().contains(material))
+        {
+            material = tier.getMaterials().get(
+                    plugin.gen.nextInt(tier.getMaterials().size()));
+        }
+        int e = tier.getAmount();
+        int l = tier.getLevels();
+        short damage = 0;
+        if (plugin.config.getBoolean("DropFix.Damage", true))
+            damage = damageItemStack(mat);
+        if (plugin.config.getBoolean("Display.TierName", true)
+                && !tier.getColor().equals(ChatColor.MAGIC))
+        {
+            ci = new Drop(material, tier.getColor(),
+                    ChatColor.stripColor(name()), damage, tier.getColor()
+                            + tier.getName());
+        }
+        else
+        {
+            ci = new Drop(material, tier.getColor(),
+                    ChatColor.stripColor(name()), damage);
+        }
+        if (tier.getColor().equals(ChatColor.MAGIC))
+            return ci;
+        List<Enchantment> eStack = Arrays.asList(Enchantment.values());
+        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
+        if (safe)
+            eStack = getEnchantStack(ci);
+        for (; e > 0; e--)
+        {
+            int lvl = plugin.gen.nextInt(l + 1);
+            int size = eStack.size();
+            if (size < 1)
+                continue;
+            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
+            if (lvl != 0 && ench != null
+                    && !tier.getColor().equals(ChatColor.MAGIC))
+            {
+                if (safe)
+                {
+                    if (lvl >= ench.getStartLevel()
+                            && lvl <= ench.getMaxLevel())
+                    {
+                        try
+                        {
+                            ci.addEnchantment(ench, lvl);
+                        }
+                        catch (Exception e1)
+                        {
+                            if (plugin.debug)
+                                plugin.log.warning(e1.getMessage());
+                            e++;
+                        }
+                    }
+                }
+                else
+                {
+                    ci.addUnsafeEnchantment(ench, lvl);
+                }
+            }
+        }
+        Tool tool = new Tool(ci);
+        if (plugin.config.getBoolean("SocketItem.Enabled", true)
+                && plugin.gen.nextInt(100) <= plugin.config.getInt(
+                        "SocketItem.Chance", 5))
+        {
+            tool.addLore("(Socket)");
+            return tool;
+        }
+        if (plugin.config.getBoolean("Lore.Enabled", true)
+                && plugin.gen.nextInt(100) <= plugin.config.getInt(
+                        "Lore.Chance", 5))
+        {
+            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
+            {
+                if (plugin.drop.isArmor(mat))
+                {
+                    tool.addLore(plugin.defenselore.get(plugin.gen
+                            .nextInt(plugin.defenselore.size())));
+                }
+                else if (plugin.drop.isTool(mat))
+                {
+                    tool.addLore(plugin.offenselore.get(plugin.gen
+                            .nextInt(plugin.offenselore.size())));
+                }
+            }
+        }
+        return tool;
+    }
+
+    /**
      * Returns an itemstack that was randomly generated
      * 
      * @return CraftItemStack
@@ -66,15 +255,18 @@ public class DropsAPI
      */
     public CraftItemStack getItem(Material mat)
     {
-        while(mat == null)
-        	mat = dropPicker();
+        while (mat == null)
+            mat = dropPicker();
         CraftItemStack ci = null;
         Tier tier = getTier();
-        while(tier==null){
-        	tier = getTier();
+        while (tier == null)
+        {
+            tier = getTier();
         }
-        if (tier.getMaterials().size() > 0 && !tier.getMaterials().contains(mat))
-            mat = tier.getMaterials().get(plugin.gen.nextInt(tier.getMaterials().size()));
+        if (tier.getMaterials().size() > 0
+                && !tier.getMaterials().contains(mat))
+            mat = tier.getMaterials().get(
+                    plugin.gen.nextInt(tier.getMaterials().size()));
         int e = tier.getAmount();
         int l = tier.getLevels();
         short damage = 0;
@@ -83,32 +275,33 @@ public class DropsAPI
         if (plugin.config.getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name()), damage,
-                    tier.getColor() + tier.getName());
+            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
+                    damage, tier.getColor() + tier.getName());
         }
         else
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name()), damage);
+            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
+                    damage);
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
-        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled",true);
+        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
-        	eStack = getEnchantStack(ci);
+            eStack = getEnchantStack(ci);
         for (; e > 0; e--)
         {
             int lvl = plugin.gen.nextInt(l + 1);
             int size = eStack.size();
-            if(size<1) continue;
+            if (size < 1)
+                continue;
             Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
-            	{
-            	if(safe){
-            		if (lvl >= ench.getStartLevel()
+            {
+                if (safe)
+                {
+                    if (lvl >= ench.getStartLevel()
                             && lvl <= ench.getMaxLevel())
                     {
                         try
@@ -117,12 +310,15 @@ public class DropsAPI
                         }
                         catch (Exception e1)
                         {
-                        	if(plugin.debug) plugin.log.warning(e1.getMessage());
+                            if (plugin.debug)
+                                plugin.log.warning(e1.getMessage());
                             e++;
                         }
                     }
-            	}else{
-            		ci.addUnsafeEnchantment(ench, lvl);
+                }
+                else
+                {
+                    ci.addUnsafeEnchantment(ench, lvl);
                 }
             }
         }
@@ -140,105 +336,7 @@ public class DropsAPI
                         "Lore.Chance", 5)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            for (int i = 0; i < plugin.config.getInt(
-                    "Lore.EnhanceAmount", 2); i++)
-            {
-                if (plugin.drop.isArmor(mat))
-                {
-                    tool.addLore(plugin.defenselore.get(plugin.gen
-                            .nextInt(plugin.defenselore.size())));
-                }
-                else if (plugin.drop.isTool(mat))
-                {
-                    tool.addLore(plugin.offenselore.get(plugin.gen
-                            .nextInt(plugin.offenselore.size())));
-                }
-            }
-        }
-        return tool;
-    }
-
-    public CraftItemStack getIdItem(Material mat, String name)
-    {
-        while(mat == null)
-        	mat = dropPicker();
-        Material material = mat;
-        CraftItemStack ci = null;
-        Tier tier = getTier();
-        while(tier==null){
-        	tier = getTier();
-        }
-        if (tier.getMaterials().size() > 0
-                && !tier.getMaterials().contains(material))
-        {
-            material = tier.getMaterials().get(
-                    plugin.gen.nextInt(tier.getMaterials().size()));
-        }
-        int e = tier.getAmount();
-        int l = tier.getLevels();
-        short damage = 0;
-        if (plugin.config.getBoolean("DropFix.Damage", true))
-            damage = damageItemStack(mat);
-        if (plugin.config.getBoolean("Display.TierName", true)
-                && !tier.getColor().equals(ChatColor.MAGIC))
-        {
-            ci = new Drop(material, tier.getColor(),
-                    ChatColor.stripColor(name()), damage,
-                    tier.getColor() + tier.getName());
-        }
-        else
-        {
-            ci = new Drop(material, tier.getColor(),
-                    ChatColor.stripColor(name()), damage);
-        }
-        if (tier.getColor().equals(ChatColor.MAGIC))
-            return ci;
-        List<Enchantment> eStack = Arrays.asList(Enchantment.values());
-        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled",true);
-        if (safe)
-        	eStack = getEnchantStack(ci);
-        for (; e > 0; e--)
-        {
-            int lvl = plugin.gen.nextInt(l + 1);
-            int size = eStack.size();
-            if(size<1) continue;
-            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
-            if (lvl != 0 && ench != null
-                    && !tier.getColor().equals(ChatColor.MAGIC))
-            	{
-            	if(safe){
-            		if (lvl >= ench.getStartLevel()
-                            && lvl <= ench.getMaxLevel())
-                    {
-                        try
-                        {
-                            ci.addEnchantment(ench, lvl);
-                        }
-                        catch (Exception e1)
-                        {
-                        	if(plugin.debug) plugin.log.warning(e1.getMessage());
-                            e++;
-                        }
-                    }
-            	}else{
-            		ci.addUnsafeEnchantment(ench, lvl);
-                }
-            }
-        }
-        Tool tool = new Tool(ci);
-        if (plugin.config.getBoolean("SocketItem.Enabled", true)
-                && plugin.gen.nextInt(100) <= plugin.config.getInt(
-                        "SocketItem.Chance", 5))
-        {
-            tool.addLore("(Socket)");
-            return tool;
-        }
-        if (plugin.config.getBoolean("Lore.Enabled", true)
-                && plugin.gen.nextInt(100) <= plugin.config.getInt(
-                        "Lore.Chance", 5))
-        {
-            for (int i = 0; i < plugin.config.getInt(
-                    "Lore.EnhanceAmount", 2); i++)
+            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
             {
                 if (plugin.drop.isArmor(mat))
                 {
@@ -265,8 +363,8 @@ public class DropsAPI
     public CraftItemStack getItem(Tier tier)
     {
         Material mat = dropPicker();
-        while(mat == null)
-        	mat = dropPicker();
+        while (mat == null)
+            mat = dropPicker();
         CraftItemStack ci = null;
         if (tier.getMaterials().size() > 0
                 && !tier.getMaterials().contains(mat))
@@ -284,32 +382,33 @@ public class DropsAPI
         if (plugin.config.getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name()), damage, tier.getColor()
-                            + tier.getName());
+            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
+                    damage, tier.getColor() + tier.getName());
         }
         else
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name()), damage);
+            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
+                    damage);
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
-        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled",true);
+        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
-        	eStack = getEnchantStack(ci);
+            eStack = getEnchantStack(ci);
         for (; e > 0; e--)
         {
             int lvl = plugin.gen.nextInt(l + 1);
             int size = eStack.size();
-            if(size<1) continue;
+            if (size < 1)
+                continue;
             Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
-            	{
-            	if(safe){
-            		if (lvl >= ench.getStartLevel()
+            {
+                if (safe)
+                {
+                    if (lvl >= ench.getStartLevel()
                             && lvl <= ench.getMaxLevel())
                     {
                         try
@@ -318,12 +417,15 @@ public class DropsAPI
                         }
                         catch (Exception e1)
                         {
-                        	if(plugin.debug) plugin.log.warning(e1.getMessage());
+                            if (plugin.debug)
+                                plugin.log.warning(e1.getMessage());
                             e++;
                         }
                     }
-            	}else{
-            		ci.addUnsafeEnchantment(ench, lvl);
+                }
+                else
+                {
+                    ci.addUnsafeEnchantment(ench, lvl);
                 }
             }
         }
@@ -341,8 +443,7 @@ public class DropsAPI
                         "Lore.Chance", 5)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount",
-                    2); i++)
+            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
             {
                 if (plugin.drop.isArmor(mat))
                 {
@@ -356,106 +457,113 @@ public class DropsAPI
                 }
             }
         }
-        
-    	return tool;
+
+        return tool;
     }
 
     /**
-     * Returns a Material that was randomly picked
+     * Gets a new tool from an unidentified tool
      * 
-     * @return random material
+     * @param tool
+     * @return brand new tool
      */
-    public Material dropPicker()
+    public Tool getItem(Tool tool)
     {
-        int next = plugin.gen.nextInt(10);
-        switch (next)
+        short oldDam = tool.getDurability();
+        tool = new Tool(tool.getType());
+        tool.setDurability(oldDam);
+        Tier tier = getTier();
+        while (tier == null || tier.getColor().equals(ChatColor.MAGIC))
         {
-            case 1:
-                return plugin.drop.getHelmet();
-            case 2:
-                return plugin.drop.getChestPlate();
-            case 3:
-                return plugin.drop.getLeggings();
-            case 4:
-                return plugin.drop.getBoots();
-            case 5:
-                return plugin.drop.getHoe();
-            case 6:
-                return plugin.drop.getPickaxe();
-            case 7:
-                return plugin.drop.getAxe();
-            case 8:
-                return plugin.drop.getSpade();
-            case 9:
-                return Material.BOW;
-            default:
-                return plugin.drop.getSword();
-
+            tier = getTier();
         }
-    }
-
-    /**
-     * Gets a random amount of damage for an ItemStack
-     * 
-     * @param material
-     *            of ItemStack
-     * @return durability to be set
-     */
-    public short damageItemStack(Material itemstack)
-    {
-        short dur = itemstack.getMaxDurability();
-        try
+        int e = tier.getAmount();
+        int l = tier.getLevels();
+        tool.setName(tier.getColor() + name());
+        List<Enchantment> eStack = Arrays.asList(Enchantment.values());
+        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
+        if (safe)
+            eStack = getEnchantStack(tool);
+        for (; e > 0; e--)
         {
-            int newDur = plugin.gen.nextInt(dur + 1);
-            return (short) newDur;
+            int lvl = plugin.gen.nextInt(l + 1);
+            int size = eStack.size();
+            if (size < 1)
+                continue;
+            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
+            if (lvl != 0 && ench != null
+                    && !tier.getColor().equals(ChatColor.MAGIC))
+            {
+                if (safe)
+                {
+                    if (lvl >= ench.getStartLevel()
+                            && lvl <= ench.getMaxLevel())
+                    {
+                        try
+                        {
+                            tool.addEnchantment(ench, lvl);
+                        }
+                        catch (Exception e1)
+                        {
+                            if (plugin.debug)
+                                plugin.log.warning(e1.getMessage());
+                            e++;
+                        }
+                    }
+                }
+                else
+                {
+                    tool.addUnsafeEnchantment(ench, lvl);
+                }
+            }
         }
-        catch (Exception e)
+        boolean sock = false;
+        if (plugin.config.getBoolean("SocketItem.Enabled", true)
+                && plugin.gen.nextInt(100) <= plugin.config.getInt(
+                        "SocketItem.Chance", 5)
+                && !tier.getColor().equals(ChatColor.MAGIC))
         {
+            tool.addLore("(Socket)");
+            sock = true;
         }
-        return dur;
+        if (plugin.config.getBoolean("Lore.Enabled", true)
+                && plugin.gen.nextInt(100) <= plugin.config.getInt(
+                        "Lore.Chance", 5)
+                && !tier.getColor().equals(ChatColor.MAGIC) && !sock)
+        {
+            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
+            {
+
+                if (plugin.drop.isArmor(tool.getType()))
+                {
+                    tool.addLore(plugin.defenselore.get(plugin.gen
+                            .nextInt(plugin.defenselore.size())));
+                }
+                else if (plugin.drop.isTool(tool.getType()))
+                {
+                    tool.addLore(plugin.offenselore.get(plugin.gen
+                            .nextInt(plugin.offenselore.size())));
+                }
+            }
+        }
+        return tool;
     }
 
     /**
-     * Is material armor or tool?
+     * Gets a calculated tier.
      * 
-     * @param material
-     * @return is armor or tool
+     * @return tier
      */
-    public boolean canBeItem(Material material)
-    {
-        if (plugin.drop.isArmor(material) || plugin.drop.isTool(material))
-            return true;
-        return false;
-    }
-
-    /**
-     * Gets a random name from prefix.txt and suffix.txt
-     * 
-     * @return name
-     */
-    public String name()
-    {
-        String prefix = plugin.prefix.get(plugin.gen.nextInt(plugin.prefix
-                .size()));
-        String suffix = plugin.suffix.get(plugin.gen.nextInt(plugin.suffix
-                .size()));
-        return prefix + " " + suffix;
-    }
-
-    /**
-     * Is type an actual tier?
-     * 
-     * @param type
-     * @return is tier
-     */
-    public boolean matchesTier(String type)
+    public Tier getTier()
     {
         for (Tier tier : plugin.tiers)
         {
-            if (tier.getName().equalsIgnoreCase(type))
-                return true;
+            if (plugin.gen.nextInt(100) <= tier.getChance())
+            {
+                return tier;
+            }
         }
-        return false;
+        return null;
     }
 
     /**
@@ -475,113 +583,32 @@ public class DropsAPI
     }
 
     /**
-     * Gets a new tool from an unidentified tool
+     * Is type an actual tier?
      * 
-     * @param tool
-     * @return brand new tool
+     * @param type
+     * @return is tier
      */
-    public Tool getItem(Tool tool)
+    public boolean matchesTier(String type)
     {
-        short oldDam = tool.getDurability();
-        tool = new Tool(tool.getType());
-        tool.setDurability(oldDam);
-        Tier tier = getTier();
-        while(tier==null||tier.getColor().equals(ChatColor.MAGIC)){
-        	tier = getTier();
-        }
-        int e = tier.getAmount();
-        int l = tier.getLevels();
-        tool.setName(tier.getColor() + name());
-        List<Enchantment> eStack = Arrays.asList(Enchantment.values());
-        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled",true);
-        if (safe)
-        	eStack = getEnchantStack(tool);
-        for (; e > 0; e--)
-        {
-            int lvl = plugin.gen.nextInt(l + 1);
-            int size = eStack.size();
-            if(size<1) continue;
-            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
-            if (lvl != 0 && ench != null
-                    && !tier.getColor().equals(ChatColor.MAGIC))
-            	{
-            	if(safe){
-            		if (lvl >= ench.getStartLevel()
-                            && lvl <= ench.getMaxLevel())
-                    {
-                        try
-                        {
-                            tool.addEnchantment(ench, lvl);
-                        }
-                        catch (Exception e1)
-                        {
-                        	if(plugin.debug) plugin.log.warning(e1.getMessage());
-                            e++;
-                        }
-                    }
-            	}else{
-            		tool.addUnsafeEnchantment(ench, lvl);
-                }
-            }
-        }
-        boolean sock = false;
-        if (plugin.config.getBoolean("SocketItem.Enabled", true)
-                && plugin.gen.nextInt(100) <= plugin.config.getInt(
-                        "SocketItem.Chance", 5)
-                && !tier.getColor().equals(ChatColor.MAGIC))
-        {
-            tool.addLore("(Socket)");
-            sock = true;
-        }
-        if (plugin.config.getBoolean("Lore.Enabled", true)
-                && plugin.gen.nextInt(100) <= plugin.config.getInt(
-                        "Lore.Chance", 5)
-                && !tier.getColor().equals(ChatColor.MAGIC) && !sock)
-        {
-            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount",
-                    2); i++)
-            {
-
-                if (plugin.drop.isArmor(tool.getType()))
-                {
-                    tool.addLore(plugin.defenselore.get(plugin.gen
-                            .nextInt(plugin.defenselore.size())));
-                }
-                else if (plugin.drop.isTool(tool.getType()))
-                {
-                    tool.addLore(plugin.offenselore.get(plugin.gen
-                            .nextInt(plugin.offenselore.size())));
-                }
-            }
-        }
-        return tool;
-    }
-    /**
-     * Gets a calculated tier.
-     * @return tier
-     */
-    public Tier getTier(){
         for (Tier tier : plugin.tiers)
         {
-            if (plugin.gen.nextInt(100) <= tier.getChance())
-            {
-            	return tier;
-            }
+            if (tier.getName().equalsIgnoreCase(type))
+                return true;
         }
-		return null;
+        return false;
     }
+
     /**
-     * Gets a list of safe enchantments for an item.
-     * @param ci
-     * @return set
+     * Gets a random name from prefix.txt and suffix.txt
+     * 
+     * @return name
      */
-    public List<Enchantment> getEnchantStack(CraftItemStack ci){
-    	List<Enchantment> set = new ArrayList<Enchantment>();
-    	for(Enchantment e :Enchantment.values()){
-    		if(e.canEnchantItem(ci)){
-    			set.add(e);
-    		}
-    	}
-		return set;	
+    public String name()
+    {
+        String prefix = plugin.prefix.get(plugin.gen.nextInt(plugin.prefix
+                .size()));
+        String suffix = plugin.suffix.get(plugin.gen.nextInt(plugin.suffix
+                .size()));
+        return prefix + " " + suffix;
     }
 }

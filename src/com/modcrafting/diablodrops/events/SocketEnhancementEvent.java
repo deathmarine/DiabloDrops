@@ -8,50 +8,50 @@ import org.bukkit.inventory.ItemStack;
 public class SocketEnhancementEvent extends Event
 {
 
-	private static final HandlerList handlers = new HandlerList();
-	private final ItemStack input;
-	private final ItemStack fuel;
-	private final ItemStack result;
-	private final Furnace furnace;
+    private static final HandlerList handlers = new HandlerList();
+    public static HandlerList getHandlerList()
+    {
+        return handlers;
+    }
+    private final ItemStack input;
+    private final ItemStack fuel;
+    private final ItemStack result;
 
-	public SocketEnhancementEvent(ItemStack input, ItemStack fuel,
-			ItemStack result, Furnace furnace)
-	{
-		this.input = input;
-		this.fuel = fuel;
-		this.furnace = furnace;
-		this.result = result;
-	}
+    private final Furnace furnace;
 
-	@Override
-	public HandlerList getHandlers()
-	{
-		return handlers;
-	}
+    public SocketEnhancementEvent(ItemStack input, ItemStack fuel,
+            ItemStack result, Furnace furnace)
+    {
+        this.input = input;
+        this.fuel = fuel;
+        this.furnace = furnace;
+        this.result = result;
+    }
 
-	public static HandlerList getHandlerList()
-	{
-		return handlers;
-	}
+    public ItemStack getFuel()
+    {
+        return fuel;
+    }
 
-	public ItemStack getInput()
-	{
-		return input;
-	}
+    public Furnace getFurnace()
+    {
+        return furnace;
+    }
 
-	public ItemStack getFuel()
-	{
-		return fuel;
-	}
+    @Override
+    public HandlerList getHandlers()
+    {
+        return handlers;
+    }
 
-	public Furnace getFurnace()
-	{
-		return furnace;
-	}
+    public ItemStack getInput()
+    {
+        return input;
+    }
 
-	public ItemStack getResult()
-	{
-		return result;
-	}
+    public ItemStack getResult()
+    {
+        return result;
+    }
 
 }

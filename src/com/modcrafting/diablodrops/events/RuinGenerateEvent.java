@@ -8,41 +8,41 @@ import org.bukkit.event.HandlerList;
 public class RuinGenerateEvent extends Event implements Cancellable
 {
 
-	private static final HandlerList handlers = new HandlerList();
-	private boolean isCancelled = false;
-	private final Chunk chunk;
+    private static final HandlerList handlers = new HandlerList();
+    public static HandlerList getHandlerList()
+    {
+        return handlers;
+    }
+    private boolean isCancelled = false;
 
-	public RuinGenerateEvent(Chunk chunk)
-	{
-		this.chunk = chunk;
-	}
+    private final Chunk chunk;
 
-	@Override
-	public boolean isCancelled()
-	{
-		return isCancelled;
-	}
+    public RuinGenerateEvent(Chunk chunk)
+    {
+        this.chunk = chunk;
+    }
 
-	@Override
-	public void setCancelled(boolean bln)
-	{
-		isCancelled = bln;
-	}
+    public Chunk getChunk()
+    {
+        return chunk;
+    }
 
-	@Override
-	public HandlerList getHandlers()
-	{
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers()
+    {
+        return handlers;
+    }
 
-	public static HandlerList getHandlerList()
-	{
-		return handlers;
-	}
+    @Override
+    public boolean isCancelled()
+    {
+        return isCancelled;
+    }
 
-	public Chunk getChunk()
-	{
-		return chunk;
-	}
+    @Override
+    public void setCancelled(boolean bln)
+    {
+        isCancelled = bln;
+    }
 
 }

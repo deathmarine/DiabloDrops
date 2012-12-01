@@ -26,87 +26,90 @@ import de.bananaco.bookapi.lib.CraftBookBuilder;
 public class TomeListener implements Listener
 {
 
-	private DiabloDrops plugin;
+    private DiabloDrops plugin;
 
-	public TomeListener(DiabloDrops plugin)
-	{
-		this.plugin = plugin;
-	}
+    public TomeListener(DiabloDrops plugin)
+    {
+        this.plugin = plugin;
+    }
 
-	@SuppressWarnings("deprecation")
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onRightClick(PlayerInteractEvent e)
-	{
-		if ((e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction()
-				.equals(Action.RIGHT_CLICK_BLOCK))
-				&& e.getPlayer().getItemInHand().getType()
-						.equals(Material.WRITTEN_BOOK))
-		{
-			Book b = new CraftBookBuilder().getBook(e.getPlayer()
-					.getItemInHand());
-			if (b == null)
-				return;
-			if (b.getTitle().contains(ChatColor.DARK_AQUA + "Identity Tome"))
-			{
-				Player p = e.getPlayer();
-				PlayerInventory pi = p.getInventory();
-				p.updateInventory();
-				Iterator<ItemStack> itis = pi.iterator();
-				while (itis.hasNext())
-				{
-					ItemStack next = itis.next();
-					if (next == null
-							|| !plugin.dropsAPI.canBeItem(next.getType()))
-					{
-						continue;
-					}
-					CraftItemStack cis = ((CraftItemStack) next);
-					Tool tool = new Tool(cis.getHandle());
-					String name = tool.getName();
-					if ((!ChatColor.getLastColors(name).equalsIgnoreCase(
-							ChatColor.MAGIC.name()) && !ChatColor
-							.getLastColors(name).equalsIgnoreCase(
-									ChatColor.MAGIC.toString()))
-							&& (!name.contains(ChatColor.MAGIC.name()) && !name
-									.contains(ChatColor.MAGIC.toString())))
-					{
-						continue;
-					}
-					IdentifyItemEvent iie = new IdentifyItemEvent(tool);
-					if (iie.isCancelled())
-					{
-						p.sendMessage(ChatColor.RED
-								+ "You are unable to identify right now.");
-						e.setCancelled(true);
-						return;
-					}
-					pi.setItemInHand(null);
-					Tool item = plugin.dropsAPI.getItem(tool);
-					while(item==null||item.getName().contains(ChatColor.MAGIC.toString()))
-						item = plugin.dropsAPI.getItem(tool);
-					pi.removeItem(tool);
-					pi.addItem(item);
-					p.sendMessage(ChatColor.GREEN
-							+ "You have identified an item!");
-					p.updateInventory();
-					e.setCancelled(true);
-					return;
-				}
-				p.sendMessage(ChatColor.RED + "You have no items to identify.");
-				e.setCancelled(true);
-				return;
-			}
-		}
-	}
+    @EventHandler
+    public void onCraftItem(CraftItemEvent e)
+    {
+        ItemStack item = e.getCurrentItem();
+        if (item.getType().equals(Material.WRITTEN_BOOK))
+        {
+            if (e.isShiftClick())
+                e.setCancelled(true);
+            e.setCurrentItem(new Tome());
+        }
+    }
 
-	@EventHandler
-	public void onCraftItem(CraftItemEvent e)
-	{
-		ItemStack item = e.getCurrentItem();
-		if (item.getType().equals(Material.WRITTEN_BOOK))
-		{
-			if(e.isShiftClick()) e.setCancelled(true);
-			e.setCurrentItem(new Tome());
-		}
-	}
+    @SuppressWarnings("deprecation")
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onRightClick(PlayerInteractEvent e)
+    {
+        if ((e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction()
+                .equals(Action.RIGHT_CLICK_BLOCK))
+                && e.getPlayer().getItemInHand().getType()
+                        .equals(Material.WRITTEN_BOOK))
+        {
+            Book b = new CraftBookBuilder().getBook(e.getPlayer()
+                    .getItemInHand());
+            if (b == null)
+                return;
+            if (b.getTitle().contains(ChatColor.DARK_AQUA + "Identity Tome"))
+            {
+                Player p = e.getPlayer();
+                PlayerInventory pi = p.getInventory();
+                p.updateInventory();
+                Iterator<ItemStack> itis = pi.iterator();
+                while (itis.hasNext())
+                {
+                    ItemStack next = itis.next();
+                    if (next == null
+                            || !plugin.dropsAPI.canBeItem(next.getType()))
+                    {
+                        continue;
+                    }
+                    CraftItemStack cis = ((CraftItemStack) next);
+                    Tool tool = new Tool(cis.getHandle());
+                    String name = tool.getName();
+                    if ((!ChatColor.getLastColors(name).equalsIgnoreCase(
+                            ChatColor.MAGIC.name()) && !ChatColor
+                            .getLastColors(name).equalsIgnoreCase(
+                                    ChatColor.MAGIC.toString()))
+                            && (!name.contains(ChatColor.MAGIC.name()) && !name
+                                    .contains(ChatColor.MAGIC.toString())))
+                    {
+                        continue;
+                    }
+                    IdentifyItemEvent iie = new IdentifyItemEvent(tool);
+                    if (iie.isCancelled())
+                    {
+                        p.sendMessage(ChatColor.RED
+                                + "You are unable to identify right now.");
+                        e.setCancelled(true);
+                        return;
+                    }
+                    pi.setItemInHand(null);
+                    Tool item = plugin.dropsAPI.getItem(tool);
+                    while (item == null
+                            || item.getName().contains(
+                                    ChatColor.MAGIC.toString()))
+                        item = plugin.dropsAPI.getItem(tool);
+                    pi.removeItem(tool);
+                    pi.addItem(item);
+                    p.sendMessage(ChatColor.GREEN
+                            + "You have identified an item!");
+                    p.updateInventory();
+                    e.setCancelled(true);
+                    return;
+                }
+                p.sendMessage(ChatColor.RED + "You have no items to identify.");
+                e.setCancelled(true);
+                return;
+            }
+        }
+    }
 }

@@ -44,6 +44,16 @@ public class SetsAPI
         return null;
     }
 
+    public DropUtils getDrops()
+    {
+        return drops;
+    }
+
+    public Random getGen()
+    {
+        return gen;
+    }
+
     /**
      * Gets the name of the set a player could be wearing
      * 
@@ -69,6 +79,11 @@ public class SetsAPI
         String[] ss = ChatColor.stripColor(tag.getString("Name")).split(" ");
         potentialSet = ss[0];
         return potentialSet;
+    }
+
+    public DiabloDrops getPlugin()
+    {
+        return plugin;
     }
 
     /**
@@ -118,20 +133,5 @@ public class SetsAPI
                 return false;
         }
         return true;
-    }
-
-    public DropUtils getDrops()
-    {
-        return drops;
-    }
-
-    public DiabloDrops getPlugin()
-    {
-        return plugin;
-    }
-
-    public Random getGen()
-    {
-        return gen;
     }
 }

@@ -45,6 +45,7 @@ SocketItem:
   #Add levels to enchantment when socketting#
   EnhanceLevelBy: 1
   EnhanceMax: 10
+  #Whether to set lore on sockets#
   Lore: true
   Items: 
   - Emerald

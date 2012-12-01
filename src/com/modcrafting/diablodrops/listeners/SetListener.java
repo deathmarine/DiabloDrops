@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.effects.EffectsAPI;
+import com.modcrafting.diablodrops.sets.ArmorSet;
 
 public class SetListener implements Listener
 {
@@ -41,8 +42,9 @@ public class SetListener implements Listener
                 Player striker = (Player) strikerEntity;
                 if (plugin.setsAPI.wearingSet(striker))
                 {
-                    List<String> effects = plugin.setsAPI.getArmorSet(
-                            plugin.setsAPI.getNameOfSet(striker)).getBonuses();
+                	String sName = plugin.setsAPI.getNameOfSet(striker);
+                	ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
+                    List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                         EffectsAPI.addEffect(struck, striker, s, event);
                 }
@@ -54,8 +56,9 @@ public class SetListener implements Listener
                         .getShooter();
                 if (plugin.setsAPI.wearingSet(shooter))
                 {
-                    List<String> effects = plugin.setsAPI.getArmorSet(
-                            plugin.setsAPI.getNameOfSet(shooter)).getBonuses();
+                	String sName = plugin.setsAPI.getNameOfSet(shooter);
+                	ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
+                    List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                         EffectsAPI.addEffect(struck, shooter, s, event);
                 }
@@ -66,10 +69,10 @@ public class SetListener implements Listener
             if (event.getEntity() instanceof Player
                     && plugin.setsAPI.wearingSet((Player) event.getEntity()))
             {
-                List<String> effects = plugin.setsAPI
-                        .getArmorSet(
-                                plugin.setsAPI.getNameOfSet((Player) event
-                                        .getEntity())).getBonuses();
+
+            	String sName = plugin.setsAPI.getNameOfSet((Player) event.getEntity());
+            	ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
+                List<String> effects = aSet.getBonuses();
                 for (String s : effects)
                     EffectsAPI.addEffect((LivingEntity) event.getEntity(),
                             null, s, event);

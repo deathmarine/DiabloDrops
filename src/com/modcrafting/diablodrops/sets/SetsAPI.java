@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.DropUtils;
+import com.modcrafting.toolapi.lib.Tool;
 
 public class SetsAPI
 {
@@ -66,19 +67,10 @@ public class SetsAPI
         ItemStack his = player.getInventory().getHelmet();
         if (his == null)
             return null;
-        String potentialSet = new String();
         CraftItemStack chis = ((CraftItemStack) his);
-        net.minecraft.server.ItemStack mistack = chis.getHandle();
-        NBTTagCompound tag = mistack.tag;
-        if (tag == null)
-        {
-            tag = new NBTTagCompound();
-            tag.setCompound("display", new NBTTagCompound());
-            mistack.tag = tag;
-        }
-        String[] ss = ChatColor.stripColor(tag.getString("Name")).split(" ");
-        potentialSet = ss[0];
-        return potentialSet;
+        Tool tool = new Tool(chis);
+        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        return ss[0];
     }
 
     public DiabloDrops getPlugin()
@@ -104,30 +96,15 @@ public class SetsAPI
         sis.add(cis);
         sis.add(lis);
         sis.add(bis);
-        String potentialSet = new String();
         CraftItemStack chis = ((CraftItemStack) his);
-        net.minecraft.server.ItemStack mistack = chis.getHandle();
-        NBTTagCompound tag = mistack.tag;
-        if (tag == null)
-        {
-            tag = new NBTTagCompound();
-            tag.setCompound("display", new NBTTagCompound());
-            mistack.tag = tag;
-        }
-        String[] ss = ChatColor.stripColor(tag.getString("Name")).split(" ");
-        potentialSet = ss[0];
+        Tool tool = new Tool(chis);
+        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        String potentialSet = ss[0];
         for (ItemStack is : sis)
         {
             CraftItemStack c = ((CraftItemStack) is);
-            net.minecraft.server.ItemStack cstack = c.getHandle();
-            NBTTagCompound cstacktag = cstack.tag;
-            if (cstacktag == null)
-            {
-                cstacktag = new NBTTagCompound();
-                cstacktag.setCompound("display", new NBTTagCompound());
-                cstack.tag = cstacktag;
-            }
-            String[] splits = ChatColor.stripColor(cstacktag.getString("Name"))
+            Tool te = new Tool(c);
+            String[] splits = ChatColor.stripColor(te.getName())
                     .split(" ");
             if (!splits[0].equalsIgnoreCase(potentialSet))
                 return false;

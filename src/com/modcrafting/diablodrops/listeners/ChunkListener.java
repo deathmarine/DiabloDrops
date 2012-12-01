@@ -1,9 +1,13 @@
 package com.modcrafting.diablodrops.listeners;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -19,7 +23,9 @@ import com.modcrafting.diablodrops.events.RuinGenerateEvent;
 public class ChunkListener implements Listener
 {
 
-    private DiabloDrops plugin;
+    private final DiabloDrops plugin;
+
+    private int blockType;
 
     public ChunkListener(DiabloDrops plugin)
     {
@@ -86,11 +92,12 @@ public class ChunkListener implements Listener
     private void east(Block start)
     {
         Block startE = start.getRelative(BlockFace.EAST);
-        startE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startEE = startE.getRelative(BlockFace.EAST);
-        startEE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startEE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startEEE = startEE.getRelative(BlockFace.EAST);
-        startEEE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startEEE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
     }
 
     public Block getBlockAt(World world, int x, int y, int z)
@@ -101,32 +108,39 @@ public class ChunkListener implements Listener
     private void north(Block start)
     {
         Block startN = start.getRelative(BlockFace.NORTH);
-        startN.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startN.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startNN = startN.getRelative(BlockFace.NORTH);
-        startNN.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startNN.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startNNN = startNN.getRelative(BlockFace.NORTH);
-        startNNN.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startNNN.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
     }
 
     private Location northeast(Block start)
     {
         Block startNE = start.getRelative(BlockFace.NORTH_EAST);
-        startNE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startNE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startNENE = startNE.getRelative(BlockFace.NORTH_EAST);
-        startNENE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startNENE.getRelative(BlockFace.UP).setType(Material.TORCH);
+        startNENE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
         Block startNENENE = startNENE.getRelative(BlockFace.NORTH_EAST);
-        startNENENE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startNENENE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
         return startNENENE.getLocation();
     }
 
     private Location northwest(Block start)
     {
         Block startNW = start.getRelative(BlockFace.NORTH_WEST);
-        startNW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startNW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startNWNW = startNW.getRelative(BlockFace.NORTH_WEST);
-        startNWNW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startNWNW.getRelative(BlockFace.UP).setType(Material.TORCH);
+        startNWNW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
         Block startNWNWNW = startNWNW.getRelative(BlockFace.NORTH_WEST);
-        startNWNWNW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startNWNWNW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
         return startNWNWNW.getLocation();
     }
 
@@ -156,10 +170,43 @@ public class ChunkListener implements Listener
         int realX = chunk.getX() * 16 + plugin.gen.nextInt(15);
         int realZ = chunk.getZ() * 16 + plugin.gen.nextInt(15);
         Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
+        Biome b = block.getBiome();
+        List<Material> allowedTypes = new ArrayList<Material>();
+        if (b == Biome.DESERT || b == Biome.DESERT_HILLS || b == Biome.BEACH)
+        {
+            this.blockType = 24;
+            allowedTypes.add(Material.SAND);
+            allowedTypes.add(Material.SANDSTONE);
+        }
+        else if (b == Biome.FOREST || b == Biome.FOREST_HILLS
+                || b == Biome.JUNGLE || b == Biome.JUNGLE_HILLS)
+        {
+            this.blockType = 17;
+            allowedTypes.add(Material.DIRT);
+            allowedTypes.add(Material.GRASS);
+        }
+        else if (b == Biome.TAIGA || b == Biome.TAIGA_HILLS
+                || b == Biome.FROZEN_OCEAN || b == Biome.FROZEN_RIVER
+                || b == Biome.ICE_MOUNTAINS || b == Biome.ICE_PLAINS)
+        {
+            if (plugin.gen.nextBoolean())
+                this.blockType = 79;
+            else
+                this.blockType = 80;
+            allowedTypes.add(Material.SNOW);
+            allowedTypes.add(Material.ICE);
+            allowedTypes.add(Material.GRASS);
+            allowedTypes.add(Material.DIRT);
+        }
+        else if (b == Biome.PLAINS || b == Biome.EXTREME_HILLS
+                || b == Biome.SWAMPLAND || b == Biome.SMALL_MOUNTAINS)
+        {
+            this.blockType = 98;
+            allowedTypes.add(Material.DIRT);
+            allowedTypes.add(Material.GRASS);
+        }
         Block blockUnder = block.getRelative(BlockFace.DOWN);
-        if (blockUnder.getType() != Material.GRASS
-                && blockUnder.getType() != Material.DIRT
-                && blockUnder.getType() != Material.SAND)
+        if (!allowedTypes.contains(blockUnder.getType()))
         {
             return;
         }
@@ -227,6 +274,7 @@ public class ChunkListener implements Listener
         Block startSE = start.getRelative(BlockFace.SOUTH_EAST);
         startSE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
         Block startSESE = startSE.getRelative(BlockFace.SOUTH_EAST);
+        startSESE.getRelative(BlockFace.UP).setType(Material.TORCH);
         startSESE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
         Block startSESESE = startSESE.getRelative(BlockFace.SOUTH_EAST);
         startSESESE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
@@ -238,6 +286,7 @@ public class ChunkListener implements Listener
         Block startSW = start.getRelative(BlockFace.SOUTH_WEST);
         startSW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
         Block startSWSW = startSW.getRelative(BlockFace.SOUTH_WEST);
+        startSWSW.getRelative(BlockFace.UP).setType(Material.TORCH);
         startSWSW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
         Block startSWSWSW = startSWSW.getRelative(BlockFace.SOUTH_WEST);
         startSWSWSW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);

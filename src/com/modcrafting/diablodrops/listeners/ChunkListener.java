@@ -590,18 +590,27 @@ public class ChunkListener implements Listener
             {
                 Location nt = new Location(loc.getWorld(), minX + i,
                         loc.getY(), minZ + ii);
-                if (i == 0 || ii == 0)
+                if (i==0||ii==0||i==Math.abs(maxX - minX)||ii==Math.abs(maxZ - minZ))
                 {
                     for (int iii = plugin.gen.nextInt(6); iii > 0; iii--)
                     {
                         Location t = new Location(loc.getWorld(), minX + i,
                                 loc.getY() + iii, minZ + ii);
+                        Block n = t.getBlock();
+                        if(!n.getType().equals(Material.STATIONARY_WATER)
+                        		&&!n.getType().equals(Material.AIR))
                         t.getBlock().setTypeId(
                                 mats.get(plugin.gen.nextInt(mats.size()))
                                         .getId());
+                        
                     }
                 }
-                nt.getBlock().setTypeId(blockType);
+                Block n = nt.getBlock();
+                if(!n.getType().equals(Material.STATIONARY_WATER)
+                		&&!n.getType().equals(Material.AIR))
+                	n.setTypeId(
+                            mats.get(plugin.gen.nextInt(mats.size()))
+                            .getId());
             }
         }
     }

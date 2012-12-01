@@ -32,6 +32,7 @@ import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
 import com.modcrafting.diablodrops.listeners.MobListener;
+import com.modcrafting.diablodrops.listeners.SetListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.log.LogHandler;
@@ -61,6 +62,7 @@ public class DiabloDrops extends JavaPlugin
     public DropUtils drop = new DropUtils();
     public Integer build;
     private static DiabloDrops instance;
+
     /**
      * Gets the instance of DiabloDrops
      * 
@@ -70,6 +72,7 @@ public class DiabloDrops extends JavaPlugin
     {
         return instance;
     }
+
     private int id;
 
     public Logger log;
@@ -139,6 +142,7 @@ public class DiabloDrops extends JavaPlugin
         pm.registerEvents(new SocketListener(this), this);
         pm.registerEvents(new ChunkListener(this), this);
         pm.registerEvents(new EffectsListener(this), this);
+        pm.registerEvents(new SetListener(this), this);
 
         this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 

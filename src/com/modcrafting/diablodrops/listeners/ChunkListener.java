@@ -337,15 +337,22 @@ public class ChunkListener implements Listener
         {
             return;
         }
-        block.setType(Material.CHEST);
         if (plugin.gen.nextBoolean())
         {
             addRuin1Pattern(block);
         }
         else
         {
-            deathRuin(block);
+            Block under = block.getRelative(BlockFace.DOWN);
+            Location loc = under.getLocation();
+
+            if(plugin.gen.nextBoolean()){
+            	buildtemple(loc);
+            }else{
+                deathRuin(loc);            	
+            }
         }
+        block.setType(Material.CHEST);
         try
         {
             if (!(block.getState() instanceof Chest))
@@ -466,19 +473,16 @@ public class ChunkListener implements Listener
         startWWW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
                 false);
     }
-
-    private void deathRuin(Block block)
+    /**
+     * Builds death's ruins.
+     * @param loc
+     */
+    private void deathRuin(Location loc)
     {
     	//These may need to be a seperate plugin.
-        Block under = block.getRelative(BlockFace.DOWN);
         int square = plugin.gen.nextInt(6);
         if(square<1) return;
-        Location loc = under.getLocation();
-        if(plugin.gen.nextBoolean()){
-        	buildtemple(loc);
-        	return;
-        }
-        List<Material> mats = getBiomeMaterials(under.getBiome());
+        List<Material> mats = getBiomeMaterials(loc.getBlock().getBiome());
         if (mats.size() < 1)
             return;
         double maxX = Math.max(loc.getX() - square, loc.getX() + square);
@@ -514,16 +518,21 @@ public class ChunkListener implements Listener
             }
         }
     }
-    private void buildtemple(final Location loc){
+    /**
+     * Builds a nether temple.
+     * @param loc
+     */
+    private void buildtemple(Location loc){
     	int square = 5;
+    	World world = loc.getWorld();
         double maxX = Math.max(loc.getX() - square, loc.getX() + square);
         double maxZ = Math.max(loc.getZ() - square, loc.getZ() + square);
         double minX = Math.min(loc.getX() - square, loc.getX() + square);
         double minZ = Math.min(loc.getZ() - square, loc.getZ() + square);
         for (int i = 0; i <= Math.abs(maxX - minX); i++){
             for (int ii = 0; ii <= Math.abs(maxZ - minZ); ii++){;
-            	if(loc.getWorld().getBlockTypeIdAt((int)minX+i, (int)loc.getY(), (int)minZ+ii)==Material.AIR.getId()
-            			||loc.getWorld().getBlockTypeIdAt((int)minX+i, (int)loc.getY(), (int)minZ+ii)==Material.STATIONARY_WATER.getId()){
+            	if(world.getBlockTypeIdAt((int)minX+i, (int)loc.getY(), (int)minZ+ii)==Material.AIR.getId()
+            			||world.getBlockTypeIdAt((int)minX+i, (int)loc.getY(), (int)minZ+ii)==Material.STATIONARY_WATER.getId()){
             		return;
             	}
             }
@@ -539,15 +548,15 @@ public class ChunkListener implements Listener
             				||i==0&&ii==Math.abs(maxZ - minZ)
             				||ii==0&&i==Math.abs(maxX - minX))
             				continue;
-                        Location t = new Location(loc.getWorld(), minX + i,
+                        Location t = new Location(world, minX + i,
                                 loc.getY() + iii, minZ + ii);
                         t.getBlock().setType(Material.NETHER_BRICK);
                     }
                 }
-                Location t = new Location(loc.getWorld(), minX + i,
+                Location t = new Location(world, minX + i,
                         loc.getY(), minZ + ii);
                 t.getBlock().setType(Material.NETHER_BRICK);
-                Location r = new Location(loc.getWorld(), minX +i,(loc.getY()+(square*2))-(t.distance(loc)),minZ+ii);
+                Location r = new Location(world, minX +i,(loc.getY()+(square*2))-(t.distance(loc)),minZ+ii);
                 r.getBlock().setType(Material.NETHER_BRICK);
                 
             }
@@ -573,17 +582,17 @@ public class ChunkListener implements Listener
         	}
         }
         for(int i=1;i<3;i++){
-            loc.getWorld().getBlockAt((int)loc.getX()+faceX, (int)loc.getY()+i, (int)loc.getZ()+faceZ).setTypeId(0);
-        	loc.getWorld().getBlockAt((int)loc.getX()-2, (int)loc.getY()+i, (int)loc.getZ()).setType(Material.NETHER_BRICK);
-        	loc.getWorld().getBlockAt((int)loc.getX(), (int)loc.getY()+i, (int)loc.getZ()-2).setType(Material.NETHER_BRICK);
-        	loc.getWorld().getBlockAt((int)loc.getX()+2, (int)loc.getY()+i, (int)loc.getZ()).setType(Material.NETHER_BRICK);
-        	loc.getWorld().getBlockAt((int)loc.getX(), (int)loc.getY()+i, (int)loc.getZ()+2).setType(Material.NETHER_BRICK);            
+            world.getBlockAt((int)loc.getX()+faceX, (int)loc.getY()+i, (int)loc.getZ()+faceZ).setTypeId(0);
+        	world.getBlockAt((int)loc.getX()-2, (int)loc.getY()+i, (int)loc.getZ()).setType(Material.NETHER_BRICK);
+        	world.getBlockAt((int)loc.getX(), (int)loc.getY()+i, (int)loc.getZ()-2).setType(Material.NETHER_BRICK);
+        	world.getBlockAt((int)loc.getX()+2, (int)loc.getY()+i, (int)loc.getZ()).setType(Material.NETHER_BRICK);
+        	world.getBlockAt((int)loc.getX(), (int)loc.getY()+i, (int)loc.getZ()+2).setType(Material.NETHER_BRICK);            
         }
-    	loc.getWorld().getBlockAt((int)loc.getX()-2, (int)loc.getY()+3, (int)loc.getZ()).setType(Material.TORCH);
-    	loc.getWorld().getBlockAt((int)loc.getX(), (int)loc.getY()+3, (int)loc.getZ()-2).setType(Material.TORCH);
-    	loc.getWorld().getBlockAt((int)loc.getX()+2, (int)loc.getY()+3, (int)loc.getZ()).setType(Material.TORCH);
-    	loc.getWorld().getBlockAt((int)loc.getX(), (int)loc.getY()+3, (int)loc.getZ()+2).setType(Material.TORCH);
-        Block door = loc.getWorld().getBlockAt((int)loc.getX()+faceX, (int)loc.getY()+1, (int)loc.getZ()+faceZ);
+    	world.getBlockAt((int)loc.getX()-2, (int)loc.getY()+3, (int)loc.getZ()).setType(Material.TORCH);
+    	world.getBlockAt((int)loc.getX(), (int)loc.getY()+3, (int)loc.getZ()-2).setType(Material.TORCH);
+    	world.getBlockAt((int)loc.getX()+2, (int)loc.getY()+3, (int)loc.getZ()).setType(Material.TORCH);
+    	world.getBlockAt((int)loc.getX(), (int)loc.getY()+3, (int)loc.getZ()+2).setType(Material.TORCH);
+        Block door = world.getBlockAt((int)loc.getX()+faceX, (int)loc.getY()+1, (int)loc.getZ()+faceZ);
     	door.getRelative(BlockFace.NORTH_EAST).setType(Material.NETHER_FENCE);
     	door.getRelative(BlockFace.NORTH_WEST).setType(Material.NETHER_FENCE);   
     	door.getRelative(BlockFace.SOUTH_EAST).setType(Material.NETHER_FENCE);   

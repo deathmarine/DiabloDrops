@@ -169,10 +169,12 @@ public class ChunkListener implements Listener
             return;
         int realX = chunk.getX() * 16 + plugin.gen.nextInt(15);
         int realZ = chunk.getZ() * 16 + plugin.gen.nextInt(15);
-        generateRuin1(chunk, realX, realZ);
+        if (plugin.gen.nextBoolean())
+            generateRuin1(chunk, realX, realZ);
+        else
+            generateRuin2(chunk, realX, realZ);
     }
 
-    @SuppressWarnings("unused")
     private void generateRuin2(Chunk chunk, int realX, int realZ)
     {
         Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
@@ -222,6 +224,29 @@ public class ChunkListener implements Listener
                 western.getRelative(BlockFace.NORTH)
                         .getRelative(BlockFace.NORTH)
                         .getRelative(BlockFace.EAST) };
+        for (Block b1 : ruinBase)
+        {
+            pillarRuin2(b1, plugin.gen.nextInt(4) + 3, 49);
+        }
+        for (Block b2 : blockSurround)
+        {
+            b2.getRelative(0, -1, 0).setType(Material.LAVA);
+            b2.setType(Material.GLASS);
+            switch (plugin.gen.nextInt(7))
+            {
+                case 1:
+                    b2.getRelative(0, 1, 0).setType(Material.IRON_BLOCK);
+                    break;
+                case 2:
+                    b2.getRelative(0, 1, 0).setType(Material.GOLD_BLOCK);
+                    break;
+                case 3:
+                    b2.getRelative(0, 1, 0).setType(Material.LAPIS_BLOCK);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     private void generateRuin1(Chunk chunk, int realX, int realZ)
@@ -279,6 +304,21 @@ public class ChunkListener implements Listener
             while (cis == null)
                 cis = plugin.dropsAPI.getItem();
             chest.setItem(i, cis);
+        }
+    }
+
+    private void pillarRuin2(Block block, int size, int type)
+    {
+        List<Block> blocks = new ArrayList<Block>();
+        blocks.add(block);
+        for (int i = 0; i <= Math.abs(size); i++)
+        {
+            blocks.add(block.getRelative(0, i, 0));
+            blocks.add(block.getRelative(0, -i, 0));
+        }
+        for (Block b : blocks)
+        {
+            b.setTypeIdAndData(type, (byte) plugin.gen.nextInt(4), false);
         }
     }
 

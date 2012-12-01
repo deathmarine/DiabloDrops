@@ -1,6 +1,5 @@
 package com.modcrafting.diablodrops.commands;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,8 +88,10 @@ public class DiabloDropCommand implements CommandExecutor
                         String lore = combineSplit(2, args, " ");
                         lore = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], lore);
-                        new Tool(player.getItemInHand()).setLore(Arrays
-                                .asList(lore.split(",")));
+                        Tool tool = new Tool(player.getItemInHand());
+                        for(String s:lore.split(",")){
+                        	if(s.length()>0)tool.addLore(s);
+                        }
                         player.sendMessage(ChatColor.GREEN
                                 + "Set the lore for the item!");
                         return true;

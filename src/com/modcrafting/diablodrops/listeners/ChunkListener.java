@@ -232,7 +232,10 @@ public class ChunkListener implements Listener
         for (Block b2 : blockSurround)
         {
             b2.getRelative(0, -1, 0).setType(Material.LAVA);
-            b2.getRelative(0, -2, 0).setType(Material.OBSIDIAN);
+            for (int i = 2; i < plugin.gen.nextInt(5) + 2; i++)
+            {
+                b2.getRelative(0, -i, 0).setType(Material.OBSIDIAN);
+            }
             b2.setType(Material.GLASS);
             switch (plugin.gen.nextInt(7))
             {
@@ -305,7 +308,7 @@ public class ChunkListener implements Listener
         }
         try
         {
-            if ((block.getState() instanceof Chest))
+            if (!(block.getState() instanceof Chest))
                 return;
             Chest chestB = ((Chest) block.getState());
             Inventory chest = chestB.getBlockInventory();
@@ -451,9 +454,7 @@ public class ChunkListener implements Listener
                                         .getId());
                     }
                 }
-                nt.getBlock().setTypeId(
-                        mats.get(plugin.gen.nextInt(mats.size())).getId());
-
+                nt.getBlock().setTypeId(blockType);
             }
         }
     }

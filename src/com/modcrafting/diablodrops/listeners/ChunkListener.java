@@ -212,6 +212,8 @@ public class ChunkListener implements Listener
         }
         block.setType(Material.CHEST);
         addPattern(block);
+        if ((block.getState() instanceof Chest))
+            return;
         Chest chestB = ((Chest) block.getState());
         Inventory chest = chestB.getBlockInventory();
         for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)

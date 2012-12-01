@@ -169,7 +169,7 @@ public class ChunkListener implements Listener
             return;
         int realX = chunk.getX() * 16 + plugin.gen.nextInt(15);
         int realZ = chunk.getZ() * 16 + plugin.gen.nextInt(15);
-        if (plugin.gen.nextBoolean())
+        if (plugin.gen.nextInt(100) + 1 <= 7)
             generateRuin1(chunk, realX, realZ);
         else
             generateRuin2(chunk, realX, realZ);
@@ -197,6 +197,7 @@ public class ChunkListener implements Listener
                 BlockFace.WEST);
         Block[] ruinBase = new Block[]
         {
+                northern,
                 northern.getRelative(BlockFace.EAST),
                 northern.getRelative(BlockFace.EAST)
                         .getRelative(BlockFace.EAST),
@@ -231,7 +232,10 @@ public class ChunkListener implements Listener
         for (Block b2 : blockSurround)
         {
             b2.getRelative(0, -1, 0).setType(Material.LAVA);
-            b2.getRelative(0, -2, 0).setType(Material.OBSIDIAN);
+            for (int i = 2; i < plugin.gen.nextInt(5) + 2; i++)
+            {
+                b2.getRelative(0, -i, 0).setType(Material.OBSIDIAN);
+            }
             b2.setType(Material.GLASS);
             switch (plugin.gen.nextInt(7))
             {
@@ -302,16 +306,22 @@ public class ChunkListener implements Listener
         {
             deathRuin(block, b);
         }
-        if (!(block.getState() instanceof Chest))
-            return;
-        Chest chestB = ((Chest) block.getState());
-        Inventory chest = chestB.getBlockInventory();
-        for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
+        try
         {
-            CraftItemStack cis = plugin.dropsAPI.getItem();
-            while (cis == null)
-                cis = plugin.dropsAPI.getItem();
-            chest.setItem(i, cis);
+            if (!(block.getState() instanceof Chest))
+                return;
+            Chest chestB = ((Chest) block.getState());
+            Inventory chest = chestB.getBlockInventory();
+            for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
+            {
+                CraftItemStack cis = plugin.dropsAPI.getItem();
+                while (cis == null)
+                    cis = plugin.dropsAPI.getItem();
+                chest.setItem(i, cis);
+            }
+        }
+        catch (Exception e)
+        {
         }
     }
 
@@ -534,9 +544,7 @@ public class ChunkListener implements Listener
                                         .getId());
                     }
                 }
-                nt.getBlock().setTypeId(
-                        mats.get(plugin.gen.nextInt(mats.size())).getId());
-
+                nt.getBlock().setTypeId(blockType);
             }
         }
     }

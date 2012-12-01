@@ -7,76 +7,81 @@ import org.bukkit.Material;
 
 public class Tier
 {
-	String name;
-	ChatColor color;
-	int amt;
-	int lvl;
-	int chance;
-	List<Material> l;
-	public Tier(String name, ChatColor color, int amt, int lvl, int chance,List<Material> l){
-		this.name=name;
-		this.color=color;
-		this.amt=amt;
-		this.lvl=lvl;
-		this.chance=chance;
-		this.l=l;
-	}
+    String name;
+    ChatColor color;
+    int amt;
+    int lvl;
+    int chance;
+    List<Material> l;
 
-	/**
-	 * Get the name of the tier
-	 * 
-	 * @return name
-	 */
-	public String getName()
-	{
-		return name;
-	}
+    public Tier(String name, ChatColor color, int amt, int lvl, int chance,
+            List<Material> l)
+    {
+        this.name = name;
+        this.color = color;
+        this.amt = amt;
+        this.lvl = lvl;
+        this.chance = chance;
+        this.l = l;
+    }
 
-	/**
-	 * Get the color of the tier
-	 * 
-	 * @return color
-	 */
-	public ChatColor getColor()
-	{
-		return color;
-	}
+    /**
+     * Get the amount of the tier
+     * 
+     * @return amount
+     */
+    public Integer getAmount()
+    {
+        return amt;
+    }
 
-	/**
-	 * Get the amount of the tier
-	 * 
-	 * @return amount
-	 */
-	public Integer getAmount()
-	{
-		return amt;
-	}
+    /**
+     * Get chance of the tier
+     * 
+     * @return Integer
+     */
+    public Integer getChance()
+    {
+        return chance;
+    }
 
-	/**
-	 * Get the levels of the tier
-	 * 
-	 * @return levels
-	 */
-	public Integer getLevels()
-	{
-		return lvl;
-	}
+    /**
+     * Get the color of the tier
+     * 
+     * @return color
+     */
+    public ChatColor getColor()
+    {
+        return color;
+    }
 
-	/**
-	 * Get chance of the tier
-	 * 
-	 * @return Integer
-	 */
-	public Integer getChance()
-	{
-		return chance;
-	}
-	
-	/**
-	 * Gets a list of acceptable materials
-	 * @return Material
-	 */
-	public List<Material> getMaterials(){
-		return l;
-	}
+    /**
+     * Get the levels of the tier
+     * 
+     * @return levels
+     */
+    public Integer getLevels()
+    {
+        return lvl;
+    }
+
+    /**
+     * Gets a list of acceptable materials
+     * 
+     * @return Material
+     */
+    public List<Material> getMaterials()
+    {
+        return l;
+    }
+
+    /**
+     * Get the name of the tier
+     * 
+     * @return name
+     */
+    public String getName()
+    {
+        return name;
+    }
 }

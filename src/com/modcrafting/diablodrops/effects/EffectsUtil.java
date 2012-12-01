@@ -42,6 +42,153 @@ import com.modcrafting.diablodrops.DiabloDrops;
 
 public class EffectsUtil
 {
+    /**
+     * Entombs the entity in a variety of blocks
+     * 1 - Glass
+     * 2 - Ice
+     * 3 - Dirt
+     * 4 - Cobblestone
+     * 5 - Stone
+     * 6 - Brick
+     * 7 - Stone Brick
+     * 8 - Iron Bars
+     * 9 - Ender Chest
+     * 10 - Obsidian
+     * 
+     * @param entity
+     * @param value
+     */
+    public static void entomb(final Location loc, final int value)
+    {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(
+                DiabloDrops.getInstance(), new Runnable()
+                {
+
+                    @Override
+                    public void run()
+                    {
+                        int r = 3;
+
+                        World world = loc.getWorld();
+
+                        int x = loc.getBlockX();
+                        int y = loc.getBlockY();
+                        int z = loc.getBlockZ();
+
+                        Location[] vertex = new Location[8];
+                        int i = 0;
+                        for (int dx = -1; dx <= 1; dx += 2)
+                        {
+                            for (int dy = -1; dy <= 1; dy += 2)
+                            {
+                                for (int dz = -1; dz <= 1; dz += 2)
+                                {
+                                    Location l = new Location(world,
+                                            x + dx * r, y + dy * r, z + dz * r);
+                                    vertex[i++] = l;
+                                }
+                            }
+                        }
+
+                        for (int x_o = vertex[0].getBlockX(); x_o <= vertex[4]
+                                .getBlockX(); x_o++)
+                        {
+                            for (int z_o = vertex[0].getBlockZ(); z_o <= vertex[1]
+                                    .getBlockZ(); z_o++)
+                            {
+                                entombBlockType(
+                                        world.getBlockAt(x_o,
+                                                vertex[0].getBlockY(), z_o),
+                                        value);
+                                entombBlockType(
+                                        world.getBlockAt(x_o,
+                                                vertex[2].getBlockY(), z_o),
+                                        value);
+                            }
+                        }
+                        for (int y_o = vertex[0].getBlockY(); y_o <= vertex[2]
+                                .getBlockY(); y_o++)
+                        {
+                            for (int z_o = vertex[0].getBlockZ(); z_o <= vertex[1]
+                                    .getBlockZ(); z_o++)
+                            {
+                                entombBlockType(world.getBlockAt(
+                                        vertex[0].getBlockX(), y_o, z_o), value);
+                                entombBlockType(world.getBlockAt(
+                                        vertex[5].getBlockX(), y_o, z_o), value);
+                            }
+                        }
+
+                        for (int x_o = vertex[0].getBlockX(); x_o <= vertex[4]
+                                .getBlockX(); x_o++)
+                        {
+                            for (int y_o = vertex[0].getBlockY(); y_o <= vertex[6]
+                                    .getBlockY(); y_o++)
+                            {
+                                entombBlockType(
+                                        world.getBlockAt(x_o, y_o,
+                                                vertex[0].getBlockZ()), value);
+                                entombBlockType(
+                                        world.getBlockAt(x_o, y_o,
+                                                vertex[5].getBlockZ()), value);
+                            }
+                        }
+                    }
+                }, 20L * 1);
+    }
+
+    private static void entombBlockType(Block block, int value)
+    {
+        switch (value)
+        {
+            case 1:
+                block.setTypeIdAndData(20, (byte) 0, false);
+                break;
+            case 2:
+                block.setTypeIdAndData(79, (byte) 0, false);
+                break;
+            case 3:
+                block.setTypeIdAndData(3, (byte) 0, false);
+                break;
+            case 4:
+                block.setTypeIdAndData(4, (byte) 0, false);
+                break;
+            case 5:
+                block.setTypeIdAndData(1, (byte) 0, false);
+                break;
+            case 6:
+                block.setTypeIdAndData(45, (byte) 0, false);
+                break;
+            case 7:
+                block.setTypeIdAndData(98, (byte) new Random().nextInt(4),
+                        false);
+                break;
+            case 8:
+                block.setTypeIdAndData(101, (byte) 0, false);
+                break;
+            case 9:
+                block.setTypeIdAndData(130, (byte) 0, false);
+                break;
+            case 10:
+                block.setTypeIdAndData(49, (byte) 0, false);
+                break;
+            default:
+                block.setTypeIdAndData(1, (byte) 0, false);
+                break;
+        }
+    }
+
+    /**
+     * Launch entity into the air with an acceleration of 2 times value
+     * 
+     * @param entity
+     * @param value
+     */
+    public static void launchEntity(LivingEntity entity, int value)
+    {
+        entity.setVelocity(new Vector(0, 2 * value, 0));
+    }
+
     // Why? Cause we can.
     /**
      * Makes entity into baby
@@ -107,6 +254,19 @@ public class EffectsUtil
     }
 
     /**
+     * Set entity on fire for specified value of time
+     * 
+     * @param entity
+     *            to set on fire
+     * @param value
+     *            of time
+     */
+    public static void setOnFire(LivingEntity entity, int value)
+    {
+        entity.setFireTicks(20 * 3 * Math.abs(value));
+    }
+
+    /**
      * Change the speed of an entity
      * 
      * @param entity
@@ -145,60 +305,10 @@ public class EffectsUtil
         }
         catch (Exception e1)
         {
-        	if(DiabloDrops.getInstance().debug) DiabloDrops.getInstance().log.warning(e1.getMessage());
+            if (DiabloDrops.getInstance().debug)
+                DiabloDrops.getInstance().log.warning(e1.getMessage());
             e1.printStackTrace();
         }
-    }
-
-    /**
-     * Strikes lightning on location a specified number of times
-     * 
-     * @param location
-     *            to strike
-     * @param times
-     *            to strike
-     */
-    public static void strikeLightning(final Location location, final int times)
-    {
-        final World world = location.getWorld();
-        for (int i = times; i > 0; i--)
-        {
-            Bukkit.getServer()
-                    .getScheduler()
-                    .scheduleSyncDelayedTask(DiabloDrops.getInstance(),
-                            new Runnable()
-                            {
-                                @Override
-                                public void run()
-                                {
-                                    world.strikeLightning(location);
-                                }
-                            }, 20L * i);
-        }
-    }
-
-    /**
-     * Set entity on fire for specified value of time
-     * 
-     * @param entity
-     *            to set on fire
-     * @param value
-     *            of time
-     */
-    public static void setOnFire(LivingEntity entity, int value)
-    {
-        entity.setFireTicks(20 * 3 * Math.abs(value));
-    }
-
-    /**
-     * Launch entity into the air with an acceleration of 2 times value
-     * 
-     * @param entity
-     * @param value
-     */
-    public static void launchEntity(LivingEntity entity, int value)
-    {
-        entity.setVelocity(new Vector(0, 2 * value, 0));
     }
 
     /**
@@ -226,126 +336,29 @@ public class EffectsUtil
     }
 
     /**
-     * Entombs the entity in a variety of blocks
-     * 1 - Glass
-     * 2 - Ice
-     * 3 - Dirt
-     * 4 - Cobblestone
-     * 5 - Stone
-     * 6 - Brick
-     * 7 - Stone Brick
-     * 8 - Iron Bars
-     * 9 - Ender Chest
-     * 10 - Obsidian
+     * Strikes lightning on location a specified number of times
      * 
-     * @param entity
-     * @param value
+     * @param location
+     *            to strike
+     * @param times
+     *            to strike
      */
-    public static void entomb(final Location loc, final int value)
+    public static void strikeLightning(final Location location, final int times)
     {
-        // method doesn't actually work quite yet
-
-        int r = 3;
-
-        World world = loc.getWorld();
-
-        int x = loc.getBlockX();
-        int y = loc.getBlockY();
-        int z = loc.getBlockZ();
-
-        Location[] vertex = new Location[8];
-        int i = 0;
-        for (int dx = -1; dx <= 1; dx += 2)
+        final World world = location.getWorld();
+        for (int i = times; i > 0; i--)
         {
-            for (int dy = -1; dy <= 1; dy += 2)
-            {
-                for (int dz = -1; dz <= 1; dz += 2)
-                {
-                    Location l = new Location(world, x + dx * r, y + dy * r, z
-                            + dz * r);
-                    vertex[i++] = l;
-                }
-            }
-        }
-
-        for (int x_o = vertex[0].getBlockX(); x_o <= vertex[4].getBlockX(); x_o++)
-        {
-            for (int z_o = vertex[0].getBlockZ(); z_o <= vertex[1].getBlockZ(); z_o++)
-            {
-                entombBlockType(
-                        world.getBlockAt(x_o, vertex[0].getBlockY(), z_o),
-                        value);
-                entombBlockType(
-                        world.getBlockAt(x_o, vertex[2].getBlockY(), z_o),
-                        value);
-            }
-        }
-        for (int y_o = vertex[0].getBlockY(); y_o <= vertex[2].getBlockY(); y_o++)
-        {
-            for (int z_o = vertex[0].getBlockZ(); z_o <= vertex[1].getBlockZ(); z_o++)
-            {
-                entombBlockType(
-                        world.getBlockAt(vertex[0].getBlockX(), y_o, z_o),
-                        value);
-                entombBlockType(
-                        world.getBlockAt(vertex[5].getBlockX(), y_o, z_o),
-                        value);
-            }
-        }
-
-        for (int x_o = vertex[0].getBlockX(); x_o <= vertex[4].getBlockX(); x_o++)
-        {
-            for (int y_o = vertex[0].getBlockY(); y_o <= vertex[6].getBlockY(); y_o++)
-            {
-                entombBlockType(
-                        world.getBlockAt(x_o, y_o, vertex[0].getBlockZ()),
-                        value);
-                entombBlockType(
-                        world.getBlockAt(x_o, y_o, vertex[5].getBlockZ()),
-                        value);
-            }
-        }
-
-    }
-
-    private static void entombBlockType(Block block, int value)
-    {
-        switch (value)
-        {
-            case 1:
-                block.setTypeIdAndData(20, (byte) 0, false);
-                break;
-            case 2:
-                block.setTypeIdAndData(79, (byte) 0, false);
-                break;
-            case 3:
-                block.setTypeIdAndData(3, (byte) 0, false);
-                break;
-            case 4:
-                block.setTypeIdAndData(4, (byte) 0, false);
-                break;
-            case 5:
-                block.setTypeIdAndData(1, (byte) 0, false);
-                break;
-            case 6:
-                block.setTypeIdAndData(45, (byte) 0, false);
-                break;
-            case 7:
-                block.setTypeIdAndData(98, (byte) new Random().nextInt(4),
-                        false);
-                break;
-            case 8:
-                block.setTypeIdAndData(101, (byte) 0, false);
-                break;
-            case 9:
-                block.setTypeIdAndData(130, (byte) 0, false);
-                break;
-            case 10:
-                block.setTypeIdAndData(49, (byte) 0, false);
-                break;
-            default:
-                block.setTypeIdAndData(1, (byte) 0, false);
-                break;
+            Bukkit.getServer()
+                    .getScheduler()
+                    .scheduleSyncDelayedTask(DiabloDrops.getInstance(),
+                            new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    world.strikeLightning(location);
+                                }
+                            }, 20L * i);
         }
     }
 }

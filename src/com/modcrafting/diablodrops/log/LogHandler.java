@@ -8,39 +8,50 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
-public class LogHandler extends Handler {
-	FileOutputStream fos;
-	PrintWriter pw;
-	public LogHandler(File dataFolder){
-		File logFile = new File(dataFolder,"Error.log");
-		try {
-			if(!logFile.exists()){
-				logFile.createNewFile();
-			}
-			fos = new FileOutputStream(logFile);
-			pw = new PrintWriter(fos);
-			setFormatter(new SimpleFormatter());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	@Override
-	public void close() throws SecurityException {
-		pw.close();
-	}
+public class LogHandler extends Handler
+{
+    FileOutputStream fos;
+    PrintWriter pw;
 
-	@Override
-	public void flush() {
-		pw.flush();
-	}
+    public LogHandler(File dataFolder)
+    {
+        File logFile = new File(dataFolder, "Error.log");
+        try
+        {
+            if (!logFile.exists())
+            {
+                logFile.createNewFile();
+            }
+            fos = new FileOutputStream(logFile);
+            pw = new PrintWriter(fos);
+            setFormatter(new SimpleFormatter());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-	@Override
-	public void publish(LogRecord record) {
-		if (!isLoggable(record))
-			return;
-		pw.println(getFormatter().format(record));
+    }
 
-	}
+    @Override
+    public void close() throws SecurityException
+    {
+        pw.close();
+    }
+
+    @Override
+    public void flush()
+    {
+        pw.flush();
+    }
+
+    @Override
+    public void publish(LogRecord record)
+    {
+        if (!isLoggable(record))
+            return;
+        pw.println(getFormatter().format(record));
+
+    }
 
 }

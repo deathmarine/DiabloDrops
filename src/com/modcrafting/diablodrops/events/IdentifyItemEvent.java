@@ -9,41 +9,41 @@ import com.modcrafting.toolapi.lib.Tool;
 public class IdentifyItemEvent extends Event implements Cancellable
 {
 
-	private static final HandlerList handlers = new HandlerList();
-	private boolean isCancelled = false;
-	private final Tool tool;
+    private static final HandlerList handlers = new HandlerList();
+    public static HandlerList getHandlerList()
+    {
+        return handlers;
+    }
+    private boolean isCancelled = false;
 
-	public IdentifyItemEvent(Tool tool)
-	{
-		this.tool = tool;
-	}
+    private final Tool tool;
 
-	@Override
-	public boolean isCancelled()
-	{
-		return isCancelled;
-	}
+    public IdentifyItemEvent(Tool tool)
+    {
+        this.tool = tool;
+    }
 
-	@Override
-	public void setCancelled(boolean bln)
-	{
-		isCancelled = bln;
-	}
+    @Override
+    public HandlerList getHandlers()
+    {
+        return handlers;
+    }
 
-	@Override
-	public HandlerList getHandlers()
-	{
-		return handlers;
-	}
+    public Tool getItemStack()
+    {
+        return tool;
+    }
 
-	public static HandlerList getHandlerList()
-	{
-		return handlers;
-	}
+    @Override
+    public boolean isCancelled()
+    {
+        return isCancelled;
+    }
 
-	public Tool getItemStack()
-	{
-		return tool;
-	}
+    @Override
+    public void setCancelled(boolean bln)
+    {
+        isCancelled = bln;
+    }
 
 }

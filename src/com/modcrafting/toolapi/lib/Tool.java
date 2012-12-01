@@ -13,39 +13,39 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 
 public class Tool extends CraftItemStack implements ToolInterface
 {
-	private NBTTagCompound tag;
+    private NBTTagCompound tag;
 
 	public Tool(Material mat)
 	{
 		super(mat, 1);
 		tag();
 	}
-
 	public Tool(ItemStack item)
 	{
 		super(item);
 		tag();
 	}
-
 	public Tool(org.bukkit.inventory.ItemStack source)
 	{
 		super(((CraftItemStack) source).getHandle());
 		tag();
 	}
 
-	@Override
-	public String getName()
-	{
-		NBTTagCompound nc = tag.getCompound("display");
-		if (nc != null)
-		{
-			String s = nc.getString("Name");
-			if (s != null)
-				return s;
-		}
-		return null;
-	}
-
+    @Override
+    public void addLore(String string)
+    {
+        NBTTagCompound ntag = tag.getCompound("display");
+        if (ntag == null)
+            ntag = new NBTTagCompound("display");
+        NBTTagList p = ntag.getList("Lore");
+        if (p == null)
+            p = new NBTTagList("Lore");
+        p.add(new NBTTagString("", string));
+        ntag.set("Lore", p);
+        tag.setCompound("display", ntag);
+        setTag(tag);
+    }
+    
 	@Override
 	public void setName(String name)
 	{
@@ -60,19 +60,44 @@ public class Tool extends CraftItemStack implements ToolInterface
 		tag.setCompound("display", nc);
 		update();
 	}
+    @Override
+    public String[] getLore()
+    {
+        ArrayList<String> strings = new ArrayList<String>();
+        String[] lores = new String[] {};
+        if (tag == null || tag.getCompound("display") == null
+                || tag.getCompound("display").getList("Lore") == null)
+            return lores;
+        NBTTagList list = tag.getCompound("display").getList("Lore");
+        for (int i = 0; i < list.size(); i++)
+            strings.add(((NBTTagString) list.get(i)).data);
+        strings.toArray(lores);
+        return lores;
+    }
 
-	@Override
-	public Integer getRepairCost()
-	{
-		return tag.getInt("RepairCost");
-	}
-
-	@Override
-	public void setRepairCost(Integer i)
-	{
-		tag.setInt("RepairCost", i);
-		update();
-	}
+    @Override
+    public List<String> getLoreList()
+    {
+        ArrayList<String> strings = new ArrayList<String>();
+        if (tag == null || tag.getCompound("display") == null
+                || tag.getCompound("display").getList("Lore") == null)
+            return strings;
+        NBTTagList list = tag.getCompound("display").getList("Lore");
+        for (int i = 0; i < list.size(); i++)
+        {
+            NBTTagString n = (NBTTagString) list.get(i);
+            if (n != null)
+            {
+                if (n.getName() != null || !(n.getName().length() < 1))
+                    strings.add(n.getName());
+                if (n.data != null || !(n.data.length() < 1))
+                    strings.add(n.data);
+                if (n.toString() != null || !(n.toString().length() < 1))
+                    strings.add(n.toString());
+            }
+        }
+        return strings;
+    }
 
 	@Override
 	public void setLore(List<String> lore)
@@ -90,72 +115,40 @@ public class Tool extends CraftItemStack implements ToolInterface
 		update();
 	}
 
-	@Override
-	public String[] getLore()
-	{
-		ArrayList<String> strings = new ArrayList<String>();
-		String[] lores = new String[] {};
-		if(tag==null
-				||tag.getCompound("display")==null
-				||tag.getCompound("display").getList("Lore")==null) return lores; 
-		NBTTagList list = tag.getCompound("display").getList("Lore");
-		for (int i = 0; i < list.size(); i++)
-			strings.add(((NBTTagString) list.get(i)).data);
-		strings.toArray(lores);
-		return lores;
-	}
+    @Override
+    public String getName()
+    {
+        NBTTagCompound nc = tag.getCompound("display");
+        if (nc != null)
+        {
+            String s = nc.getString("Name");
+            if (s != null)
+                return s;
+        }
+        return null;
+    }
 
+    @Override
+    public Integer getRepairCost()
+    {
+    	tag();
+        return tag.getInt("RepairCost");
+    }
 	@Override
-	public List<String> getLoreList()
-	{
-		ArrayList<String> strings = new ArrayList<String>();
-		if(tag==null
-				||tag.getCompound("display")==null
-				||tag.getCompound("display").getList("Lore")==null) return strings; 
-		NBTTagList list = tag.getCompound("display").getList("Lore");
-		for (int i = 0; i < list.size(); i++)
-		{
-			NBTTagString n = (NBTTagString) list.get(i);
-			if (n != null)
-			{
-				if (n.getName() != null || !(n.getName().length() < 1))
-					strings.add(n.getName());
-				if (n.data != null || !(n.data.length() < 1))
-					strings.add(n.data);
-				if (n.toString() != null || !(n.toString().length() < 1))
-					strings.add(n.toString());
-			}
-
-		}
-		return strings;
-	}
-
-	@Override
-	public void addLore(String string)
-	{
-		NBTTagCompound ntag = tag.getCompound("display");
-		if (ntag == null)
-			ntag = new NBTTagCompound("display");
-		NBTTagList p = ntag.getList("Lore");
-		if (p == null)
-			p = new NBTTagList();
-		p.add(new NBTTagString("", string));
-		ntag.set("Lore", p);
-		tag.setCompound("display", ntag);
+	public void setRepairCost(Integer i) {
+		tag.setInt("RepairCost", i);
 		update();
 	}
-	
 	@Override
-	public void setTag(NBTTagCompound tag){
-		this.tag=tag;
-		update();
-	}
-	
-	@Override
-	public NBTTagCompound getTag(){
+	public NBTTagCompound getTag() {
 		return this.tag;
 	}
-	
+    @Override
+    public void setTag(NBTTagCompound tag)
+    {
+        this.tag = tag;
+        update();
+    }
 	private void tag(){
 		ItemStack mitem = this.getHandle();
 		if (mitem == null)

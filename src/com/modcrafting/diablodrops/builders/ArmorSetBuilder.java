@@ -32,7 +32,8 @@ public class ArmorSetBuilder
             }
             catch (Exception e)
             {
-            	if(plugin.debug) plugin.log.warning(e.getMessage());
+                if (plugin.debug)
+                    plugin.log.warning(e.getMessage());
             }
         }
         for (String name : cs.getKeys(false))

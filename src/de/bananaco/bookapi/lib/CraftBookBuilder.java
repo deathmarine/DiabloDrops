@@ -9,24 +9,24 @@ import org.bukkit.inventory.ItemStack;
 public class CraftBookBuilder extends BookBuilder
 {
 
-	static
-	{
-		// create the instance of the thing we need
-		BookBuilder.instance = new CraftBookBuilder();
-	}
+    static
+    {
+        // create the instance of the thing we need
+        BookBuilder.instance = new CraftBookBuilder();
+    }
 
-	@Override
-	public Book getBook(ItemStack itemstack)
-	{
-		try
-		{
-			return new CraftBook((CraftItemStack) itemstack);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-	}
+    @Override
+    public Book getBook(ItemStack itemstack)
+    {
+        try
+        {
+            return new CraftBook((CraftItemStack) itemstack);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

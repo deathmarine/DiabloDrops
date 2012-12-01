@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import net.minecraft.server.NBTTagCompound;
-
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;

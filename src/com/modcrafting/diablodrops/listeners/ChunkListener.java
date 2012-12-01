@@ -293,7 +293,11 @@ public class ChunkListener implements Listener
             return;
         }
         block.setType(Material.CHEST);
-        addRuin1Pattern(block);
+        if(plugin.gen.nextBoolean()){
+        	addRuin1Pattern(block);
+        }else{
+        	deathRuin(block,allowedTypes);
+        }
         if ((block.getState() instanceof Chest))
             return;
         Chest chestB = ((Chest) block.getState());
@@ -407,5 +411,28 @@ public class ChunkListener implements Listener
         Block startWWW = startWW.getRelative(BlockFace.WEST);
         startWWW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
                 false);
+    }
+    private void deathRuin(Block block,List<Material> mats){
+    	Block under = block.getRelative(BlockFace.DOWN);
+    	int square = plugin.gen.nextInt(9);
+    	Location loc = under.getLocation();
+		double maxX = Math.max(loc.getX()-square, loc.getX()+square);
+		double maxZ = Math.max(loc.getZ()-square, loc.getZ()+square);
+		double minX = Math.min(loc.getX()-square, loc.getX()+square);
+		double minZ = Math.min(loc.getZ()-square, loc.getZ()+square);
+		
+		for(double i=0;i<=Math.abs(maxX-minX);i++){
+			for(double ii=0;ii<=Math.abs(maxZ-minZ);ii++){
+					Location nt = new Location(loc.getWorld(), minX+i, loc.getY(), minZ+ii);
+					if(i==0||ii==0){
+						for(int iii=plugin.gen.nextInt(6);iii>0;iii--){
+							Location t = new Location(loc.getWorld(), minX+i, loc.getY()+iii, minZ+ii);
+							t.getBlock().setTypeId(mats.get(plugin.gen.nextInt(mats.size())).getId());
+						}
+					}
+					nt.getBlock().setTypeId(mats.get(plugin.gen.nextInt(mats.size())).getId());
+				
+			}
+		}	
     }
 }

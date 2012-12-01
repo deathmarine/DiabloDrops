@@ -178,6 +178,46 @@ public class ChunkListener implements Listener
     private void generateRuin2(Chunk chunk, int realX, int realZ)
     {
         Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
+        Biome b = block.getBiome();
+        List<Material> allowedTypes = new ArrayList<Material>();
+        if (b == Biome.DESERT || b == Biome.DESERT_HILLS || b == Biome.BEACH)
+        {
+            this.blockType = 24;
+            allowedTypes.add(Material.SAND);
+            allowedTypes.add(Material.SANDSTONE);
+        }
+        else if (b == Biome.FOREST || b == Biome.FOREST_HILLS
+                || b == Biome.JUNGLE || b == Biome.JUNGLE_HILLS)
+        {
+            this.blockType = 17;
+            allowedTypes.add(Material.DIRT);
+            allowedTypes.add(Material.GRASS);
+        }
+        else if (b == Biome.TAIGA || b == Biome.TAIGA_HILLS
+                || b == Biome.FROZEN_OCEAN || b == Biome.FROZEN_RIVER
+                || b == Biome.ICE_MOUNTAINS || b == Biome.ICE_PLAINS)
+        {
+            if (plugin.gen.nextBoolean())
+                this.blockType = 79;
+            else
+                this.blockType = 80;
+            allowedTypes.add(Material.SNOW);
+            allowedTypes.add(Material.ICE);
+            allowedTypes.add(Material.GRASS);
+            allowedTypes.add(Material.DIRT);
+        }
+        else if (b == Biome.PLAINS || b == Biome.EXTREME_HILLS
+                || b == Biome.SWAMPLAND || b == Biome.SMALL_MOUNTAINS)
+        {
+            this.blockType = 98;
+            allowedTypes.add(Material.DIRT);
+            allowedTypes.add(Material.GRASS);
+        }
+        Block blockUnder = block.getRelative(BlockFace.DOWN);
+        if (!allowedTypes.contains(blockUnder.getType()))
+        {
+            return;
+        }
         Block[] blockSurround = new Block[]
         { block, block.getRelative(BlockFace.NORTH),
                 block.getRelative(BlockFace.NORTH_EAST),
@@ -234,7 +274,7 @@ public class ChunkListener implements Listener
             b2.getRelative(0, -1, 0).setType(Material.LAVA);
             for (int i = 2; i < plugin.gen.nextInt(5) + 2; i++)
             {
-                b2.getRelative(0, -i, 0).setType(Material.OBSIDIAN);
+                b2.getRelative(0, -i, 0).setTypeId(blockType);
             }
             b2.setType(Material.GLASS);
             switch (plugin.gen.nextInt(7))

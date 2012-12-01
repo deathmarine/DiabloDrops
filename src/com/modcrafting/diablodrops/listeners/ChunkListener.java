@@ -286,11 +286,12 @@ public class ChunkListener implements Listener
     {
         Block start = world.getBlockAt(location);
         Block startU = start.getRelative(BlockFace.UP);
-        startU.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startU.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startUU = startU.getRelative(BlockFace.UP);
-        startUU.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startUU.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startUUU = startUU.getRelative(BlockFace.UP);
-        startUUU.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startUUU.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
     }
 
     public void setBlockAt(World world, int x, int y, int z, int id)
@@ -321,44 +322,50 @@ public class ChunkListener implements Listener
     private void southRuin1(Block start)
     {
         Block startS = start.getRelative(BlockFace.SOUTH);
-        startS.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startS.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startSS = startS.getRelative(BlockFace.SOUTH);
-        startSS.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startSS.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startSSS = startSS.getRelative(BlockFace.SOUTH);
-        startSSS.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startSSS.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
     }
 
     private Location southeastRuin1(Block start)
     {
         Block startSE = start.getRelative(BlockFace.SOUTH_EAST);
-        startSE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startSE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startSESE = startSE.getRelative(BlockFace.SOUTH_EAST);
         startSESE.getRelative(BlockFace.UP).setType(Material.TORCH);
-        startSESE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startSESE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
         Block startSESESE = startSESE.getRelative(BlockFace.SOUTH_EAST);
-        startSESESE.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startSESESE.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
         return startSESESE.getLocation();
     }
 
     private Location southwestRuin1(Block start)
     {
         Block startSW = start.getRelative(BlockFace.SOUTH_WEST);
-        startSW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startSW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startSWSW = startSW.getRelative(BlockFace.SOUTH_WEST);
         startSWSW.getRelative(BlockFace.UP).setType(Material.TORCH);
-        startSWSW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startSWSW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
         Block startSWSWSW = startSWSW.getRelative(BlockFace.SOUTH_WEST);
-        startSWSWSW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startSWSWSW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
         return startSWSWSW.getLocation();
     }
 
     private void westRuin1(Block start)
     {
         Block startW = start.getRelative(BlockFace.WEST);
-        startW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startWW = startW.getRelative(BlockFace.WEST);
-        startWW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startWW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4), false);
         Block startWWW = startWW.getRelative(BlockFace.WEST);
-        startWWW.setTypeIdAndData(98, (byte) plugin.gen.nextInt(4), false);
+        startWWW.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                false);
     }
 }

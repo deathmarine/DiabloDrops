@@ -344,7 +344,7 @@ public class ChunkListener implements Listener
         }
         else
         {
-            deathRuin(block, b);
+            deathRuin(block);
         }
         try
         {
@@ -467,9 +467,131 @@ public class ChunkListener implements Listener
                 false);
     }
 
-    private void deathRuin(Block block, Biome b)
+    private void deathRuin(Block block)
     {
-        List<Material> mats = new ArrayList<Material>();
+    	//These may need to be a seperate plugin.
+        Block under = block.getRelative(BlockFace.DOWN);
+        int square = plugin.gen.nextInt(6);
+        if(square<1) return;
+        Location loc = under.getLocation();
+        if(plugin.gen.nextBoolean()){
+        	buildtemple(loc);
+        	return;
+        }
+        List<Material> mats = getBiomeMaterials(under.getBiome());
+        if (mats.size() < 1)
+            return;
+        double maxX = Math.max(loc.getX() - square, loc.getX() + square);
+        double maxZ = Math.max(loc.getZ() - square, loc.getZ() + square);
+        double minX = Math.min(loc.getX() - square, loc.getX() + square);
+        double minZ = Math.min(loc.getZ() - square, loc.getZ() + square);
+        for (double i = 0; i <= Math.abs(maxX - minX); i++)
+        {
+            for (double ii = 0; ii <= Math.abs(maxZ - minZ); ii++)
+            {
+                Location nt = new Location(loc.getWorld(), minX + i,
+                        loc.getY(), minZ + ii);
+                Block n = nt.getBlock();
+                if(!n.getType().equals(Material.STATIONARY_WATER)
+                		&&!n.getType().equals(Material.AIR)){
+                	n.setTypeId(
+                            mats.get(plugin.gen.nextInt(mats.size()))
+                            .getId());
+
+                    if (i==0||ii==0||i==Math.abs(maxX - minX)||ii==Math.abs(maxZ - minZ))
+                    {
+                        for (int iii = plugin.gen.nextInt(6); iii > 0; iii--)
+                        {
+                            Location t = new Location(loc.getWorld(), minX + i,
+                                    loc.getY() + iii, minZ + ii);
+                            	t.getBlock().setTypeId(mats.get(plugin.gen.nextInt(mats.size()))
+                                            .getId());
+                            
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private void buildtemple(final Location loc){
+    	int square = 5;
+        double maxX = Math.max(loc.getX() - square, loc.getX() + square);
+        double maxZ = Math.max(loc.getZ() - square, loc.getZ() + square);
+        double minX = Math.min(loc.getX() - square, loc.getX() + square);
+        double minZ = Math.min(loc.getZ() - square, loc.getZ() + square);
+        for (int i = 0; i <= Math.abs(maxX - minX); i++){
+            for (int ii = 0; ii <= Math.abs(maxZ - minZ); ii++){;
+            	if(loc.getWorld().getBlockTypeIdAt((int)minX+i, (int)loc.getY(), (int)minZ+ii)==Material.AIR.getId()
+            			||loc.getWorld().getBlockTypeIdAt((int)minX+i, (int)loc.getY(), (int)minZ+ii)==Material.STATIONARY_WATER.getId()){
+            		return;
+            	}
+            }
+        }
+        for (double i = 0; i <= Math.abs(maxX - minX); i++){
+            for (double ii = 0; ii <= Math.abs(maxZ - minZ); ii++){
+            	if (i==0||ii==0||i==Math.abs(maxX - minX)||ii==Math.abs(maxZ - minZ))
+                {
+                    for (int iii = 0; iii < 5; iii++)
+                    {
+                    	if(i==0&&ii==0
+            				||i==Math.abs(maxX - minX)&&ii==Math.abs(maxZ - minZ)
+            				||i==0&&ii==Math.abs(maxZ - minZ)
+            				||ii==0&&i==Math.abs(maxX - minX))
+            				continue;
+                        Location t = new Location(loc.getWorld(), minX + i,
+                                loc.getY() + iii, minZ + ii);
+                        t.getBlock().setType(Material.NETHER_BRICK);
+                    }
+                }
+                Location t = new Location(loc.getWorld(), minX + i,
+                        loc.getY(), minZ + ii);
+                t.getBlock().setType(Material.NETHER_BRICK);
+                Location r = new Location(loc.getWorld(), minX +i,(loc.getY()+(square*2))-(t.distance(loc)),minZ+ii);
+                r.getBlock().setType(Material.NETHER_BRICK);
+                
+            }
+        }
+        int faceX=0;
+        int faceZ=0;
+        switch(plugin.gen.nextInt(4)){
+        	case 0:{
+        		faceX=square;
+        		break;
+        	}
+        	case 1:{
+        		faceX=-square;
+        		break;
+        	}
+        	case 2:{
+        		faceZ=square;
+        		break;
+        	}
+        	case 3:{
+        		faceZ=-square;
+        		break;
+        	}
+        }
+        for(int i=1;i<3;i++){
+            loc.getWorld().getBlockAt((int)loc.getX()+faceX, (int)loc.getY()+i, (int)loc.getZ()+faceZ).setTypeId(0);
+        	loc.getWorld().getBlockAt((int)loc.getX()-2, (int)loc.getY()+i, (int)loc.getZ()).setType(Material.NETHER_BRICK);
+        	loc.getWorld().getBlockAt((int)loc.getX(), (int)loc.getY()+i, (int)loc.getZ()-2).setType(Material.NETHER_BRICK);
+        	loc.getWorld().getBlockAt((int)loc.getX()+2, (int)loc.getY()+i, (int)loc.getZ()).setType(Material.NETHER_BRICK);
+        	loc.getWorld().getBlockAt((int)loc.getX(), (int)loc.getY()+i, (int)loc.getZ()+2).setType(Material.NETHER_BRICK);            
+        }
+    	loc.getWorld().getBlockAt((int)loc.getX()-2, (int)loc.getY()+3, (int)loc.getZ()).setType(Material.TORCH);
+    	loc.getWorld().getBlockAt((int)loc.getX(), (int)loc.getY()+3, (int)loc.getZ()-2).setType(Material.TORCH);
+    	loc.getWorld().getBlockAt((int)loc.getX()+2, (int)loc.getY()+3, (int)loc.getZ()).setType(Material.TORCH);
+    	loc.getWorld().getBlockAt((int)loc.getX(), (int)loc.getY()+3, (int)loc.getZ()+2).setType(Material.TORCH);
+        Block door = loc.getWorld().getBlockAt((int)loc.getX()+faceX, (int)loc.getY()+1, (int)loc.getZ()+faceZ);
+    	door.getRelative(BlockFace.NORTH_EAST).setType(Material.NETHER_FENCE);
+    	door.getRelative(BlockFace.NORTH_WEST).setType(Material.NETHER_FENCE);   
+    	door.getRelative(BlockFace.SOUTH_EAST).setType(Material.NETHER_FENCE);   
+    	door.getRelative(BlockFace.SOUTH_WEST).setType(Material.NETHER_FENCE);
+		
+	}
+    private List<Material> getBiomeMaterials(Biome b){
+    	List<Material> mats = new ArrayList<Material>();
         switch (b)
         {
             case BEACH:
@@ -529,11 +651,13 @@ public class ChunkListener implements Listener
             case JUNGLE:
             {
                 mats.add(Material.LOG);
+                mats.add(Material.WOOD);
                 break;
             }
             case JUNGLE_HILLS:
             {
                 mats.add(Material.LOG);
+                mats.add(Material.WOOD);
                 break;
             }
             case MUSHROOM_ISLAND:
@@ -574,43 +698,6 @@ public class ChunkListener implements Listener
                 break;
 
         }
-        if (mats.size() < 1)
-            return;
-        Block under = block.getRelative(BlockFace.DOWN);
-        int square = plugin.gen.nextInt(6);
-        Location loc = under.getLocation();
-        double maxX = Math.max(loc.getX() - square, loc.getX() + square);
-        double maxZ = Math.max(loc.getZ() - square, loc.getZ() + square);
-        double minX = Math.min(loc.getX() - square, loc.getX() + square);
-        double minZ = Math.min(loc.getZ() - square, loc.getZ() + square);
-
-        for (double i = 0; i <= Math.abs(maxX - minX); i++)
-        {
-            for (double ii = 0; ii <= Math.abs(maxZ - minZ); ii++)
-            {
-                Location nt = new Location(loc.getWorld(), minX + i,
-                        loc.getY(), minZ + ii);
-                Block n = nt.getBlock();
-                if(!n.getType().equals(Material.STATIONARY_WATER)
-                		&&!n.getType().equals(Material.AIR)){
-                	n.setTypeId(
-                            mats.get(plugin.gen.nextInt(mats.size()))
-                            .getId());
-
-                    if (i==0||ii==0||i==Math.abs(maxX - minX)||ii==Math.abs(maxZ - minZ))
-                    {
-                        for (int iii = plugin.gen.nextInt(6); iii > 0; iii--)
-                        {
-                            Location t = new Location(loc.getWorld(), minX + i,
-                                    loc.getY() + iii, minZ + ii);
-                            t.getBlock().setTypeId(
-                                    mats.get(plugin.gen.nextInt(mats.size()))
-                                            .getId());
-                            
-                        }
-                    }
-                }
-            }
-        }
+        return mats;
     }
 }

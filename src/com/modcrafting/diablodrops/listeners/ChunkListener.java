@@ -169,7 +169,7 @@ public class ChunkListener implements Listener
             return;
         int realX = chunk.getX() * 16 + plugin.gen.nextInt(15);
         int realZ = chunk.getZ() * 16 + plugin.gen.nextInt(15);
-        if (plugin.gen.nextInt(10) + 1 <= 7)
+        if (plugin.gen.nextInt(100) + 1 <= 7)
             generateRuin1(chunk, realX, realZ);
         else
             generateRuin2(chunk, realX, realZ);

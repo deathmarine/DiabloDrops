@@ -197,6 +197,7 @@ public class ChunkListener implements Listener
                 BlockFace.WEST);
         Block[] ruinBase = new Block[]
         {
+                northern,
                 northern.getRelative(BlockFace.EAST),
                 northern.getRelative(BlockFace.EAST)
                         .getRelative(BlockFace.EAST),
@@ -302,16 +303,22 @@ public class ChunkListener implements Listener
         {
             deathRuin(block, allowedTypes);
         }
-        if ((block.getState() instanceof Chest))
-            return;
-        Chest chestB = ((Chest) block.getState());
-        Inventory chest = chestB.getBlockInventory();
-        for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
+        try
         {
-            CraftItemStack cis = plugin.dropsAPI.getItem();
-            while (cis == null)
-                cis = plugin.dropsAPI.getItem();
-            chest.setItem(i, cis);
+            if ((block.getState() instanceof Chest))
+                return;
+            Chest chestB = ((Chest) block.getState());
+            Inventory chest = chestB.getBlockInventory();
+            for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
+            {
+                CraftItemStack cis = plugin.dropsAPI.getItem();
+                while (cis == null)
+                    cis = plugin.dropsAPI.getItem();
+                chest.setItem(i, cis);
+            }
+        }
+        catch (Exception e)
+        {
         }
     }
 

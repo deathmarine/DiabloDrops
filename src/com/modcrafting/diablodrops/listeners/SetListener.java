@@ -72,6 +72,8 @@ public class SetListener implements Listener
 
                 String sName = plugin.setsAPI.getNameOfSet((Player) event
                         .getEntity());
+                if (sName == null||sName.length()<1)
+                    return;
                 ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                 if (aSet == null)
                     return;

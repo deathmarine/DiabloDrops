@@ -34,7 +34,7 @@ public class Tool extends CraftItemStack implements ToolInterface
     @Override
     public void addLore(String string)
     {
-    	NBTTagCompound tag = getTag();
+        NBTTagCompound tag = getTag();
         NBTTagCompound ntag = tag.getCompound("display");
         if (ntag == null)
             ntag = new NBTTagCompound("display");
@@ -50,7 +50,7 @@ public class Tool extends CraftItemStack implements ToolInterface
     @Override
     public String[] getLore()
     {
-    	NBTTagCompound tag = getTag();
+        NBTTagCompound tag = getTag();
         ArrayList<String> strings = new ArrayList<String>();
         String[] lores = new String[] {};
         if (tag == null || tag.getCompound("display") == null
@@ -66,7 +66,7 @@ public class Tool extends CraftItemStack implements ToolInterface
     @Override
     public List<String> getLoreList()
     {
-    	NBTTagCompound tag = getTag();
+        NBTTagCompound tag = getTag();
         ArrayList<String> strings = new ArrayList<String>();
         if (tag == null || tag.getCompound("display") == null
                 || tag.getCompound("display").getList("Lore") == null)
@@ -93,7 +93,7 @@ public class Tool extends CraftItemStack implements ToolInterface
     @Override
     public void setName(String name)
     {
-    	this.getHandle().c(name);
+        this.getHandle().c(name);
     }
 
     @Override
@@ -105,13 +105,13 @@ public class Tool extends CraftItemStack implements ToolInterface
     @Override
     public void setRepairCost(Integer i)
     {
-    	this.getHandle().setRepairCost(i);
+        this.getHandle().setRepairCost(i);
     }
 
     @Override
     public void setLore(List<String> lore)
     {
-    	NBTTagCompound tag = getTag();
+        NBTTagCompound tag = getTag();
         NBTTagCompound ntag = tag.getCompound("display");
         if (ntag == null)
             ntag = new NBTTagCompound();
@@ -134,13 +134,14 @@ public class Tool extends CraftItemStack implements ToolInterface
     @Override
     public void setTag(NBTTagCompound tag)
     {
-    	this.getHandle().setTag(tag);
+        this.getHandle().setTag(tag);
     }
 
     private void tag()
     {
-    	ItemStack oItem = this.getHandle();
-    	if(!oItem.hasTag()){
+        ItemStack oItem = this.getHandle();
+        if (!oItem.hasTag())
+        {
             setTag(new NBTTagCompound());
         }
     }

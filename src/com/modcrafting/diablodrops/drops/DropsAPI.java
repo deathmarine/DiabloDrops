@@ -18,7 +18,7 @@ import com.modcrafting.toolapi.lib.Tool;
 
 public class DropsAPI
 {
-    private DiabloDrops plugin;
+    private final DiabloDrops plugin;
 
     public DropsAPI(DiabloDrops instance)
     {
@@ -245,6 +245,25 @@ public class DropsAPI
             return plugin.custom.get(plugin.gen.nextInt(plugin.custom.size()));
         }
         return getItem(dropPicker());
+    }
+
+    /**
+     * Get a particular custom itemstack
+     * 
+     * @param name
+     * @return particular custom itemstack
+     */
+    public CraftItemStack getCustomItem(String name)
+    {
+        CraftItemStack cis = null;
+        for (CraftItemStack item : plugin.custom)
+        {
+            if (((Tool) item).getName().equalsIgnoreCase(name))
+            {
+                cis = item;
+            }
+        }
+        return cis;
     }
 
     /**

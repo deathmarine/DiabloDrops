@@ -134,10 +134,10 @@ public class EffectsAPI
             }
             else if (level < 0)
             {
-                int chng = level + struck.getHealth();
+                int chng = Math.abs(level) + struck.getHealth();
                 if (chng < struck.getMaxHealth() && chng > 0)
                     struck.setHealth(chng);
-                chng = level - striker.getHealth();
+                chng = Math.abs(level) - striker.getHealth();
                 if (chng < striker.getMaxHealth() && chng > 0)
                     striker.setHealth(chng);
             }

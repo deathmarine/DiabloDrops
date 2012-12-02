@@ -22,11 +22,9 @@ SafeEnchant:
 Ruins:
   Enabled: true
   Chance: 1
-#Allow the drop of random items#
-Random:
-  Enabled: true
 #Allow the drop of custom items (custom.yml)#
 Custom:
+  Only: false
   Enabled: true
   Chance: 1
 #Allow the drop of lore items (lore.txt enhancements)#

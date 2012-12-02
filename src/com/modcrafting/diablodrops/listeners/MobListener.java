@@ -26,6 +26,7 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.DropUtils;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
+import com.modcrafting.toolapi.lib.Tool;
 
 public class MobListener implements Listener
 {
@@ -35,6 +36,7 @@ public class MobListener implements Listener
     private boolean egg;
     private int chance;
     private boolean dropfix;
+    private boolean custom;
 
     public MobListener(DiabloDrops instance)
     {
@@ -43,6 +45,7 @@ public class MobListener implements Listener
         egg = plugin.config.getBoolean("Reason.Egg", true);
         chance = plugin.config.getInt("Precentages.ChancePerSpawn", 3);
         dropfix = plugin.config.getBoolean("DropFix.Equipment", false);
+        custom = plugin.config.getBoolean("Custom.Only", false);
     }
 
     public void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
@@ -132,6 +135,7 @@ public class MobListener implements Listener
                 && (event.getSpawnReason().equals(SpawnReason.EGG) || event
                         .getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
             return;
+        
         Integer random = plugin.gen.nextInt(100) + 1;
         if (entity instanceof Monster && chance >= random)
         {
@@ -141,6 +145,9 @@ public class MobListener implements Listener
             {
                 ci = plugin.dropsAPI.getItem();
             }
+            if(custom)
+            	ci= plugin.custom.get(plugin.gen
+                        .nextInt(plugin.custom.size()));
             if (ci != null)
                 items.add(ci);
             EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(

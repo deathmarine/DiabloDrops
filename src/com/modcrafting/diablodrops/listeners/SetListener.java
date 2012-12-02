@@ -72,6 +72,8 @@ public class SetListener implements Listener
 
             	String sName = plugin.setsAPI.getNameOfSet((Player) event.getEntity());
             	ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
+            	if(aSet==null)
+            		return;
                 List<String> effects = aSet.getBonuses();
                 for (String s : effects)
                     EffectsAPI.addEffect((LivingEntity) event.getEntity(),

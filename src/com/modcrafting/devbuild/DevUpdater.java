@@ -55,6 +55,7 @@ public class DevUpdater
         FAILED(3);
 
         private static final Map<Integer, DevUpdater.DevUpdateResult> valueList = new HashMap<Integer, DevUpdater.DevUpdateResult>();
+
         public static DevUpdater.DevUpdateResult getResult(int value)
         {
             return valueList.get(value);
@@ -81,6 +82,7 @@ public class DevUpdater
             return this.value;
         }
     }
+
     class Handler extends DefaultHandler
     {
         String currentElement;
@@ -121,6 +123,7 @@ public class DevUpdater
             }
         }
     }
+
     public Integer build;
     private Plugin plugin;
     private String versionTitle;

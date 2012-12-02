@@ -42,8 +42,8 @@ public class SetListener implements Listener
                 Player striker = (Player) strikerEntity;
                 if (plugin.setsAPI.wearingSet(striker))
                 {
-                	String sName = plugin.setsAPI.getNameOfSet(striker);
-                	ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
+                    String sName = plugin.setsAPI.getNameOfSet(striker);
+                    ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                     List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                         EffectsAPI.addEffect(struck, striker, s, event);
@@ -56,8 +56,8 @@ public class SetListener implements Listener
                         .getShooter();
                 if (plugin.setsAPI.wearingSet(shooter))
                 {
-                	String sName = plugin.setsAPI.getNameOfSet(shooter);
-                	ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
+                    String sName = plugin.setsAPI.getNameOfSet(shooter);
+                    ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                     List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                         EffectsAPI.addEffect(struck, shooter, s, event);
@@ -70,10 +70,11 @@ public class SetListener implements Listener
                     && plugin.setsAPI.wearingSet((Player) event.getEntity()))
             {
 
-            	String sName = plugin.setsAPI.getNameOfSet((Player) event.getEntity());
-            	ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
-            	if(aSet==null)
-            		return;
+                String sName = plugin.setsAPI.getNameOfSet((Player) event
+                        .getEntity());
+                ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
+                if (aSet == null)
+                    return;
                 List<String> effects = aSet.getBonuses();
                 for (String s : effects)
                     EffectsAPI.addEffect((LivingEntity) event.getEntity(),

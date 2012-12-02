@@ -10,10 +10,12 @@ public class PreSocketEnhancementEvent extends Event implements Cancellable
 {
 
     private static final HandlerList handlers = new HandlerList();
+
     public static HandlerList getHandlerList()
     {
         return handlers;
     }
+
     private boolean isCancelled = false;
     private final ItemStack input;
     private final ItemStack fuel;

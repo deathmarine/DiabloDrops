@@ -102,8 +102,7 @@ public class SetsAPI
         {
             CraftItemStack c = ((CraftItemStack) is);
             Tool te = new Tool(c);
-            String[] splits = ChatColor.stripColor(te.getName())
-                    .split(" ");
+            String[] splits = ChatColor.stripColor(te.getName()).split(" ");
             if (!splits[0].equalsIgnoreCase(potentialSet))
                 return false;
         }

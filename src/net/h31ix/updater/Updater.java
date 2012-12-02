@@ -96,6 +96,7 @@ public class Updater
         UPDATE_AVAILABLE(7);
 
         private static final Map<Integer, Updater.UpdateResult> valueList = new HashMap<Integer, Updater.UpdateResult>();
+
         public static Updater.UpdateResult getResult(int value)
         {
             return valueList.get(value);
@@ -121,6 +122,7 @@ public class Updater
             return this.value;
         }
     }
+
     /**
      * Allows the dev to specify the type of update that will be run.
      */
@@ -143,6 +145,7 @@ public class Updater
         NO_DOWNLOAD(3);
 
         private static final Map<Integer, Updater.UpdateType> valueList = new HashMap<Integer, Updater.UpdateType>();
+
         public static Updater.UpdateType getResult(int value)
         {
             return valueList.get(value);
@@ -168,45 +171,47 @@ public class Updater
             return this.value;
         }
     }
+
     private Plugin plugin;
     private UpdateType type;
     private String versionTitle;
     private String versionLink;
     private long totalSize; // Holds the total size of the file
-                            // private double downloadedSize; // TODO: Holds the number of bytes
+                            // private double downloadedSize; // TODO: Holds the
+                            // number of bytes
     // downloaded
     private int sizeLine; // Used for detecting file size
     private int multiplier; // Used for determining when to broadcast download
     // updates
     private boolean announce; // Whether to announce file downloads
-                                                                               private URL url; // Connecting to RSS
-                        private static final String DBOUrl = "http://dev.bukkit.org/server-mods/"; // Slugs
+    private URL url; // Connecting to RSS
+    private static final String DBOUrl = "http://dev.bukkit.org/server-mods/"; // Slugs
     // will
-                                                                               // be
-                                                                               // appended
-                                                                               // to
-                                                                               // this
-                                                                               // to
-                                                                               // get
-                                                                               // to
-                                                                               // the
-                                                                               // project's
-                                                                               // RSS
-                                                                               // feed
+    // be
+    // appended
+    // to
+    // this
+    // to
+    // get
+    // to
+    // the
+    // project's
+    // RSS
+    // feed
     private String[] noUpdateTag =
     { "-DEV", "-PRE" }; // If the version number contains one of these, don't
-                                                                         // update.
+                        // update.
     private static final int BYTE_SIZE = 1024; // Used for downloading files
 
     private String updateFolder = YamlConfiguration.loadConfiguration(
             new File("bukkit.yml")).getString("settings.update-folder"); // The
     // folder
-                                                                         // that
-                                                                         // downloads
-                                                                         // will
-                                                                         // be
-                                                                         // placed
-                                                                         // in
+    // that
+    // downloads
+    // will
+    // be
+    // placed
+    // in
     private Updater.UpdateResult result = Updater.UpdateResult.SUCCESS; // Used
                                                                         // for
                                                                         // determining

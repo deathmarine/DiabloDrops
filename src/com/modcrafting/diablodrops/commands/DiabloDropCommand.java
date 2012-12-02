@@ -50,7 +50,7 @@ public class DiabloDropCommand implements CommandExecutor
     }
 
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public boolean onCommand(CommandSender sender, Command command,
             String commandLabel, String[] args)
     {

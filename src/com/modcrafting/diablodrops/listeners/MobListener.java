@@ -134,7 +134,7 @@ public class MobListener implements Listener
                 && (event.getSpawnReason().equals(SpawnReason.EGG) || event
                         .getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
             return;
-        
+
         Integer random = plugin.gen.nextInt(100) + 1;
         if (entity instanceof Monster && chance >= random)
         {
@@ -144,9 +144,9 @@ public class MobListener implements Listener
             {
                 ci = plugin.dropsAPI.getItem();
             }
-            if(custom)
-            	ci= plugin.custom.get(plugin.gen
-                        .nextInt(plugin.custom.size()));
+            if (custom)
+                ci = plugin.custom
+                        .get(plugin.gen.nextInt(plugin.custom.size()));
             if (ci != null)
                 items.add(ci);
             EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(

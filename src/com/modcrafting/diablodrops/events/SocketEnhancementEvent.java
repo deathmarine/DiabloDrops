@@ -9,10 +9,12 @@ public class SocketEnhancementEvent extends Event
 {
 
     private static final HandlerList handlers = new HandlerList();
+
     public static HandlerList getHandlerList()
     {
         return handlers;
     }
+
     private final ItemStack input;
     private final ItemStack fuel;
     private final ItemStack result;

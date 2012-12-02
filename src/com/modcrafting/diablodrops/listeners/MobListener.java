@@ -26,7 +26,6 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.DropUtils;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
-import com.modcrafting.toolapi.lib.Tool;
 
 public class MobListener implements Listener
 {

@@ -49,7 +49,8 @@ public class DiabloDropCommand implements CommandExecutor
         return "";
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onCommand(CommandSender sender, Command command,
             String commandLabel, String[] args)
     {
@@ -68,6 +69,7 @@ public class DiabloDropCommand implements CommandExecutor
                 while (ci == null)
                     ci = plugin.dropsAPI.getItem();
                 pi.addItem(ci);
+                player.updateInventory();
                 player.sendMessage(ChatColor.GREEN
                         + "You have been given a DiabloDrops item.");
                 return true;
@@ -78,6 +80,7 @@ public class DiabloDropCommand implements CommandExecutor
                     pi.addItem(new Tome());
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a tome.");
+                    player.updateInventory();
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("socket")
@@ -87,6 +90,7 @@ public class DiabloDropCommand implements CommandExecutor
                             .getStringList("SocketItem.Items");
                     pi.addItem(new Socket(Material.valueOf(l.get(
                             plugin.gen.nextInt(l.size())).toUpperCase())));
+                    player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a SocketItem.");
                     return true;
@@ -95,6 +99,7 @@ public class DiabloDropCommand implements CommandExecutor
                 {
                     pi.addItem(plugin.custom.get(plugin.gen
                             .nextInt(plugin.custom.size())));
+                    player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a DiabloDrops item.");
                     return true;
@@ -210,6 +215,7 @@ public class DiabloDropCommand implements CommandExecutor
                     while (ci2 == null)
                         ci2 = plugin.dropsAPI.getItem(tier);
                     pi.addItem(ci2);
+                    player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a " + ChatColor.WHITE
                             + args[0] + ChatColor.GREEN + " DiabloDrops item.");
@@ -219,6 +225,7 @@ public class DiabloDropCommand implements CommandExecutor
                 while (ci2 == null)
                     ci2 = plugin.dropsAPI.getItem();
                 pi.addItem(ci2);
+                player.updateInventory();
                 player.sendMessage(ChatColor.GREEN
                         + "You have been given a DiabloDrops item.");
                 return true;

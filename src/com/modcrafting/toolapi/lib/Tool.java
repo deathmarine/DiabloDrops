@@ -15,14 +15,14 @@ public class Tool extends CraftItemStack implements ToolInterface
 {
     private NBTTagCompound tag;
 
-	public Tool(Material mat)
-	{
-		super(mat, 1);
-		tag();
-	}
 	public Tool(ItemStack item)
 	{
 		super(item);
+		tag();
+	}
+	public Tool(Material mat)
+	{
+		super(mat, 1);
 		tag();
 	}
 	public Tool(org.bukkit.inventory.ItemStack source)
@@ -47,20 +47,6 @@ public class Tool extends CraftItemStack implements ToolInterface
     }
     
 	@Override
-	public void setName(String name)
-	{
-		NBTTagCompound nc = tag.getCompound("display");
-		if (nc != null)
-			nc = new NBTTagCompound();
-		NBTTagString p = new NBTTagString(name);
-		p.setName(name);
-		p.data = name;
-		nc.set("Name", p);
-		nc.setString("Name", name);
-		tag.setCompound("display", nc);
-		update();
-	}
-    @Override
     public String[] getLore()
     {
         ArrayList<String> strings = new ArrayList<String>();
@@ -74,7 +60,6 @@ public class Tool extends CraftItemStack implements ToolInterface
         strings.toArray(lores);
         return lores;
     }
-
     @Override
     public List<String> getLoreList()
     {
@@ -99,7 +84,32 @@ public class Tool extends CraftItemStack implements ToolInterface
         return strings;
     }
 
+    @Override
+    public String getName()
+    {
+        NBTTagCompound nc = tag.getCompound("display");
+        if (nc != null)
+        {
+            String s = nc.getString("Name");
+            if (s != null)
+                return s;
+        }
+        return null;
+    }
+
 	@Override
+    public Integer getRepairCost()
+    {
+    	tag();
+        return tag.getInt("RepairCost");
+    }
+
+    @Override
+	public NBTTagCompound getTag() {
+		return this.tag;
+	}
+
+    @Override
 	public void setLore(List<String> lore)
 	{
 		NBTTagCompound ntag = tag.getCompound("display");
@@ -114,34 +124,24 @@ public class Tool extends CraftItemStack implements ToolInterface
 		tag.setCompound("display", ntag);
 		update();
 	}
-
-    @Override
-    public String getName()
-    {
-        NBTTagCompound nc = tag.getCompound("display");
-        if (nc != null)
-        {
-            String s = nc.getString("Name");
-            if (s != null)
-                return s;
-        }
-        return null;
-    }
-
-    @Override
-    public Integer getRepairCost()
-    {
-    	tag();
-        return tag.getInt("RepairCost");
-    }
+	@Override
+	public void setName(String name)
+	{
+		NBTTagCompound nc = tag.getCompound("display");
+		if (nc != null)
+			nc = new NBTTagCompound();
+		NBTTagString p = new NBTTagString(name);
+		p.setName(name);
+		p.data = name;
+		nc.set("Name", p);
+		nc.setString("Name", name);
+		tag.setCompound("display", nc);
+		update();
+	}
 	@Override
 	public void setRepairCost(Integer i) {
 		tag.setInt("RepairCost", i);
 		update();
-	}
-	@Override
-	public NBTTagCompound getTag() {
-		return this.tag;
 	}
     @Override
     public void setTag(NBTTagCompound tag)

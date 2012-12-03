@@ -44,9 +44,12 @@ public class SetListener implements Listener
                 {
                     String sName = plugin.setsAPI.getNameOfSet(striker);
                     ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
-                    List<String> effects = aSet.getBonuses();
-                    for (String s : effects)
-                        EffectsAPI.addEffect(struck, striker, s, event);
+                    if (aSet != null)
+                    {
+                        List<String> effects = aSet.getBonuses();
+                        for (String s : effects)
+                            EffectsAPI.addEffect(struck, striker, s, event);
+                    }
                 }
             }
             if (strikerEntity instanceof Projectile
@@ -58,9 +61,12 @@ public class SetListener implements Listener
                 {
                     String sName = plugin.setsAPI.getNameOfSet(shooter);
                     ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
-                    List<String> effects = aSet.getBonuses();
-                    for (String s : effects)
-                        EffectsAPI.addEffect(struck, shooter, s, event);
+                    if (aSet != null)
+                    {
+                        List<String> effects = aSet.getBonuses();
+                        for (String s : effects)
+                            EffectsAPI.addEffect(struck, shooter, s, event);
+                    }
                 }
             }
         }

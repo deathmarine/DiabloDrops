@@ -20,7 +20,7 @@ public class DropsAPI
 {
     private final DiabloDrops plugin;
 
-    public DropsAPI(DiabloDrops instance)
+    public DropsAPI(final DiabloDrops instance)
     {
         plugin = instance;
     }
@@ -31,7 +31,7 @@ public class DropsAPI
      * @param material
      * @return is armor or tool
      */
-    public boolean canBeItem(Material material)
+    public boolean canBeItem(final Material material)
     {
         if (plugin.drop.isArmor(material) || plugin.drop.isTool(material))
             return true;
@@ -45,7 +45,7 @@ public class DropsAPI
      *            of ItemStack
      * @return durability to be set
      */
-    public short damageItemStack(Material material)
+    public short damageItemStack(final Material material)
     {
         short dur = material.getMaxDurability();
         try
@@ -95,25 +95,37 @@ public class DropsAPI
     }
 
     /**
+     * Get a particular custom itemstack
+     * 
+     * @param name
+     * @return particular custom itemstack
+     */
+    public CraftItemStack getCustomItem(final String name)
+    {
+        CraftItemStack cis = null;
+        for (CraftItemStack item : plugin.custom)
+            if (ChatColor.stripColor(((Tool) item).getName()).equalsIgnoreCase(
+                    name))
+                cis = item;
+        return cis;
+    }
+
+    /**
      * Gets a list of safe enchantments for an item.
      * 
      * @param ci
      * @return set
      */
-    public List<Enchantment> getEnchantStack(CraftItemStack ci)
+    public List<Enchantment> getEnchantStack(final CraftItemStack ci)
     {
         List<Enchantment> set = new ArrayList<Enchantment>();
         for (Enchantment e : Enchantment.values())
-        {
             if (e.canEnchantItem(ci))
-            {
                 set.add(e);
-            }
-        }
         return set;
     }
 
-    public CraftItemStack getIdItem(Material mat, String name)
+    public CraftItemStack getIdItem(Material mat, final String name)
     {
         while (mat == null)
             mat = dropPicker();
@@ -121,15 +133,11 @@ public class DropsAPI
         CraftItemStack ci = null;
         Tier tier = getTier();
         while (tier == null)
-        {
             tier = getTier();
-        }
         if (tier.getMaterials().size() > 0
                 && !tier.getMaterials().contains(material))
-        {
             material = tier.getMaterials().get(
                     plugin.gen.nextInt(tier.getMaterials().size()));
-        }
         int e = tier.getAmount();
         int l = tier.getLevels();
         short damage = 0;
@@ -137,23 +145,17 @@ public class DropsAPI
             damage = damageItemStack(mat);
         if (plugin.config.getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
-        {
             ci = new Drop(material, tier.getColor(),
                     ChatColor.stripColor(name()), damage, tier.getColor()
                             + tier.getName());
-        }
         else if (plugin.config.getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
-        {
             ci = new Drop(material, tier.getColor(),
                     ChatColor.stripColor(name()), damage, ChatColor.WHITE
                             + tier.getName());
-        }
         else
-        {
             ci = new Drop(material, tier.getColor(),
                     ChatColor.stripColor(name()), damage);
-        }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
@@ -169,12 +171,10 @@ public class DropsAPI
             Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
-            {
                 if (safe)
                 {
                     if (lvl >= ench.getStartLevel()
                             && lvl <= ench.getMaxLevel())
-                    {
                         try
                         {
                             ci.addEnchantment(ench, lvl);
@@ -185,13 +185,9 @@ public class DropsAPI
                                 plugin.log.warning(e1.getMessage());
                             e++;
                         }
-                    }
                 }
                 else
-                {
                     ci.addUnsafeEnchantment(ench, lvl);
-                }
-            }
         }
         Tool tool = new Tool(ci);
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
@@ -204,21 +200,13 @@ public class DropsAPI
         if (plugin.config.getBoolean("Lore.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "Lore.Chance", 5))
-        {
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
-            {
                 if (plugin.drop.isArmor(mat))
-                {
                     tool.addLore(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
-                }
                 else if (plugin.drop.isTool(mat))
-                {
                     tool.addLore(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
-                }
-            }
-        }
         return tool;
     }
 
@@ -233,9 +221,7 @@ public class DropsAPI
                 && plugin.config.getBoolean("IdentifyTome.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "IdentifyTome.Chance", 3))
-        {
             return new Tome();
-        }
         if (plugin.gen.nextBoolean()
                 && plugin.config.getBoolean("SocketItem.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
@@ -249,29 +235,8 @@ public class DropsAPI
                 && plugin.config.getBoolean("Custom.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "Custom.Chance", 1))
-        {
             return plugin.custom.get(plugin.gen.nextInt(plugin.custom.size()));
-        }
         return getItem(dropPicker());
-    }
-
-    /**
-     * Get a particular custom itemstack
-     * 
-     * @param name
-     * @return particular custom itemstack
-     */
-    public CraftItemStack getCustomItem(String name)
-    {
-        CraftItemStack cis = null;
-        for (CraftItemStack item : plugin.custom)
-        {
-            if (((Tool) item).getName().equalsIgnoreCase(name))
-            {
-                cis = item;
-            }
-        }
-        return cis;
     }
 
     /**
@@ -288,9 +253,7 @@ public class DropsAPI
         CraftItemStack ci = null;
         Tier tier = getTier();
         while (tier == null)
-        {
             tier = getTier();
-        }
         if (tier.getMaterials().size() > 0
                 && !tier.getMaterials().contains(mat))
             mat = tier.getMaterials().get(
@@ -302,21 +265,15 @@ public class DropsAPI
             damage = damageItemStack(mat);
         if (plugin.config.getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
-        {
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
                     damage, tier.getColor() + tier.getName());
-        }
         else if (plugin.config.getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
-        {
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
                     damage, ChatColor.WHITE + tier.getName());
-        }
         else
-        {
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
                     damage);
-        }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
@@ -332,12 +289,10 @@ public class DropsAPI
             Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
-            {
                 if (safe)
                 {
                     if (lvl >= ench.getStartLevel()
                             && lvl <= ench.getMaxLevel())
-                    {
                         try
                         {
                             ci.addEnchantment(ench, lvl);
@@ -348,13 +303,9 @@ public class DropsAPI
                                 plugin.log.warning(e1.getMessage());
                             e++;
                         }
-                    }
                 }
                 else
-                {
                     ci.addUnsafeEnchantment(ench, lvl);
-                }
-            }
         }
         Tool tool = new Tool(ci);
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
@@ -369,21 +320,13 @@ public class DropsAPI
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "Lore.Chance", 5)
                 && !tier.getColor().equals(ChatColor.MAGIC))
-        {
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
-            {
                 if (plugin.drop.isArmor(mat))
-                {
                     tool.addLore(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
-                }
                 else if (plugin.drop.isTool(mat))
-                {
                     tool.addLore(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
-                }
-            }
-        }
         return tool;
     }
 
@@ -394,7 +337,7 @@ public class DropsAPI
      *            name
      * @return item
      */
-    public CraftItemStack getItem(Tier tier)
+    public CraftItemStack getItem(final Tier tier)
     {
         Material mat = dropPicker();
         while (mat == null)
@@ -402,34 +345,24 @@ public class DropsAPI
         CraftItemStack ci = null;
         if (tier.getMaterials().size() > 0
                 && !tier.getMaterials().contains(mat))
-        {
             mat = tier.getMaterials().get(
                     plugin.gen.nextInt(tier.getMaterials().size()));
-        }
         int e = tier.getAmount();
         int l = tier.getLevels();
         short damage = 0;
         if (plugin.config.getBoolean("DropFix.Damage", true))
-        {
             damage = damageItemStack(mat);
-        }
         if (plugin.config.getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
-        {
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
                     damage, tier.getColor() + tier.getName());
-        }
         else if (plugin.config.getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
-        {
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
                     damage, ChatColor.WHITE + tier.getName());
-        }
         else
-        {
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
                     damage);
-        }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
@@ -445,12 +378,10 @@ public class DropsAPI
             Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
-            {
                 if (safe)
                 {
                     if (lvl >= ench.getStartLevel()
                             && lvl <= ench.getMaxLevel())
-                    {
                         try
                         {
                             ci.addEnchantment(ench, lvl);
@@ -461,13 +392,9 @@ public class DropsAPI
                                 plugin.log.warning(e1.getMessage());
                             e++;
                         }
-                    }
                 }
                 else
-                {
                     ci.addUnsafeEnchantment(ench, lvl);
-                }
-            }
         }
         Tool tool = new Tool(ci);
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
@@ -482,21 +409,13 @@ public class DropsAPI
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "Lore.Chance", 5)
                 && !tier.getColor().equals(ChatColor.MAGIC))
-        {
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
-            {
                 if (plugin.drop.isArmor(mat))
-                {
                     tool.addLore(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
-                }
                 else if (plugin.drop.isTool(mat))
-                {
                     tool.addLore(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
-                }
-            }
-        }
 
         return tool;
     }
@@ -514,9 +433,7 @@ public class DropsAPI
         tool.setDurability(oldDam);
         Tier tier = getTier();
         while (tier == null || tier.getColor().equals(ChatColor.MAGIC))
-        {
             tier = getTier();
-        }
         int e = tier.getAmount();
         int l = tier.getLevels();
         tool.setName(tier.getColor() + name());
@@ -533,12 +450,10 @@ public class DropsAPI
             Enchantment ench = eStack.get(plugin.gen.nextInt(size));
             if (lvl != 0 && ench != null
                     && !tier.getColor().equals(ChatColor.MAGIC))
-            {
                 if (safe)
                 {
                     if (lvl >= ench.getStartLevel()
                             && lvl <= ench.getMaxLevel())
-                    {
                         try
                         {
                             tool.addEnchantment(ench, lvl);
@@ -549,13 +464,9 @@ public class DropsAPI
                                 plugin.log.warning(e1.getMessage());
                             e++;
                         }
-                    }
                 }
                 else
-                {
                     tool.addUnsafeEnchantment(ench, lvl);
-                }
-            }
         }
         if (plugin.config.getBoolean("Display.TierName", true))
             tool.addLore(tier.getColor() + tier.getName());
@@ -572,22 +483,13 @@ public class DropsAPI
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "Lore.Chance", 5)
                 && !tier.getColor().equals(ChatColor.MAGIC) && !sock)
-        {
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
-            {
-
                 if (plugin.drop.isArmor(tool.getType()))
-                {
                     tool.addLore(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
-                }
                 else if (plugin.drop.isTool(tool.getType()))
-                {
                     tool.addLore(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
-                }
-            }
-        }
         return tool;
     }
 
@@ -599,12 +501,8 @@ public class DropsAPI
     public Tier getTier()
     {
         for (Tier tier : plugin.tiers)
-        {
             if (plugin.gen.nextInt(100) <= tier.getChance())
-            {
                 return tier;
-            }
-        }
         return null;
     }
 
@@ -614,13 +512,11 @@ public class DropsAPI
      * @param name
      * @return tier
      */
-    public Tier getTier(String name)
+    public Tier getTier(final String name)
     {
         for (Tier tier : plugin.tiers)
-        {
             if (tier.getName().equalsIgnoreCase(name))
                 return tier;
-        }
         return null;
     }
 
@@ -630,13 +526,11 @@ public class DropsAPI
      * @param type
      * @return is tier
      */
-    public boolean matchesTier(String type)
+    public boolean matchesTier(final String type)
     {
         for (Tier tier : plugin.tiers)
-        {
             if (tier.getName().equalsIgnoreCase(type))
                 return true;
-        }
         return false;
     }
 

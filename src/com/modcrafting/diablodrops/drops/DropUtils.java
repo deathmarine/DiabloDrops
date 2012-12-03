@@ -95,7 +95,8 @@ public class DropUtils
      * 4 - DIAMOND_AXE
      * 5 - DIAMOND_HOE
      * 
-     * @param num kind
+     * @param num
+     *            kind
      *            to return
      * @return kind of diamond tool
      */
@@ -354,7 +355,8 @@ public class DropUtils
      * 4 - GOLD_AXE
      * 5 - GOLD_HOE
      * 
-     * @param num kind
+     * @param num
+     *            kind
      *            to return
      * @return kind of gold tool
      */
@@ -397,7 +399,8 @@ public class DropUtils
      * 4 - IRON_AXE
      * 5 - IRON_HOE
      * 
-     * @param num kind
+     * @param num
+     *            kind
      *            to return
      * @return kind of iron tool
      */
@@ -423,7 +426,8 @@ public class DropUtils
     /**
      * Is material a piece of armor?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is armor or not
      */
@@ -440,7 +444,8 @@ public class DropUtils
     /**
      * Is material an axe?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is axe or not
      */
@@ -457,7 +462,8 @@ public class DropUtils
     /**
      * Is material boots?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is boots or not
      */
@@ -477,7 +483,8 @@ public class DropUtils
     /**
      * Is material a chestplate?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is chestplate or not
      */
@@ -497,7 +504,8 @@ public class DropUtils
     /**
      * Is material a helmet?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is helmet or not
      */
@@ -517,7 +525,8 @@ public class DropUtils
     /**
      * Is material a hoe?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is hoe or not
      */
@@ -534,7 +543,8 @@ public class DropUtils
     /**
      * Is material leggings?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is leggings or not
      */
@@ -554,7 +564,8 @@ public class DropUtils
     /**
      * Is material a pickaxe?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is pickaxe or not
      */
@@ -572,7 +583,8 @@ public class DropUtils
     /**
      * Is material a spade?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is spade or not
      */
@@ -589,7 +601,8 @@ public class DropUtils
     /**
      * Is material a sword?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is sword or not
      */
@@ -606,7 +619,8 @@ public class DropUtils
     /**
      * Is material an tool?
      * 
-     * @param mat material
+     * @param mat
+     *            material
      *            to check
      * @return is tool or not
      */
@@ -639,7 +653,8 @@ public class DropUtils
      * 4 - STONE_AXE
      * 5 - STONE_HOE
      * 
-     * @param num kind
+     * @param num
+     *            kind
      *            to return
      * @return kind of stone tool
      */
@@ -696,7 +711,8 @@ public class DropUtils
      * 4 - WOOD_AXE
      * 5 - WOOD_HOE
      * 
-     * @param num kind
+     * @param num
+     *            kind
      *            to return
      * @return kind of wood tool
      */

@@ -23,8 +23,10 @@ public class NamesLoader
     /**
      * Takes values from a file and adds them to list
      * 
-     * @param l List of strings to add values
-     * @param name Name of the file to take values from
+     * @param l
+     *            List of strings to add values
+     * @param name
+     *            Name of the file to take values from
      */
     public void loadFile(List<String> l, String name)
     {
@@ -52,7 +54,8 @@ public class NamesLoader
     /**
      * Creates a file with given name
      * 
-     * @param name Name of the file to write
+     * @param name
+     *            Name of the file to write
      */
     public void writeDefault(String name)
     {

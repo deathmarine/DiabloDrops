@@ -82,7 +82,7 @@ public class DiabloDrops extends JavaPlugin
      */
     public void killTasks()
     {
-        this.getServer().getScheduler().cancelTasks(this);
+        getServer().getScheduler().cancelTasks(this);
     }
 
     @Override
@@ -104,9 +104,9 @@ public class DiabloDrops extends JavaPlugin
     public void onEnable()
     {
         instance = this;
-        this.getDataFolder().mkdir();
-        log = this.getLogger();
-        log.addHandler(new LogHandler(this.getDataFolder()));
+        getDataFolder().mkdir();
+        log = getLogger();
+        log.addHandler(new LogHandler(getDataFolder()));
         nameLoader = new NamesLoader(this);
         nameLoader.writeDefault("config.yml");
         nameLoader.writeDefault("custom.yml");
@@ -116,7 +116,7 @@ public class DiabloDrops extends JavaPlugin
         nameLoader.writeDefault("suffix.txt");
         nameLoader.writeDefault("defenselore.txt");
         nameLoader.writeDefault("offenselore.txt");
-        config = this.getConfig();
+        config = getConfig();
         nameLoader.loadFile(prefix, "prefix.txt");
         nameLoader.loadFile(suffix, "suffix.txt");
         nameLoader.loadFile(defenselore, "defenselore.txt");
@@ -128,15 +128,11 @@ public class DiabloDrops extends JavaPlugin
         dropsAPI = new DropsAPI(this);
         setsAPI = new SetsAPI(this);
         if (config.getBoolean("Worlds.Enabled", false))
-        {
             for (String s : config.getStringList("Worlds.Allowed"))
-            {
                 worlds.add(s.toLowerCase());
-            }
-        }
         debug = config.getBoolean("Plugin.Debug", false);
 
-        PluginManager pm = this.getServer().getPluginManager();
+        PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new MobListener(this), this);
         pm.registerEvents(new TomeListener(this), this);
         pm.registerEvents(new SocketListener(this), this);
@@ -144,12 +140,12 @@ public class DiabloDrops extends JavaPlugin
         pm.registerEvents(new EffectsListener(this), this);
         pm.registerEvents(new SetListener(this), this);
 
-        this.getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
+        getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 
         // AutoUpdater
-        final PluginDescriptionFile pdf = this.getDescription();
-        this.getServer().getScheduler()
-                .scheduleAsyncDelayedTask(this, new Runnable()
+        final PluginDescriptionFile pdf = getDescription();
+        getServer().getScheduler().scheduleAsyncDelayedTask(this,
+                new Runnable()
                 {
 
                     @Override
@@ -165,20 +161,14 @@ public class DiabloDrops extends JavaPlugin
                             {
                                 if (up.getResult().equals(
                                         Updater.UpdateResult.FAIL_NOVERSION))
-                                {
                                     log.info("Unable to connect to dev.bukkit.org.");
-                                }
                                 else
-                                {
                                     log.info("No Updates found on dev.bukkit.org.");
-                                }
                             }
                             else
-                            {
                                 log.info("Update "
                                         + up.getLatestVersionString()
                                         + " found and downloaded please restart your server.");
-                            }
                         }
 
                     }
@@ -186,9 +176,8 @@ public class DiabloDrops extends JavaPlugin
                 });
         // Jenkins AutoUpdater
         if (config.getBoolean("Plugin.Dev.Update", false))
-        {
-            id = this.getServer().getScheduler()
-                    .scheduleAsyncRepeatingTask(this, new Runnable()
+            id = getServer().getScheduler().scheduleAsyncRepeatingTask(this,
+                    new Runnable()
                     {
                         @Override
                         public void run()
@@ -212,11 +201,9 @@ public class DiabloDrops extends JavaPlugin
                                     @Override
                                     public void run()
                                     {
-                                        long time = System.currentTimeMillis()
-                                                + (30 * 1000);
+                                        long time = System.currentTimeMillis() + 30 * 1000;
                                         boolean voodoo = true;
                                         while (voodoo)
-                                        {
                                             // Conducting Voodoo
                                             if (time > System
                                                     .currentTimeMillis())
@@ -224,7 +211,6 @@ public class DiabloDrops extends JavaPlugin
                                                 voodoo = false;
                                                 Bukkit.getServer().reload();
                                             }
-                                        }
 
                                     }
                                 }).start();
@@ -232,6 +218,6 @@ public class DiabloDrops extends JavaPlugin
                             build = up.getBuild();
                         }
                     }, 0, 2400);
-        }
+        System.out.println(dropsAPI.getCustomItem("Death Sword"));
     }
 }

@@ -55,8 +55,10 @@ public class EffectsUtil
      * 9 - Ender Chest;
      * 10 - Obsidian
      * 
-     * @param loc Location at which to create the entombment
-     * @param value Block variety
+     * @param loc
+     *            Location at which to create the entombment
+     * @param value
+     *            Block variety
      */
     public static void entomb(final Location loc, final int value)
     {
@@ -181,8 +183,10 @@ public class EffectsUtil
     /**
      * Launch entity into the air with an acceleration of 2 times value
      * 
-     * @param entity Entity to launch into the air
-     * @param value Acceleration of entity
+     * @param entity
+     *            Entity to launch into the air
+     * @param value
+     *            Acceleration of entity
      */
     public static void launchEntity(LivingEntity entity, int value)
     {
@@ -193,7 +197,8 @@ public class EffectsUtil
     /**
      * Makes entity into baby
      * 
-     * @param e Entity to make into baby
+     * @param e
+     *            Entity to make into baby
      */
     public static void makeBaby(LivingEntity e)
     {
@@ -243,9 +248,12 @@ public class EffectsUtil
     /**
      * Add PotionEffect to entity
      * 
-     * @param e Entity receiving the PotionEffect
-     * @param ef Type of PotionEffect to apply to entity
-     * @param dur Duration of PotionEffect
+     * @param e
+     *            Entity receiving the PotionEffect
+     * @param ef
+     *            Type of PotionEffect to apply to entity
+     * @param dur
+     *            Duration of PotionEffect
      */
     public static void potionEffect(LivingEntity e, PotionEffectType ef, int dur)
     {
@@ -255,9 +263,11 @@ public class EffectsUtil
     /**
      * Set entity on fire for specified value of time
      * 
-     * @param entity Entity
+     * @param entity
+     *            Entity
      *            to set on fire
-     * @param value Duration
+     * @param value
+     *            Duration
      *            of time to be set on fire
      */
     public static void setOnFire(LivingEntity entity, int value)
@@ -268,8 +278,10 @@ public class EffectsUtil
     /**
      * Change the speed of an entity
      * 
-     * @param e Entity to change the speed of
-     * @param sp Speed
+     * @param e
+     *            Entity to change the speed of
+     * @param sp
+     *            Speed
      *            modifier
      */
     public static void speed(LivingEntity e, Float sp)

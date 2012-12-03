@@ -21,8 +21,9 @@ import com.modcrafting.toolapi.lib.Tool;
 
 public class EffectsAPI
 {
-    public static void addEffect(LivingEntity struck, LivingEntity striker,
-            String string, EntityDamageEvent event)
+    public static void addEffect(final LivingEntity struck,
+            final LivingEntity striker, final String string,
+            final EntityDamageEvent event)
     {
 
         String[] args = string.split(" ");
@@ -44,26 +45,18 @@ public class EffectsAPI
             // Add to strike damage
             int damage = event.getDamage() + level;
             if (damage >= 0)
-            {
                 event.setDamage(damage);
-            }
             else
-            {
                 event.setDamage(0);
-            }
             return;
         }
         else if (args[1].equalsIgnoreCase("defense"))
         {
             int damage = event.getDamage() - level;
             if (damage >= 0)
-            {
                 event.setDamage(damage);
-            }
             else
-            {
                 event.setDamage(0);
-            }
             return;
         }
         else if (args[1].equalsIgnoreCase("freeze"))
@@ -146,23 +139,14 @@ public class EffectsAPI
         else
         {
             for (PotionEffectType potionEffect : PotionEffectType.values())
-            {
                 if (potionEffect != null
                         && potionEffect.getName().equalsIgnoreCase(args[1]))
-                {
                     if (level > 0 && struck != null)
-                    {
                         struck.addPotionEffect(new PotionEffect(potionEffect,
                                 Math.abs(level) * 100, Math.abs(level) - 1));
-                    }
                     else if (level < 0 && striker != null)
-                    {
                         striker.addPotionEffect(new PotionEffect(potionEffect,
                                 Math.abs(level) * 100, Math.abs(level) - 1));
-                    }
-
-                }
-            }
             return;
         }
     }
@@ -170,14 +154,17 @@ public class EffectsAPI
     /**
      * Handles any effects caused by an EntityDamageEvent
      * 
-     * @param entityStruck Entity
+     * @param entityStruck
+     *            Entity
      *            damaged by event
-     * @param entityStriker Entity
+     * @param entityStriker
+     *            Entity
      *            that caused the damage
-     * @param event EntityDamageEvent that requires effects
+     * @param event
+     *            EntityDamageEvent that requires effects
      */
-    public static void handlePluginEffects(LivingEntity entityStruck,
-            LivingEntity entityStriker, EntityDamageEvent event)
+    public static void handlePluginEffects(final LivingEntity entityStruck,
+            final LivingEntity entityStriker, final EntityDamageEvent event)
     {
         if (entityStriker instanceof Player)
         {
@@ -185,9 +172,7 @@ public class EffectsAPI
             List<ItemStack> strikerEquipment = new ArrayList<ItemStack>();
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
-            {
                 addEffect(entityStruck, entityStriker, s, event);
-            }
         }
         if (entityStruck instanceof Player)
         {
@@ -196,32 +181,24 @@ public class EffectsAPI
             struckEquipment.addAll(Arrays.asList(struck.getInventory()
                     .getArmorContents()));
             for (String s : listEffects(struckEquipment))
-            {
                 addEffect(entityStriker, entityStruck, s, event);
-            }
         }
     }
 
-    public static List<String> listEffects(List<ItemStack> equipment)
+    public static List<String> listEffects(final List<ItemStack> equipment)
     {
         Set<Tool> toolSet = new HashSet<Tool>();
         for (ItemStack is : equipment)
-        {
             if (is != null && !is.getType().equals(Material.AIR))
-            {
                 toolSet.add(new Tool(is));
-            }
-        }
         List<String> effects = new ArrayList<String>();
         for (Tool tool : toolSet)
-        {
             for (String string : tool.getLoreList())
             {
                 string = ChatColor.stripColor(string).replace("%", "")
                         .replace("+", "");
                 effects.add(string);
             }
-        }
         return effects;
     }
 }

@@ -30,7 +30,7 @@ public interface ToolInterface
     /**
      * Gets the name of the Tool Will return null if not named
      * 
-     * @returns name
+     * @return name
      */
     public String getName();
 

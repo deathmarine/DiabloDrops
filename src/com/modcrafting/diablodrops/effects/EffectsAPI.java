@@ -170,11 +170,11 @@ public class EffectsAPI
     /**
      * Handles any effects caused by an EntityDamageEvent
      * 
-     * @param entity
+     * @param entityStruck Entity
      *            damaged by event
-     * @param entity
+     * @param entityStriker Entity
      *            that caused the damage
-     * @param event
+     * @param event EntityDamageEvent that requires effects
      */
     public static void handlePluginEffects(LivingEntity entityStruck,
             LivingEntity entityStriker, EntityDamageEvent event)

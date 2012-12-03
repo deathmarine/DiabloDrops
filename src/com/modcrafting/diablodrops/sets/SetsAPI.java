@@ -56,7 +56,7 @@ public class SetsAPI
     /**
      * Gets the name of the set a player could be wearing
      * 
-     * @param Player
+     * @param player Player
      *            to check
      * @return name of the set
      */

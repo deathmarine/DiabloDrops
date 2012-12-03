@@ -95,7 +95,7 @@ public class DropUtils
      * 4 - DIAMOND_AXE
      * 5 - DIAMOND_HOE
      * 
-     * @param kind
+     * @param num kind
      *            to return
      * @return kind of diamond tool
      */
@@ -354,7 +354,7 @@ public class DropUtils
      * 4 - GOLD_AXE
      * 5 - GOLD_HOE
      * 
-     * @param kind
+     * @param num kind
      *            to return
      * @return kind of gold tool
      */
@@ -397,7 +397,7 @@ public class DropUtils
      * 4 - IRON_AXE
      * 5 - IRON_HOE
      * 
-     * @param kind
+     * @param num kind
      *            to return
      * @return kind of iron tool
      */
@@ -639,7 +639,7 @@ public class DropUtils
      * 4 - STONE_AXE
      * 5 - STONE_HOE
      * 
-     * @param kind
+     * @param num kind
      *            to return
      * @return kind of stone tool
      */
@@ -696,7 +696,7 @@ public class DropUtils
      * 4 - WOOD_AXE
      * 5 - WOOD_HOE
      * 
-     * @param kind
+     * @param num kind
      *            to return
      * @return kind of wood tool
      */

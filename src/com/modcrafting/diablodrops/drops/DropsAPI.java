@@ -45,16 +45,17 @@ public class DropsAPI
      *            of ItemStack
      * @return durability to be set
      */
-    public short damageItemStack(Material itemstack)
+    public short damageItemStack(Material material)
     {
-        short dur = itemstack.getMaxDurability();
+        short dur = material.getMaxDurability();
         try
         {
-            int newDur = plugin.gen.nextInt(dur + 1);
+            int newDur = plugin.gen.nextInt(dur);
             return (short) newDur;
         }
         catch (Exception e)
         {
+            dur = 0;
         }
         return dur;
     }

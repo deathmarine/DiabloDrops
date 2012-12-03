@@ -423,7 +423,7 @@ public class DropUtils
     /**
      * Is material a piece of armor?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is armor or not
      */
@@ -440,7 +440,7 @@ public class DropUtils
     /**
      * Is material an axe?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is axe or not
      */
@@ -457,7 +457,7 @@ public class DropUtils
     /**
      * Is material boots?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is boots or not
      */
@@ -477,7 +477,7 @@ public class DropUtils
     /**
      * Is material a chestplate?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is chestplate or not
      */
@@ -497,7 +497,7 @@ public class DropUtils
     /**
      * Is material a helmet?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is helmet or not
      */
@@ -517,7 +517,7 @@ public class DropUtils
     /**
      * Is material a hoe?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is hoe or not
      */
@@ -534,7 +534,7 @@ public class DropUtils
     /**
      * Is material leggings?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is leggings or not
      */
@@ -554,7 +554,7 @@ public class DropUtils
     /**
      * Is material a pickaxe?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is pickaxe or not
      */
@@ -572,7 +572,7 @@ public class DropUtils
     /**
      * Is material a spade?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is spade or not
      */
@@ -589,7 +589,7 @@ public class DropUtils
     /**
      * Is material a sword?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is sword or not
      */
@@ -606,7 +606,7 @@ public class DropUtils
     /**
      * Is material an tool?
      * 
-     * @param material
+     * @param mat material
      *            to check
      * @return is tool or not
      */

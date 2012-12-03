@@ -7,15 +7,17 @@ import org.bukkit.Material;
 
 public class Tier
 {
-    String name;
-    ChatColor color;
-    int amt;
-    int lvl;
-    int chance;
-    List<Material> l;
+    private final String name;
+    private final ChatColor color;
+    private final int amt;
+    private final int lvl;
+    private final int chance;
+    private final List<Material> l;
+    private final List<String> lore;
 
-    public Tier(String name, ChatColor color, int amt, int lvl, int chance,
-            List<Material> l)
+    public Tier(final String name, final ChatColor color, final int amt,
+            final int lvl, final int chance, final List<Material> l,
+            final List<String> lore)
     {
         this.name = name;
         this.color = color;
@@ -23,6 +25,7 @@ public class Tier
         this.lvl = lvl;
         this.chance = chance;
         this.l = l;
+        this.lore = lore;
     }
 
     /**
@@ -63,6 +66,16 @@ public class Tier
     public Integer getLevels()
     {
         return lvl;
+    }
+
+    /**
+     * Get the lore of the tier
+     * 
+     * @return lore
+     */
+    public List<String> getLore()
+    {
+        return lore;
     }
 
     /**

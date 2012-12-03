@@ -16,7 +16,7 @@ public class TierBuilder
 {
     DiabloDrops plugin;
 
-    public TierBuilder(DiabloDrops plugin)
+    public TierBuilder(final DiabloDrops plugin)
     {
         this.plugin = plugin;
     }
@@ -27,7 +27,6 @@ public class TierBuilder
         FileConfiguration cs = new YamlConfiguration();
         File f = new File(plugin.getDataFolder(), "tier.yml");
         if (f.exists())
-        {
             try
             {
                 cs.load(f);
@@ -37,7 +36,6 @@ public class TierBuilder
                 if (plugin.debug)
                     plugin.log.warning(e.getMessage());
             }
-        }
         for (String name : cs.getKeys(false))
         {
             int amt = cs.getInt(name + ".Enchantments.Amt");
@@ -51,9 +49,13 @@ public class TierBuilder
                 if (mat != null)
                     l.add(mat);
             }
+            List<String> lore = new ArrayList<String>();
+            for (String s : cs.getStringList(name + ".Lore"))
+                if (s != null)
+                    lore.add(s);
             plugin.tiers.add(new Tier(name, ChatColor.valueOf(color
                     .toUpperCase()), Math.abs(amt), Math.abs(lvl), Math
-                    .abs(chance), l));
+                    .abs(chance), l, lore));
         }
     }
 }

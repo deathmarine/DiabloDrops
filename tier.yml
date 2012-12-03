@@ -1,16 +1,4 @@
-#Follow the commented format guide lines
-#
-#CustomName:
-#  Color: (Black,Dark_Blue,Dark_Green,
-#          Dark_Aqua,Dark_Red,Dark_Purple,
-#          Gold,Gray,Dark_Gray,Blue,Green,
-#          Aqua,Red,Light_Purple,Yellow,
-#          White,Magic,Bold,Strike,Underline,
-#          Italic)
-#  Chance: Precentage out of 100
-#  Enchantments:
-#    Amt: 7
-#    Levels: 6
+# Visit the wiki page at: https://github.com/deathmarine/DiabloDrops/wiki/Tier.yml-Reference
 Legendary:
   Color: Gold
   Chance: 3

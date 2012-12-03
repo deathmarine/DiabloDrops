@@ -158,6 +158,10 @@ public class DropsAPI
                     ChatColor.stripColor(name()), damage);
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
+        Tool tool = new Tool(ci);
+        for (String s : tier.getLore())
+            if (s != null)
+                tool.addLore(s);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
@@ -189,7 +193,6 @@ public class DropsAPI
                 else
                     ci.addUnsafeEnchantment(ench, lvl);
         }
-        Tool tool = new Tool(ci);
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "SocketItem.Chance", 5))
@@ -276,10 +279,14 @@ public class DropsAPI
                     damage);
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
+        Tool tool = new Tool(ci);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
+        for (String s : tier.getLore())
+            if (s != null)
+                tool.addLore(s);
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
-            eStack = getEnchantStack(ci);
+            eStack = getEnchantStack(tool);
         for (; e > 0; e--)
         {
             int lvl = plugin.gen.nextInt(l + 1);
@@ -295,7 +302,7 @@ public class DropsAPI
                             && lvl <= ench.getMaxLevel())
                         try
                         {
-                            ci.addEnchantment(ench, lvl);
+                            tool.addEnchantment(ench, lvl);
                         }
                         catch (Exception e1)
                         {
@@ -305,9 +312,8 @@ public class DropsAPI
                         }
                 }
                 else
-                    ci.addUnsafeEnchantment(ench, lvl);
+                    tool.addUnsafeEnchantment(ench, lvl);
         }
-        Tool tool = new Tool(ci);
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "SocketItem.Chance", 5)
@@ -365,6 +371,10 @@ public class DropsAPI
                     damage);
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
+        Tool tool = new Tool(ci);
+        for (String s : tier.getLore())
+            if (s != null)
+                tool.addLore(s);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
@@ -384,7 +394,7 @@ public class DropsAPI
                             && lvl <= ench.getMaxLevel())
                         try
                         {
-                            ci.addEnchantment(ench, lvl);
+                            tool.addEnchantment(ench, lvl);
                         }
                         catch (Exception e1)
                         {
@@ -394,9 +404,8 @@ public class DropsAPI
                         }
                 }
                 else
-                    ci.addUnsafeEnchantment(ench, lvl);
+                    tool.addUnsafeEnchantment(ench, lvl);
         }
-        Tool tool = new Tool(ci);
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "SocketItem.Chance", 5)
@@ -437,6 +446,11 @@ public class DropsAPI
         int e = tier.getAmount();
         int l = tier.getLevels();
         tool.setName(tier.getColor() + name());
+        if (plugin.config.getBoolean("Display.TierName", true))
+            tool.addLore(tier.getColor() + tier.getName());
+        for (String s : tier.getLore())
+            if (s != null)
+                tool.addLore(s);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
@@ -468,8 +482,6 @@ public class DropsAPI
                 else
                     tool.addUnsafeEnchantment(ench, lvl);
         }
-        if (plugin.config.getBoolean("Display.TierName", true))
-            tool.addLore(tier.getColor() + tier.getName());
         boolean sock = false;
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(

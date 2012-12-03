@@ -43,20 +43,20 @@ import com.modcrafting.diablodrops.DiabloDrops;
 public class EffectsUtil
 {
     /**
-     * Entombs the entity in a variety of blocks
-     * 1 - Glass
-     * 2 - Ice
-     * 3 - Dirt
-     * 4 - Cobblestone
-     * 5 - Stone
-     * 6 - Brick
-     * 7 - Stone Brick
-     * 8 - Iron Bars
-     * 9 - Ender Chest
+     * Entombs the entity in a variety of blocks:
+     * 1 - Glass;
+     * 2 - Ice;
+     * 3 - Dirt;
+     * 4 - Cobblestone;
+     * 5 - Stone;
+     * 6 - Brick;
+     * 7 - Stone Brick;
+     * 8 - Iron Bars;
+     * 9 - Ender Chest;
      * 10 - Obsidian
      * 
-     * @param entity
-     * @param value
+     * @param loc Location at which to create the entombment
+     * @param value Block variety
      */
     public static void entomb(final Location loc, final int value)
     {
@@ -181,8 +181,8 @@ public class EffectsUtil
     /**
      * Launch entity into the air with an acceleration of 2 times value
      * 
-     * @param entity
-     * @param value
+     * @param entity Entity to launch into the air
+     * @param value Acceleration of entity
      */
     public static void launchEntity(LivingEntity entity, int value)
     {
@@ -193,7 +193,7 @@ public class EffectsUtil
     /**
      * Makes entity into baby
      * 
-     * @param entity
+     * @param e Entity to make into baby
      */
     public static void makeBaby(LivingEntity e)
     {
@@ -241,12 +241,11 @@ public class EffectsUtil
     }
 
     /**
-     * Add potion effect to entity
+     * Add PotionEffect to entity
      * 
-     * @param entity
-     * @param potion
-     *            type
-     * @param duration
+     * @param e Entity receiving the PotionEffect
+     * @param ef Type of PotionEffect to apply to entity
+     * @param dur Duration of PotionEffect
      */
     public static void potionEffect(LivingEntity e, PotionEffectType ef, int dur)
     {
@@ -256,10 +255,10 @@ public class EffectsUtil
     /**
      * Set entity on fire for specified value of time
      * 
-     * @param entity
+     * @param entity Entity
      *            to set on fire
-     * @param value
-     *            of time
+     * @param value Duration
+     *            of time to be set on fire
      */
     public static void setOnFire(LivingEntity entity, int value)
     {
@@ -269,8 +268,8 @@ public class EffectsUtil
     /**
      * Change the speed of an entity
      * 
-     * @param entity
-     * @param speed
+     * @param e Entity to change the speed of
+     * @param sp Speed
      *            modifier
      */
     public static void speed(LivingEntity e, Float sp)

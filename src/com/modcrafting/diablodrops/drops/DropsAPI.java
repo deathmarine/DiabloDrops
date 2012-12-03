@@ -141,6 +141,13 @@ public class DropsAPI
                     ChatColor.stripColor(name()), damage, tier.getColor()
                             + tier.getName());
         }
+        else if (plugin.config.getBoolean("Display.TierName", true)
+                && tier.getColor().equals(ChatColor.MAGIC))
+        {
+            ci = new Drop(material, tier.getColor(),
+                    ChatColor.stripColor(name()), damage, ChatColor.WHITE
+                            + tier.getName());
+        }
         else
         {
             ci = new Drop(material, tier.getColor(),
@@ -298,6 +305,12 @@ public class DropsAPI
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
                     damage, tier.getColor() + tier.getName());
         }
+        else if (plugin.config.getBoolean("Display.TierName", true)
+                && tier.getColor().equals(ChatColor.MAGIC))
+        {
+            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
+                    damage, ChatColor.WHITE + tier.getName());
+        }
         else
         {
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
@@ -404,6 +417,12 @@ public class DropsAPI
         {
             ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
                     damage, tier.getColor() + tier.getName());
+        }
+        else if (plugin.config.getBoolean("Display.TierName", true)
+                && tier.getColor().equals(ChatColor.MAGIC))
+        {
+            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
+                    damage, ChatColor.WHITE + tier.getName());
         }
         else
         {
@@ -537,6 +556,8 @@ public class DropsAPI
                 }
             }
         }
+        if (plugin.config.getBoolean("Display.TierName", true))
+            tool.addLore(tier.getColor() + tier.getName());
         boolean sock = false;
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && plugin.gen.nextInt(100) <= plugin.config.getInt(

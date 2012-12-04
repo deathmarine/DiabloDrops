@@ -6,9 +6,13 @@ import org.bukkit.Material;
 
 public class DropUtils
 {
-    Random gen = new Random();
+    Random gen;
 
-    /**
+    public DropUtils(Random gen) {
+    	this.gen=gen;
+	}
+
+	/**
      * Returns an array of Materials that the plugin can use
      * 
      * @return all items that the plugin can use

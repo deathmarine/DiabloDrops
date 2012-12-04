@@ -45,6 +45,8 @@ import com.modcrafting.toolapi.lib.Tool;
 public class DiabloDrops extends JavaPlugin
 {
     public boolean debug;
+    public Random gen = new Random();
+    public DropUtils drop = new DropUtils(gen);
     public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
     public HashSet<Tier> tiers = new HashSet<Tier>();
@@ -55,11 +57,9 @@ public class DiabloDrops extends JavaPlugin
     public List<String> offenselore = new ArrayList<String>();
     public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
     private NamesLoader nameLoader;
-    public Random gen = new Random();
     public FileConfiguration config;
     public DropsAPI dropsAPI;
     public SetsAPI setsAPI;
-    public DropUtils drop = new DropUtils();
     public Integer build;
     private static DiabloDrops instance;
 

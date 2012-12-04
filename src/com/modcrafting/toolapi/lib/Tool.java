@@ -91,21 +91,15 @@ public class Tool extends CraftItemStack implements ToolInterface
     }
 
     @Override
-    public void setName(String name)
-    {
-        this.getHandle().c(name);
-    }
-
-    @Override
     public Integer getRepairCost()
     {
         return this.getHandle().getRepairCost();
     }
 
     @Override
-    public void setRepairCost(Integer i)
+    public NBTTagCompound getTag()
     {
-        this.getHandle().setRepairCost(i);
+        return this.getHandle().getTag();
     }
 
     @Override
@@ -126,9 +120,15 @@ public class Tool extends CraftItemStack implements ToolInterface
     }
 
     @Override
-    public NBTTagCompound getTag()
+    public void setName(String name)
     {
-        return this.getHandle().getTag();
+        this.getHandle().c(name);
+    }
+
+    @Override
+    public void setRepairCost(Integer i)
+    {
+        this.getHandle().setRepairCost(i);
     }
 
     @Override

@@ -52,7 +52,7 @@ public class TierBuilder
             List<String> lore = new ArrayList<String>();
             for (String s : cs.getStringList(name + ".Lore"))
                 if (s != null)
-                    lore.add(s);
+                    lore.add(ChatColor.translateAlternateColorCodes('&', s));
             plugin.tiers.add(new Tier(name, ChatColor.valueOf(color
                     .toUpperCase()), Math.abs(amt), Math.abs(lvl), Math
                     .abs(chance), l, lore));

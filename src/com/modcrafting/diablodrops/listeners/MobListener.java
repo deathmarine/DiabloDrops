@@ -23,28 +23,16 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.drops.DropUtils;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
 
 public class MobListener implements Listener
 {
     private DiabloDrops plugin;
-    private DropUtils drops = new DropUtils();
-    private boolean spawner;
-    private boolean egg;
-    private int chance;
-    private boolean dropfix;
-    private boolean custom;
 
     public MobListener(DiabloDrops instance)
     {
         plugin = instance;
-        spawner = plugin.config.getBoolean("Reason.Spawner", true);
-        egg = plugin.config.getBoolean("Reason.Egg", true);
-        chance = plugin.config.getInt("Precentages.ChancePerSpawn", 3);
-        dropfix = plugin.config.getBoolean("DropFix.Equipment", false);
-        custom = plugin.config.getBoolean("Custom.Only", false);
     }
 
     public void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
@@ -80,7 +68,7 @@ public class MobListener implements Listener
                     plugin.getServer().getPluginManager().callEvent(edie);
                     if (edie.isCancelled())
                         return;
-                    if (dropfix)
+                    if (plugin.config.getBoolean("DropFix.Equipment", false))
                     {
                         dropItem(mItem, loc);
                         return;
@@ -128,23 +116,23 @@ public class MobListener implements Listener
                 && !plugin.worlds.contains(entity.getLocation().getWorld()
                         .getName().toLowerCase()))
             return;
-        if (spawner && event.getSpawnReason().equals(SpawnReason.SPAWNER))
+        if (plugin.config.getBoolean("Reason.Spawner", true)
+        		&& event.getSpawnReason().equals(SpawnReason.SPAWNER))
             return;
-        if (egg
-                && (event.getSpawnReason().equals(SpawnReason.EGG) || event
-                        .getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
+        if (plugin.config.getBoolean("Reason.Egg", true)
+                && (event.getSpawnReason().equals(SpawnReason.EGG) 
+                || event.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
             return;
 
         Integer random = plugin.gen.nextInt(100) + 1;
-        if (entity instanceof Monster && chance >= random)
+        if (entity instanceof Monster 
+        		&& plugin.config.getInt("Precentages.ChancePerSpawn", 9) >= random)
         {
             List<CraftItemStack> items = new ArrayList<CraftItemStack>();
             CraftItemStack ci = plugin.dropsAPI.getItem();
             while (ci == null)
-            {
                 ci = plugin.dropsAPI.getItem();
-            }
-            if (custom)
+            if (plugin.config.getBoolean("Custom.Only", false))
                 ci = plugin.custom
                         .get(plugin.gen.nextInt(plugin.custom.size()));
             if (ci != null)
@@ -165,19 +153,19 @@ public class MobListener implements Listener
     {
         Material mat = ci.getType();
         EntityLiving ev = ((CraftLivingEntity) e).getHandle();
-        if (drops.isBoots(mat))
+        if (plugin.drop.isBoots(mat))
         {
             ev.setEquipment(1, ci.getHandle());
         }
-        else if (drops.isChestPlate(mat))
+        else if (plugin.drop.isChestPlate(mat))
         {
             ev.setEquipment(3, ci.getHandle());
         }
-        else if (drops.isLeggings(mat))
+        else if (plugin.drop.isLeggings(mat))
         {
             ev.setEquipment(2, ci.getHandle());
         }
-        else if (drops.isHelmet(mat))
+        else if (plugin.drop.isHelmet(mat))
         {
             ev.setEquipment(4, ci.getHandle());
         }

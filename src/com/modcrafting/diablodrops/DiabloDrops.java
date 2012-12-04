@@ -218,6 +218,5 @@ public class DiabloDrops extends JavaPlugin
                             build = up.getBuild();
                         }
                     }, 0, 2400);
-        System.out.println(dropsAPI.getCustomItem("Death Sword"));
     }
 }

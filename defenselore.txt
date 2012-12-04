@@ -111,3 +111,67 @@ Enemies Shrink
 -8 Speed
 -9 Speed
 -10 Speed
+## The lore enhancements following this ##
+## are not recommended unless you like using ##
+## very weird and funky effects. ##
+## In order to use them, remove the # from in front of them. ##
+# +1 Entomb
+# +2 Entomb
+# +3 Entomb
+# +4 Entomb
+# +5 Entomb
+# +6 Entomb
+# +7 Entomb
+# +8 Entomb
+# +9 Entomb
+# +10 Entomb
+# -1 Entomb
+# -2 Entomb
+# -3 Entomb
+# -4 Entomb
+# -5 Entomb
+# -6 Entomb
+# -7 Entomb
+# -8 Entomb
+# -9 Entomb
+# -10 Entomb
+# +1 Launch
+# +2 Launch
+# +3 Launch
+# +4 Launch
+# +5 Launch
+# +6 Launch
+# +7 Launch
+# +8 Launch
+# +9 Launch
+# +10 Launch
+# -1 Launch
+# -2 Launch
+# -3 Launch
+# -4 Launch
+# -5 Launch
+# -6 Launch
+# -7 Launch
+# -8 Launch
+# -9 Launch
+# -10 Launch
+# +1 Spine
+# +2 Spine
+# +3 Spine
+# +4 Spine
+# +5 Spine
+# +6 Spine
+# +7 Spine
+# +8 Spine
+# +9 Spine
+# +10 Spine
+# -1 Spine
+# -2 Spine
+# -3 Spine
+# -4 Spine
+# -5 Spine
+# -6 Spine
+# -7 Spine
+# -8 Spine
+# -9 Spine
+# -10 Spine

@@ -146,16 +146,16 @@ public class DropsAPI
         if (plugin.config.getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
             ci = new Drop(material, tier.getColor(),
-                    ChatColor.stripColor(name()), damage, tier.getColor()
+                    ChatColor.stripColor(name(mat)), damage, tier.getColor()
                             + tier.getName());
         else if (plugin.config.getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
             ci = new Drop(material, tier.getColor(),
-                    ChatColor.stripColor(name()), damage, ChatColor.WHITE
+                    ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
                             + tier.getName());
         else
             ci = new Drop(material, tier.getColor(),
-                    ChatColor.stripColor(name()), damage);
+                    ChatColor.stripColor(name(mat)), damage);
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         Tool tool = new Tool(ci);
@@ -268,15 +268,17 @@ public class DropsAPI
             damage = damageItemStack(mat);
         if (plugin.config.getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
-            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
-                    damage, tier.getColor() + tier.getName());
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage, tier.getColor()
+                            + tier.getName());
         else if (plugin.config.getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
-            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
-                    damage, ChatColor.WHITE + tier.getName());
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
+                            + tier.getName());
         else
-            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
-                    damage);
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage);
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         Tool tool = new Tool(ci);
@@ -360,15 +362,17 @@ public class DropsAPI
             damage = damageItemStack(mat);
         if (plugin.config.getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
-            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
-                    damage, tier.getColor() + tier.getName());
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage, tier.getColor()
+                            + tier.getName());
         else if (plugin.config.getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
-            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
-                    damage, ChatColor.WHITE + tier.getName());
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
+                            + tier.getName());
         else
-            ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name()),
-                    damage);
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage);
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         Tool tool = new Tool(ci);
@@ -445,7 +449,7 @@ public class DropsAPI
             tier = getTier();
         int e = tier.getAmount();
         int l = tier.getLevels();
-        tool.setName(tier.getColor() + name());
+        tool.setName(tier.getColor() + name(tool.getType()));
         if (plugin.config.getBoolean("Display.TierName", true))
             tool.addLore(tier.getColor() + tier.getName());
         for (String s : tier.getLore())
@@ -547,16 +551,91 @@ public class DropsAPI
     }
 
     /**
-     * Gets a random name from prefix.txt and suffix.txt
+     * Gets a random name
      * 
+     * @param material
+     *            Material of item to get name for
      * @return name
      */
-    public String name()
+    public String name(final Material material)
     {
-        String prefix = plugin.prefix.get(plugin.gen.nextInt(plugin.prefix
-                .size()));
-        String suffix = plugin.suffix.get(plugin.gen.nextInt(plugin.suffix
-                .size()));
-        return prefix + " " + suffix;
+        String template = plugin.config.getString("Display.ItemNameFormat",
+                "%randprefix% %randsuffix%");
+        if (!plugin.config.getBoolean("Display.ItemMaterialExtras", false))
+            template = template.replace("%matprefix%", "%randprefix%").replace(
+                    "%matsuffix%", "%randsuffix%");
+        String matPrefix = "";
+        String matSuffix = "";
+        String prefix = "";
+        String suffix = "";
+        String matName = material.name();
+        switch (material)
+        {
+            case WOOD_SWORD:
+            case WOOD_AXE:
+            case WOOD_HOE:
+            case WOOD_SPADE:
+            case WOOD_PICKAXE:
+                matPrefix = plugin.woodPrefix.get(plugin.gen
+                        .nextInt(plugin.woodPrefix.size() - 1));
+                matSuffix = plugin.woodSuffix.get(plugin.gen
+                        .nextInt(plugin.woodSuffix.size()));
+                break;
+            case STONE_SWORD:
+            case STONE_AXE:
+            case STONE_HOE:
+            case STONE_SPADE:
+            case STONE_PICKAXE:
+                matPrefix = plugin.stonePrefix.get(plugin.gen
+                        .nextInt(plugin.stonePrefix.size() - 1));
+                matSuffix = plugin.stoneSuffix.get(plugin.gen
+                        .nextInt(plugin.stoneSuffix.size() - 1));
+                break;
+            case GOLD_SWORD:
+            case GOLD_AXE:
+            case GOLD_HOE:
+            case GOLD_SPADE:
+            case GOLD_PICKAXE:
+                matPrefix = plugin.goldPrefix.get(plugin.gen
+                        .nextInt(plugin.goldPrefix.size() - 1));
+                matSuffix = plugin.goldSuffix.get(plugin.gen
+                        .nextInt(plugin.goldSuffix.size()));
+                break;
+            case IRON_SWORD:
+            case IRON_AXE:
+            case IRON_HOE:
+            case IRON_SPADE:
+            case IRON_PICKAXE:
+                matPrefix = plugin.ironPrefix.get(plugin.gen
+                        .nextInt(plugin.ironPrefix.size() - 1));
+                matSuffix = plugin.ironSuffix.get(plugin.gen
+                        .nextInt(plugin.ironSuffix.size() - 1));
+                break;
+            case DIAMOND_SWORD:
+            case DIAMOND_AXE:
+            case DIAMOND_HOE:
+            case DIAMOND_SPADE:
+            case DIAMOND_PICKAXE:
+                matPrefix = plugin.diamondPrefix.get(plugin.gen
+                        .nextInt(plugin.diamondPrefix.size() - 1));
+                matSuffix = plugin.diamondSuffix.get(plugin.gen
+                        .nextInt(plugin.diamondSuffix.size() - 1));
+                break;
+            default:
+                matPrefix = "";
+                matSuffix = "";
+                break;
+        }
+        prefix = plugin.prefix
+                .get(plugin.gen.nextInt(plugin.prefix.size() - 1));
+        suffix = plugin.suffix
+                .get(plugin.gen.nextInt(plugin.suffix.size() - 1));
+        if (template == null)
+            return null;
+        return template.replace("%randprefix%", prefix)
+                .replace("%randsuffix%", suffix)
+                .replace("%matprefix%", matPrefix)
+                .replace("%matsuffix%", matSuffix)
+                .replace("%matname%", matName);
     }
 }

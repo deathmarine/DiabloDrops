@@ -44,7 +44,7 @@
 
 	<target name="package" depends="document" description="Make the distributable jar file">
 		<copy todir="bin" overwrite="true">
-			<fileset dir="." includes="plugin.yml,config.yml,custom.yml,offenselore.txt,defenselore.txt,tier.yml,prefix.txt,suffix.txt,set.yml" />
+			<fileset dir="." includes="plugin.yml,config.yml,custom.yml,offenselore.txt,defenselore.txt,tier.yml,prefix.txt,suffix.txt,set.yml,diamondmaterialprefixes.txt,diamondmaterialsuffixes.txt,goldmaterialprefixes.txt,goldmaterialsuffixes.txt,ironmaterialprefixes.txt,ironmaterialsuffixes.txt,stonematerialprefixes.txt,stonematerialsuffixes.txt,woodmaterialprefixes.txt,woodmaterialsuffixes.txt" />
 		</copy>
 		<jar basedir="bin" jarfile="dist/${ant.project.name}.jar" defaultexcludes="true" />
 	</target>

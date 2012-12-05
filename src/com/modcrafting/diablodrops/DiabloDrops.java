@@ -49,6 +49,16 @@ public class DiabloDrops extends JavaPlugin
     public DropUtils drop = new DropUtils(gen);
     public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
+    public List<String> woodPrefix = new ArrayList<String>();
+    public List<String> woodSuffix = new ArrayList<String>();
+    public List<String> stonePrefix = new ArrayList<String>();
+    public List<String> stoneSuffix = new ArrayList<String>();
+    public List<String> goldPrefix = new ArrayList<String>();
+    public List<String> goldSuffix = new ArrayList<String>();
+    public List<String> ironPrefix = new ArrayList<String>();
+    public List<String> ironSuffix = new ArrayList<String>();
+    public List<String> diamondPrefix = new ArrayList<String>();
+    public List<String> diamondSuffix = new ArrayList<String>();
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
     public List<Tool> custom = new ArrayList<Tool>();
@@ -89,8 +99,8 @@ public class DiabloDrops extends JavaPlugin
     public void onDisable()
     {
         killTasks();
-        prefix.clear();
-        suffix.clear();
+        woodPrefix.clear();
+        woodSuffix.clear();
         tiers.clear();
         armorSets.clear();
         custom.clear();
@@ -117,8 +127,34 @@ public class DiabloDrops extends JavaPlugin
         nameLoader.writeDefault("defenselore.txt");
         nameLoader.writeDefault("offenselore.txt");
         config = getConfig();
+        if (config.getBoolean("Display.ItemMaterialExtras", false))
+        {
+            nameLoader.writeDefault("diamondmaterialprefixes.txt");
+            nameLoader.writeDefault("diamondmaterialsuffixes.txt");
+            nameLoader.writeDefault("ironmaterialprefixes.txt");
+            nameLoader.writeDefault("ironmaterialsuffixes.txt");
+            nameLoader.writeDefault("goldmaterialprefixes.txt");
+            nameLoader.writeDefault("goldmaterialsuffixes.txt");
+            nameLoader.writeDefault("stonematerialprefixes.txt");
+            nameLoader.writeDefault("stonematerialsuffixes.txt");
+            nameLoader.writeDefault("woodmaterialprefixes.txt");
+            nameLoader.writeDefault("woodmaterialsuffixes.txt");
+        }
         nameLoader.loadFile(prefix, "prefix.txt");
         nameLoader.loadFile(suffix, "suffix.txt");
+        if (config.getBoolean("Display.ItemMaterialExtras", false))
+        {
+            nameLoader.loadFile(woodPrefix, "woodmaterialprefixes.txt");
+            nameLoader.loadFile(woodSuffix, "woodmaterialsuffixes.txt");
+            nameLoader.loadFile(stonePrefix, "stonematerialprefixes.txt");
+            nameLoader.loadFile(stoneSuffix, "stonematerialsuffixes.txt");
+            nameLoader.loadFile(goldPrefix, "goldmaterialprefixes.txt");
+            nameLoader.loadFile(goldSuffix, "goldmaterialsuffixes.txt");
+            nameLoader.loadFile(ironPrefix, "ironmaterialprefixes.txt");
+            nameLoader.loadFile(ironSuffix, "ironmaterialsuffixes.txt");
+            nameLoader.loadFile(diamondPrefix, "diamondmaterialprefixes.txt");
+            nameLoader.loadFile(diamondSuffix, "diamondmaterialsuffixes.txt");
+        }
         nameLoader.loadFile(defenselore, "defenselore.txt");
         nameLoader.loadFile(offenselore, "offenselore.txt");
         new CustomBuilder(this).build();

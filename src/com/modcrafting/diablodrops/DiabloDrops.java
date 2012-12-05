@@ -1,5 +1,6 @@
 package com.modcrafting.diablodrops;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import net.h31ix.updater.Updater.UpdateType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -49,6 +51,11 @@ public class DiabloDrops extends JavaPlugin
     public DropUtils drop = new DropUtils(gen);
     public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
+    
+    //I was thinking of swapping everything to this.
+    public HashMap<Material,List<String>> hmprefix = new HashMap<Material,List<String>>();
+    public HashMap<Material,List<String>> hmsuffix = new HashMap<Material,List<String>>();
+    /*
     public List<String> woodPrefix = new ArrayList<String>();
     public List<String> woodSuffix = new ArrayList<String>();
     public List<String> stonePrefix = new ArrayList<String>();
@@ -59,6 +66,7 @@ public class DiabloDrops extends JavaPlugin
     public List<String> ironSuffix = new ArrayList<String>();
     public List<String> diamondPrefix = new ArrayList<String>();
     public List<String> diamondSuffix = new ArrayList<String>();
+    */
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
     public List<Tool> custom = new ArrayList<Tool>();
@@ -99,8 +107,6 @@ public class DiabloDrops extends JavaPlugin
     public void onDisable()
     {
         killTasks();
-        woodPrefix.clear();
-        woodSuffix.clear();
         tiers.clear();
         armorSets.clear();
         custom.clear();
@@ -129,6 +135,26 @@ public class DiabloDrops extends JavaPlugin
         config = getConfig();
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {
+        	//Auto loading files like this.
+        	File loc = new File(getDataFolder(),"/NamesPrefix");
+        	if(!loc.exists())
+        		loc.mkdir();
+        	for(File f :loc.listFiles()){
+        		if(f.getName().endsWith(".txt")){
+        			//I.E. Diamond_Sword.txt
+        			nameLoader.loadFile(hmprefix, new File(loc,f.getName()));
+        		}
+        	}
+        	File sloc = new File(getDataFolder(),"/NamesSuffix");
+        	if(!sloc.exists())
+        		sloc.mkdir();
+        	for(File f :loc.listFiles()){
+        		if(f.getName().endsWith(".txt")){
+        			//I.E. Diamond_Sword.txt
+        			nameLoader.loadFile(hmprefix, new File(sloc,f.getName()));
+        		}
+        	}
+        	/*
             nameLoader.writeDefault("diamondmaterialprefixes.txt");
             nameLoader.writeDefault("diamondmaterialsuffixes.txt");
             nameLoader.writeDefault("ironmaterialprefixes.txt");
@@ -139,9 +165,11 @@ public class DiabloDrops extends JavaPlugin
             nameLoader.writeDefault("stonematerialsuffixes.txt");
             nameLoader.writeDefault("woodmaterialprefixes.txt");
             nameLoader.writeDefault("woodmaterialsuffixes.txt");
+            */
         }
         nameLoader.loadFile(prefix, "prefix.txt");
         nameLoader.loadFile(suffix, "suffix.txt");
+        /*
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {
             nameLoader.loadFile(woodPrefix, "woodmaterialprefixes.txt");
@@ -155,6 +183,7 @@ public class DiabloDrops extends JavaPlugin
             nameLoader.loadFile(diamondPrefix, "diamondmaterialprefixes.txt");
             nameLoader.loadFile(diamondSuffix, "diamondmaterialsuffixes.txt");
         }
+        */
         nameLoader.loadFile(defenselore, "defenselore.txt");
         nameLoader.loadFile(offenselore, "offenselore.txt");
         new CustomBuilder(this).build();
@@ -180,36 +209,34 @@ public class DiabloDrops extends JavaPlugin
 
         // AutoUpdater
         final PluginDescriptionFile pdf = getDescription();
-        getServer().getScheduler().scheduleAsyncDelayedTask(this,
+        if (config.getBoolean("Plugin.AutoUpdate", true))
+        {
+        	getServer().getScheduler().scheduleAsyncDelayedTask(this,
                 new Runnable()
                 {
-
                     @Override
                     public void run()
                     {
-                        if (config.getBoolean("Plugin.AutoUpdate", true))
+                        Updater up = new Updater(getInstance(), pdf
+                                .getName().toLowerCase(), getFile(),
+                                UpdateType.DEFAULT, true);
+                        if (!up.getResult().equals(UpdateResult.SUCCESS)
+                                || up.pluginFile(getFile().getName()))
                         {
-                            Updater up = new Updater(getInstance(), pdf
-                                    .getName().toLowerCase(), getFile(),
-                                    UpdateType.DEFAULT, true);
-                            if (!up.getResult().equals(UpdateResult.SUCCESS)
-                                    || up.pluginFile(getFile().getName()))
-                            {
-                                if (up.getResult().equals(
-                                        Updater.UpdateResult.FAIL_NOVERSION))
-                                    log.info("Unable to connect to dev.bukkit.org.");
-                                else
-                                    log.info("No Updates found on dev.bukkit.org.");
-                            }
+                            if (up.getResult().equals(
+                                    Updater.UpdateResult.FAIL_NOVERSION))
+                                log.info("Unable to connect to dev.bukkit.org.");
                             else
-                                log.info("Update "
-                                        + up.getLatestVersionString()
-                                        + " found and downloaded please restart your server.");
+                                log.info("No Updates found on dev.bukkit.org.");
                         }
-
+                        else
+                            log.info("Update "
+                                    + up.getLatestVersionString()
+                                    + " found and downloaded please restart your server.");   
                     }
 
                 });
+    	}
         // Jenkins AutoUpdater
         if (config.getBoolean("Plugin.Dev.Update", false))
             id = getServer().getScheduler().scheduleAsyncRepeatingTask(this,

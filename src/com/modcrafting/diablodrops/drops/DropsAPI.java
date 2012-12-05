@@ -561,14 +561,18 @@ public class DropsAPI
     {
         String template = plugin.config.getString("Display.ItemNameFormat",
                 "%randprefix% %randsuffix%");
-        if (!plugin.config.getBoolean("Display.ItemMaterialExtras", false))
-            template = template.replace("%matprefix%", "%randprefix%").replace(
-                    "%matsuffix%", "%randsuffix%");
-        String matPrefix = "";
-        String matSuffix = "";
         String prefix = "";
         String suffix = "";
         String matName = material.name();
+        if(plugin.hmprefix.containsKey(material)){
+        	List<String> l = plugin.hmprefix.get(material);
+        	prefix = l.get(plugin.gen.nextInt(l.size()));
+        }
+        if(plugin.hmsuffix.containsKey(material)){
+        	List<String> l = plugin.hmsuffix.get(material);
+        	prefix = l.get(plugin.gen.nextInt(l.size()));
+        }
+        /*
         switch (material)
         {
             case WOOD_SWORD:
@@ -626,16 +630,21 @@ public class DropsAPI
                 matSuffix = "";
                 break;
         }
+        */
+        
+        //Just an idea.
+        boolean t = plugin.config.getBoolean("Display.ItemMaterialExtras", false);
+        if(prefix.length()<1||!t)
         prefix = plugin.prefix
-                .get(plugin.gen.nextInt(plugin.prefix.size() - 1));
+                .get(plugin.gen.nextInt(plugin.prefix.size()));
+        if(suffix.length()<1||!t)
         suffix = plugin.suffix
-                .get(plugin.gen.nextInt(plugin.suffix.size() - 1));
+                .get(plugin.gen.nextInt(plugin.suffix.size()));
+                
         if (template == null)
             return null;
         return template.replace("%randprefix%", prefix)
                 .replace("%randsuffix%", suffix)
-                .replace("%matprefix%", matPrefix)
-                .replace("%matsuffix%", matSuffix)
                 .replace("%matname%", matName);
     }
 }

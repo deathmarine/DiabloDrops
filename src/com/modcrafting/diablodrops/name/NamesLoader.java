@@ -5,7 +5,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import org.bukkit.Material;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 
@@ -81,6 +85,35 @@ public class NamesLoader
                 if (plugin.debug)
                     plugin.log.warning(e.getMessage());
             }
+        }
+    }
+
+    public void loadFile(HashMap<Material,List<String>> hm, File f)
+    {
+    	List<String> l = new ArrayList<String>();
+        try
+        {
+            BufferedReader list = new BufferedReader(new FileReader(f));
+            String p;
+            while ((p = list.readLine()) != null)
+            {
+                if (!p.contains("#") && p.length() > 0)
+                {
+                    l.add(p);
+                }
+            }
+            list.close();
+            Material m = Material.getMaterial(f.getName().split(".")[0].trim().toUpperCase());
+            if(m!=null){
+            	hm.put(m, l);
+            }else{
+            	hm.put(Material.AIR, l);
+            }
+        }
+        catch (Exception e)
+        {
+            if (plugin.debug)
+                plugin.log.warning(e.getMessage());
         }
     }
 }

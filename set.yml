@@ -1,16 +1,5 @@
-#Follow the commented format guide lines
-#
-#CustomName:
-#  Color: (Black,Dark_Blue,Dark_Green,
-#          Dark_Aqua,Dark_Red,Dark_Purple,
-#          Gold,Gray,Dark_Gray,Blue,Green,
-#          Aqua,Red,Light_Purple,Yellow,
-#          White,Magic,Bold,Strike,Underline,
-#          Italic)
-#  Chance: Percentage out of 100
-#  Enchantments:
-#    Amt: 7
-#    Levels: 6
+# For information on how to set this up, visit the web page below: #
+# https://github.com/deathmarine/DiabloDrops/wiki/Set.yml-Reference #
 Amber:
   Bonuses:
   - +2 Fire

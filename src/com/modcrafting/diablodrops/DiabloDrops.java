@@ -51,22 +51,22 @@ public class DiabloDrops extends JavaPlugin
     public DropUtils drop = new DropUtils(gen);
     public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
-    
-    //I was thinking of swapping everything to this.
-    public HashMap<Material,List<String>> hmprefix = new HashMap<Material,List<String>>();
-    public HashMap<Material,List<String>> hmsuffix = new HashMap<Material,List<String>>();
+
+    // I was thinking of swapping everything to this.
+    public HashMap<Material, List<String>> hmprefix = new HashMap<Material, List<String>>();
+    public HashMap<Material, List<String>> hmsuffix = new HashMap<Material, List<String>>();
     /*
-    public List<String> woodPrefix = new ArrayList<String>();
-    public List<String> woodSuffix = new ArrayList<String>();
-    public List<String> stonePrefix = new ArrayList<String>();
-    public List<String> stoneSuffix = new ArrayList<String>();
-    public List<String> goldPrefix = new ArrayList<String>();
-    public List<String> goldSuffix = new ArrayList<String>();
-    public List<String> ironPrefix = new ArrayList<String>();
-    public List<String> ironSuffix = new ArrayList<String>();
-    public List<String> diamondPrefix = new ArrayList<String>();
-    public List<String> diamondSuffix = new ArrayList<String>();
-    */
+     * public List<String> woodPrefix = new ArrayList<String>();
+     * public List<String> woodSuffix = new ArrayList<String>();
+     * public List<String> stonePrefix = new ArrayList<String>();
+     * public List<String> stoneSuffix = new ArrayList<String>();
+     * public List<String> goldPrefix = new ArrayList<String>();
+     * public List<String> goldSuffix = new ArrayList<String>();
+     * public List<String> ironPrefix = new ArrayList<String>();
+     * public List<String> ironSuffix = new ArrayList<String>();
+     * public List<String> diamondPrefix = new ArrayList<String>();
+     * public List<String> diamondSuffix = new ArrayList<String>();
+     */
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
     public List<Tool> custom = new ArrayList<Tool>();
@@ -135,55 +135,39 @@ public class DiabloDrops extends JavaPlugin
         config = getConfig();
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {
-        	//Auto loading files like this.
-        	File loc = new File(getDataFolder(),"/NamesPrefix");
-        	if(!loc.exists())
-        		loc.mkdir();
-        	for(File f :loc.listFiles()){
-        		if(f.getName().endsWith(".txt")){
-        			//I.E. Diamond_Sword.txt
-        			nameLoader.loadFile(hmprefix, new File(loc,f.getName()));
-        		}
-        	}
-        	File sloc = new File(getDataFolder(),"/NamesSuffix");
-        	if(!sloc.exists())
-        		sloc.mkdir();
-        	for(File f :loc.listFiles()){
-        		if(f.getName().endsWith(".txt")){
-        			//I.E. Diamond_Sword.txt
-        			nameLoader.loadFile(hmprefix, new File(sloc,f.getName()));
-        		}
-        	}
-        	/*
-            nameLoader.writeDefault("diamondmaterialprefixes.txt");
-            nameLoader.writeDefault("diamondmaterialsuffixes.txt");
-            nameLoader.writeDefault("ironmaterialprefixes.txt");
-            nameLoader.writeDefault("ironmaterialsuffixes.txt");
-            nameLoader.writeDefault("goldmaterialprefixes.txt");
-            nameLoader.writeDefault("goldmaterialsuffixes.txt");
-            nameLoader.writeDefault("stonematerialprefixes.txt");
-            nameLoader.writeDefault("stonematerialsuffixes.txt");
-            nameLoader.writeDefault("woodmaterialprefixes.txt");
-            nameLoader.writeDefault("woodmaterialsuffixes.txt");
-            */
+            // Auto loading files like this.
+            File loc = new File(getDataFolder(), "/NamesPrefix/");
+            if (!loc.exists())
+                loc.mkdir();
+            for (File f : loc.listFiles())
+                if (f.getName().endsWith(".txt"))
+                    // I.E. Diamond_Sword.txt
+                    nameLoader.loadFile(hmprefix, new File(loc, f.getName()));
+            File sloc = new File(getDataFolder(), "/NamesSuffix/");
+            if (!sloc.exists())
+                sloc.mkdir();
+            for (File f : loc.listFiles())
+                if (f.getName().endsWith(".txt"))
+                    // I.E. Diamond_Sword.txt
+                    nameLoader.loadFile(hmprefix, new File(sloc, f.getName()));
         }
         nameLoader.loadFile(prefix, "prefix.txt");
         nameLoader.loadFile(suffix, "suffix.txt");
         /*
-        if (config.getBoolean("Display.ItemMaterialExtras", false))
-        {
-            nameLoader.loadFile(woodPrefix, "woodmaterialprefixes.txt");
-            nameLoader.loadFile(woodSuffix, "woodmaterialsuffixes.txt");
-            nameLoader.loadFile(stonePrefix, "stonematerialprefixes.txt");
-            nameLoader.loadFile(stoneSuffix, "stonematerialsuffixes.txt");
-            nameLoader.loadFile(goldPrefix, "goldmaterialprefixes.txt");
-            nameLoader.loadFile(goldSuffix, "goldmaterialsuffixes.txt");
-            nameLoader.loadFile(ironPrefix, "ironmaterialprefixes.txt");
-            nameLoader.loadFile(ironSuffix, "ironmaterialsuffixes.txt");
-            nameLoader.loadFile(diamondPrefix, "diamondmaterialprefixes.txt");
-            nameLoader.loadFile(diamondSuffix, "diamondmaterialsuffixes.txt");
-        }
-        */
+         * if (config.getBoolean("Display.ItemMaterialExtras", false))
+         * {
+         * nameLoader.loadFile(woodPrefix, "woodmaterialprefixes.txt");
+         * nameLoader.loadFile(woodSuffix, "woodmaterialsuffixes.txt");
+         * nameLoader.loadFile(stonePrefix, "stonematerialprefixes.txt");
+         * nameLoader.loadFile(stoneSuffix, "stonematerialsuffixes.txt");
+         * nameLoader.loadFile(goldPrefix, "goldmaterialprefixes.txt");
+         * nameLoader.loadFile(goldSuffix, "goldmaterialsuffixes.txt");
+         * nameLoader.loadFile(ironPrefix, "ironmaterialprefixes.txt");
+         * nameLoader.loadFile(ironSuffix, "ironmaterialsuffixes.txt");
+         * nameLoader.loadFile(diamondPrefix, "diamondmaterialprefixes.txt");
+         * nameLoader.loadFile(diamondSuffix, "diamondmaterialsuffixes.txt");
+         * }
+         */
         nameLoader.loadFile(defenselore, "defenselore.txt");
         nameLoader.loadFile(offenselore, "offenselore.txt");
         new CustomBuilder(this).build();
@@ -210,33 +194,31 @@ public class DiabloDrops extends JavaPlugin
         // AutoUpdater
         final PluginDescriptionFile pdf = getDescription();
         if (config.getBoolean("Plugin.AutoUpdate", true))
-        {
-        	getServer().getScheduler().scheduleAsyncDelayedTask(this,
-                new Runnable()
-                {
-                    @Override
-                    public void run()
+            getServer().getScheduler().scheduleAsyncDelayedTask(this,
+                    new Runnable()
                     {
-                        Updater up = new Updater(getInstance(), pdf
-                                .getName().toLowerCase(), getFile(),
-                                UpdateType.DEFAULT, true);
-                        if (!up.getResult().equals(UpdateResult.SUCCESS)
-                                || up.pluginFile(getFile().getName()))
+                        @Override
+                        public void run()
                         {
-                            if (up.getResult().equals(
-                                    Updater.UpdateResult.FAIL_NOVERSION))
-                                log.info("Unable to connect to dev.bukkit.org.");
+                            Updater up = new Updater(getInstance(), pdf
+                                    .getName().toLowerCase(), getFile(),
+                                    UpdateType.DEFAULT, true);
+                            if (!up.getResult().equals(UpdateResult.SUCCESS)
+                                    || up.pluginFile(getFile().getName()))
+                            {
+                                if (up.getResult().equals(
+                                        Updater.UpdateResult.FAIL_NOVERSION))
+                                    log.info("Unable to connect to dev.bukkit.org.");
+                                else
+                                    log.info("No Updates found on dev.bukkit.org.");
+                            }
                             else
-                                log.info("No Updates found on dev.bukkit.org.");
+                                log.info("Update "
+                                        + up.getLatestVersionString()
+                                        + " found and downloaded please restart your server.");
                         }
-                        else
-                            log.info("Update "
-                                    + up.getLatestVersionString()
-                                    + " found and downloaded please restart your server.");   
-                    }
 
-                });
-    	}
+                    });
         // Jenkins AutoUpdater
         if (config.getBoolean("Plugin.Dev.Update", false))
             id = getServer().getScheduler().scheduleAsyncRepeatingTask(this,

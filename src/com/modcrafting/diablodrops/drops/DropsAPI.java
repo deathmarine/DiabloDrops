@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.Inventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.items.Drop;
@@ -646,5 +649,31 @@ public class DropsAPI
         return template.replace("%randprefix%", prefix)
                 .replace("%randsuffix%", suffix)
                 .replace("%matname%", matName);
+    }
+
+    /**
+     * Fills a chest with items.
+     * 
+     * @param block
+     *            Material of item to get name for
+     */
+    public void fillChest(Block block){
+        try
+        {
+            if (!(block.getState() instanceof Chest))
+                return;
+            Chest chestB = ((Chest) block.getState());
+            Inventory chest = chestB.getBlockInventory();
+            for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
+            {
+                CraftItemStack cis = plugin.dropsAPI.getItem();
+                while (cis == null)
+                    cis = plugin.dropsAPI.getItem();
+                chest.setItem(i, cis);
+            }
+        }
+        catch (Exception e)
+        {
+        }
     }
 }

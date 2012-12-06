@@ -1,6 +1,7 @@
 package com.modcrafting.diablodrops.events;
 
 import org.bukkit.Chunk;
+import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -18,15 +19,26 @@ public class RuinGenerateEvent extends Event implements Cancellable
     private boolean isCancelled = false;
 
     private final Chunk chunk;
-
-    public RuinGenerateEvent(Chunk chunk)
+    private Block chest;
+    public RuinGenerateEvent(Chunk chunk,Block block)
     {
         this.chunk = chunk;
+        this.chest = block;
     }
 
     public Chunk getChunk()
     {
         return chunk;
+    }
+
+    public Block getChest()
+    {
+        return chest;
+    }
+
+    public void setChest(Block chest)
+    {
+        this.chest = chest;
     }
 
     @Override

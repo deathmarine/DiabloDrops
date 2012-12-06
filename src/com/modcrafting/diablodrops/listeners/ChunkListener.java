@@ -10,13 +10,9 @@ import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkPopulateEvent;
-import org.bukkit.inventory.Inventory;
-
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.RuinGenerateEvent;
 
@@ -233,9 +229,8 @@ public class ChunkListener implements Listener
                 false);
     }
 
-    private void generateRuin1(Chunk chunk, int realX, int realZ)
+    private void generateRuin1(Block block)
     {
-        Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
         Biome b = block.getBiome();
         List<Material> allowedTypes = new ArrayList<Material>();
         if (b == Biome.DESERT || b == Biome.DESERT_HILLS || b == Biome.BEACH)
@@ -276,47 +271,11 @@ public class ChunkListener implements Listener
         {
             return;
         }
-        if (plugin.gen.nextBoolean())
-        {
-            addRuin1Pattern(block);
-        }
-        else
-        {
-            Block under = block.getRelative(BlockFace.DOWN);
-            Location loc = under.getLocation();
-
-            if (plugin.gen.nextBoolean())
-            {
-                buildNetherTemple(loc);
-            }
-            else
-            {
-                deathRuin(loc);
-            }
-        }
-        block.setType(Material.CHEST);
-        try
-        {
-            if (!(block.getState() instanceof Chest))
-                return;
-            Chest chestB = ((Chest) block.getState());
-            Inventory chest = chestB.getBlockInventory();
-            for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
-            {
-                CraftItemStack cis = plugin.dropsAPI.getItem();
-                while (cis == null)
-                    cis = plugin.dropsAPI.getItem();
-                chest.setItem(i, cis);
-            }
-        }
-        catch (Exception e)
-        {
-        }
+        addRuin1Pattern(block);
     }
 
-    private void generateRuin2(Chunk chunk, int realX, int realZ)
+    private void generateRuin2(Block block)
     {
-        Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
         Biome b = block.getBiome();
         List<Material> allowedTypes = new ArrayList<Material>();
         if (b == Biome.DESERT || b == Biome.DESERT_HILLS || b == Biome.BEACH)
@@ -608,16 +567,53 @@ public class ChunkListener implements Listener
         {
             return;
         }
-        RuinGenerateEvent rge = new RuinGenerateEvent(chunk);
-        plugin.getServer().getPluginManager().callEvent(rge);
-        if (rge.isCancelled())
-            return;
         int realX = chunk.getX() * 16 + plugin.gen.nextInt(15);
         int realZ = chunk.getZ() * 16 + plugin.gen.nextInt(15);
-        if (plugin.gen.nextInt(100) + 1 > 7)
-            generateRuin1(chunk, realX, realZ);
-        else
-            generateRuin2(chunk, realX, realZ);
+
+        Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
+        if (plugin.gen.nextInt(100) + 1 > 7){
+            if (plugin.gen.nextBoolean()){
+                block.setType(Material.CHEST);
+                plugin.dropsAPI.fillChest(block);
+                RuinGenerateEvent rge = new RuinGenerateEvent(chunk,block);
+                plugin.getServer().getPluginManager().callEvent(rge);
+                if (rge.isCancelled())
+                    return;
+                block = rge.getChest();
+                generateRuin1(block);
+                return;
+            }
+            if (plugin.gen.nextBoolean()){
+                generateRuin2(block);
+                return;
+            }
+            if (plugin.gen.nextBoolean()){
+                block.setType(Material.CHEST);
+                plugin.dropsAPI.fillChest(block);
+                RuinGenerateEvent rge = new RuinGenerateEvent(chunk,block);
+                plugin.getServer().getPluginManager().callEvent(rge);
+                if (rge.isCancelled())
+                    return;
+                block = rge.getChest();
+                Block under = block.getRelative(BlockFace.DOWN);
+                Location loc = under.getLocation();
+                buildNetherTemple(loc);
+                return;
+            }
+            if (plugin.gen.nextBoolean()){
+                block.setType(Material.CHEST);
+                plugin.dropsAPI.fillChest(block);
+                RuinGenerateEvent rge = new RuinGenerateEvent(chunk,block);
+                plugin.getServer().getPluginManager().callEvent(rge);
+                if (rge.isCancelled())
+                    return;
+                block = rge.getChest();
+                Block under = block.getRelative(BlockFace.DOWN);
+                Location loc = under.getLocation();
+                deathRuin(loc);
+                return;
+            }
+        }
     }
 
     private void pillarRuin1(World world, Location location)

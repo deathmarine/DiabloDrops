@@ -149,7 +149,7 @@ public class DiabloDrops extends JavaPlugin
             for (File f : loc.listFiles())
                 if (f.getName().endsWith(".txt"))
                     // I.E. Diamond_Sword.txt
-                    nameLoader.loadFile(hmprefix, new File(sloc, f.getName()));
+                    nameLoader.loadFile(hmsuffix, new File(sloc, f.getName()));
         }
         nameLoader.loadFile(prefix, "prefix.txt");
         nameLoader.loadFile(suffix, "suffix.txt");

@@ -101,8 +101,6 @@ public class NamesLoader
                 if (!p.contains("#") && p.length() > 0)
                 {
                     l.add(p);
-
-                    System.out.println(l);
                 }
             }
 

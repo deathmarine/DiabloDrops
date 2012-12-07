@@ -51,22 +51,8 @@ public class DiabloDrops extends JavaPlugin
     public DropUtils drop = new DropUtils(gen);
     public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
-
-    // I was thinking of swapping everything to this.
     public HashMap<Material, List<String>> hmprefix = new HashMap<Material, List<String>>();
     public HashMap<Material, List<String>> hmsuffix = new HashMap<Material, List<String>>();
-    /*
-     * public List<String> woodPrefix = new ArrayList<String>();
-     * public List<String> woodSuffix = new ArrayList<String>();
-     * public List<String> stonePrefix = new ArrayList<String>();
-     * public List<String> stoneSuffix = new ArrayList<String>();
-     * public List<String> goldPrefix = new ArrayList<String>();
-     * public List<String> goldSuffix = new ArrayList<String>();
-     * public List<String> ironPrefix = new ArrayList<String>();
-     * public List<String> ironSuffix = new ArrayList<String>();
-     * public List<String> diamondPrefix = new ArrayList<String>();
-     * public List<String> diamondSuffix = new ArrayList<String>();
-     */
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
     public List<Tool> custom = new ArrayList<Tool>();
@@ -107,6 +93,10 @@ public class DiabloDrops extends JavaPlugin
     public void onDisable()
     {
         killTasks();
+        prefix.clear();
+        suffix.clear();
+        hmprefix.clear();
+        hmsuffix.clear();
         tiers.clear();
         armorSets.clear();
         custom.clear();

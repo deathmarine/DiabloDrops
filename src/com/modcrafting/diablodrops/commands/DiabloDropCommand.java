@@ -216,24 +216,34 @@ public class DiabloDropCommand implements CommandExecutor
                 {
                 	int customsize = plugin.custom.size();
                 	plugin.getLogger().info(customsize+"]: Custom Items Loaded.");
+                	sender.sendMessage(customsize+"]: Custom Items Loaded.");
                 	int armorsets = plugin.armorSets.size();
                 	plugin.getLogger().info(armorsets+"]: ArmorSets Loaded.");
+                	sender.sendMessage(armorsets+"]: ArmorSets Loaded.");
                 	int tier = plugin.tiers.size();
                 	plugin.getLogger().info(tier+"]: Tiers Loaded.");
+                	sender.sendMessage(tier+"]: Tiers Loaded.");
                 	int defaultP = plugin.prefix.size();
                 	plugin.getLogger().info(defaultP+"]: Default Prefixes Loaded.");
+                	sender.sendMessage(defaultP+"]: Default Prefixes Loaded.");
                 	int defaultS = plugin.suffix.size();
                 	plugin.getLogger().info(defaultS+"]: Default Suffixes Loaded.");
+                	sender.sendMessage(defaultS+"]: Default Suffixes Loaded.");
                 	int customP = plugin.hmprefix.size();
                 	plugin.getLogger().info(customP+"]: Custom Prefixes Loaded.");
+                	sender.sendMessage(customP+"]: Custom Prefixes Loaded.");
                 	int customS = plugin.hmsuffix.size();
                 	plugin.getLogger().info(customS+"]: Custom Suffixes Loaded.");
+                	sender.sendMessage(customS+"]: Custom Suffixes Loaded.");
                 	int dlore = plugin.defenselore.size();
                 	plugin.getLogger().info(dlore+"]: Defense Lore Loaded.");
+                	sender.sendMessage(dlore+"]: Defense Lore Loaded.");
                 	int olore = plugin.offenselore.size();
                 	plugin.getLogger().info(olore+"]: Offense Lore Loaded.");
+                	sender.sendMessage(olore+"]: Offense Lore Loaded.");
                 	int w = plugin.worlds.size();
                 	plugin.getLogger().info(w+"]: Worlds allowing Loaded.");
+                	sender.sendMessage(w+"]: Worlds allowing Loaded.");
                 	if(args.length>1){
                 		if(args[1].equalsIgnoreCase("detailed")){
                 			StringBuilder sb = new StringBuilder();

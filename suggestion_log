@@ -1,13 +1,65 @@
-# Suggestion Log
+SUGGESTION LOG
 A log of all suggestions that come through the project that we've accepted.
 
-## Suggested format for log:
-
-```
-### Number of Suggestion (ticket it came from)
-Proposed Suggestion Summary: Short one-line summary of suggestion
-Link to suggestion: put hyperlink here
+SUGGESTED FORMAT FOR SUGGESTION LOGGING:
+----
+**Number of Suggestion (ticket it came from)**
+Summary: Short one-line summary of suggestion
+Link: put hyperlink here
 Status: put status here
 Comments:
   commenter's name here: message here
-```
+----
+
+LIST OF STATUSES:
+New
+Tested
+Implemented
+Finished
+Denied
+Accepted
+Deferred
+Considered
+
+----
+**1 (#18)**
+Summary: Enemies with differing healths and such.
+Link: #18
+Status: Deferred
+Comments:
+  Nunnery: It would require another plugin.
+----
+
+----
+**2 (#27)**
+Summary: Sockets need to be replaced one at a time.
+Link: #27
+Status: Considered
+Comments:
+  Nunnery: It's a much wanted feature, would require a little bit of code polish.
+----
+
+----
+**3 (#34)**
+Summary: Prefixes and suffixes per material.
+Link: #34
+Status: Implemented
+Comments:
+----
+
+----
+**4 (#36)**
+Summary: Different kinds of sockets.
+Link: #36
+Status: New
+Comments:
+  Nunnery: It would require a lot of code manipulation and could probably end up being breakable.
+----
+
+----
+**5 (#40)**
+Summary: Damage text, Heroes support, material lore.
+Link: #40
+Status: New
+Comments:
+----

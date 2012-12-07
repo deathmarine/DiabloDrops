@@ -2,6 +2,7 @@ package com.modcrafting.diablodrops.drops;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -38,6 +39,24 @@ public class DropsAPI
 	{
 		if (plugin.drop.isArmor(material) || plugin.drop.isTool(material))
 			return true;
+		return false;
+	}
+
+	/**
+	 * Determines if a List contains a string
+	 * 
+	 * @param l
+	 *            List to check
+	 * @param s
+	 *            String to find
+	 * @return if contains
+	 */
+	public boolean containsIgnoreCase(final List<String> l, final String s)
+	{
+		Iterator<String> it = l.iterator();
+		while (it.hasNext())
+			if (it.next().equalsIgnoreCase(s))
+				return true;
 		return false;
 	}
 
@@ -671,6 +690,17 @@ public class DropsAPI
 				.replace("%randsuffix%", suffix).replace("%matname%", matName);
 	}
 
+	/**
+	 * Replace a line of lore with another line
+	 * 
+	 * @param tool
+	 *            Tool to replace lore on
+	 * @param toReplace
+	 *            Line of lore to be replaced
+	 * @param replaceWith
+	 *            Line replacing toReplace
+	 * @return Tool with new lore
+	 */
 	public Tool replaceLore(final Tool tool, final String toReplace,
 			final String replaceWith)
 	{

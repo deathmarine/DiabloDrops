@@ -26,7 +26,6 @@ public class SocketListener implements Listener
 	{
 		plugin = instance;
 	}
-
 	@EventHandler
 	public void burnGem(final FurnaceBurnEvent event)
 	{
@@ -39,27 +38,50 @@ public class SocketListener implements Listener
 				if (event.getFuel().getType()
 						.equals(Material.matchMaterial(name)))
 				{
-					boolean test = false;
-					for (String t : new Tool(tis).getLoreList())
-						if (t.contains("Socket"))
-							test = true;
 					Tool fuel = new Tool(
 							((CraftItemStack) event.getFuel()).getHandle());
-					if ((fuel.getName() != null)
-							&& (fuel.getName().contains("Socket") || fuel
-									.getType().equals(Material.SKULL_ITEM))
-							&& test)
+					if (fuel.getName() != null)
 					{
-						PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
-								tis, event.getFuel(), furn);
-						plugin.getServer().getPluginManager().callEvent(psee);
-						if (psee.isCancelled())
-							continue;
-						plugin.furnanceMap.put(event.getBlock(),
-								event.getFuel());
-						event.setBurnTime(240);
-						event.setBurning(true);
-						return;
+						boolean test = false;
+						String toReplace = null;
+						for (String t : new Tool(tis).getLoreList())
+							if (t.contains("(Socket)"))
+							{
+								test = true;
+								toReplace = t;
+							}
+						if (toReplace != null)
+							if ((fuel.getName().contains("Socket") || fuel
+									.getType().equals(Material.SKULL_ITEM))
+									&& test)
+							{
+								ChatColor socketColor = null;
+								if (findColor(toReplace) == ChatColor.ITALIC)
+									socketColor = ChatColor.valueOf(ChatColor
+											.getLastColors(toReplace));
+								else
+									socketColor = findColor(toReplace);
+								ChatColor fuelColor = null;
+								if (findColor(fuel.getName()) == ChatColor.ITALIC)
+									fuelColor = ChatColor.valueOf(ChatColor
+											.getLastColors(fuel.getName()));
+								else
+									fuelColor = findColor(fuel.getName());
+								if (fuelColor == socketColor)
+								{
+									PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
+											tis, event.getFuel(), furn);
+									plugin.getServer().getPluginManager()
+											.callEvent(psee);
+									if (psee.isCancelled())
+										continue;
+									plugin.furnanceMap.put(event.getBlock(),
+											event.getFuel());
+									event.setBurnTime(240);
+									event.setBurning(true);
+									return;
+								}
+							}
 					}
 				}
 			event.setCancelled(true);
@@ -68,16 +90,14 @@ public class SocketListener implements Listener
 			return;
 		}
 	}
-
 	public ChatColor findColor(final String s)
 	{
 		char[] c = s.toCharArray();
 		for (int i = 0; i < c.length; i++)
-			if (c[i] == new Character((char) 167))
+			if ((c[i] == new Character((char) 167)) && ((i + 1) < c.length))
 				return ChatColor.getByChar(c[i + 1]);
 		return null;
 	}
-
 	@EventHandler
 	public void onSmeltSocket(final FurnaceSmeltEvent event)
 	{

@@ -112,7 +112,6 @@ public class MobListener implements Listener
             }
         }
     }
-
     @EventHandler(priority = EventPriority.HIGH)
     public void onSpawn(CreatureSpawnEvent event)
     {

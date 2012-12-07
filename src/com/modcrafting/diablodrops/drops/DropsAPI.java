@@ -246,20 +246,7 @@ public class DropsAPI
 				&& (plugin.gen.nextInt(100) <= plugin.config.getInt(
 						"SocketItem.Chance", 5)))
 		{
-			ChatColor color = null;
-			switch (plugin.gen.nextInt(3))
-			{
-				case 1:
-					color = ChatColor.RED;
-					break;
-				case 2:
-					color = ChatColor.BLUE;
-					break;
-				default:
-					color = ChatColor.GREEN;
-					break;
-			}
-			tool.addLore(color + "(Socket)");
+			tool.addLore(colorPicker() + "(Socket)");
 			return tool;
 		}
 		if (plugin.config.getBoolean("Lore.Enabled", true)
@@ -383,20 +370,7 @@ public class DropsAPI
 						"SocketItem.Chance", 5))
 				&& !tier.getColor().equals(ChatColor.MAGIC))
 		{
-			ChatColor color = null;
-			switch (plugin.gen.nextInt(3))
-			{
-				case 1:
-					color = ChatColor.RED;
-					break;
-				case 2:
-					color = ChatColor.BLUE;
-					break;
-				default:
-					color = ChatColor.GREEN;
-					break;
-			}
-			tool.addLore(color + "(Socket)");
+			tool.addLore(colorPicker() + "(Socket)");
 			return tool;
 		}
 		if (plugin.config.getBoolean("Lore.Enabled", true)
@@ -490,20 +464,7 @@ public class DropsAPI
 						"SocketItem.Chance", 5))
 				&& !tier.getColor().equals(ChatColor.MAGIC))
 		{
-			ChatColor color = null;
-			switch (plugin.gen.nextInt(3))
-			{
-				case 1:
-					color = ChatColor.RED;
-					break;
-				case 2:
-					color = ChatColor.BLUE;
-					break;
-				default:
-					color = ChatColor.GREEN;
-					break;
-			}
-			tool.addLore(color + "(Socket)");
+			tool.addLore(colorPicker() + "(Socket)");
 			return tool;
 		}
 		if (plugin.config.getBoolean("Lore.Enabled", true)
@@ -580,20 +541,7 @@ public class DropsAPI
 						"SocketItem.Chance", 5))
 				&& !tier.getColor().equals(ChatColor.MAGIC))
 		{
-			ChatColor color = null;
-			switch (plugin.gen.nextInt(3))
-			{
-				case 1:
-					color = ChatColor.RED;
-					break;
-				case 2:
-					color = ChatColor.BLUE;
-					break;
-				default:
-					color = ChatColor.GREEN;
-					break;
-			}
-			tool.addLore(color + "(Socket)");
+			tool.addLore(colorPicker() + "(Socket)");
 			sock = true;
 		}
 		if (plugin.config.getBoolean("Lore.Enabled", true)
@@ -650,7 +598,24 @@ public class DropsAPI
 				return true;
 		return false;
 	}
-
+	/**
+	 * Gets a random color.
+	 * @return color
+	 */
+	public ChatColor colorPicker()
+	{
+		switch (plugin.gen.nextInt(4))
+		{
+			case 1:
+				return ChatColor.RED;
+			case 2:
+				return ChatColor.BLUE;
+			case 3:
+				return ChatColor.GREEN;
+			default:
+				return null;
+		}
+	}
 	/**
 	 * Gets a random name
 	 * 

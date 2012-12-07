@@ -573,69 +573,8 @@ public class DropsAPI
         }
         if(plugin.hmsuffix.containsKey(material)){
         	List<String> l = plugin.hmsuffix.get(material);
-        	prefix = l.get(plugin.gen.nextInt(l.size()));
+        	suffix = l.get(plugin.gen.nextInt(l.size()));
         }
-        /*
-        switch (material)
-        {
-            case WOOD_SWORD:
-            case WOOD_AXE:
-            case WOOD_HOE:
-            case WOOD_SPADE:
-            case WOOD_PICKAXE:
-                matPrefix = plugin.woodPrefix.get(plugin.gen
-                        .nextInt(plugin.woodPrefix.size() - 1));
-                matSuffix = plugin.woodSuffix.get(plugin.gen
-                        .nextInt(plugin.woodSuffix.size()));
-                break;
-            case STONE_SWORD:
-            case STONE_AXE:
-            case STONE_HOE:
-            case STONE_SPADE:
-            case STONE_PICKAXE:
-                matPrefix = plugin.stonePrefix.get(plugin.gen
-                        .nextInt(plugin.stonePrefix.size() - 1));
-                matSuffix = plugin.stoneSuffix.get(plugin.gen
-                        .nextInt(plugin.stoneSuffix.size() - 1));
-                break;
-            case GOLD_SWORD:
-            case GOLD_AXE:
-            case GOLD_HOE:
-            case GOLD_SPADE:
-            case GOLD_PICKAXE:
-                matPrefix = plugin.goldPrefix.get(plugin.gen
-                        .nextInt(plugin.goldPrefix.size() - 1));
-                matSuffix = plugin.goldSuffix.get(plugin.gen
-                        .nextInt(plugin.goldSuffix.size()));
-                break;
-            case IRON_SWORD:
-            case IRON_AXE:
-            case IRON_HOE:
-            case IRON_SPADE:
-            case IRON_PICKAXE:
-                matPrefix = plugin.ironPrefix.get(plugin.gen
-                        .nextInt(plugin.ironPrefix.size() - 1));
-                matSuffix = plugin.ironSuffix.get(plugin.gen
-                        .nextInt(plugin.ironSuffix.size() - 1));
-                break;
-            case DIAMOND_SWORD:
-            case DIAMOND_AXE:
-            case DIAMOND_HOE:
-            case DIAMOND_SPADE:
-            case DIAMOND_PICKAXE:
-                matPrefix = plugin.diamondPrefix.get(plugin.gen
-                        .nextInt(plugin.diamondPrefix.size() - 1));
-                matSuffix = plugin.diamondSuffix.get(plugin.gen
-                        .nextInt(plugin.diamondSuffix.size() - 1));
-                break;
-            default:
-                matPrefix = "";
-                matSuffix = "";
-                break;
-        }
-        */
-        
-        //Just an idea.
         boolean t = plugin.config.getBoolean("Display.ItemMaterialExtras", false);
         if(prefix.length()<1||!t)
         prefix = plugin.prefix

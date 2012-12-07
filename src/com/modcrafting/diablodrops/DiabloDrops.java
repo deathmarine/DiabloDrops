@@ -135,39 +135,28 @@ public class DiabloDrops extends JavaPlugin
         config = getConfig();
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {
-            // Auto loading files like this.
+        	//Works now.
             File loc = new File(getDataFolder(), "/NamesPrefix/");
             if (!loc.exists())
                 loc.mkdir();
             for (File f : loc.listFiles())
                 if (f.getName().endsWith(".txt"))
-                    // I.E. Diamond_Sword.txt
+                {
+                	getLogger().info("Loading Prefix File:"+f.getName());
                     nameLoader.loadFile(hmprefix, new File(loc, f.getName()));
+                }
             File sloc = new File(getDataFolder(), "/NamesSuffix/");
             if (!sloc.exists())
                 sloc.mkdir();
             for (File f : loc.listFiles())
                 if (f.getName().endsWith(".txt"))
-                    // I.E. Diamond_Sword.txt
-                    nameLoader.loadFile(hmprefix, new File(sloc, f.getName()));
+                {
+                	getLogger().info("Loading Suffix File:"+f.getName());
+                    nameLoader.loadFile(hmsuffix, new File(sloc, f.getName()));
+                }
         }
         nameLoader.loadFile(prefix, "prefix.txt");
         nameLoader.loadFile(suffix, "suffix.txt");
-        /*
-         * if (config.getBoolean("Display.ItemMaterialExtras", false))
-         * {
-         * nameLoader.loadFile(woodPrefix, "woodmaterialprefixes.txt");
-         * nameLoader.loadFile(woodSuffix, "woodmaterialsuffixes.txt");
-         * nameLoader.loadFile(stonePrefix, "stonematerialprefixes.txt");
-         * nameLoader.loadFile(stoneSuffix, "stonematerialsuffixes.txt");
-         * nameLoader.loadFile(goldPrefix, "goldmaterialprefixes.txt");
-         * nameLoader.loadFile(goldSuffix, "goldmaterialsuffixes.txt");
-         * nameLoader.loadFile(ironPrefix, "ironmaterialprefixes.txt");
-         * nameLoader.loadFile(ironSuffix, "ironmaterialsuffixes.txt");
-         * nameLoader.loadFile(diamondPrefix, "diamondmaterialprefixes.txt");
-         * nameLoader.loadFile(diamondSuffix, "diamondmaterialsuffixes.txt");
-         * }
-         */
         nameLoader.loadFile(defenselore, "defenselore.txt");
         nameLoader.loadFile(offenselore, "offenselore.txt");
         new CustomBuilder(this).build();
@@ -176,9 +165,11 @@ public class DiabloDrops extends JavaPlugin
         new ArmorSetBuilder(this).build();
         dropsAPI = new DropsAPI(this);
         setsAPI = new SetsAPI(this);
-        if (config.getBoolean("Worlds.Enabled", false))
-            for (String s : config.getStringList("Worlds.Allowed"))
-                worlds.add(s.toLowerCase());
+        if (config.getBoolean("Worlds.Enabled", false)){
+            for (String s : config.getStringList("Worlds.Allowed")){
+                worlds.add(s.toLowerCase());            	
+            }
+        }
         debug = config.getBoolean("Plugin.Debug", false);
 
         PluginManager pm = getServer().getPluginManager();

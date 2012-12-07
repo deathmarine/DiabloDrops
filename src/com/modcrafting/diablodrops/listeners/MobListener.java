@@ -21,7 +21,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
-
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
@@ -58,17 +57,24 @@ public class MobListener implements Listener
             {
                 return;
             }
+            List<net.minecraft.server.ItemStack> list = new ArrayList<net.minecraft.server.ItemStack>();
             for (net.minecraft.server.ItemStack mItem : ((CraftLivingEntity) event
                     .getEntity()).getHandle().getEquipment())
             {
+            	list.add(mItem);
+            }
+            boolean dropfix = plugin.config.getBoolean("DropFix.Equipment", false);
+            EntityDropItemEvent edie = new EntityDropItemEvent(
+                    event.getEntity(),list,dropfix);
+            plugin.getServer().getPluginManager().callEvent(edie);
+            if (edie.isCancelled())
+                return;
+            list=edie.getDropList();
+            dropfix = edie.getDropFix();
+            for (net.minecraft.server.ItemStack mItem:list){
                 if (mItem != null)
                 {
-                    EntityDropItemEvent edie = new EntityDropItemEvent(
-                            event.getEntity());
-                    plugin.getServer().getPluginManager().callEvent(edie);
-                    if (edie.isCancelled())
-                        return;
-                    if (plugin.config.getBoolean("DropFix.Equipment", false))
+                    if (dropfix)
                     {
                         dropItem(mItem, loc);
                         return;

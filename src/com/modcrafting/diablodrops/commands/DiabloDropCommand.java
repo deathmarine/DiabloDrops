@@ -18,6 +18,7 @@ import org.bukkit.inventory.PlayerInventory;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.items.Socket;
 import com.modcrafting.diablodrops.items.Tome;
+import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.toolapi.lib.Tool;
 
@@ -211,17 +212,109 @@ public class DiabloDropCommand implements CommandExecutor
                     player.sendMessage("Unable to repair item.");
                     return true;
                 }
-                if (plugin.dropsAPI.matchesTier(args[0]))
+                if (args[0].equalsIgnoreCase("debug"))
                 {
-                    Tier tier = plugin.dropsAPI.getTier(args[0]);
+                	int customsize = plugin.custom.size();
+                	plugin.getLogger().info(customsize+"]: Custom Items Loaded.");
+                	int armorsets = plugin.armorSets.size();
+                	plugin.getLogger().info(armorsets+"]: ArmorSets Loaded.");
+                	int tier = plugin.tiers.size();
+                	plugin.getLogger().info(tier+"]: Tiers Loaded.");
+                	int defaultP = plugin.prefix.size();
+                	plugin.getLogger().info(defaultP+"]: Default Prefixes Loaded.");
+                	int defaultS = plugin.suffix.size();
+                	plugin.getLogger().info(defaultS+"]: Default Suffixes Loaded.");
+                	int customP = plugin.hmprefix.size();
+                	plugin.getLogger().info(customP+"]: Custom Prefixes Loaded.");
+                	int customS = plugin.hmsuffix.size();
+                	plugin.getLogger().info(customS+"]: Custom Suffixes Loaded.");
+                	int dlore = plugin.defenselore.size();
+                	plugin.getLogger().info(dlore+"]: Defense Lore Loaded.");
+                	int olore = plugin.offenselore.size();
+                	plugin.getLogger().info(olore+"]: Offense Lore Loaded.");
+                	int w = plugin.worlds.size();
+                	plugin.getLogger().info(w+"]: Worlds allowing Loaded.");
+                	if(args.length>1){
+                		if(args[1].equalsIgnoreCase("detailed")){
+                			StringBuilder sb = new StringBuilder();
+                			sb.append("\n");
+                			sb.append("-----Custom-----");
+                			sb.append("\n");
+                			for(Tool tool:plugin.custom){
+                				sb.append(tool.getName()+" ");
+                			}
+                			sb.append("\n");
+                			sb.append("-----ArmorSet-----");
+                			sb.append("\n");
+                			for(ArmorSet a:plugin.armorSets){
+                				sb.append(a.getName()+" ");
+                			}
+                			sb.append("\n");
+                			sb.append("-----Tiers-----");
+                			sb.append("\n");
+                			for(Tier a:plugin.tiers){
+                				sb.append(a.getName()+" ");
+                			}
+                			sb.append("\n");
+                			sb.append("-----DefaultPrefix-----");
+                			sb.append("\n");
+                			for(String s:plugin.prefix){
+                				sb.append(s+" ");
+                			}
+                			sb.append("\n");
+                			sb.append("-----DefaultSuffix-----");
+                			sb.append("\n");
+                			for(String s:plugin.suffix){
+                				sb.append(s+" ");
+                			}
+                			sb.append("\n");
+                			sb.append("-----CustomPrefix-----");
+                			sb.append("\n");
+                			for(Material m:plugin.hmprefix.keySet()){
+                				sb.append(m.toString()+"\n");
+                				for(String p:plugin.hmprefix.get(m)){
+                    				sb.append(p+" ");
+                				}
+                			}
+                			sb.append("\n");
+                			sb.append("-----CustomSuffix-----");
+                			sb.append("\n");
+                			for(Material m:plugin.hmsuffix.keySet()){
+                				sb.append(m.toString()+"\n");
+                				for(String p:plugin.hmsuffix.get(m)){
+                    				sb.append(p+" ");
+                				}
+                			}
+                			sb.append("\n");
+                			sb.append("-----Defense Lore-----");
+                			sb.append("\n");
+                			for(String s:plugin.defenselore){
+                				sb.append(s+" ");
+                			}
+                			sb.append("\n");
+                			sb.append("-----Offense Lore-----");
+                			sb.append("\n");
+                			for(String s:plugin.offenselore){
+                				sb.append(s+" ");
+                			}
+                        	plugin.getLogger().info(sb.toString());
+                		}
+                	}
+                    return true;
+                }
+                if(args[0].equalsIgnoreCase("tier")){
+                	Tier tier = plugin.dropsAPI.getTier(args[1]);
                     CraftItemStack ci2 = plugin.dropsAPI.getItem(tier);
                     while (ci2 == null)
                         ci2 = plugin.dropsAPI.getItem(tier);
                     pi.addItem(ci2);
                     player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
-                            + "You have been given a " + ChatColor.WHITE
-                            + args[0] + ChatColor.GREEN + " DiabloDrops item.");
+                            + "You have been given a "
+                            + tier.getColor() 
+                            + tier.getName() 
+                            + ChatColor.GREEN 
+                            + " DiabloDrops item.");
                     return true;
                 }
                 CraftItemStack ci2 = plugin.dropsAPI.getItem();

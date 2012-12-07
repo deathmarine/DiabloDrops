@@ -90,6 +90,7 @@ public class NamesLoader
 
     public void loadFile(HashMap<Material,List<String>> hm, File f)
     {
+        Material m = Material.getMaterial(f.getName().replace(".txt", "").toUpperCase());
     	List<String> l = new ArrayList<String>();
         try
         {
@@ -100,15 +101,18 @@ public class NamesLoader
                 if (!p.contains("#") && p.length() > 0)
                 {
                     l.add(p);
+
+                    System.out.println(l);
                 }
             }
-            list.close();
-            Material m = Material.getMaterial(f.getName().split(".")[0].trim().toUpperCase());
+
             if(m!=null){
             	hm.put(m, l);
             }else{
             	hm.put(Material.AIR, l);
             }
+
+            list.close();
         }
         catch (Exception e)
         {

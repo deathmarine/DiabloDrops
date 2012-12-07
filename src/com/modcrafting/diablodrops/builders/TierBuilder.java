@@ -45,7 +45,13 @@ public class TierBuilder
             List<Material> l = new ArrayList<Material>();
             for (String s : cs.getStringList(name + ".Materials"))
             {
-                Material mat = Material.matchMaterial(s);
+                Material mat = Material.getMaterial(s.toUpperCase());
+                if (mat != null)
+                    l.add(mat);
+            }
+            for (String s : cs.getStringList(name + ".Material"))
+            {
+                Material mat = Material.getMaterial(s.toUpperCase());
                 if (mat != null)
                     l.add(mat);
             }

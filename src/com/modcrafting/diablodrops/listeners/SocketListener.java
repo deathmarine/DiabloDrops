@@ -55,19 +55,9 @@ public class SocketListener implements Listener
 									.getType().equals(Material.SKULL_ITEM))
 									&& test)
 							{
-								ChatColor socketColor = null;
-								if (findColor(toReplace) == ChatColor.ITALIC)
-									socketColor = ChatColor.valueOf(ChatColor
-											.getLastColors(toReplace));
-								else
-									socketColor = findColor(toReplace);
-								ChatColor fuelColor = null;
-								if (findColor(fuel.getName()) == ChatColor.ITALIC)
-									fuelColor = ChatColor.valueOf(ChatColor
-											.getLastColors(fuel.getName()));
-								else
-									fuelColor = findColor(fuel.getName());
-								if (fuelColor == socketColor)
+								ChatColor socketColor = findColor(toReplace);
+								ChatColor fuelColor = findColor(fuel.getName());
+								if (fuelColor == socketColor||socketColor==null)
 								{
 									PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
 											tis, event.getFuel(), furn);

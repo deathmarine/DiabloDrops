@@ -1,0 +1,13 @@
+# Suggestion Log
+A log of all suggestions that come through the project that we've accepted.
+
+## Suggested format for log:
+
+```
+### Number of Suggestion (ticket it came from)
+Proposed Suggestion Summary: Short one-line summary of suggestion
+Link to suggestion: put hyperlink here
+Status: put status here
+Comments:
+  commenter's name here: message here
+```

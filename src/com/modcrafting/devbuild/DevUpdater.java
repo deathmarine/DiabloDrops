@@ -56,7 +56,7 @@ public class DevUpdater
 
         private static final Map<Integer, DevUpdater.DevUpdateResult> valueList = new HashMap<Integer, DevUpdater.DevUpdateResult>();
 
-        public static DevUpdater.DevUpdateResult getResult(int value)
+        public static DevUpdater.DevUpdateResult getResult(final int value)
         {
             return valueList.get(value);
         }
@@ -72,14 +72,14 @@ public class DevUpdater
             }
         }
 
-        private DevUpdateResult(int value)
+        private DevUpdateResult(final int value)
         {
             this.value = value;
         }
 
         public int getValue()
         {
-            return this.value;
+            return value;
         }
     }
 
@@ -88,8 +88,8 @@ public class DevUpdater
         String currentElement;
 
         @Override
-        public void characters(char[] chars, int start, int length)
-                throws SAXException
+        public void characters(final char[] chars, final int start,
+                final int length) throws SAXException
         {
             if (currentElement.equals("title"))
             {
@@ -102,15 +102,16 @@ public class DevUpdater
         }
 
         @Override
-        public void endElement(String uri, String localName, String qName)
-                throws SAXException
+        public void endElement(final String uri, final String localName,
+                final String qName) throws SAXException
         {
             currentElement = "";
         }
 
         @Override
-        public void startElement(String uri, String localName, String qName,
-                Attributes attributes) throws SAXException
+        public void startElement(final String uri, final String localName,
+                final String qName, final Attributes attributes)
+                throws SAXException
         {
             currentElement = qName;
             if (currentElement.equals("link"))
@@ -125,7 +126,7 @@ public class DevUpdater
     }
 
     public Integer build;
-    private Plugin plugin;
+    private final Plugin plugin;
     private String versionTitle;
     private String versionLink;
     private long totalSize;
@@ -133,12 +134,12 @@ public class DevUpdater
     private static final String DBOUrl = "https://diabloplugins.ci.cloudbees.com/rssLatest";
     private static final int BYTE_SIZE = 1024; // Used for downloading files
 
-    private String updateFolder = YamlConfiguration.loadConfiguration(
+    private final String updateFolder = YamlConfiguration.loadConfiguration(
             new File("bukkit.yml")).getString("settings.update-folder");
 
     private DevUpdateResult result = DevUpdateResult.NO_UPDATE;
 
-    public DevUpdater(Plugin plugin, File file, Integer build)
+    public DevUpdater(final Plugin plugin, final File file, final Integer build)
     {
         this.build = build;
         this.plugin = plugin;
@@ -146,7 +147,7 @@ public class DevUpdater
 
     }
 
-    public void forceUpdate(File file)
+    public void forceUpdate(final File file)
     {
         result = null;
         try
@@ -161,7 +162,8 @@ public class DevUpdater
             readFeed();
             if (versionCheck(versionTitle))
             {
-                String fileLink = versionLink + "artifact/dist/DiabloDrops.jar";
+                String fileLink = versionLink + "artifact/dist/"
+                        + plugin.getDescription().getName() + ".jar";
                 String name = file.getName();
                 saveFile(new File("plugins/" + updateFolder), name, fileLink);
             }
@@ -202,14 +204,12 @@ public class DevUpdater
         return result;
     }
 
-    public boolean pluginFile(String name)
+    public boolean pluginFile(final String name)
     {
         for (File file : new File("plugins").listFiles())
         {
             if (file.getName().equals(name))
-            {
                 return true;
-            }
         }
         return false;
     }
@@ -250,7 +250,7 @@ public class DevUpdater
     /**
      * Save an update from dev.bukkit.org into the server's update folder.
      */
-    private void saveFile(File folder, String file, String u)
+    private void saveFile(final File folder, final String file, final String u)
     {
         if (!folder.exists())
         {
@@ -273,8 +273,8 @@ public class DevUpdater
             {
                 downloaded += count;
                 fout.write(data, 0, count);
-                int percent = (int) (downloaded * 100 / fileLength);
-                if ((percent % 10 == 0))
+                int percent = (int) ((downloaded * 100) / fileLength);
+                if (((percent % 10) == 0))
                 {
                     plugin.getLogger().info(
                             "Downloading update: " + percent + "% of "
@@ -308,7 +308,7 @@ public class DevUpdater
         }
     }
 
-    public void setBuild(Integer build)
+    public void setBuild(final Integer build)
     {
         if (build != null)
         {
@@ -316,13 +316,15 @@ public class DevUpdater
         }
     }
 
-    private boolean versionCheck(String title)
+    private boolean versionCheck(final String title)
     {
         StringBuilder sb = new StringBuilder();
         for (char c : title.toCharArray())
         {
             if (Character.isDigit(c))
+            {
                 sb.append(c);
+            }
         }
         if (sb.length() < 1)
             return false;

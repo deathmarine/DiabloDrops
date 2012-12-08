@@ -7,6 +7,7 @@ import net.minecraft.server.EntityCreature;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityVillager;
+import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.PathfinderGoalBreakDoor;
 import net.minecraft.server.PathfinderGoalFloat;
 import net.minecraft.server.PathfinderGoalLookAtPlayer;
@@ -192,8 +193,7 @@ public class EffectsUtil
     {
         entity.setVelocity(new Vector(0, 2 * value, 0));
     }
-
-    // Why? Cause we can.
+    
     /**
      * Makes entity into baby
      * 
@@ -371,5 +371,21 @@ public class EffectsUtil
                                 }
                             }, 20L * i);
         }
+    }
+    
+    /**
+     * Sets bleed time for an entity
+     * @param le
+     * @param i
+     */
+    public void bleed(LivingEntity le,short i){
+    	EntityLiving el = ((CraftLivingEntity) le).getHandle();
+    	NBTTagCompound nbt = new NBTTagCompound();
+    	el.b(nbt);
+    	if(nbt.hasKey("HurtTime")){
+    		nbt.setShort("HurtTime", i);
+    	}
+    	el.a(nbt);
+    	
     }
 }

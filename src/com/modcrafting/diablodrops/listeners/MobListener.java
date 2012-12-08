@@ -3,13 +3,13 @@ package com.modcrafting.diablodrops.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.NBTTagCompound;
+import net.minecraft.server.NBTTagFloat;
+import net.minecraft.server.NBTTagList;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
@@ -34,6 +34,7 @@ public class MobListener implements Listener
         plugin = instance;
     }
 
+	/*
     public void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
     {
 
@@ -45,7 +46,7 @@ public class MobListener implements Listener
                 loc.getY() + ys, loc.getZ() + zs, mItem);
         ((CraftWorld) loc.getWorld()).getHandle().addEntity(entity);
     }
-
+    */
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDeath(EntityDeathEvent event)
     {
@@ -61,12 +62,20 @@ public class MobListener implements Listener
             for (net.minecraft.server.ItemStack mItem : ((CraftLivingEntity) event
                     .getEntity()).getHandle().getEquipment())
             {
-            	list.add(mItem);
+            	if(mItem!=null){
+                	list.add(mItem);       		
+            	}
             }
-            boolean dropfix = plugin.config.getBoolean("DropFix.Equipment", false);
-            EntityDropItemEvent edie = new EntityDropItemEvent(
-                    event.getEntity(),list,dropfix);
+            //Using event.getDrops() 
+            //returns List<org.bukkit.inventory.ItemStack> which erases NBT data
+            EntityDropItemEvent edie = new EntityDropItemEvent(event.getEntity(),list);
             plugin.getServer().getPluginManager().callEvent(edie);
+            if(edie.isCancelled()){
+            	return;
+            }
+        }
+    }
+            /*
             if (edie.isCancelled())
                 return;
             list=edie.getDropList();
@@ -112,6 +121,7 @@ public class MobListener implements Listener
             }
         }
     }
+        */;
     @EventHandler(priority = EventPriority.HIGH)
     public void onSpawn(CreatureSpawnEvent event)
     {
@@ -159,24 +169,24 @@ public class MobListener implements Listener
         Material mat = ci.getType();
         EntityLiving ev = ((CraftLivingEntity) e).getHandle();
         if (plugin.drop.isBoots(mat))
-        {
             ev.setEquipment(1, ci.getHandle());
-        }
         else if (plugin.drop.isChestPlate(mat))
-        {
             ev.setEquipment(3, ci.getHandle());
-        }
         else if (plugin.drop.isLeggings(mat))
-        {
             ev.setEquipment(2, ci.getHandle());
-        }
         else if (plugin.drop.isHelmet(mat))
-        {
             ev.setEquipment(4, ci.getHandle());
-        }
         else
-        {
             ev.setEquipment(0, ci.getHandle());
+        NBTTagCompound nbt = new NBTTagCompound();
+        ev.b(nbt);
+        if (nbt.hasKey("DropChances")) {
+            NBTTagList nbttaglist = new NBTTagList();
+            for (int j = 0; j < 5; j++) {
+            	nbttaglist.add(new NBTTagFloat(j + "", 2.0F));
+            }
+            nbt.set("DropChances", nbttaglist);
+            ev.a(nbt);
         }
 
     }

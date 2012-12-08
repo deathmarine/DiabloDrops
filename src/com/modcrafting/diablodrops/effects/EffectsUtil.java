@@ -378,7 +378,7 @@ public class EffectsUtil
      * @param le
      * @param i
      */
-    public void bleed(LivingEntity le,short i){
+    public static void bleed(LivingEntity le,short i){
     	EntityLiving el = ((CraftLivingEntity) le).getHandle();
     	NBTTagCompound nbt = new NBTTagCompound();
     	el.b(nbt);

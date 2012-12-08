@@ -9,10 +9,7 @@ Plugin:
 Reason:
   Spawner: true
   Egg: true
-#Mobs drop the all the equipment they're wearing#
-#If false will on drop only special items#
 DropFix:
-  Equipment: false
   #Adds Damages to all drops#
   Damage: true
 #When adding enchantments, only allow safe or item specific enchantments#

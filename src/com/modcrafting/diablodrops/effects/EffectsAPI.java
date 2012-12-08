@@ -36,8 +36,6 @@ public class EffectsAPI
         }
         catch (NumberFormatException e)
         {
-            if (DiabloDrops.getInstance().debug)
-                DiabloDrops.getInstance().log.warning(e.getMessage());
             level = 0;
         }
         if (args[1].equalsIgnoreCase("attack"))
@@ -105,6 +103,15 @@ public class EffectsAPI
                 EffectsUtil.setOnFire(striker, Math.abs(level));
             return;
         }
+        else if (args[1].equalsIgnoreCase("bleed"))
+        {
+            // Set entity on fire
+            if (level > 0 && struck != null)
+                EffectsUtil.bleed(struck, (short) Math.abs(level));
+            else if (level < 0 && striker != null)
+                EffectsUtil.bleed(striker, (short) Math.abs(level));
+            return;
+        }
         else if (args[1].equalsIgnoreCase("entomb"))
         {
             if (level > 0 && struck != null)
@@ -120,19 +127,35 @@ public class EffectsAPI
             {
                 int chng = level - struck.getHealth();
                 if (chng < struck.getMaxHealth() && chng > 0)
+                {
                     struck.setHealth(chng);
+                }else{
+                    struck.setHealth(0);
+                }
                 chng = level + striker.getHealth();
                 if (chng < striker.getMaxHealth() && chng > 0)
+                {
                     striker.setHealth(chng);
+                }else{
+                	striker.setHealth(striker.getMaxHealth());
+                }
             }
             else if (level < 0)
             {
                 int chng = Math.abs(level) + struck.getHealth();
                 if (chng < struck.getMaxHealth() && chng > 0)
-                    struck.setHealth(chng);
+                {
+                    striker.setHealth(chng);
+                }else{
+                	striker.setHealth(striker.getMaxHealth());
+                }
                 chng = Math.abs(level) - striker.getHealth();
                 if (chng < striker.getMaxHealth() && chng > 0)
-                    striker.setHealth(chng);
+                {
+                    struck.setHealth(chng);
+                }else{
+                    struck.setHealth(0);
+                }
             }
             return;
         }

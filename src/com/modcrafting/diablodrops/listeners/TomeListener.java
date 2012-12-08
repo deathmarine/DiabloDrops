@@ -111,9 +111,11 @@ public class TomeListener implements Listener
                     p.updateInventory();
                     e.setUseItemInHand(Result.DENY);
                     e.setCancelled(true);
+                    p.closeInventory();
                     return;
                 }
                 p.sendMessage(ChatColor.RED + "You have no items to identify.");
+                p.closeInventory();
                 e.setUseItemInHand(Result.DENY);
                 e.setCancelled(true);
                 return;

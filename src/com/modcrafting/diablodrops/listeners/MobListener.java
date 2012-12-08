@@ -138,19 +138,6 @@ public class MobListener implements Listener
         {
             ev.setEquipment(0, ci.getHandle());
         }
-        // NBTTagCompound nbt = new NBTTagCompound();
-        // ev.b(nbt);
-        // if (nbt.hasKey("DropChances"))
-        // {
-        // NBTTagList nbttaglist = new NBTTagList();
-        // for (int j = 0; j < 5; j++)
-        // {
-        // nbttaglist.add(new NBTTagFloat(j + "", 2.0F));
-        // }
-        // nbt.set("DropChances", nbttaglist);
-        // ev.a(nbt);
-        // }
-
     }
 
 }

@@ -382,9 +382,7 @@ public class EffectsUtil
     	EntityLiving el = ((CraftLivingEntity) le).getHandle();
     	NBTTagCompound nbt = new NBTTagCompound();
     	el.b(nbt);
-    	if(nbt.hasKey("HurtTime")){
-    		nbt.setShort("HurtTime", i);
-    	}
+    	nbt.setShort("HurtTime", i);
     	el.a(nbt);
     	
     }

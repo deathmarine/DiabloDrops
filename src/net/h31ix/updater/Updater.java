@@ -198,9 +198,10 @@ public class Updater
     // project's
     // RSS
     // feed
-    private String[] noUpdateTag =
-    { "-DEV", "-PRE" }; // If the version number contains one of these, don't
-                        // update.
+    private String[] noUpdateTag = { "-DEV", "-PRE" }; // If the version number
+                                                       // contains one of these,
+                                                       // don't
+                                                       // update.
     private static final int BYTE_SIZE = 1024; // Used for downloading files
 
     private String updateFolder = YamlConfiguration.loadConfiguration(

@@ -23,10 +23,11 @@ public class EntityDropItemEvent extends Event implements Cancellable
 
     private final LivingEntity entity;
     private List<net.minecraft.server.ItemStack> list;
+
     public EntityDropItemEvent(LivingEntity entity, List<ItemStack> list)
     {
         this.entity = entity;
-        this.list=list;
+        this.list = list;
     }
 
     public LivingEntity getEntity()
@@ -52,8 +53,9 @@ public class EntityDropItemEvent extends Event implements Cancellable
         isCancelled = bln;
     }
 
-	public List<net.minecraft.server.ItemStack> getDropList() {
-		return list;
-	}
+    public List<net.minecraft.server.ItemStack> getDropList()
+    {
+        return list;
+    }
 
 }

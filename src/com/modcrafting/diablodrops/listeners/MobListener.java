@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.EntityLiving;
-import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.NBTTagFloat;
-import net.minecraft.server.NBTTagList;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -35,17 +32,6 @@ public class MobListener implements Listener
         plugin = instance;
     }
 
-    /*
-     * public void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
-     * {
-     * 
-     * double xs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D; double
-     * ys = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D; double zs =
-     * plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D; EntityItem entity =
-     * new EntityItem( ((CraftWorld) loc.getWorld()).getHandle(), loc.getX() +
-     * xs, loc.getY() + ys, loc.getZ() + zs, mItem); ((CraftWorld)
-     * loc.getWorld()).getHandle().addEntity(entity); }
-     */
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDeath(final EntityDeathEvent event)
     {
@@ -64,33 +50,21 @@ public class MobListener implements Listener
                     list.add(mItem);
                 }
             }
-            // Using event.getDrops()
-            // returns List<org.bukkit.inventory.ItemStack> which erases NBT
-            // data
+
             EntityDropItemEvent edie = new EntityDropItemEvent(
                     event.getEntity(), list);
             plugin.getServer().getPluginManager().callEvent(edie);
             if (edie.isCancelled())
                 return;
+            for (net.minecraft.server.ItemStack is : edie.getDropList())
+            {
+                event.getEntity()
+                        .getWorld()
+                        .dropItemNaturally(event.getEntity().getLocation(),
+                                new CraftItemStack(is));
+            }
         }
     }
-    /*
-     * if (edie.isCancelled()) return; list=edie.getDropList(); dropfix =
-     * edie.getDropFix(); for (net.minecraft.server.ItemStack mItem:list){ if
-     * (mItem != null) { if (dropfix) { dropItem(mItem, loc); return; }
-     * List<String> l = plugin.config .getStringList("SocketItem.Items");
-     * l.add("WRITTEN_BOOK"); for (String m : l) { if
-     * (CraftItemStack.asBukkitStack(mItem).getType()
-     * .equals(Material.valueOf(m.toUpperCase()))) { dropItem(mItem, loc);
-     * return; }
-     * 
-     * } if (mItem.tag != null) { NBTTagCompound nc =
-     * mItem.tag.getCompound("display"); if (nc != null) { String sg =
-     * nc.getString("Name"); if (sg != null && sg.contains(new Character((char)
-     * 167) .toString())) {
-     * 
-     * dropItem(mItem, loc); return; } } } } } } }
-     */;
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onSpawn(final CreatureSpawnEvent event)
@@ -164,18 +138,18 @@ public class MobListener implements Listener
         {
             ev.setEquipment(0, ci.getHandle());
         }
-        NBTTagCompound nbt = new NBTTagCompound();
-        ev.b(nbt);
-        if (nbt.hasKey("DropChances"))
-        {
-            NBTTagList nbttaglist = new NBTTagList();
-            for (int j = 0; j < 5; j++)
-            {
-                nbttaglist.add(new NBTTagFloat(j + "", 2.0F));
-            }
-            nbt.set("DropChances", nbttaglist);
-            ev.a(nbt);
-        }
+        // NBTTagCompound nbt = new NBTTagCompound();
+        // ev.b(nbt);
+        // if (nbt.hasKey("DropChances"))
+        // {
+        // NBTTagList nbttaglist = new NBTTagList();
+        // for (int j = 0; j < 5; j++)
+        // {
+        // nbttaglist.add(new NBTTagFloat(j + "", 2.0F));
+        // }
+        // nbt.set("DropChances", nbttaglist);
+        // ev.a(nbt);
+        // }
 
     }
 

@@ -8,23 +8,24 @@ public class DropUtils
 {
     Random gen;
 
-    public DropUtils(Random gen) {
-    	this.gen=gen;
-	}
+    public DropUtils(Random gen)
+    {
+        this.gen = gen;
+    }
 
-	/**
+    /**
      * Returns an array of Materials that the plugin can use
      * 
      * @return all items that the plugin can use
      */
     public Material[] allItems()
     {
-        return new Material[]
-        { Material.DIAMOND_SWORD, Material.DIAMOND_PICKAXE,
-                Material.DIAMOND_SPADE, Material.DIAMOND_AXE,
-                Material.DIAMOND_HOE, Material.IRON_SWORD,
-                Material.IRON_PICKAXE, Material.IRON_SPADE, Material.IRON_AXE,
-                Material.IRON_HOE, Material.GOLD_SWORD, Material.GOLD_PICKAXE,
+        return new Material[] { Material.DIAMOND_SWORD,
+                Material.DIAMOND_PICKAXE, Material.DIAMOND_SPADE,
+                Material.DIAMOND_AXE, Material.DIAMOND_HOE,
+                Material.IRON_SWORD, Material.IRON_PICKAXE,
+                Material.IRON_SPADE, Material.IRON_AXE, Material.IRON_HOE,
+                Material.GOLD_SWORD, Material.GOLD_PICKAXE,
                 Material.GOLD_SPADE, Material.GOLD_AXE, Material.GOLD_HOE,
                 Material.STONE_SWORD, Material.STONE_PICKAXE,
                 Material.STONE_SPADE, Material.STONE_AXE, Material.STONE_HOE,
@@ -74,9 +75,9 @@ public class DropUtils
      */
     public Material[] chainmailArmor()
     {
-        return new Material[]
-        { Material.CHAINMAIL_HELMET, Material.CHAINMAIL_CHESTPLATE,
-                Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS };
+        return new Material[] { Material.CHAINMAIL_HELMET,
+                Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_LEGGINGS,
+                Material.CHAINMAIL_BOOTS };
     }
 
     /**
@@ -86,22 +87,17 @@ public class DropUtils
      */
     public Material[] diamondArmor()
     {
-        return new Material[]
-        { Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
-                Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS };
+        return new Material[] { Material.DIAMOND_HELMET,
+                Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS,
+                Material.DIAMOND_BOOTS };
     }
 
     /**
-     * Returns a kind of diamond tool
-     * 1 - DIAMOND_SWORD
-     * 2 - DIAMOND_PICKAXE
-     * 3 - DIAMOND_SPADE
-     * 4 - DIAMOND_AXE
-     * 5 - DIAMOND_HOE
+     * Returns a kind of diamond tool 1 - DIAMOND_SWORD 2 - DIAMOND_PICKAXE 3 -
+     * DIAMOND_SPADE 4 - DIAMOND_AXE 5 - DIAMOND_HOE
      * 
      * @param num
-     *            kind
-     *            to return
+     *            kind to return
      * @return kind of diamond tool
      */
     public Material diamondWeapon(int num)
@@ -346,22 +342,16 @@ public class DropUtils
      */
     public Material[] goldArmor()
     {
-        return new Material[]
-        { Material.GOLD_HELMET, Material.GOLD_CHESTPLATE,
+        return new Material[] { Material.GOLD_HELMET, Material.GOLD_CHESTPLATE,
                 Material.GOLD_LEGGINGS, Material.GOLD_BOOTS };
     }
 
     /**
-     * Returns a kind of gold tool
-     * 1 - GOLD_SWORD
-     * 2 - GOLD_PICKAXE
-     * 3 - GOLD_SPADE
-     * 4 - GOLD_AXE
-     * 5 - GOLD_HOE
+     * Returns a kind of gold tool 1 - GOLD_SWORD 2 - GOLD_PICKAXE 3 -
+     * GOLD_SPADE 4 - GOLD_AXE 5 - GOLD_HOE
      * 
      * @param num
-     *            kind
-     *            to return
+     *            kind to return
      * @return kind of gold tool
      */
     public Material goldWeapon(int num)
@@ -390,22 +380,16 @@ public class DropUtils
      */
     public Material[] ironArmor()
     {
-        return new Material[]
-        { Material.IRON_HELMET, Material.IRON_CHESTPLATE,
+        return new Material[] { Material.IRON_HELMET, Material.IRON_CHESTPLATE,
                 Material.IRON_LEGGINGS, Material.IRON_BOOTS };
     }
 
     /**
-     * Returns a kind of iron tool
-     * 1 - IRON_SWORD
-     * 2 - IRON_PICKAXE
-     * 3 - IRON_SPADE
-     * 4 - IRON_AXE
-     * 5 - IRON_HOE
+     * Returns a kind of iron tool 1 - IRON_SWORD 2 - IRON_PICKAXE 3 -
+     * IRON_SPADE 4 - IRON_AXE 5 - IRON_HOE
      * 
      * @param num
-     *            kind
-     *            to return
+     *            kind to return
      * @return kind of iron tool
      */
     public Material ironWeapon(int num)
@@ -431,8 +415,7 @@ public class DropUtils
      * Is material a piece of armor?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is armor or not
      */
     public boolean isArmor(Material mat)
@@ -449,8 +432,7 @@ public class DropUtils
      * Is material an axe?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is axe or not
      */
     public boolean isAxe(Material mat)
@@ -467,8 +449,7 @@ public class DropUtils
      * Is material boots?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is boots or not
      */
     public boolean isBoots(Material mat)
@@ -488,8 +469,7 @@ public class DropUtils
      * Is material a chestplate?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is chestplate or not
      */
     public boolean isChestPlate(Material mat)
@@ -509,8 +489,7 @@ public class DropUtils
      * Is material a helmet?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is helmet or not
      */
     public boolean isHelmet(Material mat)
@@ -530,8 +509,7 @@ public class DropUtils
      * Is material a hoe?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is hoe or not
      */
     public boolean isHoe(Material mat)
@@ -548,8 +526,7 @@ public class DropUtils
      * Is material leggings?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is leggings or not
      */
     public boolean isLeggings(Material mat)
@@ -569,8 +546,7 @@ public class DropUtils
      * Is material a pickaxe?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is pickaxe or not
      */
     public boolean isPickaxe(Material mat)
@@ -588,8 +564,7 @@ public class DropUtils
      * Is material a spade?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is spade or not
      */
     public boolean isSpade(Material mat)
@@ -606,8 +581,7 @@ public class DropUtils
      * Is material a sword?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is sword or not
      */
     public boolean isSword(Material mat)
@@ -624,8 +598,7 @@ public class DropUtils
      * Is material an tool?
      * 
      * @param mat
-     *            material
-     *            to check
+     *            material to check
      * @return is tool or not
      */
     public boolean isTool(Material mat)
@@ -644,22 +617,17 @@ public class DropUtils
      */
     public Material[] leatherArmor()
     {
-        return new Material[]
-        { Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE,
-                Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS };
+        return new Material[] { Material.LEATHER_HELMET,
+                Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS,
+                Material.LEATHER_BOOTS };
     }
 
     /**
-     * Returns a kind of stone tool
-     * 1 - STONE_SWORD
-     * 2 - STONE_PICKAXE
-     * 3 - STONE_SPADE
-     * 4 - STONE_AXE
-     * 5 - STONE_HOE
+     * Returns a kind of stone tool 1 - STONE_SWORD 2 - STONE_PICKAXE 3 -
+     * STONE_SPADE 4 - STONE_AXE 5 - STONE_HOE
      * 
      * @param num
-     *            kind
-     *            to return
+     *            kind to return
      * @return kind of stone tool
      */
     public Material stoneWeapon(int num)
@@ -708,16 +676,11 @@ public class DropUtils
     }
 
     /**
-     * Returns a kind of wood tool
-     * 1 - WOOD_SWORD
-     * 2 - WOOD_PICKAXE
-     * 3 - WOOD_SPADE
-     * 4 - WOOD_AXE
-     * 5 - WOOD_HOE
+     * Returns a kind of wood tool 1 - WOOD_SWORD 2 - WOOD_PICKAXE 3 -
+     * WOOD_SPADE 4 - WOOD_AXE 5 - WOOD_HOE
      * 
      * @param num
-     *            kind
-     *            to return
+     *            kind to return
      * @return kind of wood tool
      */
     public Material woodWeapon(int num)

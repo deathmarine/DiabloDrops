@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,28 +27,30 @@ import de.bananaco.bookapi.lib.CraftBookBuilder;
 public class TomeListener implements Listener
 {
 
-    private DiabloDrops plugin;
+    private final DiabloDrops plugin;
 
-    public TomeListener(DiabloDrops plugin)
+    public TomeListener(final DiabloDrops plugin)
     {
         this.plugin = plugin;
     }
 
     @EventHandler
-    public void onCraftItem(CraftItemEvent e)
+    public void onCraftItem(final CraftItemEvent e)
     {
         ItemStack item = e.getCurrentItem();
         if (item.getType().equals(Material.WRITTEN_BOOK))
         {
             if (e.isShiftClick())
+            {
                 e.setCancelled(true);
+            }
             e.setCurrentItem(new Tome());
         }
     }
 
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onRightClick(PlayerInteractEvent e)
+    public void onRightClick(final PlayerInteractEvent e)
     {
         if ((e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction()
                 .equals(Action.RIGHT_CLICK_BLOCK))
@@ -67,7 +70,7 @@ public class TomeListener implements Listener
                 while (itis.hasNext())
                 {
                     ItemStack next = itis.next();
-                    if (next == null
+                    if ((next == null)
                             || !plugin.dropsAPI.canBeItem(next.getType()))
                     {
                         continue;
@@ -89,24 +92,29 @@ public class TomeListener implements Listener
                     {
                         p.sendMessage(ChatColor.RED
                                 + "You are unable to identify right now.");
+                        e.setUseItemInHand(Result.DENY);
                         e.setCancelled(true);
                         return;
                     }
                     pi.setItemInHand(null);
                     Tool item = plugin.dropsAPI.getItem(tool);
-                    while (item == null
+                    while ((item == null)
                             || item.getName().contains(
                                     ChatColor.MAGIC.toString()))
+                    {
                         item = plugin.dropsAPI.getItem(tool);
+                    }
                     pi.removeItem(tool);
                     pi.addItem(item);
                     p.sendMessage(ChatColor.GREEN
                             + "You have identified an item!");
                     p.updateInventory();
+                    e.setUseItemInHand(Result.DENY);
                     e.setCancelled(true);
                     return;
                 }
                 p.sendMessage(ChatColor.RED + "You have no items to identify.");
+                e.setUseItemInHand(Result.DENY);
                 e.setCancelled(true);
                 return;
             }

@@ -20,7 +20,8 @@ public class RuinGenerateEvent extends Event implements Cancellable
 
     private final Chunk chunk;
     private Block chest;
-    public RuinGenerateEvent(Chunk chunk,Block block)
+
+    public RuinGenerateEvent(Chunk chunk, Block block)
     {
         this.chunk = chunk;
         this.chest = block;

@@ -125,14 +125,14 @@ public class DiabloDrops extends JavaPlugin
         config = getConfig();
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {
-        	//Works now.
+            // Works now.
             File loc = new File(getDataFolder(), "/NamesPrefix/");
             if (!loc.exists())
                 loc.mkdir();
             for (File f : loc.listFiles())
                 if (f.getName().endsWith(".txt"))
                 {
-                	getLogger().info("Loading Prefix File:"+f.getName());
+                    getLogger().info("Loading Prefix File:" + f.getName());
                     nameLoader.loadFile(hmprefix, new File(loc, f.getName()));
                 }
             File sloc = new File(getDataFolder(), "/NamesSuffix/");
@@ -141,7 +141,7 @@ public class DiabloDrops extends JavaPlugin
             for (File f : loc.listFiles())
                 if (f.getName().endsWith(".txt"))
                 {
-                	getLogger().info("Loading Suffix File:"+f.getName());
+                    getLogger().info("Loading Suffix File:" + f.getName());
                     nameLoader.loadFile(hmsuffix, new File(sloc, f.getName()));
                 }
         }
@@ -155,9 +155,11 @@ public class DiabloDrops extends JavaPlugin
         new ArmorSetBuilder(this).build();
         dropsAPI = new DropsAPI(this);
         setsAPI = new SetsAPI(this);
-        if (config.getBoolean("Worlds.Enabled", false)){
-            for (String s : config.getStringList("Worlds.Allowed")){
-                worlds.add(s.toLowerCase());            	
+        if (config.getBoolean("Worlds.Enabled", false))
+        {
+            for (String s : config.getStringList("Worlds.Allowed"))
+            {
+                worlds.add(s.toLowerCase());
             }
         }
         debug = config.getBoolean("Plugin.Debug", false);

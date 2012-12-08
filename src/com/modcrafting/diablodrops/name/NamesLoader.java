@@ -88,10 +88,11 @@ public class NamesLoader
         }
     }
 
-    public void loadFile(HashMap<Material,List<String>> hm, File f)
+    public void loadFile(HashMap<Material, List<String>> hm, File f)
     {
-        Material m = Material.getMaterial(f.getName().replace(".txt", "").toUpperCase());
-    	List<String> l = new ArrayList<String>();
+        Material m = Material.getMaterial(f.getName().replace(".txt", "")
+                .toUpperCase());
+        List<String> l = new ArrayList<String>();
         try
         {
             BufferedReader list = new BufferedReader(new FileReader(f));
@@ -104,10 +105,13 @@ public class NamesLoader
                 }
             }
 
-            if(m!=null){
-            	hm.put(m, l);
-            }else{
-            	hm.put(Material.AIR, l);
+            if (m != null)
+            {
+                hm.put(m, l);
+            }
+            else
+            {
+                hm.put(Material.AIR, l);
             }
 
             list.close();

@@ -20,159 +20,163 @@ import com.modcrafting.toolapi.lib.Tool;
 
 public class SocketListener implements Listener
 {
-	DiabloDrops plugin;
+    DiabloDrops plugin;
 
-	public SocketListener(final DiabloDrops instance)
-	{
-		plugin = instance;
-	}
-	@EventHandler
-	public void burnGem(final FurnaceBurnEvent event)
-	{
-		Furnace furn = (Furnace) event.getBlock().getState();
-		ItemStack tis = furn.getInventory().getSmelting();
-		if (plugin.drop.isArmor(tis.getType())
-				|| plugin.drop.isTool(tis.getType()))
-		{
-			for (String name : plugin.config.getStringList("SocketItem.Items"))
-				if (event.getFuel().getType()
-						.equals(Material.matchMaterial(name)))
-				{
-					Tool fuel = new Tool(
-							((CraftItemStack) event.getFuel()).getHandle());
-					if (fuel.getName() != null)
-					{
-						boolean test = false;
-						String toReplace = null;
-						for (String t : new Tool(tis).getLoreList())
-							if (t.contains("(Socket)"))
-							{
-								test = true;
-								toReplace = t;
-							}
-						if (toReplace != null)
-							if ((fuel.getName().contains("Socket") || fuel
-									.getType().equals(Material.SKULL_ITEM))
-									&& test)
-							{
-								ChatColor socketColor = findColor(toReplace);
-								ChatColor fuelColor = findColor(fuel.getName());
-								if (fuelColor == socketColor||socketColor==null)
-								{
-									PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
-											tis, event.getFuel(), furn);
-									plugin.getServer().getPluginManager()
-											.callEvent(psee);
-									if (psee.isCancelled())
-										continue;
-									plugin.furnanceMap.put(event.getBlock(),
-											event.getFuel());
-									event.setBurnTime(240);
-									event.setBurning(true);
-									return;
-								}
-							}
-					}
-				}
-			event.setCancelled(true);
-			event.setBurning(false);
-			event.setBurnTime(120000);
-			return;
-		}
-	}
-	public ChatColor findColor(final String s)
-	{
-		char[] c = s.toCharArray();
-		for (int i = 0; i < c.length; i++)
-			if ((c[i] == new Character((char) 167)) && ((i + 1) < c.length))
-				return ChatColor.getByChar(c[i + 1]);
-		return null;
-	}
-	@EventHandler
-	public void onSmeltSocket(final FurnaceSmeltEvent event)
-	{
-		if (!plugin.furnanceMap.containsKey(event.getBlock())
-				&& !plugin.drop.isTool(event.getResult().getType()))
-			return;
-		ItemStack is = plugin.furnanceMap.remove(event.getBlock());
-		Material fuel = is.getType();
-		Tool tool = new Tool(event.getResult().getType());
-		Tool oldtool = new Tool(event.getSource());
-		boolean namTest = false;
-		for (String n : oldtool.getLoreList())
-			if (StringUtils.containsIgnoreCase(n, "(Socket)"))
-				namTest = true;
-		if (!namTest)
-		{
-			event.setResult(event.getSource());
-			return;
-		}
+    public SocketListener(final DiabloDrops instance)
+    {
+        plugin = instance;
+    }
 
-		int eni = plugin.config.getInt("SocketItem.EnhanceBy", 1);
-		int ene = plugin.config.getInt("SocketItem.EnhanceMax", 10);
-		for (Enchantment ench : oldtool.getEnchantments().keySet())
-		{
-			int il = oldtool.getEnchantments().get(ench);
-			if (il < ene)
-				il = il + eni;
-			tool.addUnsafeEnchantment(ench, il);
-		}
+    @EventHandler
+    public void burnGem(final FurnaceBurnEvent event)
+    {
+        Furnace furn = (Furnace) event.getBlock().getState();
+        ItemStack tis = furn.getInventory().getSmelting();
+        if (plugin.drop.isArmor(tis.getType())
+                || plugin.drop.isTool(tis.getType()))
+        {
+            for (String name : plugin.config.getStringList("SocketItem.Items"))
+                if (event.getFuel().getType()
+                        .equals(Material.matchMaterial(name)))
+                {
+                    Tool fuel = new Tool(
+                            ((CraftItemStack) event.getFuel()).getHandle());
+                    if (fuel.getName() != null)
+                    {
+                        boolean test = false;
+                        String toReplace = null;
+                        for (String t : new Tool(tis).getLoreList())
+                            if (t.contains("(Socket)"))
+                            {
+                                test = true;
+                                toReplace = t;
+                            }
+                        if (toReplace != null)
+                            if ((fuel.getName().contains("Socket") || fuel
+                                    .getType().equals(Material.SKULL_ITEM))
+                                    && test)
+                            {
+                                ChatColor socketColor = findColor(toReplace);
+                                ChatColor fuelColor = findColor(fuel.getName());
+                                if (fuelColor == socketColor
+                                        || socketColor == null)
+                                {
+                                    PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
+                                            tis, event.getFuel(), furn);
+                                    plugin.getServer().getPluginManager()
+                                            .callEvent(psee);
+                                    if (psee.isCancelled())
+                                        continue;
+                                    plugin.furnanceMap.put(event.getBlock(),
+                                            event.getFuel());
+                                    event.setBurnTime(240);
+                                    event.setBurning(true);
+                                    return;
+                                }
+                            }
+                    }
+                }
+            event.setCancelled(true);
+            event.setBurning(false);
+            event.setBurnTime(120000);
+            return;
+        }
+    }
 
-		if (fuel.equals(Material.SKULL_ITEM))
-		{
+    public ChatColor findColor(final String s)
+    {
+        char[] c = s.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if ((c[i] == new Character((char) 167)) && ((i + 1) < c.length))
+                return ChatColor.getByChar(c[i + 1]);
+        return null;
+    }
 
-			ChatColor color = findColor(oldtool.getName());
-			Skull skull = new Skull(((CraftItemStack) is).getHandle());
-			String skullName = skull.getOwner();
-			if ((skullName == null) || (skullName.trim().length() < 1))
-				switch (skull.getSkullType())
-				{
-					case CREEPER:
-					{
-						skullName = "Creeper";
-						break;
-					}
-					case PLAYER:
-					{
-						skullName = "Steve";
-						break;
-					}
-					case SKELETON:
-					{
-						skullName = "Skeleton";
-						break;
-					}
-					case WITHER:
-					{
-						skullName = "Wither";
-						break;
-					}
-					case ZOMBIE:
-					{
-						skullName = "Zombie";
-						break;
-					}
-				}
-			String old = oldtool.getName();
-			if (old.contains("'"))
-				old = old.split("'")[1].substring(2);
-			tool.setName(color + skullName + "'s " + ChatColor.stripColor(old));
-		}
-		else
-			tool.setName(oldtool.getName());
-		if (plugin.config.getBoolean("Socket.Lore", true))
-			for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
-				if (plugin.drop.isArmor(oldtool.getType()))
-					tool.addLore(plugin.defenselore.get(plugin.gen
-							.nextInt(plugin.defenselore.size())));
-				else if (plugin.drop.isTool(oldtool.getType()))
-					tool.addLore(plugin.offenselore.get(plugin.gen
-							.nextInt(plugin.offenselore.size())));
-		SocketEnhancementEvent see = new SocketEnhancementEvent(
-				event.getSource(), is, tool, ((Furnace) event.getBlock()
-						.getState()));
-		plugin.getServer().getPluginManager().callEvent(see);
-		event.setResult(tool);
-		return;
-	}
+    @EventHandler
+    public void onSmeltSocket(final FurnaceSmeltEvent event)
+    {
+        if (!plugin.furnanceMap.containsKey(event.getBlock())
+                && !plugin.drop.isTool(event.getResult().getType()))
+            return;
+        ItemStack is = plugin.furnanceMap.remove(event.getBlock());
+        Material fuel = is.getType();
+        Tool tool = new Tool(event.getResult().getType());
+        Tool oldtool = new Tool(event.getSource());
+        boolean namTest = false;
+        for (String n : oldtool.getLoreList())
+            if (StringUtils.containsIgnoreCase(n, "(Socket)"))
+                namTest = true;
+        if (!namTest)
+        {
+            event.setResult(event.getSource());
+            return;
+        }
+
+        int eni = plugin.config.getInt("SocketItem.EnhanceBy", 1);
+        int ene = plugin.config.getInt("SocketItem.EnhanceMax", 10);
+        for (Enchantment ench : oldtool.getEnchantments().keySet())
+        {
+            int il = oldtool.getEnchantments().get(ench);
+            if (il < ene)
+                il = il + eni;
+            tool.addUnsafeEnchantment(ench, il);
+        }
+
+        if (fuel.equals(Material.SKULL_ITEM))
+        {
+
+            ChatColor color = findColor(oldtool.getName());
+            Skull skull = new Skull(((CraftItemStack) is).getHandle());
+            String skullName = skull.getOwner();
+            if ((skullName == null) || (skullName.trim().length() < 1))
+                switch (skull.getSkullType())
+                {
+                    case CREEPER:
+                    {
+                        skullName = "Creeper";
+                        break;
+                    }
+                    case PLAYER:
+                    {
+                        skullName = "Steve";
+                        break;
+                    }
+                    case SKELETON:
+                    {
+                        skullName = "Skeleton";
+                        break;
+                    }
+                    case WITHER:
+                    {
+                        skullName = "Wither";
+                        break;
+                    }
+                    case ZOMBIE:
+                    {
+                        skullName = "Zombie";
+                        break;
+                    }
+                }
+            String old = oldtool.getName();
+            if (old.contains("'"))
+                old = old.split("'")[1].substring(2);
+            tool.setName(color + skullName + "'s " + ChatColor.stripColor(old));
+        }
+        else
+            tool.setName(oldtool.getName());
+        if (plugin.config.getBoolean("Socket.Lore", true))
+            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
+                if (plugin.drop.isArmor(oldtool.getType()))
+                    tool.addLore(plugin.defenselore.get(plugin.gen
+                            .nextInt(plugin.defenselore.size())));
+                else if (plugin.drop.isTool(oldtool.getType()))
+                    tool.addLore(plugin.offenselore.get(plugin.gen
+                            .nextInt(plugin.offenselore.size())));
+        SocketEnhancementEvent see = new SocketEnhancementEvent(
+                event.getSource(), is, tool, ((Furnace) event.getBlock()
+                        .getState()));
+        plugin.getServer().getPluginManager().callEvent(see);
+        event.setResult(tool);
+        return;
+    }
 }

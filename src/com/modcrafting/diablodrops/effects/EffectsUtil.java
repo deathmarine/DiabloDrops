@@ -44,17 +44,9 @@ import com.modcrafting.diablodrops.DiabloDrops;
 public class EffectsUtil
 {
     /**
-     * Entombs the entity in a variety of blocks:
-     * 1 - Glass;
-     * 2 - Ice;
-     * 3 - Dirt;
-     * 4 - Cobblestone;
-     * 5 - Stone;
-     * 6 - Brick;
-     * 7 - Stone Brick;
-     * 8 - Iron Bars;
-     * 9 - Ender Chest;
-     * 10 - Obsidian
+     * Entombs the entity in a variety of blocks: 1 - Glass; 2 - Ice; 3 - Dirt;
+     * 4 - Cobblestone; 5 - Stone; 6 - Brick; 7 - Stone Brick; 8 - Iron Bars; 9
+     * - Ender Chest; 10 - Obsidian
      * 
      * @param loc
      *            Location at which to create the entombment
@@ -193,7 +185,7 @@ public class EffectsUtil
     {
         entity.setVelocity(new Vector(0, 2 * value, 0));
     }
-    
+
     /**
      * Makes entity into baby
      * 
@@ -264,11 +256,9 @@ public class EffectsUtil
      * Set entity on fire for specified value of time
      * 
      * @param entity
-     *            Entity
-     *            to set on fire
+     *            Entity to set on fire
      * @param value
-     *            Duration
-     *            of time to be set on fire
+     *            Duration of time to be set on fire
      */
     public static void setOnFire(LivingEntity entity, int value)
     {
@@ -281,8 +271,7 @@ public class EffectsUtil
      * @param e
      *            Entity to change the speed of
      * @param sp
-     *            Speed
-     *            modifier
+     *            Speed modifier
      */
     public static void speed(LivingEntity e, Float sp)
     {
@@ -372,9 +361,10 @@ public class EffectsUtil
                             }, 20L * i);
         }
     }
-    
+
     /**
      * Sets bleed time for an entity
+     * 
      * @param le
      * @param i
      */
@@ -384,6 +374,5 @@ public class EffectsUtil
     	el.b(nbt);
     	nbt.setShort("HurtTime", i);
     	el.a(nbt);
-    	
     }
 }

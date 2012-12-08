@@ -13,6 +13,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkPopulateEvent;
+
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.RuinGenerateEvent;
 
@@ -316,8 +317,8 @@ public class ChunkListener implements Listener
         {
             return;
         }
-        Block[] blockSurround = new Block[]
-        { block, block.getRelative(BlockFace.NORTH),
+        Block[] blockSurround = new Block[] { block,
+                block.getRelative(BlockFace.NORTH),
                 block.getRelative(BlockFace.NORTH_EAST),
                 block.getRelative(BlockFace.EAST),
                 block.getRelative(BlockFace.SOUTH_EAST),
@@ -333,8 +334,7 @@ public class ChunkListener implements Listener
                 BlockFace.SOUTH);
         Block western = block.getRelative(BlockFace.WEST).getRelative(
                 BlockFace.WEST);
-        Block[] ruinBase = new Block[]
-        {
+        Block[] ruinBase = new Block[] {
                 northern,
                 northern.getRelative(BlockFace.EAST),
                 northern.getRelative(BlockFace.EAST)
@@ -571,11 +571,13 @@ public class ChunkListener implements Listener
         int realZ = chunk.getZ() * 16 + plugin.gen.nextInt(15);
 
         Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
-        if (plugin.gen.nextInt(100) + 1 > 7){
-            if (plugin.gen.nextBoolean()){
+        if (plugin.gen.nextInt(100) + 1 > 7)
+        {
+            if (plugin.gen.nextBoolean())
+            {
                 block.setType(Material.CHEST);
                 plugin.dropsAPI.fillChest(block);
-                RuinGenerateEvent rge = new RuinGenerateEvent(chunk,block);
+                RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
                 plugin.getServer().getPluginManager().callEvent(rge);
                 if (rge.isCancelled())
                     return;
@@ -583,14 +585,16 @@ public class ChunkListener implements Listener
                 generateRuin1(block);
                 return;
             }
-            if (plugin.gen.nextBoolean()){
+            if (plugin.gen.nextBoolean())
+            {
                 generateRuin2(block);
                 return;
             }
-            if (plugin.gen.nextBoolean()){
+            if (plugin.gen.nextBoolean())
+            {
                 block.setType(Material.CHEST);
                 plugin.dropsAPI.fillChest(block);
-                RuinGenerateEvent rge = new RuinGenerateEvent(chunk,block);
+                RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
                 plugin.getServer().getPluginManager().callEvent(rge);
                 if (rge.isCancelled())
                     return;
@@ -600,10 +604,11 @@ public class ChunkListener implements Listener
                 buildNetherTemple(loc);
                 return;
             }
-            if (plugin.gen.nextBoolean()){
+            if (plugin.gen.nextBoolean())
+            {
                 block.setType(Material.CHEST);
                 plugin.dropsAPI.fillChest(block);
-                RuinGenerateEvent rge = new RuinGenerateEvent(chunk,block);
+                RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
                 plugin.getServer().getPluginManager().callEvent(rge);
                 if (rge.isCancelled())
                     return;

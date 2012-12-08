@@ -5,8 +5,7 @@ import java.util.List;
 import net.minecraft.server.ItemStack;
 
 /**
- * API for modifying, viewing, and generally having
- * fun with books
+ * API for modifying, viewing, and generally having fun with books
  */
 public interface Book
 {

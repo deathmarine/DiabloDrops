@@ -464,13 +464,15 @@ public class DropsAPI
      *            name
      * @return item
      */
-    public CraftItemStack getItem(final Tier tier)
+    public CraftItemStack getItem(Tier tier)
     {
         Material mat = dropPicker();
         while (mat == null)
         {
             mat = dropPicker();
         }
+        while(tier==null)
+        	tier = getTier();
         CraftItemStack ci = null;
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))

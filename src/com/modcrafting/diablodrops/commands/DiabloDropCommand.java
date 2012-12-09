@@ -338,10 +338,16 @@ public class DiabloDropCommand implements CommandExecutor
                         ci2 = plugin.dropsAPI.getItem(tier);
                     pi.addItem(ci2);
                     player.updateInventory();
-                    player.sendMessage(ChatColor.GREEN
-                            + "You have been given a " + tier.getColor()
-                            + tier.getName() + ChatColor.GREEN
-                            + " DiabloDrops item.");
+                    if(tier==null){
+                        player.sendMessage(ChatColor.GREEN
+                                + "You have been given a DiabloDrops item.");
+                    }else{
+                        player.sendMessage(ChatColor.GREEN
+                                + "You have been given a " + tier.getColor()
+                                + tier.getName() + ChatColor.GREEN
+                                + " DiabloDrops item.");
+                    	
+                    }
                     return true;
                 }
                 CraftItemStack ci2 = plugin.dropsAPI.getItem();

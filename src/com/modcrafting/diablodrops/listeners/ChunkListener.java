@@ -62,8 +62,9 @@ public class ChunkListener implements Listener
      * Builds a nether temple.
      * 
      * @param loc
+     * @return 
      */
-    private void buildNetherTemple(Location loc)
+    private boolean buildNetherTemple(Location loc)
     {
         int square = 5;
         World world = loc.getWorld();
@@ -82,7 +83,7 @@ public class ChunkListener implements Listener
                                 (int) loc.getY(), (int) minZ + ii) == Material.STATIONARY_WATER
                                 .getId())
                 {
-                    return;
+                    return false;
                 }
             }
         }
@@ -167,6 +168,7 @@ public class ChunkListener implements Listener
         door.getRelative(BlockFace.NORTH_WEST).setType(Material.NETHER_FENCE);
         door.getRelative(BlockFace.SOUTH_EAST).setType(Material.NETHER_FENCE);
         door.getRelative(BlockFace.SOUTH_WEST).setType(Material.NETHER_FENCE);
+        return true;
 
     }
 
@@ -175,15 +177,15 @@ public class ChunkListener implements Listener
      * 
      * @param loc
      */
-    private void deathRuin(Location loc)
+    private boolean deathRuin(Location loc)
     {
         // These may need to be a seperate plugin.
         int square = plugin.gen.nextInt(6);
         if (square < 1)
-            return;
+            return false;
         List<Material> mats = getBiomeMaterials(loc.getBlock().getBiome());
         if (mats.size() < 1)
-            return;
+            return false;
         double maxX = Math.max(loc.getX() - square, loc.getX() + square);
         double maxZ = Math.max(loc.getZ() - square, loc.getZ() + square);
         double minX = Math.min(loc.getX() - square, loc.getX() + square);
@@ -217,6 +219,7 @@ public class ChunkListener implements Listener
                 }
             }
         }
+		return true;
     }
 
     private void eastRuin1(Block start)
@@ -575,14 +578,14 @@ public class ChunkListener implements Listener
         {
             if (plugin.gen.nextBoolean())
             {
-                block.setType(Material.CHEST);
-                plugin.dropsAPI.fillChest(block);
                 RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
                 plugin.getServer().getPluginManager().callEvent(rge);
                 if (rge.isCancelled())
                     return;
                 block = rge.getChest();
                 generateRuin1(block);
+                block.setType(Material.CHEST);
+                plugin.dropsAPI.fillChest(block);
                 return;
             }
             if (plugin.gen.nextBoolean())
@@ -592,8 +595,6 @@ public class ChunkListener implements Listener
             }
             if (plugin.gen.nextBoolean())
             {
-                block.setType(Material.CHEST);
-                plugin.dropsAPI.fillChest(block);
                 RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
                 plugin.getServer().getPluginManager().callEvent(rge);
                 if (rge.isCancelled())
@@ -601,13 +602,14 @@ public class ChunkListener implements Listener
                 block = rge.getChest();
                 Block under = block.getRelative(BlockFace.DOWN);
                 Location loc = under.getLocation();
-                buildNetherTemple(loc);
+                if(buildNetherTemple(loc)){
+                    block.setType(Material.CHEST);
+                    plugin.dropsAPI.fillChest(block);
+                }
                 return;
             }
             if (plugin.gen.nextBoolean())
             {
-                block.setType(Material.CHEST);
-                plugin.dropsAPI.fillChest(block);
                 RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
                 plugin.getServer().getPluginManager().callEvent(rge);
                 if (rge.isCancelled())
@@ -615,7 +617,10 @@ public class ChunkListener implements Listener
                 block = rge.getChest();
                 Block under = block.getRelative(BlockFace.DOWN);
                 Location loc = under.getLocation();
-                deathRuin(loc);
+                if(deathRuin(loc)){
+                    block.setType(Material.CHEST);
+                    plugin.dropsAPI.fillChest(block);
+                }
                 return;
             }
         }

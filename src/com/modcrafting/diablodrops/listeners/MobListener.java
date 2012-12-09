@@ -5,6 +5,9 @@ import java.util.List;
 
 import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
+import net.minecraft.server.NBTTagCompound;
+import net.minecraft.server.NBTTagFloat;
+import net.minecraft.server.NBTTagList;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -57,7 +60,6 @@ public class MobListener implements Listener
                     event.getEntity(), list);
             plugin.getServer().getPluginManager().callEvent(edie);
             if (edie.isCancelled())
-                return;
             for (net.minecraft.server.ItemStack is : edie.getDropList())
                 dropItem(is,event.getEntity().getLocation());
         }
@@ -85,19 +87,22 @@ public class MobListener implements Listener
                 && (plugin.config.getInt("Precentages.ChancePerSpawn", 9) >= random))
         {
             List<CraftItemStack> items = new ArrayList<CraftItemStack>();
-            CraftItemStack ci = plugin.dropsAPI.getItem();
-            while (ci == null)
+            for(int i=0;i<plugin.gen.nextInt(5)+1;i++)
             {
-                ci = plugin.dropsAPI.getItem();
-            }
-            if (plugin.config.getBoolean("Custom.Only", false))
-            {
-                ci = plugin.custom
-                        .get(plugin.gen.nextInt(plugin.custom.size()));
-            }
-            if (ci != null)
-            {
-                items.add(ci);
+                CraftItemStack ci = plugin.dropsAPI.getItem();
+                while (ci == null)
+                {
+                    ci = plugin.dropsAPI.getItem();
+                }
+                if (plugin.config.getBoolean("Custom.Only", false))
+                {
+                    ci = plugin.custom
+                            .get(plugin.gen.nextInt(plugin.custom.size()));
+                }
+                if (ci != null)
+                {
+                    items.add(ci);
+                }
             }
             EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(
                     entity, items);
@@ -144,6 +149,17 @@ public class MobListener implements Listener
         else
         {
             ev.setEquipment(0, ci.getHandle());
+        }
+
+        NBTTagCompound nbt = new NBTTagCompound();
+        ev.b(nbt);
+        if (nbt.hasKey("DropChances")) {
+            NBTTagList nbttaglist = new NBTTagList();
+            for (int j = 0; j < 5; j++) {
+            	nbttaglist.add(new NBTTagFloat(j + "", 2.0F));
+            }
+            nbt.set("DropChances", nbttaglist);
+            ev.a(nbt);
         }
     }
 

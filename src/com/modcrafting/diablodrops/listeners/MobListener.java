@@ -46,22 +46,16 @@ public class MobListener implements Listener
             if (!plugin.worlds.contains(loc.getWorld().getName())
                     && plugin.config.getBoolean("Worlds.Enabled", false))
                 return;
-            List<net.minecraft.server.ItemStack> list = new ArrayList<net.minecraft.server.ItemStack>();
-            for (net.minecraft.server.ItemStack mItem : ((CraftLivingEntity) event
-                    .getEntity()).getHandle().getEquipment())
-            {
-                if (mItem != null)
-                {
-                    list.add(mItem);
-                }
-            }
-
+            EntityLiving el = ((CraftLivingEntity) event.getEntity()).getHandle();
+            net.minecraft.server.ItemStack[] mItem = el.getEquipment();
             EntityDropItemEvent edie = new EntityDropItemEvent(
-                    event.getEntity(), list);
+                    event.getEntity());
             plugin.getServer().getPluginManager().callEvent(edie);
             if (edie.isCancelled())
-            for (net.minecraft.server.ItemStack is : edie.getDropList())
-                dropItem(is,event.getEntity().getLocation());
+            	for (int i=0;i<mItem.length;i++)
+            	{
+            		el.setEquipment(i, new CraftItemStack(Material.AIR).getHandle());
+            	}
         }
     }
 
@@ -115,9 +109,10 @@ public class MobListener implements Listener
             }
         }
     }
-    public void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
+    
+    @SuppressWarnings("unused")
+	private void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
     {
-
         double xs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
         double ys = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
         double zs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
@@ -150,7 +145,6 @@ public class MobListener implements Listener
         {
             ev.setEquipment(0, ci.getHandle());
         }
-
         NBTTagCompound nbt = new NBTTagCompound();
         ev.b(nbt);
         if (nbt.hasKey("DropChances")) {

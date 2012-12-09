@@ -59,7 +59,8 @@ public class SocketListener implements Listener
                                 ChatColor socketColor = findColor(toReplace);
                                 ChatColor fuelColor = findColor(fuel.getName());
                                 if (fuelColor == socketColor
-                                        || socketColor == null)
+                                        || socketColor == null 
+                                        || socketColor==ChatColor.RESET)
                                 {
                                     PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
                                             tis, event.getFuel(), furn);

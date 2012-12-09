@@ -3,10 +3,12 @@ package com.modcrafting.diablodrops.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
@@ -57,12 +59,7 @@ public class MobListener implements Listener
             if (edie.isCancelled())
                 return;
             for (net.minecraft.server.ItemStack is : edie.getDropList())
-            {
-                event.getEntity()
-                        .getWorld()
-                        .dropItemNaturally(event.getEntity().getLocation(),
-                                new CraftItemStack(is));
-            }
+                dropItem(is,event.getEntity().getLocation());
         }
     }
 
@@ -113,7 +110,17 @@ public class MobListener implements Listener
             }
         }
     }
+    public void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
+    {
 
+        double xs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
+        double ys = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
+        double zs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
+        EntityItem entity = new EntityItem(
+                ((CraftWorld) loc.getWorld()).getHandle(), loc.getX() + xs,
+                loc.getY() + ys, loc.getZ() + zs, mItem);
+        ((CraftWorld) loc.getWorld()).getHandle().addEntity(entity);
+    }
     public void setEquipment(final CraftItemStack ci, final Entity e)
     {
         Material mat = ci.getType();

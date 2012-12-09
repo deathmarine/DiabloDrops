@@ -94,7 +94,7 @@ public class DevUpdater
             if (currentElement.equals("title"))
             {
                 String s = new String(chars, start, length);
-                if (StringUtils.containsIgnoreCase(s, "DiabloDrops"))
+                if (StringUtils.containsIgnoreCase(s, "DiabloDrops")&&!StringUtils.containsIgnoreCase(s, "bleeding"))
                 {
                     versionTitle = s;
                 }
@@ -117,7 +117,7 @@ public class DevUpdater
             if (currentElement.equals("link"))
             {
                 String link = attributes.getValue("href");
-                if (StringUtils.containsIgnoreCase(link, "DiabloDrops"))
+                if (StringUtils.containsIgnoreCase(link, "DiabloDrops")&&!StringUtils.containsIgnoreCase(link, "bleeding"))
                 {
                     versionLink = link;
                 }

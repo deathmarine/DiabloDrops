@@ -1,6 +1,6 @@
 name: DiabloDrops
 main: com.modcrafting.diablodrops.DiabloDrops
-version: 2.1
+version: 2.1_b@VERSION@
 website: http://modcrafting.com
 authors: [Deathmarine,Nunnery]
 description: >

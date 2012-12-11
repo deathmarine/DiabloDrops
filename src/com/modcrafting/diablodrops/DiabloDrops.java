@@ -252,7 +252,6 @@ public class DiabloDrops extends JavaPlugin
         config = getConfig();
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {
-            // Works now.
             File loc = new File(getDataFolder(), "/NamesPrefix/");
             if (!loc.exists())
             {
@@ -306,7 +305,6 @@ public class DiabloDrops extends JavaPlugin
 
         getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 
-        // AutoUpdater
         final PluginDescriptionFile pdf = getDescription();
         if (config.getBoolean("Plugin.AutoUpdate", true))
         {

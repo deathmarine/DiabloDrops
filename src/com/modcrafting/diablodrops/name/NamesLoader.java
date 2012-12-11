@@ -99,9 +99,9 @@ public class NamesLoader
     public void writeDefault(String name)
     {
         File actual = new File(dataFolder, name);
-        if (name.contains("lib"))
+        if (name.contains(".jar"))
         {
-            actual = new File(dataFolder, "/" + name);
+            actual = new File(dataFolder, "/lib/" + name);
         }
         if (!actual.exists())
         {

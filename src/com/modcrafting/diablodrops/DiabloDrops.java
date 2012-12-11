@@ -178,7 +178,7 @@ public class DiabloDrops extends JavaPlugin
             String version = p.substring(p.lastIndexOf('.') + 1);
             if (version.equalsIgnoreCase("v1_4_5"))
             {
-                nameLoader.writeDefault("lib/DiabloLibrary" + version + ".jar");
+                nameLoader.writeDefault("DiabloLibrary" + version + ".jar");
                 String urlPath = "jar:file:" + loc.getAbsolutePath()
                         + "/DiabloLibrary" + version + ".jar!/";
                 try
@@ -208,7 +208,7 @@ public class DiabloDrops extends JavaPlugin
             }
             else if (version.equalsIgnoreCase("craftbukkit"))
             {
-                nameLoader.writeDefault("lib/DiabloLibrary.jar");
+                nameLoader.writeDefault("DiabloLibrary.jar");
                 String urlPath = "jar:file:" + loc.getAbsolutePath()
                         + "/DiabloLibrary.jar!/";
                 try

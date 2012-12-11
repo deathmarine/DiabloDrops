@@ -63,7 +63,11 @@ public class NamesLoader
      */
     public void writeDefault(String name)
     {
-        File actual = new File(dataFolder, name);
+    	File actual = new File(dataFolder, name);
+    	if(name.contains("lib"))
+    	{
+            actual = new File(dataFolder, "/"+name);
+    	}
         if (!actual.exists())
         {
             try

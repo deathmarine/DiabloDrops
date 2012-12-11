@@ -4,7 +4,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class IdentifyItemEvent extends Event implements Cancellable
 {
@@ -18,9 +18,9 @@ public class IdentifyItemEvent extends Event implements Cancellable
 
     private boolean isCancelled = false;
 
-    private final Tool tool;
+    private final DiabloItemStack tool;
 
-    public IdentifyItemEvent(Tool tool)
+    public IdentifyItemEvent(DiabloItemStack tool)
     {
         this.tool = tool;
     }
@@ -31,7 +31,7 @@ public class IdentifyItemEvent extends Event implements Cancellable
         return handlers;
     }
 
-    public Tool getItemStack()
+    public DiabloItemStack getItemStack()
     {
         return tool;
     }

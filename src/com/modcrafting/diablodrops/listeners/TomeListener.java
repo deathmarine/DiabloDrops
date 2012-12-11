@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -19,7 +18,7 @@ import org.bukkit.inventory.PlayerInventory;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.IdentifyItemEvent;
 import com.modcrafting.diablodrops.items.Tome;
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 import de.bananaco.bookapi.lib.Book;
 import de.bananaco.bookapi.lib.CraftBookBuilder;
@@ -75,8 +74,7 @@ public class TomeListener implements Listener
                     {
                         continue;
                     }
-                    CraftItemStack cis = ((CraftItemStack) next);
-                    Tool tool = new Tool(cis.getHandle());
+                    DiabloItemStack tool = new DiabloItemStack(next);
                     String name = tool.getName();
                     if ((!ChatColor.getLastColors(name).equalsIgnoreCase(
                             ChatColor.MAGIC.name()) && !ChatColor
@@ -97,7 +95,7 @@ public class TomeListener implements Listener
                         return;
                     }
                     pi.setItemInHand(null);
-                    Tool item = plugin.dropsAPI.getItem(tool);
+                    DiabloItemStack item = plugin.dropsAPI.getItem(tool);
                     while ((item == null)
                             || item.getName().contains(
                                     ChatColor.MAGIC.toString()))

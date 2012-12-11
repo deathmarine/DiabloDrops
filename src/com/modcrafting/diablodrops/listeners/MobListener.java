@@ -3,18 +3,8 @@ package com.modcrafting.diablodrops.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.EntityItem;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.NBTTagFloat;
-import net.minecraft.server.NBTTagList;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
@@ -27,6 +17,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
+import com.modcrafting.diablolibrary.entities.DiabloLivingEntity;
+import com.modcrafting.diablolibrary.entities.DiabloLivingEntity.EntityEquipment;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class MobListener implements Listener
 {
@@ -46,15 +39,14 @@ public class MobListener implements Listener
             if (!plugin.worlds.contains(loc.getWorld().getName())
                     && plugin.config.getBoolean("Worlds.Enabled", false))
                 return;
-            EntityLiving el = ((CraftLivingEntity) event.getEntity()).getHandle();
-            net.minecraft.server.ItemStack[] mItem = el.getEquipment();
+            DiabloLivingEntity el = new DiabloLivingEntity(event.getEntity());
             EntityDropItemEvent edie = new EntityDropItemEvent(
-                    event.getEntity());
+                    el);
             plugin.getServer().getPluginManager().callEvent(edie);
             if (edie.isCancelled())
-            	for (int i=0;i<mItem.length;i++)
+            	for (EntityEquipment e :EntityEquipment.values())
             	{
-            		el.setEquipment(i, new CraftItemStack(Material.AIR).getHandle());
+            		el.setEquipment(e, new DiabloItemStack(Material.AIR));
             	}
         }
     }
@@ -80,81 +72,33 @@ public class MobListener implements Listener
         if ((entity instanceof Monster)
                 && (plugin.config.getInt("Precentages.ChancePerSpawn", 9) >= random))
         {
-            List<CraftItemStack> items = new ArrayList<CraftItemStack>();
+            List<DiabloItemStack> items = new ArrayList<DiabloItemStack>();
             for(int i=0;i<plugin.gen.nextInt(5)+1;i++)
             {
-                CraftItemStack ci = plugin.dropsAPI.getItem();
+            	DiabloItemStack ci = plugin.dropsAPI.getItem();
                 while (ci == null)
                 {
                     ci = plugin.dropsAPI.getItem();
                 }
                 if (plugin.config.getBoolean("Custom.Only", false))
                 {
-                    ci = plugin.custom
-                            .get(plugin.gen.nextInt(plugin.custom.size()));
+                    ci = plugin.custom.get(plugin.gen.nextInt(plugin.custom.size()));
                 }
                 if (ci != null)
                 {
                     items.add(ci);
                 }
             }
+            DiabloLivingEntity de = new DiabloLivingEntity(entity);
             EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(
-                    entity, items);
+                    entity);
             plugin.getServer().getPluginManager().callEvent(eswi);
             if (eswi.isCancelled())
                 return;
-            for (CraftItemStack cis : eswi.getItems())
+            for (DiabloItemStack cis : eswi.getItems())
             {
-                setEquipment(cis, entity);
+                de.setEquipment(cis);
             }
         }
     }
-    
-    @SuppressWarnings("unused")
-	private void dropItem(net.minecraft.server.ItemStack mItem, Location loc)
-    {
-        double xs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
-        double ys = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
-        double zs = plugin.gen.nextFloat() * 0.7F + (1.0F - 0.7F) * 0.5D;
-        EntityItem entity = new EntityItem(
-                ((CraftWorld) loc.getWorld()).getHandle(), loc.getX() + xs,
-                loc.getY() + ys, loc.getZ() + zs, mItem);
-        ((CraftWorld) loc.getWorld()).getHandle().addEntity(entity);
-    }
-    public void setEquipment(final CraftItemStack ci, final Entity e)
-    {
-        Material mat = ci.getType();
-        EntityLiving ev = ((CraftLivingEntity) e).getHandle();
-        if (plugin.drop.isBoots(mat))
-        {
-            ev.setEquipment(1, ci.getHandle());
-        }
-        else if (plugin.drop.isChestPlate(mat))
-        {
-            ev.setEquipment(3, ci.getHandle());
-        }
-        else if (plugin.drop.isLeggings(mat))
-        {
-            ev.setEquipment(2, ci.getHandle());
-        }
-        else if (plugin.drop.isHelmet(mat))
-        {
-            ev.setEquipment(4, ci.getHandle());
-        }
-        else
-        {
-            ev.setEquipment(0, ci.getHandle());
-        }
-        NBTTagCompound nbt = new NBTTagCompound();
-        ev.b(nbt);
-        if (nbt.hasKey("DropChances")) {
-            NBTTagList nbttaglist = new NBTTagList();
-            for (int j = 0; j < 5; j++) {
-            	nbttaglist.add(new NBTTagFloat(j + "", 2.0F));
-            }
-            nbt.set("DropChances", nbttaglist);
-            ev.a(nbt);
-        }
-    }
-
 }

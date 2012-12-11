@@ -17,7 +17,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablolibrary.entities.DiabloLivingEntity;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class EffectsAPI
 {
@@ -72,9 +73,9 @@ public class EffectsAPI
                 return;
             }
             if (fl > 0 && struck instanceof Monster)
-                EffectsUtil.speed(struck, Math.abs(fl) / 500);
+                new DiabloLivingEntity(struck).setSpeed(Math.abs(fl) / 500);
             else if (fl < 0 && striker instanceof Monster)
-                EffectsUtil.speed(striker, Math.abs(fl) / 500);
+                new DiabloLivingEntity(striker).setSpeed(Math.abs(fl) / 500);
             return;
         }
         else if (args[1].equalsIgnoreCase("shrink") && struck != null)
@@ -101,15 +102,6 @@ public class EffectsAPI
                 EffectsUtil.setOnFire(struck, Math.abs(level));
             else if (level < 0 && striker != null)
                 EffectsUtil.setOnFire(striker, Math.abs(level));
-            return;
-        }
-        else if (args[1].equalsIgnoreCase("bleed"))
-        {
-            // Set entity on fire
-            if (level > 0 && struck != null)
-                EffectsUtil.bleed(struck, (short) Math.abs(level));
-            else if (level < 0 && striker != null)
-                EffectsUtil.bleed(striker, (short) Math.abs(level));
             return;
         }
         else if (args[1].equalsIgnoreCase("entomb"))
@@ -216,12 +208,12 @@ public class EffectsAPI
 
     public static List<String> listEffects(final List<ItemStack> equipment)
     {
-        Set<Tool> toolSet = new HashSet<Tool>();
+        Set<DiabloItemStack> toolSet = new HashSet<DiabloItemStack>();
         for (ItemStack is : equipment)
             if (is != null && !is.getType().equals(Material.AIR))
-                toolSet.add(new Tool(is));
+                toolSet.add(new DiabloItemStack(is));
         List<String> effects = new ArrayList<String>();
-        for (Tool tool : toolSet)
+        for (DiabloItemStack tool : toolSet)
             for (String string : tool.getLoreList())
             {
                 string = ChatColor.stripColor(string).replace("%", "")

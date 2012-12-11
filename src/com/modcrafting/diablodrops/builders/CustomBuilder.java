@@ -11,7 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class CustomBuilder
 {
@@ -45,7 +45,7 @@ public class CustomBuilder
             ChatColor color = ChatColor.valueOf(cs.getString("Color")
                     .toUpperCase());
             List<String> lore = cs.getStringList("Lore");
-            Tool tool = new Tool(mat);
+            DiabloItemStack tool = new DiabloItemStack(mat);
             tool.setName(color + name);
             for (String s : lore)
             {

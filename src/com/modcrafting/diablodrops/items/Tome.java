@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 import de.bananaco.bookapi.lib.Book;
 import de.bananaco.bookapi.lib.CraftBookBuilder;
 
-public class Tome extends CraftItemStack
+public class Tome extends DiabloItemStack
 {
     public Tome()
     {

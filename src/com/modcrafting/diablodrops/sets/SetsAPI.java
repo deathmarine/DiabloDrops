@@ -5,13 +5,12 @@ import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.DropUtils;
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class SetsAPI
 {
@@ -65,8 +64,7 @@ public class SetsAPI
         ItemStack his = player.getInventory().getHelmet();
         if (his == null)
             return null;
-        CraftItemStack chis = ((CraftItemStack) his);
-        Tool tool = new Tool(chis);
+        DiabloItemStack tool = new DiabloItemStack(his);
         String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
         return ss[0];
     }
@@ -94,14 +92,12 @@ public class SetsAPI
         sis.add(cis);
         sis.add(lis);
         sis.add(bis);
-        CraftItemStack chis = ((CraftItemStack) his);
-        Tool tool = new Tool(chis);
+        DiabloItemStack tool = new DiabloItemStack(his);
         String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
         String potentialSet = ss[0];
         for (ItemStack is : sis)
         {
-            CraftItemStack c = ((CraftItemStack) is);
-            Tool te = new Tool(c);
+        	DiabloItemStack te = new DiabloItemStack(is);
             String[] splits = ChatColor.stripColor(te.getName()).split(" ");
             if (!splits[0].equalsIgnoreCase(potentialSet))
                 return false;

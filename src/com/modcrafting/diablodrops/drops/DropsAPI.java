@@ -9,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 
@@ -18,7 +17,7 @@ import com.modcrafting.diablodrops.items.Drop;
 import com.modcrafting.diablodrops.items.Socket;
 import com.modcrafting.diablodrops.items.Tome;
 import com.modcrafting.diablodrops.tier.Tier;
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class DropsAPI
 {
@@ -132,7 +131,7 @@ public class DropsAPI
             Inventory chest = chestB.getBlockInventory();
             for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
             {
-                CraftItemStack cis = plugin.dropsAPI.getItem();
+                DiabloItemStack cis = plugin.dropsAPI.getItem();
                 while (cis == null)
                 {
                     cis = plugin.dropsAPI.getItem();
@@ -151,11 +150,11 @@ public class DropsAPI
      * @param name
      * @return particular custom itemstack
      */
-    public CraftItemStack getCustomItem(final String name)
+    public DiabloItemStack getCustomItem(final String name)
     {
-        CraftItemStack cis = null;
-        for (CraftItemStack item : plugin.custom)
-            if (ChatColor.stripColor(((Tool) item).getName()).equalsIgnoreCase(
+        DiabloItemStack cis = null;
+        for (DiabloItemStack item : plugin.custom)
+            if (ChatColor.stripColor(item.getName()).equalsIgnoreCase(
                     name))
             {
                 cis = item;
@@ -169,7 +168,7 @@ public class DropsAPI
      * @param ci
      * @return set
      */
-    public List<Enchantment> getEnchantStack(final CraftItemStack ci)
+    public List<Enchantment> getEnchantStack(final DiabloItemStack ci)
     {
         List<Enchantment> set = new ArrayList<Enchantment>();
         for (Enchantment e : Enchantment.values())
@@ -180,14 +179,14 @@ public class DropsAPI
         return set;
     }
 
-    public CraftItemStack getIdItem(Material mat, final String name)
+    public DiabloItemStack getIdItem(Material mat, final String name)
     {
         while (mat == null)
         {
             mat = dropPicker();
         }
         Material material = mat;
-        CraftItemStack ci = null;
+        DiabloItemStack ci = null;
         Tier tier = getTier();
         while (tier == null)
         {
@@ -227,7 +226,7 @@ public class DropsAPI
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
-        Tool tool = new Tool(ci);
+        DiabloItemStack tool = new DiabloItemStack(ci);
         for (String s : tier.getLore())
             if (s != null)
             {
@@ -303,9 +302,9 @@ public class DropsAPI
     /**
      * Returns an itemstack that was randomly generated
      * 
-     * @return CraftItemStack
+     * @return DiabloItemStack
      */
-    public CraftItemStack getItem()
+    public DiabloItemStack getItem()
     {
         if (plugin.gen.nextBoolean()
                 && plugin.config.getBoolean("IdentifyTome.Enabled", true)
@@ -336,13 +335,13 @@ public class DropsAPI
      *            Material of itemstack
      * @return item
      */
-    public CraftItemStack getItem(Material mat)
+    public DiabloItemStack getItem(Material mat)
     {
         while (mat == null)
         {
             mat = dropPicker();
         }
-        CraftItemStack ci = null;
+        DiabloItemStack ci = null;
         Tier tier = getTier();
         while (tier == null)
         {
@@ -382,7 +381,7 @@ public class DropsAPI
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
-        Tool tool = new Tool(ci);
+        DiabloItemStack tool = new DiabloItemStack(ci);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         for (String s : tier.getLore())
             if (s != null)
@@ -464,7 +463,7 @@ public class DropsAPI
      *            name
      * @return item
      */
-    public CraftItemStack getItem(Tier tier)
+    public DiabloItemStack getItem(Tier tier)
     {
         Material mat = dropPicker();
         while (mat == null)
@@ -473,7 +472,7 @@ public class DropsAPI
         }
         while(tier==null)
         	tier = getTier();
-        CraftItemStack ci = null;
+        DiabloItemStack ci = null;
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))
         {
@@ -508,7 +507,7 @@ public class DropsAPI
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
-        Tool tool = new Tool(ci);
+        DiabloItemStack tool = new DiabloItemStack(ci);
         for (String s : tier.getLore())
             if (s != null)
             {
@@ -590,10 +589,10 @@ public class DropsAPI
      * @param tool
      * @return brand new tool
      */
-    public Tool getItem(Tool tool)
+    public DiabloItemStack getItem(DiabloItemStack tool)
     {
         short oldDam = tool.getDurability();
-        tool = new Tool(tool.getType());
+        tool = new DiabloItemStack(tool.getType());
         tool.setDurability(oldDam);
         Tier tier = getTier();
         while ((tier == null) || tier.getColor().equals(ChatColor.MAGIC))
@@ -797,7 +796,7 @@ public class DropsAPI
      *            Line replacing toReplace
      * @return Tool with new lore
      */
-    public Tool replaceLore(final Tool tool, final String toReplace,
+    public DiabloItemStack replaceLore(final DiabloItemStack tool, final String toReplace,
             final String replaceWith)
     {
         List<String> loreList = tool.getLoreList();

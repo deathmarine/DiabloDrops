@@ -1,30 +1,11 @@
 package com.modcrafting.diablodrops.effects;
 
-import java.lang.reflect.Field;
 import java.util.Random;
-
-import net.minecraft.server.EntityCreature;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.EntityVillager;
-import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.PathfinderGoalBreakDoor;
-import net.minecraft.server.PathfinderGoalFloat;
-import net.minecraft.server.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.PathfinderGoalMeleeAttack;
-import net.minecraft.server.PathfinderGoalMoveThroughVillage;
-import net.minecraft.server.PathfinderGoalMoveTowardsRestriction;
-import net.minecraft.server.PathfinderGoalRandomLookaround;
-import net.minecraft.server.PathfinderGoalRandomStroll;
-import net.minecraft.server.PathfinderGoalSelector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.entity.CraftZombie;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
@@ -196,9 +177,9 @@ public class EffectsUtil
     {
         if (e instanceof Zombie)
         {
-            CraftZombie z = (CraftZombie) e;
-            if (!z.getHandle().isBaby())
-                z.getHandle().setBaby(true);
+        	Zombie z = (Zombie) e;
+            if (!z.isBaby())
+                z.setBaby(true);
         }
         if (e instanceof Villager)
         {
@@ -266,52 +247,6 @@ public class EffectsUtil
     }
 
     /**
-     * Change the speed of an entity
-     * 
-     * @param e
-     *            Entity to change the speed of
-     * @param sp
-     *            Speed modifier
-     */
-    public static void speed(LivingEntity e, Float sp)
-    {
-        try
-        {
-            EntityLiving a = ((CraftLivingEntity) e).getHandle();
-            if (a instanceof EntityCreature)
-            {
-                EntityCreature le = (EntityCreature) a;
-                Field fGoalSelector = EntityLiving.class
-                        .getDeclaredField("goalSelector");
-                fGoalSelector.setAccessible(true);
-                PathfinderGoalSelector gs = new PathfinderGoalSelector(
-                        ((CraftWorld) e.getWorld()).getHandle() != null
-                                && ((CraftWorld) e.getWorld()).getHandle().methodProfiler != null ? ((CraftWorld) e
-                                .getWorld()).getHandle().methodProfiler : null);
-                gs.a(0, new PathfinderGoalFloat(le));
-                gs.a(1, new PathfinderGoalBreakDoor(le));
-                gs.a(2, new PathfinderGoalMeleeAttack(le, EntityHuman.class,
-                        sp, false));
-                gs.a(3, new PathfinderGoalMeleeAttack(le, EntityVillager.class,
-                        sp, true));
-                gs.a(4, new PathfinderGoalMoveTowardsRestriction(le, sp));
-                gs.a(5, new PathfinderGoalMoveThroughVillage(le, sp, false));
-                gs.a(6, new PathfinderGoalRandomStroll(le, sp));
-                gs.a(7, new PathfinderGoalLookAtPlayer(le, EntityHuman.class,
-                        15.0F));
-                gs.a(7, new PathfinderGoalRandomLookaround(le));
-                fGoalSelector.set(le, gs);
-            }
-        }
-        catch (Exception e1)
-        {
-            if (DiabloDrops.getInstance().debug)
-                DiabloDrops.getInstance().log.warning(e1.getMessage());
-            e1.printStackTrace();
-        }
-    }
-
-    /**
      * Launches an arrow from the entity an amount of times equal to value
      * 
      * @param entity
@@ -360,19 +295,5 @@ public class EffectsUtil
                                 }
                             }, 20L * i);
         }
-    }
-
-    /**
-     * Sets bleed time for an entity
-     * 
-     * @param le
-     * @param i
-     */
-    public static void bleed(LivingEntity le,short i){
-    	EntityLiving el = ((CraftLivingEntity) le).getHandle();
-    	NBTTagCompound nbt = new NBTTagCompound();
-    	el.b(nbt);
-    	nbt.setShort("HurtTime", i);
-    	el.a(nbt);
     }
 }

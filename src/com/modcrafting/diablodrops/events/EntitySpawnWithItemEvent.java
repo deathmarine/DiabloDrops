@@ -3,11 +3,12 @@ package com.modcrafting.diablodrops.events;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class EntitySpawnWithItemEvent extends Event implements Cancellable
 {
@@ -22,16 +23,16 @@ public class EntitySpawnWithItemEvent extends Event implements Cancellable
     private boolean isCancelled = false;
     private final LivingEntity entity;
 
-    private List<CraftItemStack> items;
+    private List<DiabloItemStack> items;
 
     public EntitySpawnWithItemEvent(LivingEntity entity)
     {
         this.entity = entity;
-        this.setItems(new ArrayList<CraftItemStack>());
+        this.setItems(new ArrayList<DiabloItemStack>());
     }
 
     public EntitySpawnWithItemEvent(LivingEntity entity,
-            List<CraftItemStack> items)
+            List<DiabloItemStack> items)
     {
         this.entity = entity;
         setItems(items);
@@ -48,7 +49,7 @@ public class EntitySpawnWithItemEvent extends Event implements Cancellable
         return handlers;
     }
 
-    public List<CraftItemStack> getItems()
+    public List<DiabloItemStack> getItems()
     {
         return items;
     }
@@ -65,7 +66,7 @@ public class EntitySpawnWithItemEvent extends Event implements Cancellable
         isCancelled = bln;
     }
 
-    public void setItems(List<CraftItemStack> items)
+    public void setItems(List<DiabloItemStack> items)
     {
         this.items = items;
     }

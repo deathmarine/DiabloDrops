@@ -3,9 +3,9 @@ package com.modcrafting.diablodrops.items;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
-public class Drop extends Tool
+public class Drop extends DiabloItemStack
 {
 
     public Drop(Material mat, ChatColor color, String name)

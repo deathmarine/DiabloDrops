@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Furnace;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,8 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.PreSocketEnhancementEvent;
 import com.modcrafting.diablodrops.events.SocketEnhancementEvent;
-import com.modcrafting.skullapi.lib.Skull;
-import com.modcrafting.toolapi.lib.Tool;
+import com.modcrafting.diablolibrary.items.DiabloItemStack;
+import com.modcrafting.diablolibrary.items.DiabloSkull;
 
 public class SocketListener implements Listener
 {
@@ -39,21 +38,20 @@ public class SocketListener implements Listener
                 if (event.getFuel().getType()
                         .equals(Material.matchMaterial(name)))
                 {
-                    Tool fuel = new Tool(
-                            ((CraftItemStack) event.getFuel()).getHandle());
+                	DiabloItemStack fuel = new DiabloItemStack(event.getFuel());
                     if (fuel.getName() != null)
                     {
                         boolean test = false;
                         String toReplace = null;
-                        for (String t : new Tool(tis).getLoreList())
+                        for (String t : new DiabloItemStack(tis).getLoreList())
                             if (t.contains("(Socket)"))
                             {
                                 test = true;
                                 toReplace = t;
                             }
                         if (toReplace != null)
-                            if ((fuel.getName().contains("Socket") || fuel
-                                    .getType().equals(Material.SKULL_ITEM))
+                            if ((fuel.getName().contains("Socket") 
+                            		|| fuel.getType().equals(Material.SKULL_ITEM))
                                     && test)
                             {
                                 ChatColor socketColor = findColor(toReplace);
@@ -101,8 +99,8 @@ public class SocketListener implements Listener
             return;
         ItemStack is = plugin.furnanceMap.remove(event.getBlock());
         Material fuel = is.getType();
-        Tool tool = new Tool(event.getResult().getType());
-        Tool oldtool = new Tool(event.getSource());
+        DiabloItemStack tool = new DiabloItemStack(event.getResult().getType());
+        DiabloItemStack oldtool = new DiabloItemStack(event.getSource());
         boolean namTest = false;
         for (String n : oldtool.getLoreList())
             if (StringUtils.containsIgnoreCase(n, "(Socket)"))
@@ -127,7 +125,7 @@ public class SocketListener implements Listener
         {
 
             ChatColor color = findColor(oldtool.getName());
-            Skull skull = new Skull(((CraftItemStack) is).getHandle());
+            DiabloSkull skull = new DiabloSkull(is);
             String skullName = skull.getOwner();
             if ((skullName == null) || (skullName.trim().length() < 1))
                 switch (skull.getSkullType())

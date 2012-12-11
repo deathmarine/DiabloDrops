@@ -1,4 +1,6 @@
 <project name="DiabloDrops" default="package">
+	<property environment="env" />
+	<property name="env.BUILD_NUMBER" value="0" />
 
 	<target name="init" description="Initialize directories, etc.">
 		<mkdir dir="bin" />

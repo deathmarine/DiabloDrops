@@ -42,6 +42,26 @@ public class DropsAPI
     }
 
     /**
+     * Gets a random color.
+     * 
+     * @return color
+     */
+    public ChatColor colorPicker()
+    {
+        switch (plugin.gen.nextInt(4))
+        {
+            case 1:
+                return ChatColor.RED;
+            case 2:
+                return ChatColor.BLUE;
+            case 3:
+                return ChatColor.GREEN;
+            default:
+                return ChatColor.RESET;
+        }
+    }
+
+    /**
      * Determines if a List contains a string
      * 
      * @param l
@@ -154,8 +174,7 @@ public class DropsAPI
     {
         DiabloItemStack cis = null;
         for (DiabloItemStack item : plugin.custom)
-            if (ChatColor.stripColor(item.getName()).equalsIgnoreCase(
-                    name))
+            if (ChatColor.stripColor(item.getName()).equalsIgnoreCase(name))
             {
                 cis = item;
             }
@@ -329,6 +348,104 @@ public class DropsAPI
     }
 
     /**
+     * Gets a new tool from an unidentified tool
+     * 
+     * @param tool
+     * @return brand new tool
+     */
+    public DiabloItemStack getItem(DiabloItemStack tool)
+    {
+        short oldDam = tool.getDurability();
+        tool = new DiabloItemStack(tool.getType());
+        tool.setDurability(oldDam);
+        Tier tier = getTier();
+        while ((tier == null) || tier.getColor().equals(ChatColor.MAGIC))
+        {
+            tier = getTier();
+        }
+        int e = tier.getAmount();
+        int l = tier.getLevels();
+        tool.setName(tier.getColor() + name(tool.getType()));
+        if (plugin.config.getBoolean("Display.TierName", true))
+        {
+            tool.addLore(tier.getColor() + tier.getName());
+        }
+        for (String s : tier.getLore())
+            if (s != null)
+            {
+                tool.addLore(s);
+            }
+        List<Enchantment> eStack = Arrays.asList(Enchantment.values());
+        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
+        if (safe)
+        {
+            eStack = getEnchantStack(tool);
+        }
+        for (; e > 0; e--)
+        {
+            int lvl = plugin.gen.nextInt(l + 1);
+            int size = eStack.size();
+            if (size < 1)
+            {
+                continue;
+            }
+            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
+            if ((lvl != 0) && (ench != null)
+                    && !tier.getColor().equals(ChatColor.MAGIC))
+                if (safe)
+                {
+                    if ((lvl >= ench.getStartLevel())
+                            && (lvl <= ench.getMaxLevel()))
+                    {
+                        try
+                        {
+                            tool.addEnchantment(ench, lvl);
+                        }
+                        catch (Exception e1)
+                        {
+                            if (plugin.debug)
+                            {
+                                plugin.log.warning(e1.getMessage());
+                            }
+                            e++;
+                        }
+                    }
+                }
+                else
+                {
+                    tool.addUnsafeEnchantment(ench, lvl);
+                }
+        }
+        boolean sock = false;
+        if (plugin.config.getBoolean("SocketItem.Enabled", true)
+                && (plugin.gen.nextInt(100) <= plugin.config.getInt(
+                        "SocketItem.Chance", 5))
+                && !tier.getColor().equals(ChatColor.MAGIC))
+        {
+            tool.addLore(colorPicker() + "(Socket)");
+            sock = true;
+        }
+        if (plugin.config.getBoolean("Lore.Enabled", true)
+                && (plugin.gen.nextInt(100) <= plugin.config.getInt(
+                        "Lore.Chance", 5))
+                && !tier.getColor().equals(ChatColor.MAGIC) && !sock)
+        {
+            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
+                if (plugin.drop.isArmor(tool.getType()))
+                {
+                    tool.addLore(plugin.defenselore.get(plugin.gen
+                            .nextInt(plugin.defenselore.size())));
+                }
+                else if (plugin.drop.isTool(tool.getType()))
+                {
+                    tool.addLore(plugin.offenselore.get(plugin.gen
+                            .nextInt(plugin.offenselore.size())));
+                }
+        }
+        return tool;
+    }
+
+    /**
      * Returns a specific type of item randomly generated
      * 
      * @param mat
@@ -470,8 +587,8 @@ public class DropsAPI
         {
             mat = dropPicker();
         }
-        while(tier==null)
-        	tier = getTier();
+        while (tier == null)
+            tier = getTier();
         DiabloItemStack ci = null;
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))
@@ -584,104 +701,6 @@ public class DropsAPI
     }
 
     /**
-     * Gets a new tool from an unidentified tool
-     * 
-     * @param tool
-     * @return brand new tool
-     */
-    public DiabloItemStack getItem(DiabloItemStack tool)
-    {
-        short oldDam = tool.getDurability();
-        tool = new DiabloItemStack(tool.getType());
-        tool.setDurability(oldDam);
-        Tier tier = getTier();
-        while ((tier == null) || tier.getColor().equals(ChatColor.MAGIC))
-        {
-            tier = getTier();
-        }
-        int e = tier.getAmount();
-        int l = tier.getLevels();
-        tool.setName(tier.getColor() + name(tool.getType()));
-        if (plugin.config.getBoolean("Display.TierName", true))
-        {
-            tool.addLore(tier.getColor() + tier.getName());
-        }
-        for (String s : tier.getLore())
-            if (s != null)
-            {
-                tool.addLore(s);
-            }
-        List<Enchantment> eStack = Arrays.asList(Enchantment.values());
-        boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
-        if (safe)
-        {
-            eStack = getEnchantStack(tool);
-        }
-        for (; e > 0; e--)
-        {
-            int lvl = plugin.gen.nextInt(l + 1);
-            int size = eStack.size();
-            if (size < 1)
-            {
-                continue;
-            }
-            Enchantment ench = eStack.get(plugin.gen.nextInt(size));
-            if ((lvl != 0) && (ench != null)
-                    && !tier.getColor().equals(ChatColor.MAGIC))
-                if (safe)
-                {
-                    if ((lvl >= ench.getStartLevel())
-                            && (lvl <= ench.getMaxLevel()))
-                    {
-                        try
-                        {
-                            tool.addEnchantment(ench, lvl);
-                        }
-                        catch (Exception e1)
-                        {
-                            if (plugin.debug)
-                            {
-                                plugin.log.warning(e1.getMessage());
-                            }
-                            e++;
-                        }
-                    }
-                }
-                else
-                {
-                    tool.addUnsafeEnchantment(ench, lvl);
-                }
-        }
-        boolean sock = false;
-        if (plugin.config.getBoolean("SocketItem.Enabled", true)
-                && (plugin.gen.nextInt(100) <= plugin.config.getInt(
-                        "SocketItem.Chance", 5))
-                && !tier.getColor().equals(ChatColor.MAGIC))
-        {
-            tool.addLore(colorPicker() + "(Socket)");
-            sock = true;
-        }
-        if (plugin.config.getBoolean("Lore.Enabled", true)
-                && (plugin.gen.nextInt(100) <= plugin.config.getInt(
-                        "Lore.Chance", 5))
-                && !tier.getColor().equals(ChatColor.MAGIC) && !sock)
-        {
-            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
-                if (plugin.drop.isArmor(tool.getType()))
-                {
-                    tool.addLore(plugin.defenselore.get(plugin.gen
-                            .nextInt(plugin.defenselore.size())));
-                }
-                else if (plugin.drop.isTool(tool.getType()))
-                {
-                    tool.addLore(plugin.offenselore.get(plugin.gen
-                            .nextInt(plugin.offenselore.size())));
-                }
-        }
-        return tool;
-    }
-
-    /**
      * Gets a calculated tier.
      * 
      * @return tier
@@ -720,26 +739,6 @@ public class DropsAPI
             if (tier.getName().equalsIgnoreCase(type))
                 return true;
         return false;
-    }
-
-    /**
-     * Gets a random color.
-     * 
-     * @return color
-     */
-    public ChatColor colorPicker()
-    {
-        switch (plugin.gen.nextInt(4))
-        {
-            case 1:
-                return ChatColor.RED;
-            case 2:
-                return ChatColor.BLUE;
-            case 3:
-                return ChatColor.GREEN;
-            default:
-                return ChatColor.RESET;
-        }
     }
 
     /**
@@ -796,8 +795,8 @@ public class DropsAPI
      *            Line replacing toReplace
      * @return Tool with new lore
      */
-    public DiabloItemStack replaceLore(final DiabloItemStack tool, final String toReplace,
-            final String replaceWith)
+    public DiabloItemStack replaceLore(final DiabloItemStack tool,
+            final String toReplace, final String replaceWith)
     {
         List<String> loreList = tool.getLoreList();
         if ((loreList == null) || loreList.isEmpty())

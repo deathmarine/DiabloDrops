@@ -62,7 +62,7 @@ public class ChunkListener implements Listener
      * Builds a nether temple.
      * 
      * @param loc
-     * @return 
+     * @return
      */
     private boolean buildNetherTemple(Location loc)
     {
@@ -219,7 +219,7 @@ public class ChunkListener implements Listener
                 }
             }
         }
-		return true;
+        return true;
     }
 
     private void eastRuin1(Block start)
@@ -602,7 +602,8 @@ public class ChunkListener implements Listener
                 block = rge.getChest();
                 Block under = block.getRelative(BlockFace.DOWN);
                 Location loc = under.getLocation();
-                if(buildNetherTemple(loc)){
+                if (buildNetherTemple(loc))
+                {
                     block.setType(Material.CHEST);
                     plugin.dropsAPI.fillChest(block);
                 }
@@ -617,7 +618,8 @@ public class ChunkListener implements Listener
                 block = rge.getChest();
                 Block under = block.getRelative(BlockFace.DOWN);
                 Location loc = under.getLocation();
-                if(deathRuin(loc)){
+                if (deathRuin(loc))
+                {
                     block.setType(Material.CHEST);
                     plugin.dropsAPI.fillChest(block);
                 }

@@ -65,7 +65,7 @@ public class DiabloDropCommand implements CommandExecutor
         switch (args.length)
         {
             case 0:
-            	DiabloItemStack ci = plugin.dropsAPI.getItem();
+                DiabloItemStack ci = plugin.dropsAPI.getItem();
                 while (ci == null)
                     ci = plugin.dropsAPI.getItem();
                 pi.addItem(ci);
@@ -116,7 +116,8 @@ public class DiabloDropCommand implements CommandExecutor
                         String lore = combineSplit(2, args, " ");
                         lore = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], lore);
-                        DiabloItemStack tool = new DiabloItemStack(player.getItemInHand());
+                        DiabloItemStack tool = new DiabloItemStack(
+                                player.getItemInHand());
                         for (String s : lore.split(","))
                         {
                             if (s.length() > 0)
@@ -131,7 +132,8 @@ public class DiabloDropCommand implements CommandExecutor
                         String name = combineSplit(2, args, " ");
                         name = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], name);
-                        new DiabloItemStack(player.getItemInHand()).setName(name);
+                        new DiabloItemStack(player.getItemInHand())
+                                .setName(name);
                         player.sendMessage(ChatColor.GREEN
                                 + "Set the name for the item!");
                         return true;
@@ -337,15 +339,18 @@ public class DiabloDropCommand implements CommandExecutor
                         ci2 = plugin.dropsAPI.getItem(tier);
                     pi.addItem(ci2);
                     player.updateInventory();
-                    if(tier==null){
+                    if (tier == null)
+                    {
                         player.sendMessage(ChatColor.GREEN
                                 + "You have been given a DiabloDrops item.");
-                    }else{
+                    }
+                    else
+                    {
                         player.sendMessage(ChatColor.GREEN
                                 + "You have been given a " + tier.getColor()
                                 + tier.getName() + ChatColor.GREEN
                                 + " DiabloDrops item.");
-                    	
+
                     }
                     return true;
                 }

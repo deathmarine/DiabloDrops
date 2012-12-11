@@ -97,7 +97,7 @@ public class SetsAPI
         String potentialSet = ss[0];
         for (ItemStack is : sis)
         {
-        	DiabloItemStack te = new DiabloItemStack(is);
+            DiabloItemStack te = new DiabloItemStack(is);
             String[] splits = ChatColor.stripColor(te.getName()).split(" ");
             if (!splits[0].equalsIgnoreCase(potentialSet))
                 return false;

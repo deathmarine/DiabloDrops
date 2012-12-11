@@ -50,6 +50,31 @@ import com.modcrafting.diablodrops.tier.Tier;
 
 public class DiabloDrops extends JavaPlugin
 {
+    @SuppressWarnings("rawtypes")
+    public static void addURL(final URL u)
+    {
+        Class[] parameters = new Class[] { URL.class };
+        URLClassLoader sysLoader = (URLClassLoader) ClassLoader
+                .getSystemClassLoader();
+        URL urls[] = sysLoader.getURLs();
+        for (URL url : urls)
+        {
+            if (StringUtils.equalsIgnoreCase(url.toString(), u.toString()))
+                return;
+        }
+        Class<URLClassLoader> sysclass = URLClassLoader.class;
+        try
+        {
+            Method method = sysclass.getDeclaredMethod("addURL", parameters);
+            method.setAccessible(true);
+            method.invoke(sysLoader, new Object[] { u });
+        }
+        catch (Exception t)
+        {
+            t.printStackTrace();
+        }
+    }
+
     public boolean debug;
     public Random gen = new Random();
     public DropUtils drop = new DropUtils(gen);
@@ -59,7 +84,7 @@ public class DiabloDrops extends JavaPlugin
     public HashMap<Material, List<String>> hmsuffix = new HashMap<Material, List<String>>();
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
-	public List<com.modcrafting.diablolibrary.items.DiabloItemStack> custom;
+    public List<com.modcrafting.diablolibrary.items.DiabloItemStack> custom;
     public List<String> worlds = new ArrayList<String>();
     public List<String> defenselore = new ArrayList<String>();
     public List<String> offenselore = new ArrayList<String>();
@@ -69,6 +94,7 @@ public class DiabloDrops extends JavaPlugin
     public DropsAPI dropsAPI;
     public SetsAPI setsAPI;
     public Integer build;
+
     private static DiabloDrops instance;
 
     /**
@@ -84,6 +110,29 @@ public class DiabloDrops extends JavaPlugin
     private int id;
 
     public Logger log;
+
+    public com.modcrafting.diablodrops.DiabloDrops getDiabloDrops()
+    {
+        Plugin plugin = getServer().getPluginManager().getPlugin("DiabloDrops");
+
+        if ((plugin == null)
+                || !(plugin instanceof com.modcrafting.diablodrops.DiabloDrops))
+            return null;
+
+        return (com.modcrafting.diablodrops.DiabloDrops) plugin;
+    }
+
+    public com.modcrafting.diablolibrary.DiabloLibraryPlugin getLibrary()
+    {
+        Plugin plugin = getServer().getPluginManager().getPlugin(
+                "DiabloLibrary");
+
+        if ((plugin == null)
+                || !(plugin instanceof com.modcrafting.diablolibrary.DiabloLibraryPlugin))
+            return null;
+
+        return (com.modcrafting.diablolibrary.DiabloLibraryPlugin) plugin;
+    }
 
     /**
      * Stops all tasks for the plugin.
@@ -118,49 +167,78 @@ public class DiabloDrops extends JavaPlugin
         log = getLogger();
         log.addHandler(new LogHandler(getDataFolder()));
         nameLoader = new NamesLoader(this);
-        if(getLibrary() == null){
+        if (getLibrary() == null)
+        {
             File loc = new File(getDataFolder(), "/lib/");
             if (!loc.exists())
+            {
                 loc.mkdir();
-        	String p = this.getServer().getClass().getPackage().getName();
+            }
+            String p = getServer().getClass().getPackage().getName();
             String version = p.substring(p.lastIndexOf('.') + 1);
-            if(version.equalsIgnoreCase("v1_4_5")){
-            	nameLoader.writeDefault("lib/DiabloLibrary"+version+".jar");
-            	String urlPath = "jar:file:"+loc.getAbsolutePath()+"/DiabloLibrary"+version+".jar!/";
-            	try {
-            		this.getServer().getPluginManager().loadPlugin(new File(loc,"DiabloLibrary"+version+".jar"));
-            		if(getLibrary() != null){
-            			this.getServer().getPluginManager().enablePlugin(getLibrary());
-            		}else{
-                		addURL(new URL(urlPath));
-            		}
-            	} catch (Exception e1) {
-            		this.getLogger().severe("DiabloLibrary Not Found.");
-            		this.setEnabled(false);
-            		return;
-            	}
-            	//TODO Compile, Include, and Organize Multiversion
-            	//Crisis Averted
-        		this.getLogger().severe("DiabloLibrary Not Available Yet.");
-        		this.setEnabled(false);            	
-            }else if(version.equalsIgnoreCase("craftbukkit")){
-            	nameLoader.writeDefault("lib/DiabloLibrary.jar");
-            	String urlPath = "jar:file:"+loc.getAbsolutePath()+"/DiabloLibrary.jar!/";
-            	try {
-            		this.getServer().getPluginManager().loadPlugin(new File(loc,"DiabloLibrary.jar"));
-            		if(getLibrary() != null){
-            			this.getServer().getPluginManager().enablePlugin(getLibrary());
-            		}else{
-                		addURL(new URL(urlPath));
-            		}
-            	} catch (Exception e1) {
-            		this.getLogger().severe("DiabloLibrary Not Found.");
-            		this.setEnabled(false);
-            		return;
-            	}  
-            }else{
-        		this.getLogger().severe("DiabloLibrary Not Available Yet For Version: CB/MC"+version);
-        		this.setEnabled(false);            	
+            if (version.equalsIgnoreCase("v1_4_5"))
+            {
+                nameLoader.writeDefault("lib/DiabloLibrary" + version + ".jar");
+                String urlPath = "jar:file:" + loc.getAbsolutePath()
+                        + "/DiabloLibrary" + version + ".jar!/";
+                try
+                {
+                    getServer().getPluginManager().loadPlugin(
+                            new File(loc, "DiabloLibrary" + version + ".jar"));
+                    if (getLibrary() != null)
+                    {
+                        getServer().getPluginManager().enablePlugin(
+                                getLibrary());
+                    }
+                    else
+                    {
+                        addURL(new URL(urlPath));
+                    }
+                }
+                catch (Exception e1)
+                {
+                    getLogger().severe("DiabloLibrary Not Found.");
+                    setEnabled(false);
+                    return;
+                }
+                // TODO Compile, Include, and Organize Multiversion
+                // Crisis Averted
+                getLogger().severe("DiabloLibrary Not Available Yet.");
+                setEnabled(false);
+            }
+            else if (version.equalsIgnoreCase("craftbukkit"))
+            {
+                nameLoader.writeDefault("lib/DiabloLibrary.jar");
+                String urlPath = "jar:file:" + loc.getAbsolutePath()
+                        + "/DiabloLibrary.jar!/";
+                try
+                {
+                    getServer().getPluginManager().loadPlugin(
+                            new File(loc, "DiabloLibrary.jar"));
+                    if (getLibrary() != null)
+                    {
+                        getServer().getPluginManager().enablePlugin(
+                                getLibrary());
+                    }
+                    else
+                    {
+                        addURL(new URL(urlPath));
+                    }
+                }
+                catch (Exception e1)
+                {
+                    getLogger().severe("DiabloLibrary Not Found.");
+                    setEnabled(false);
+                    return;
+                }
+            }
+            else
+            {
+                getLogger().severe(
+                        "DiabloLibrary Not Available Yet For Version: CB/MC"
+                                + version);
+                setEnabled(false);
+                return;
             }
         }
         nameLoader.writeDefault("config.yml");
@@ -177,7 +255,9 @@ public class DiabloDrops extends JavaPlugin
             // Works now.
             File loc = new File(getDataFolder(), "/NamesPrefix/");
             if (!loc.exists())
+            {
                 loc.mkdir();
+            }
             for (File f : loc.listFiles())
                 if (f.getName().endsWith(".txt"))
                 {
@@ -186,7 +266,9 @@ public class DiabloDrops extends JavaPlugin
                 }
             File sloc = new File(getDataFolder(), "/NamesSuffix/");
             if (!sloc.exists())
+            {
                 sloc.mkdir();
+            }
             for (File f : loc.listFiles())
                 if (f.getName().endsWith(".txt"))
                 {
@@ -227,6 +309,7 @@ public class DiabloDrops extends JavaPlugin
         // AutoUpdater
         final PluginDescriptionFile pdf = getDescription();
         if (config.getBoolean("Plugin.AutoUpdate", true))
+        {
             getServer().getScheduler().scheduleAsyncDelayedTask(this,
                     new Runnable()
                     {
@@ -241,19 +324,27 @@ public class DiabloDrops extends JavaPlugin
                             {
                                 if (up.getResult().equals(
                                         Updater.UpdateResult.FAIL_NOVERSION))
+                                {
                                     log.info("Unable to connect to dev.bukkit.org.");
+                                }
                                 else
+                                {
                                     log.info("No Updates found on dev.bukkit.org.");
+                                }
                             }
                             else
+                            {
                                 log.info("Update "
                                         + up.getLatestVersionString()
                                         + " found and downloaded please restart your server.");
+                            }
                         }
 
                     });
+        }
         // Jenkins AutoUpdater
         if (config.getBoolean("Plugin.Dev.Update", false))
+        {
             id = getServer().getScheduler().scheduleAsyncRepeatingTask(this,
                     new Runnable()
                     {
@@ -261,7 +352,8 @@ public class DiabloDrops extends JavaPlugin
                         public void run()
                         {
                             DevUpdater up = new DevUpdater(getInstance(),
-                                    getFile(), build, "https://diabloplugins.ci.cloudbees.com/rssLatest");
+                                    getFile(), build,
+                                    "https://diabloplugins.ci.cloudbees.com/rssLatest");
                             if (up.getResult().equals(DevUpdateResult.FAILED))
                                 return;
 
@@ -279,7 +371,8 @@ public class DiabloDrops extends JavaPlugin
                                     @Override
                                     public void run()
                                     {
-                                        long time = System.currentTimeMillis() + 30 * 1000;
+                                        long time = System.currentTimeMillis()
+                                                + (30 * 1000);
                                         boolean voodoo = true;
                                         while (voodoo)
                                             // Conducting Voodoo
@@ -296,47 +389,6 @@ public class DiabloDrops extends JavaPlugin
                             build = up.getBuild();
                         }
                     }, 0, 2400);
+        }
     }
-
-
-	public com.modcrafting.diablodrops.DiabloDrops getDiabloDrops() {
-		Plugin plugin = getServer().getPluginManager().getPlugin("DiabloDrops");
-
-		if (plugin == null || !(plugin instanceof com.modcrafting.diablodrops.DiabloDrops)) {
-			return null;
-		}
-
-		return (com.modcrafting.diablodrops.DiabloDrops) plugin;
-	}
-
-
-	public com.modcrafting.diablolibrary.DiabloLibraryPlugin getLibrary() {
-		Plugin plugin = getServer().getPluginManager().getPlugin("DiabloLibrary");
-
-		if (plugin == null || !(plugin instanceof com.modcrafting.diablolibrary.DiabloLibraryPlugin)) {
-			return null;
-		}
-
-		return (com.modcrafting.diablolibrary.DiabloLibraryPlugin) plugin;
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public static void addURL(URL u){
-		Class[] parameters = new Class[]{URL.class};
-		URLClassLoader sysLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-	    URL urls[] = sysLoader.getURLs();
-	    for (int i = 0; i < urls.length; i++) {
-	    	if (StringUtils.equalsIgnoreCase(urls[i].toString(), u.toString())) {
-	    		return;
-	        }
-	    }
-	    Class<URLClassLoader> sysclass = URLClassLoader.class;
-	    try {
-	    	Method method = sysclass.getDeclaredMethod("addURL", parameters);
-	    	method.setAccessible(true);
-	    	method.invoke(sysLoader, new Object[]{u});
-	    } catch (Exception t) {
-	    	t.printStackTrace();
-	    }
-	}
 }

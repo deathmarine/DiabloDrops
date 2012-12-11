@@ -38,7 +38,7 @@ public class SocketListener implements Listener
                 if (event.getFuel().getType()
                         .equals(Material.matchMaterial(name)))
                 {
-                	DiabloItemStack fuel = new DiabloItemStack(event.getFuel());
+                    DiabloItemStack fuel = new DiabloItemStack(event.getFuel());
                     if (fuel.getName() != null)
                     {
                         boolean test = false;
@@ -50,15 +50,15 @@ public class SocketListener implements Listener
                                 toReplace = t;
                             }
                         if (toReplace != null)
-                            if ((fuel.getName().contains("Socket") 
-                            		|| fuel.getType().equals(Material.SKULL_ITEM))
+                            if ((fuel.getName().contains("Socket") || fuel
+                                    .getType().equals(Material.SKULL_ITEM))
                                     && test)
                             {
                                 ChatColor socketColor = findColor(toReplace);
                                 ChatColor fuelColor = findColor(fuel.getName());
                                 if (fuelColor == socketColor
-                                        || socketColor == null 
-                                        || socketColor==ChatColor.RESET)
+                                        || socketColor == null
+                                        || socketColor == ChatColor.RESET)
                                 {
                                     PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
                                             tis, event.getFuel(), furn);

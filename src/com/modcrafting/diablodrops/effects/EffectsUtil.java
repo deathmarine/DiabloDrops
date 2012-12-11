@@ -177,7 +177,7 @@ public class EffectsUtil
     {
         if (e instanceof Zombie)
         {
-        	Zombie z = (Zombie) e;
+            Zombie z = (Zombie) e;
             if (!z.isBaby())
                 z.setBaby(true);
         }

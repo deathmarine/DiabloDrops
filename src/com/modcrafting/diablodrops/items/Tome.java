@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 import de.bananaco.bookapi.lib.Book;

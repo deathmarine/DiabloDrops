@@ -27,19 +27,14 @@ public class RuinGenerateEvent extends Event implements Cancellable
         this.chest = block;
     }
 
-    public Chunk getChunk()
-    {
-        return chunk;
-    }
-
     public Block getChest()
     {
         return chest;
     }
 
-    public void setChest(Block chest)
+    public Chunk getChunk()
     {
-        this.chest = chest;
+        return chunk;
     }
 
     @Override
@@ -58,6 +53,11 @@ public class RuinGenerateEvent extends Event implements Cancellable
     public void setCancelled(boolean bln)
     {
         isCancelled = bln;
+    }
+
+    public void setChest(Block chest)
+    {
+        this.chest = chest;
     }
 
 }

@@ -40,14 +40,13 @@ public class MobListener implements Listener
                     && plugin.config.getBoolean("Worlds.Enabled", false))
                 return;
             DiabloLivingEntity el = new DiabloLivingEntity(event.getEntity());
-            EntityDropItemEvent edie = new EntityDropItemEvent(
-                    el);
+            EntityDropItemEvent edie = new EntityDropItemEvent(el);
             plugin.getServer().getPluginManager().callEvent(edie);
             if (edie.isCancelled())
-            	for (EntityEquipment e :EntityEquipment.values())
-            	{
-            		el.setEquipment(e, new DiabloItemStack(Material.AIR));
-            	}
+                for (EntityEquipment e : EntityEquipment.values())
+                {
+                    el.setEquipment(e, new DiabloItemStack(Material.AIR));
+                }
         }
     }
 
@@ -73,16 +72,17 @@ public class MobListener implements Listener
                 && (plugin.config.getInt("Precentages.ChancePerSpawn", 9) >= random))
         {
             List<DiabloItemStack> items = new ArrayList<DiabloItemStack>();
-            for(int i=0;i<plugin.gen.nextInt(5)+1;i++)
+            for (int i = 0; i < plugin.gen.nextInt(5) + 1; i++)
             {
-            	DiabloItemStack ci = plugin.dropsAPI.getItem();
+                DiabloItemStack ci = plugin.dropsAPI.getItem();
                 while (ci == null)
                 {
                     ci = plugin.dropsAPI.getItem();
                 }
                 if (plugin.config.getBoolean("Custom.Only", false))
                 {
-                    ci = plugin.custom.get(plugin.gen.nextInt(plugin.custom.size()));
+                    ci = plugin.custom.get(plugin.gen.nextInt(plugin.custom
+                            .size()));
                 }
                 if (ci != null)
                 {
@@ -90,8 +90,7 @@ public class MobListener implements Listener
                 }
             }
             DiabloLivingEntity de = new DiabloLivingEntity(entity);
-            EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(
-                    entity);
+            EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(entity);
             plugin.getServer().getPluginManager().callEvent(eswi);
             if (eswi.isCancelled())
                 return;

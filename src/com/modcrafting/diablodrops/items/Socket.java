@@ -33,7 +33,7 @@ public class Socket extends DiabloItemStack
         addLore(ChatColor.GOLD + "to add socket enhancements.");
         if (mat.equals(Material.SKULL_ITEM))
         {
-        	DiabloSkull sk = new DiabloSkull(getHandle());
+            DiabloSkull sk = new DiabloSkull(getHandle());
             SkullType type = SkullType.values()[DiabloDrops.getInstance().gen
                     .nextInt(SkullType.values().length)];
             if (type.equals(SkullType.PLAYER))

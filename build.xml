@@ -46,6 +46,9 @@
 		<copy todir="bin" overwrite="true">
 			<fileset dir="." includes="plugin.yml,config.yml,custom.yml,offenselore.txt,defenselore.txt,tier.yml,prefix.txt,suffix.txt,set.yml" />
             <fileset dir="lib" includes="DiabloLibrary.jar"/>
+                          <filterset>
+                              <filter token="VERSION" value="${env.BUILD_NUMBER}" />
+                          </filterset>
 		</copy>
 		<jar basedir="bin" jarfile="dist/${ant.project.name}.jar" defaultexcludes="true" />
 	</target>

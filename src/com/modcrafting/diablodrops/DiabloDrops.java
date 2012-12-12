@@ -141,6 +141,84 @@ public class DiabloDrops extends JavaPlugin
     {
         getServer().getScheduler().cancelTasks(this);
     }
+    public void libhandler(){
+    	if (getLibrary() == null)
+        {
+            File loc = new File(getDataFolder(), "/lib/");
+            if (!loc.exists())
+            {
+                loc.mkdir();
+            }
+            String p = getServer().getClass().getPackage().getName();
+            String version = p.substring(p.lastIndexOf('.') + 1);
+            if (version.equalsIgnoreCase("v1_4_5"))
+            {
+                nameLoader.writeDefault("DiabloLibrary" + version + ".jar");
+                String urlPath = "jar:file:" + loc.getAbsolutePath()
+                        + "/DiabloLibrary" + version + ".jar!/";
+                try
+                {
+                    getServer().getPluginManager().loadPlugin(
+                            new File(loc, "DiabloLibrary" + version + ".jar"));
+                    if (getLibrary() != null)
+                    {
+                        getServer().getPluginManager().enablePlugin(
+                                getLibrary());
+                        	return;
+                    }
+                    else
+                    {
+                        addURL(new URL(urlPath));
+                        return;
+                    }
+                }
+                catch (Exception e1)
+                {
+                    getLogger().severe("DiabloLibrary Not Found.");
+                    setEnabled(false);
+                    return;
+                }
+                // TODO Compile, Include, and Organize Multiversion
+                // Crisis Averted
+            }
+            else if (version.equalsIgnoreCase("craftbukkit"))
+            {
+                nameLoader.writeDefault("DiabloLibrary.jar");
+                String urlPath = "jar:file:" + loc.getAbsolutePath()
+                        + "/DiabloLibrary.jar!/";
+                try
+                {
+                    getServer().getPluginManager().loadPlugin(
+                            new File(loc, "DiabloLibrary.jar"));
+                    if (getLibrary() != null)
+                    {
+                        getServer().getPluginManager().enablePlugin(
+                                getLibrary());
+                        return;
+                    }
+                    else
+                    {
+                        addURL(new URL(urlPath));
+                        return;
+                    }
+                }
+                catch (Exception e1)
+                {
+                    getLogger().severe("DiabloLibrary Not Found.");
+                    setEnabled(false);
+                    return;
+                }
+            }
+            else
+            {
+                getLogger().severe(
+                        "DiabloLibrary Not Available Yet For Version: CB/MC"
+                                + version);
+                setEnabled(false);
+                return;
+            }
+        }
+    }
 
     @Override
     public void onDisable()
@@ -167,80 +245,7 @@ public class DiabloDrops extends JavaPlugin
         log = getLogger();
         log.addHandler(new LogHandler(getDataFolder()));
         nameLoader = new NamesLoader(this);
-        if (getLibrary() == null)
-        {
-            File loc = new File(getDataFolder(), "/lib/");
-            if (!loc.exists())
-            {
-                loc.mkdir();
-            }
-            String p = getServer().getClass().getPackage().getName();
-            String version = p.substring(p.lastIndexOf('.') + 1);
-            if (version.equalsIgnoreCase("v1_4_5"))
-            {
-                nameLoader.writeDefault("DiabloLibrary" + version + ".jar");
-                String urlPath = "jar:file:" + loc.getAbsolutePath()
-                        + "/DiabloLibrary" + version + ".jar!/";
-                try
-                {
-                    getServer().getPluginManager().loadPlugin(
-                            new File(loc, "DiabloLibrary" + version + ".jar"));
-                    if (getLibrary() != null)
-                    {
-                        getServer().getPluginManager().enablePlugin(
-                                getLibrary());
-                    }
-                    else
-                    {
-                        addURL(new URL(urlPath));
-                    }
-                }
-                catch (Exception e1)
-                {
-                    getLogger().severe("DiabloLibrary Not Found.");
-                    setEnabled(false);
-                    return;
-                }
-                // TODO Compile, Include, and Organize Multiversion
-                // Crisis Averted
-                getLogger().severe("DiabloLibrary Not Available Yet.");
-                setEnabled(false);
-            }
-            else if (version.equalsIgnoreCase("craftbukkit"))
-            {
-                nameLoader.writeDefault("DiabloLibrary.jar");
-                String urlPath = "jar:file:" + loc.getAbsolutePath()
-                        + "/DiabloLibrary.jar!/";
-                try
-                {
-                    getServer().getPluginManager().loadPlugin(
-                            new File(loc, "DiabloLibrary.jar"));
-                    if (getLibrary() != null)
-                    {
-                        getServer().getPluginManager().enablePlugin(
-                                getLibrary());
-                    }
-                    else
-                    {
-                        addURL(new URL(urlPath));
-                    }
-                }
-                catch (Exception e1)
-                {
-                    getLogger().severe("DiabloLibrary Not Found.");
-                    setEnabled(false);
-                    return;
-                }
-            }
-            else
-            {
-                getLogger().severe(
-                        "DiabloLibrary Not Available Yet For Version: CB/MC"
-                                + version);
-                setEnabled(false);
-                return;
-            }
-        }
+        libhandler();
         nameLoader.writeDefault("config.yml");
         nameLoader.writeDefault("custom.yml");
         nameLoader.writeDefault("tier.yml");
@@ -389,4 +394,5 @@ public class DiabloDrops extends JavaPlugin
                     }, 0, 2400);
         }
     }
+    
 }

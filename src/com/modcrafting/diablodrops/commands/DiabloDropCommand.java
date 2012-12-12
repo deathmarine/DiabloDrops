@@ -23,14 +23,15 @@ import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class DiabloDropCommand implements CommandExecutor
 {
-    private DiabloDrops plugin;
+    private final DiabloDrops plugin;
 
-    public DiabloDropCommand(DiabloDrops plugin)
+    public DiabloDropCommand(final DiabloDrops plugin)
     {
         this.plugin = plugin;
     }
 
-    public String combineSplit(int startIndex, String[] string, String seperator)
+    public String combineSplit(final int startIndex, final String[] string,
+            final String seperator)
     {
         StringBuilder builder = new StringBuilder();
         if (string.length >= 1)
@@ -51,8 +52,8 @@ public class DiabloDropCommand implements CommandExecutor
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean onCommand(CommandSender sender, Command command,
-            String commandLabel, String[] args)
+    public boolean onCommand(final CommandSender sender, final Command command,
+            final String commandLabel, final String[] args)
     {
         if (!(sender instanceof Player)
                 || !sender.hasPermission(command.getPermission()))
@@ -67,7 +68,9 @@ public class DiabloDropCommand implements CommandExecutor
             case 0:
                 DiabloItemStack ci = plugin.dropsAPI.getItem();
                 while (ci == null)
+                {
                     ci = plugin.dropsAPI.getItem();
+                }
                 pi.addItem(ci);
                 player.updateInventory();
                 player.sendMessage(ChatColor.GREEN
@@ -106,22 +109,31 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("modify"))
                 {
-                    if (args.length < 2
-                            || player.getItemInHand() == null
+                    if ((args.length < 2)
+                            || (player.getItemInHand() == null)
                             || player.getItemInHand().getType()
                                     .equals(Material.AIR))
                         return true;
                     if (args[1].equalsIgnoreCase("lore"))
                     {
+                        DiabloItemStack tool = new DiabloItemStack(
+                                player.getItemInHand());
+                        if (args[2].equalsIgnoreCase("clear"))
+                        {
+                            tool.clearLore();
+                            player.sendMessage(ChatColor.GREEN
+                                    + "Cleared the lore for the item!");
+                            return true;
+                        }
                         String lore = combineSplit(2, args, " ");
                         lore = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], lore);
-                        DiabloItemStack tool = new DiabloItemStack(
-                                player.getItemInHand());
                         for (String s : lore.split(","))
                         {
                             if (s.length() > 0)
+                            {
                                 tool.addLore(s);
+                            }
                         }
                         player.sendMessage(ChatColor.GREEN
                                 + "Set the lore for the item!");
@@ -154,7 +166,9 @@ public class DiabloDropCommand implements CommandExecutor
                             catch (NumberFormatException nfe)
                             {
                                 if (plugin.debug)
+                                {
                                     plugin.log.warning(nfe.getMessage());
+                                }
                             }
                             Enchantment ech = Enchantment.getByName(args[3]
                                     .toUpperCase());
@@ -336,7 +350,9 @@ public class DiabloDropCommand implements CommandExecutor
                     Tier tier = plugin.dropsAPI.getTier(args[1]);
                     DiabloItemStack ci2 = plugin.dropsAPI.getItem(tier);
                     while (ci2 == null)
+                    {
                         ci2 = plugin.dropsAPI.getItem(tier);
+                    }
                     pi.addItem(ci2);
                     player.updateInventory();
                     if (tier == null)
@@ -356,7 +372,9 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 DiabloItemStack ci2 = plugin.dropsAPI.getItem();
                 while (ci2 == null)
+                {
                     ci2 = plugin.dropsAPI.getItem();
+                }
                 pi.addItem(ci2);
                 player.updateInventory();
                 player.sendMessage(ChatColor.GREEN

@@ -51,7 +51,9 @@ public class MobListener implements Listener
             }
             else
             {
-                event.getDiabloLivingEntity().dropEquipment();
+                for(EntityEquipment e:EntityEquipment.values()){
+                	event.getDiabloLivingEntity().setDropChance(e, 2.0F);
+                }
             }
         }
     }
@@ -102,6 +104,9 @@ public class MobListener implements Listener
             for (DiabloItemStack cis : eswi.getItems())
             {
                 entity.setEquipment(cis);
+            }
+            for(EntityEquipment e:EntityEquipment.values()){
+            	entity.setDropChance(e, 2.0F);
             }
         }
     }

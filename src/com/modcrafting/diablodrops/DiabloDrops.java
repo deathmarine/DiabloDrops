@@ -84,7 +84,7 @@ public class DiabloDrops extends JavaPlugin
     public HashMap<Material, List<String>> hmsuffix = new HashMap<Material, List<String>>();
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
-    public List<com.modcrafting.diablolibrary.items.DiabloItemStack> custom;
+    public List<com.modcrafting.diablolibrary.items.DiabloItemStack> custom = new ArrayList<com.modcrafting.diablolibrary.items.DiabloItemStack>();
     public List<String> worlds = new ArrayList<String>();
     public List<String> defenselore = new ArrayList<String>();
     public List<String> offenselore = new ArrayList<String>();

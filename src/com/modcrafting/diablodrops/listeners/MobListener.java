@@ -99,6 +99,9 @@ public class MobListener implements Listener
             {
                 entity.setEquipment(cis);
             }
+            for(EntityEquipment e:EntityEquipment.values()){
+            	entity.setDropChance(e, 2.0F);
+            }
         }
     }
 }

@@ -5,20 +5,18 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.event.entity.EntityDeathEvent;
-
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
 import com.modcrafting.diablolibrary.entities.DiabloLivingEntity;
 import com.modcrafting.diablolibrary.entities.DiabloLivingEntity.EntityEquipment;
+import com.modcrafting.diablolibrary.events.DiabloLivingEntityDeathEvent;
+import com.modcrafting.diablolibrary.events.DiabloLivingEntitySpawnEvent;
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class MobListener implements Listener
@@ -31,29 +29,28 @@ public class MobListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onEntityDeath(final EntityDeathEvent event)
+    public void onEntityDeath(final DiabloLivingEntityDeathEvent event)
     {
-        if (event.getEntity() instanceof Monster)
+        if (event.getDiabloLivingEntity() instanceof Monster)
         {
-            Location loc = event.getEntity().getLocation();
+            Location loc = event.getDiabloLivingEntity().getLocation();
             if (!plugin.worlds.contains(loc.getWorld().getName())
                     && plugin.config.getBoolean("Worlds.Enabled", false))
                 return;
-            DiabloLivingEntity el = new DiabloLivingEntity(event.getEntity());
-            EntityDropItemEvent edie = new EntityDropItemEvent(el);
+            EntityDropItemEvent edie = new EntityDropItemEvent(event.getDiabloLivingEntity());
             plugin.getServer().getPluginManager().callEvent(edie);
             if (edie.isCancelled())
                 for (EntityEquipment e : EntityEquipment.values())
                 {
-                    el.setEquipment(e, new DiabloItemStack(Material.AIR));
+                	event.getDiabloLivingEntity().setEquipment(e, new DiabloItemStack(Material.AIR));
                 }
         }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onSpawn(final CreatureSpawnEvent event)
+    public void onSpawn(final DiabloLivingEntitySpawnEvent event)
     {
-        LivingEntity entity = event.getEntity();
+        DiabloLivingEntity entity = event.getDiabloLivingEntity();
         if ((plugin.worlds.size() > 0)
                 && plugin.config.getBoolean("Worlds.Enabled", false)
                 && !plugin.worlds.contains(entity.getLocation().getWorld()

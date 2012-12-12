@@ -21,7 +21,7 @@ public class EffectsListener implements Listener
     {
         plugin = instance;
     }
-
+    //TODO Library 
     @EventHandler(priority = EventPriority.LOW)
     public void onEntityDamageByEntity(EntityDamageEvent event)
     {

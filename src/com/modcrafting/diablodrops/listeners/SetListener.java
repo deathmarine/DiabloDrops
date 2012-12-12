@@ -9,8 +9,8 @@ import org.bukkit.event.Listener;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.effects.EffectsAPI;
 import com.modcrafting.diablodrops.sets.ArmorSet;
-import com.modcrafting.diablolibrary.events.DiabloLivingEntityDamageByEntityEvent;
-import com.modcrafting.diablolibrary.events.DiabloLivingEntityDamageEvent;
+import com.modcrafting.diablolibrary.events.DiabloMonsterDamageByEntityEvent;
+import com.modcrafting.diablolibrary.events.DiabloMonsterDamageEvent;
 
 public class SetListener implements Listener
 {
@@ -22,8 +22,8 @@ public class SetListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onDiabloLivingEntityDamageByEntityEvent(
-            final DiabloLivingEntityDamageByEntityEvent event)
+    public void onDiabloMonsterDamageByEntityEvent(
+            final DiabloMonsterDamageByEntityEvent event)
     {
         if (plugin.setsAPI.wearingSet(event.getDamagingEntity()))
         {
@@ -58,20 +58,20 @@ public class SetListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onDiabloLivingEntityDamageEvent(
-            final DiabloLivingEntityDamageEvent event)
+    public void onDiabloMonsterDamageEvent(
+            final DiabloMonsterDamageEvent event)
     {
-        if (plugin.setsAPI.wearingSet(event.getDiabloLivingEntity()))
+        if (plugin.setsAPI.wearingSet(event.getDiabloMonster()))
         {
             String sName = plugin.setsAPI.getNameOfSet(event
-                    .getDiabloLivingEntity());
+                    .getDiabloMonster());
             ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
             if (aSet != null)
             {
                 List<String> effects = aSet.getBonuses();
                 for (String s : effects)
                 {
-                    EffectsAPI.addEffect(event.getDiabloLivingEntity(), null,
+                    EffectsAPI.addEffect(event.getDiabloMonster(), null,
                             s, event);
                 }
             }

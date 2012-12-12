@@ -34,7 +34,6 @@ import com.modcrafting.diablodrops.builders.CustomBuilder;
 import com.modcrafting.diablodrops.builders.SocketBuilder;
 import com.modcrafting.diablodrops.builders.TierBuilder;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
-import com.modcrafting.diablodrops.drops.DropUtils;
 import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
@@ -47,6 +46,7 @@ import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
 import com.modcrafting.diablodrops.tier.Tier;
+import com.modcrafting.diablolibrary.EntityListener;
 
 public class DiabloDrops extends JavaPlugin
 {
@@ -77,7 +77,7 @@ public class DiabloDrops extends JavaPlugin
 
     public boolean debug;
     public Random gen = new Random();
-    public DropUtils drop = new DropUtils(gen);
+    public com.modcrafting.diablolibrary.items.ItemAPI drop;
     public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
     public HashMap<Material, List<String>> hmprefix = new HashMap<Material, List<String>>();
@@ -287,6 +287,7 @@ public class DiabloDrops extends JavaPlugin
         nameLoader.loadFile(defenselore, "defenselore.txt");
         nameLoader.loadFile(offenselore, "offenselore.txt");
         custom = new ArrayList<com.modcrafting.diablolibrary.items.DiabloItemStack>();
+        drop = new com.modcrafting.diablolibrary.items.ItemAPI();
         new CustomBuilder(this).build();
         new SocketBuilder(this).build();
         new TierBuilder(this).build();
@@ -303,6 +304,7 @@ public class DiabloDrops extends JavaPlugin
         debug = config.getBoolean("Plugin.Debug", false);
 
         PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new EntityListener(this), this);
         pm.registerEvents(new MobListener(this), this);
         pm.registerEvents(new TomeListener(this), this);
         pm.registerEvents(new SocketListener(this), this);

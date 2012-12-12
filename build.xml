@@ -51,7 +51,7 @@
             	<filter token="VERSION" value="${env.BUILD_NUMBER}" />
             </filterset>
 		</copy>
-		<copy file="DiabloLibrary.jar" todir="."/>
+		<copy file="lib/DiabloLibrary.jar" todir="."/>
 		            
 		<jar basedir="bin" jarfile="dist/${ant.project.name}.jar" defaultexcludes="true" />
 	</target>

@@ -386,8 +386,8 @@ public class EffectsAPI
         }
     }
 
-    public static void handlePluginEffects(final DiabloMonster damaged,
-            final DiabloMonster damager,
+    public static void handlePluginEffects(final LivingEntity damaged,
+            final LivingEntity damager,
             final DiabloMonsterDamageByEntityEvent event)
     {
         if (damager instanceof Player)

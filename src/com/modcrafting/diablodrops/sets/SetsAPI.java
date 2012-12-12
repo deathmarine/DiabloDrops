@@ -122,4 +122,22 @@ public class SetsAPI
         }
         return true;
     }
+
+
+    /**
+     * Gets the name of the set a player could be wearing
+     * 
+     * @param player
+     *            Player to check
+     * @return name of the set
+     */
+	public String getNameOfSet(Player player)
+    {
+    	ItemStack his = player.getInventory().getHelmet();
+        if (his == null)
+            return null;
+        DiabloItemStack tool = new DiabloItemStack(his);
+        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        return ss[0];
+    }
 }

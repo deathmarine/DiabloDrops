@@ -18,13 +18,13 @@ public class NamesLoader
     File dataFolder;
     DiabloDrops plugin;
 
-    public NamesLoader(DiabloDrops instance)
+    public NamesLoader(final DiabloDrops instance)
     {
         plugin = instance;
         dataFolder = instance.getDataFolder();
     }
 
-    public void loadFile(HashMap<Material, List<String>> hm, File f)
+    public void loadFile(final HashMap<Material, List<String>> hm, final File f)
     {
         Material m = Material.getMaterial(f.getName().replace(".txt", "")
                 .toUpperCase());
@@ -35,7 +35,7 @@ public class NamesLoader
             String p;
             while ((p = list.readLine()) != null)
             {
-                if (!p.contains("#") && p.length() > 0)
+                if (!p.contains("#") && (p.length() > 0))
                 {
                     l.add(p);
                 }
@@ -55,7 +55,9 @@ public class NamesLoader
         catch (Exception e)
         {
             if (plugin.debug)
+            {
                 plugin.log.warning(e.getMessage());
+            }
         }
     }
 
@@ -67,7 +69,7 @@ public class NamesLoader
      * @param name
      *            Name of the file to take values from
      */
-    public void loadFile(List<String> l, String name)
+    public void loadFile(final List<String> l, final String name)
     {
         try
         {
@@ -76,7 +78,7 @@ public class NamesLoader
             String p;
             while ((p = list.readLine()) != null)
             {
-                if (!p.contains("#") && p.length() > 0)
+                if (!p.contains("#") && (p.length() > 0))
                 {
                     l.add(p);
                 }
@@ -86,7 +88,9 @@ public class NamesLoader
         catch (Exception e)
         {
             if (plugin.debug)
+            {
                 plugin.log.warning(e.getMessage());
+            }
         }
     }
 
@@ -96,7 +100,7 @@ public class NamesLoader
      * @param name
      *            Name of the file to write
      */
-    public void writeDefault(String name)
+    public void writeDefault(final String name)
     {
         File actual = new File(dataFolder, name);
         if (name.contains(".jar"))
@@ -116,13 +120,16 @@ public class NamesLoader
                 {
                     output.write(buf, 0, length);
                 }
+                output.flush();
                 output.close();
                 input.close();
             }
             catch (Exception e)
             {
                 if (plugin.debug)
+                {
                     plugin.log.warning(e.getMessage());
+                }
             }
         }
     }

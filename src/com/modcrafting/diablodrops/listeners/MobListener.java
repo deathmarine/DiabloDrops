@@ -90,7 +90,8 @@ public class MobListener implements Listener
 				return;
 
 			for (DiabloItemStack cis : eswi.getItems())
-				entity.setEquipment(cis);
+				if(cis!=null)
+					entity.setEquipment(cis);
 			for (EntityEquipment e : EntityEquipment.values())
 				entity.setDropChance(e, 2.0F);
 		}

@@ -59,8 +59,9 @@ public class EffectsUtil
                             {
                                 for (int dz = -1; dz <= 1; dz += 2)
                                 {
-                                    Location l = new Location(world,
-                                            x + dx * r, y + dy * r, z + dz * r);
+                                    Location l = new Location(world, x
+                                            + (dx * r), y + (dy * r), z
+                                            + (dz * r));
                                     vertex[i++] = l;
                                 }
                             }
@@ -113,7 +114,7 @@ public class EffectsUtil
                 }, 20L * 1);
     }
 
-    private static void entombBlockType(Block block, int value)
+    private static void entombBlockType(final Block block, final int value)
     {
         switch (value)
         {
@@ -162,7 +163,7 @@ public class EffectsUtil
      * @param value
      *            Acceleration of entity
      */
-    public static void launchEntity(LivingEntity entity, int value)
+    public static void launchEntity(final LivingEntity entity, final int value)
     {
         entity.setVelocity(new Vector(0, 2 * value, 0));
     }
@@ -173,48 +174,64 @@ public class EffectsUtil
      * @param e
      *            Entity to make into baby
      */
-    public static void makeBaby(LivingEntity e)
+    public static void makeBaby(final LivingEntity e)
     {
         if (e instanceof Zombie)
         {
             Zombie z = (Zombie) e;
             if (!z.isBaby())
+            {
                 z.setBaby(true);
+            }
         }
         if (e instanceof Villager)
         {
             if (((Villager) e).isAdult())
+            {
                 ((Villager) e).setBaby();
+            }
         }
         if (e instanceof Pig)
         {
             if (((Pig) e).isAdult())
+            {
                 ((Pig) e).setBaby();
+            }
         }
         if (e instanceof Cow)
         {
             if (((Cow) e).isAdult())
+            {
                 ((Cow) e).setBaby();
+            }
         }
         if (e instanceof Chicken)
         {
             if (((Chicken) e).isAdult())
+            {
                 ((Chicken) e).setBaby();
+            }
         }
         if (e instanceof Wolf)
         {
             if (((Wolf) e).isAdult())
+            {
                 ((Wolf) e).setBaby();
+            }
         }
         if (e instanceof Ocelot)
         {
             if (((Ocelot) e).isAdult())
+            {
                 ((Ocelot) e).setBaby();
+            }
         }
         if (e instanceof Sheep)
         {
             if (((Sheep) e).isAdult())
+            {
                 ((Sheep) e).setBaby();
+            }
         }
     }
 
@@ -228,7 +245,8 @@ public class EffectsUtil
      * @param dur
      *            Duration of PotionEffect
      */
-    public static void potionEffect(LivingEntity e, PotionEffectType ef, int dur)
+    public static void potionEffect(final LivingEntity e,
+            final PotionEffectType ef, final int dur)
     {
         e.addPotionEffect(new PotionEffect(ef, dur, 2));
     }
@@ -241,7 +259,7 @@ public class EffectsUtil
      * @param value
      *            Duration of time to be set on fire
      */
-    public static void setOnFire(LivingEntity entity, int value)
+    public static void setOnFire(final LivingEntity entity, final int value)
     {
         entity.setFireTicks(20 * 3 * Math.abs(value));
     }
@@ -265,6 +283,26 @@ public class EffectsUtil
                                 public void run()
                                 {
                                     entity.launchProjectile(Arrow.class);
+                                }
+                            }, 20L * i);
+        }
+    }
+
+    public static void strikeLightning(final LivingEntity entity,
+            final int times)
+    {
+        for (int i = times; i > 0; i--)
+        {
+            Bukkit.getServer()
+                    .getScheduler()
+                    .scheduleSyncDelayedTask(DiabloDrops.getInstance(),
+                            new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    entity.getWorld().strikeLightning(
+                                            entity.getLocation());
                                 }
                             }, 20L * i);
         }

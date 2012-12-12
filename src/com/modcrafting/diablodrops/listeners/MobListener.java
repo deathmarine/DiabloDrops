@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
@@ -37,13 +38,17 @@ public class MobListener implements Listener
             if (!plugin.worlds.contains(loc.getWorld().getName())
                     && plugin.config.getBoolean("Worlds.Enabled", false))
                 return;
-            EntityDropItemEvent edie = new EntityDropItemEvent(event.getDiabloLivingEntity());
+            EntityDropItemEvent edie = new EntityDropItemEvent(
+                    event.getDiabloLivingEntity());
             plugin.getServer().getPluginManager().callEvent(edie);
             if (edie.isCancelled())
+            {
                 for (EntityEquipment e : EntityEquipment.values())
                 {
-                	event.getDiabloLivingEntity().setEquipment(e, new DiabloItemStack(Material.AIR));
+                    event.getDiabloLivingEntity().setEquipment(e,
+                            new DiabloItemStack(Material.AIR));
                 }
+            }
         }
     }
 
@@ -69,7 +74,7 @@ public class MobListener implements Listener
                 && (plugin.config.getInt("Precentages.ChancePerSpawn", 9) >= random))
         {
             List<DiabloItemStack> items = new ArrayList<DiabloItemStack>();
-            for (int i = 0; i < plugin.gen.nextInt(5) + 1; i++)
+            for (int i = 0; i < (plugin.gen.nextInt(5) + 1); i++)
             {
                 DiabloItemStack ci = plugin.dropsAPI.getItem();
                 while (ci == null)
@@ -86,14 +91,13 @@ public class MobListener implements Listener
                     items.add(ci);
                 }
             }
-            DiabloLivingEntity de = new DiabloLivingEntity(entity);
             EntitySpawnWithItemEvent eswi = new EntitySpawnWithItemEvent(entity);
             plugin.getServer().getPluginManager().callEvent(eswi);
             if (eswi.isCancelled())
                 return;
             for (DiabloItemStack cis : eswi.getItems())
             {
-                de.setEquipment(cis);
+                entity.setEquipment(cis);
             }
         }
     }

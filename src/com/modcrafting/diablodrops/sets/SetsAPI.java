@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.drops.DropUtils;
+import com.modcrafting.diablolibrary.entities.DiabloLivingEntity;
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class SetsAPI
@@ -18,7 +19,7 @@ public class SetsAPI
     private final DropUtils drops;
     private final DiabloDrops plugin;
 
-    public SetsAPI(DiabloDrops instance)
+    public SetsAPI(final DiabloDrops instance)
     {
         plugin = instance;
         drops = instance.drop;
@@ -32,7 +33,7 @@ public class SetsAPI
      *            of set
      * @return armor set
      */
-    public ArmorSet getArmorSet(String name)
+    public ArmorSet getArmorSet(final String name)
     {
         for (ArmorSet as : plugin.armorSets)
         {
@@ -59,9 +60,9 @@ public class SetsAPI
      *            Player to check
      * @return name of the set
      */
-    public String getNameOfSet(Player player)
+    public String getNameOfSet(final DiabloLivingEntity entity)
     {
-        ItemStack his = player.getInventory().getHelmet();
+        DiabloItemStack his = entity.getHelmet();
         if (his == null)
             return null;
         DiabloItemStack tool = new DiabloItemStack(his);
@@ -74,19 +75,44 @@ public class SetsAPI
         return plugin;
     }
 
+    public boolean wearingSet(final DiabloLivingEntity entity)
+    {
+        DiabloItemStack his = entity.getHelmet();
+        DiabloItemStack cis = entity.getChestplate();
+        DiabloItemStack lis = entity.getLeggings();
+        DiabloItemStack bis = entity.getBoots();
+        if ((his == null) || (cis == null) || (lis == null) || (bis == null))
+            return false;
+        Set<DiabloItemStack> sis = new HashSet<DiabloItemStack>();
+        sis.add(cis);
+        sis.add(lis);
+        sis.add(bis);
+        DiabloItemStack tool = new DiabloItemStack(his);
+        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        String potentialSet = ss[0];
+        for (ItemStack is : sis)
+        {
+            DiabloItemStack te = new DiabloItemStack(is);
+            String[] splits = ChatColor.stripColor(te.getName()).split(" ");
+            if (!splits[0].equalsIgnoreCase(potentialSet))
+                return false;
+        }
+        return true;
+    }
+
     /**
      * Is player wearing a set of matching armor?
      * 
      * @param player
      * @return is set
      */
-    public boolean wearingSet(Player player)
+    public boolean wearingSet(final Player player)
     {
         ItemStack his = player.getInventory().getHelmet();
         ItemStack cis = player.getInventory().getChestplate();
         ItemStack lis = player.getInventory().getLeggings();
         ItemStack bis = player.getInventory().getBoots();
-        if (his == null || cis == null || lis == null || bis == null)
+        if ((his == null) || (cis == null) || (lis == null) || (bis == null))
             return false;
         Set<ItemStack> sis = new HashSet<ItemStack>();
         sis.add(cis);

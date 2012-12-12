@@ -49,6 +49,10 @@ public class MobListener implements Listener
                             new DiabloItemStack(Material.AIR));
                 }
             }
+            else
+            {
+                event.getDiabloLivingEntity().dropEquipment();
+            }
         }
     }
 

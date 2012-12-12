@@ -16,16 +16,16 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablolibrary.entities.DiabloLivingEntity;
-import com.modcrafting.diablolibrary.events.DiabloLivingEntityDamageByEntityEvent;
-import com.modcrafting.diablolibrary.events.DiabloLivingEntityDamageEvent;
+import com.modcrafting.diablolibrary.entities.DiabloMonster;
+import com.modcrafting.diablolibrary.events.DiabloMonsterDamageByEntityEvent;
+import com.modcrafting.diablolibrary.events.DiabloMonsterDamageEvent;
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class EffectsAPI
 {
-    public static void addEffect(final DiabloLivingEntity damaged,
-            final DiabloLivingEntity damager, final String s,
-            final DiabloLivingEntityDamageByEntityEvent event)
+    public static void addEffect(final LivingEntity damaged,
+            final LivingEntity damager, final String s,
+            final DiabloMonsterDamageByEntityEvent event)
     {
         String[] args = s.split(" ");
         if (args.length <= 1)
@@ -84,11 +84,11 @@ public class EffectsAPI
             }
             if ((fl > 0) && (damaged instanceof Monster))
             {
-                new DiabloLivingEntity(damaged).setSpeed(Math.abs(fl) / 500);
+                new DiabloMonster((Monster) damaged).setSpeed(Math.abs(fl) / 500);
             }
             else if ((fl < 0) && (damager instanceof Monster))
             {
-                new DiabloLivingEntity(damager).setSpeed(Math.abs(fl) / 500);
+                new DiabloMonster((Monster) damager).setSpeed(Math.abs(fl) / 500);
             }
             return;
         }
@@ -206,7 +206,7 @@ public class EffectsAPI
 
     public static void addEffect(final LivingEntity struck,
             final LivingEntity striker, final String string,
-            final DiabloLivingEntityDamageEvent event)
+            final DiabloMonsterDamageEvent event)
     {
 
         String[] args = string.split(" ");
@@ -266,11 +266,11 @@ public class EffectsAPI
             }
             if ((fl > 0) && (struck instanceof Monster))
             {
-                new DiabloLivingEntity(struck).setSpeed(Math.abs(fl) / 500);
+                new DiabloMonster((Monster) struck).setSpeed(Math.abs(fl) / 500);
             }
             else if ((fl < 0) && (striker instanceof Monster))
             {
-                new DiabloLivingEntity(striker).setSpeed(Math.abs(fl) / 500);
+                new DiabloMonster((Monster) striker).setSpeed(Math.abs(fl) / 500);
             }
             return;
         }
@@ -386,9 +386,9 @@ public class EffectsAPI
         }
     }
 
-    public static void handlePluginEffects(final DiabloLivingEntity damaged,
-            final DiabloLivingEntity damager,
-            final DiabloLivingEntityDamageByEntityEvent event)
+    public static void handlePluginEffects(final LivingEntity damaged,
+            final LivingEntity damager,
+            final DiabloMonsterDamageByEntityEvent event)
     {
         if (damager instanceof Player)
         {
@@ -425,7 +425,7 @@ public class EffectsAPI
      */
     public static void handlePluginEffects(final LivingEntity entityStruck,
             final LivingEntity entityStriker,
-            final DiabloLivingEntityDamageEvent event)
+            final DiabloMonsterDamageEvent event)
     {
         if (entityStriker instanceof Player)
         {

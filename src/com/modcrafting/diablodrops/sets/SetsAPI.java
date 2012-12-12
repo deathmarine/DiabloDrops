@@ -9,20 +9,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.drops.DropUtils;
-import com.modcrafting.diablolibrary.entities.DiabloLivingEntity;
+import com.modcrafting.diablolibrary.entities.DiabloMonster;
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class SetsAPI
 {
     private final Random gen;
-    private final DropUtils drops;
     private final DiabloDrops plugin;
 
     public SetsAPI(final DiabloDrops instance)
     {
         plugin = instance;
-        drops = instance.drop;
         gen = plugin.gen;
     }
 
@@ -43,11 +40,6 @@ public class SetsAPI
         return null;
     }
 
-    public DropUtils getDrops()
-    {
-        return drops;
-    }
-
     public Random getGen()
     {
         return gen;
@@ -60,7 +52,7 @@ public class SetsAPI
      *            Player to check
      * @return name of the set
      */
-    public String getNameOfSet(final DiabloLivingEntity entity)
+    public String getNameOfSet(final DiabloMonster entity)
     {
         DiabloItemStack his = entity.getHelmet();
         if (his == null)
@@ -75,7 +67,7 @@ public class SetsAPI
         return plugin;
     }
 
-    public boolean wearingSet(final DiabloLivingEntity entity)
+    public boolean wearingSet(final DiabloMonster entity)
     {
         DiabloItemStack his = entity.getHelmet();
         DiabloItemStack cis = entity.getChestplate();
@@ -129,5 +121,23 @@ public class SetsAPI
                 return false;
         }
         return true;
+    }
+
+
+    /**
+     * Gets the name of the set a player could be wearing
+     * 
+     * @param player
+     *            Player to check
+     * @return name of the set
+     */
+	public String getNameOfSet(Player player)
+    {
+    	ItemStack his = player.getInventory().getHelmet();
+        if (his == null)
+            return null;
+        DiabloItemStack tool = new DiabloItemStack(his);
+        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        return ss[0];
     }
 }

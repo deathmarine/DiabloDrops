@@ -155,7 +155,7 @@ public class DiabloDrops extends JavaPlugin
             String version = p.substring(p.lastIndexOf('.') + 1);
             if (version.equalsIgnoreCase("v1_4_5"))
             {
-                nameLoader.writeDefault("DiabloLibrary" + version + ".jar");
+                nameLoader.writeDefault("DiabloLibrary" + version + ".jar",true);
                 String urlPath = "jar:file:" + loc.getAbsolutePath()
                         + "/DiabloLibrary" + version + ".jar!/";
                 try
@@ -185,7 +185,7 @@ public class DiabloDrops extends JavaPlugin
             }
             else if (version.equalsIgnoreCase("craftbukkit"))
             {
-                nameLoader.writeDefault("DiabloLibrary.jar");
+                nameLoader.writeDefault("DiabloLibrary.jar",true);
                 String urlPath = "jar:file:" + loc.getAbsolutePath()
                         + "/DiabloLibrary.jar!/";
                 try
@@ -248,14 +248,14 @@ public class DiabloDrops extends JavaPlugin
         log.addHandler(new LogHandler(getDataFolder()));
         nameLoader = new NamesLoader(this);
         libhandler();
-        nameLoader.writeDefault("config.yml");
-        nameLoader.writeDefault("custom.yml");
-        nameLoader.writeDefault("tier.yml");
-        nameLoader.writeDefault("set.yml");
-        nameLoader.writeDefault("prefix.txt");
-        nameLoader.writeDefault("suffix.txt");
-        nameLoader.writeDefault("defenselore.txt");
-        nameLoader.writeDefault("offenselore.txt");
+        nameLoader.writeDefault("config.yml",false);
+        nameLoader.writeDefault("custom.yml",false);
+        nameLoader.writeDefault("tier.yml",false);
+        nameLoader.writeDefault("set.yml",false);
+        nameLoader.writeDefault("prefix.txt",false);
+        nameLoader.writeDefault("suffix.txt",false);
+        nameLoader.writeDefault("defenselore.txt",false);
+        nameLoader.writeDefault("offenselore.txt",false);
         config = getConfig();
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {

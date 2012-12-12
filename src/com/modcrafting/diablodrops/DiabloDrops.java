@@ -141,8 +141,10 @@ public class DiabloDrops extends JavaPlugin
     {
         getServer().getScheduler().cancelTasks(this);
     }
-    public void libhandler(){
-    	if (getLibrary() == null)
+
+    public void libhandler()
+    {
+        if (getLibrary() == null)
         {
             File loc = new File(getDataFolder(), "/lib/");
             if (!loc.exists())
@@ -164,7 +166,7 @@ public class DiabloDrops extends JavaPlugin
                     {
                         getServer().getPluginManager().enablePlugin(
                                 getLibrary());
-                        	return;
+                        return;
                     }
                     else
                     {
@@ -394,5 +396,5 @@ public class DiabloDrops extends JavaPlugin
                     }, 0, 2400);
         }
     }
-    
+
 }

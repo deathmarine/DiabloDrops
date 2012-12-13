@@ -114,10 +114,10 @@ public class DiabloDropCommand implements CommandExecutor
                             || player.getItemInHand().getType()
                                     .equals(Material.AIR))
                         return true;
+                    DiabloItemStack tool = new DiabloItemStack(
+                                player.getItemInHand());
                     if (args[1].equalsIgnoreCase("lore"))
                     {
-                        DiabloItemStack tool = new DiabloItemStack(
-                                player.getItemInHand());
                         if (args[2].equalsIgnoreCase("clear"))
                         {
                             tool.clearLore();

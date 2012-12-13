@@ -161,7 +161,7 @@ public class DiabloDropCommand implements CommandExecutor
                     {
                         if (args.length < 4)
                         {
-                            if (args.length == 3 && args[2].equalsIgnoreCase("clear))
+                            if (args.length == 3 && args[2].equalsIgnoreCase("clear"))
                             {
                                 tool.clearEnchantments();
                                 player.sendMessage(ChatColor.GREEN

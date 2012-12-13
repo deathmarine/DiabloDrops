@@ -43,7 +43,7 @@ Comments:
 **3 (#34)**
 Summary: Prefixes and suffixes per material.
 Link: #34
-Status: Implemented
+Status: Finished
 Comments:
 ----
 
@@ -51,7 +51,7 @@ Comments:
 **4 (#36)**
 Summary: Different kinds of sockets.
 Link: #36
-Status: New
+Status: Finished
 Comments:
   Nunnery: It would require a lot of code manipulation and could probably end up being breakable.
 ----

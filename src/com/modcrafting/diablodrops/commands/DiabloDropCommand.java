@@ -141,6 +141,13 @@ public class DiabloDropCommand implements CommandExecutor
                     }
                     if (args[1].equalsIgnoreCase("name"))
                     {
+                        if (args[2].equalsIgnoreCase("clear"))
+                        {
+                            tool.clearName();
+                            player.sendMessage(ChatColor.GREEN
+                                    + "Cleared the name for the item!");
+                            return true;
+                        }
                         String name = combineSplit(2, args, " ");
                         name = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], name);
@@ -153,7 +160,18 @@ public class DiabloDropCommand implements CommandExecutor
                     if (args[1].equalsIgnoreCase("enchant"))
                     {
                         if (args.length < 4)
+                        {
+                            if (args.length == 3 && args[2].equalsIgnoreCase("clear))
+                            {
+                                tool.clearEnchantments();
+                                player.sendMessage(ChatColor.GREEN
+                                    + "Cleared the enchantments for the item!");
+                                return true;  
+                            }
+                            player.sendMessage(ChatColor.RED + "Correct usage: /dd modify enchant" + 
+                                " [enchantment name] [enchantment level]");
                             return true;
+                        }
                         if (args[2].equalsIgnoreCase("add"))
                         {
                             if (args.length < 5)

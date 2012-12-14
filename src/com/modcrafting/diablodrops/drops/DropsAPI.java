@@ -15,7 +15,7 @@ import org.bukkit.inventory.Inventory;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.items.Drop;
 import com.modcrafting.diablodrops.items.Socket;
-import com.modcrafting.diablodrops.items.Tome;
+import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
@@ -329,7 +329,7 @@ public class DropsAPI
                 && plugin.config.getBoolean("IdentifyTome.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "IdentifyTome.Chance", 3)))
-            return new Tome();
+            return new IdentifyTome();
         if (plugin.gen.nextBoolean()
                 && plugin.config.getBoolean("SocketItem.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(

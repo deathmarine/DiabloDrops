@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.items.Tome;
+import com.modcrafting.diablodrops.items.IdentifyTome;
 
 public class SocketBuilder
 {
@@ -34,7 +34,7 @@ public class SocketBuilder
 
             }
         }
-        ShapelessRecipe re = new ShapelessRecipe(new Tome());
+        ShapelessRecipe re = new ShapelessRecipe(new IdentifyTome());
         re.addIngredient(3, Material.BOOK);
         re.addIngredient(Material.EYE_OF_ENDER);
         plugin.getServer().addRecipe(re);

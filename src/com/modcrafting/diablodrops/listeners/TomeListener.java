@@ -17,7 +17,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.IdentifyItemEvent;
-import com.modcrafting.diablodrops.items.Tome;
+import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 import de.bananaco.bookapi.lib.Book;
@@ -43,7 +43,7 @@ public class TomeListener implements Listener
             {
                 e.setCancelled(true);
             }
-            e.setCurrentItem(new Tome());
+            e.setCurrentItem(new IdentifyTome());
         }
     }
 
@@ -90,6 +90,7 @@ public class TomeListener implements Listener
                     {
                         p.sendMessage(ChatColor.RED
                                 + "You are unable to identify right now.");
+                        p.closeInventory();
                         e.setUseItemInHand(Result.DENY);
                         e.setCancelled(true);
                         return;

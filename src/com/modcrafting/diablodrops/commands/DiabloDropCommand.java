@@ -15,8 +15,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.items.DiabloifyTome;
+import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
-import com.modcrafting.diablodrops.items.Tome;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
@@ -80,7 +81,14 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("tome")
                         || args[0].equalsIgnoreCase("book"))
                 {
-                    pi.addItem(new Tome());
+                    if (plugin.gen.nextBoolean())
+                    {
+                        pi.addItem(new IdentifyTome());
+                    }
+                    else
+                    {
+                        pi.addItem(new DiabloifyTome());
+                    }
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a tome.");
                     player.updateInventory();
@@ -115,7 +123,7 @@ public class DiabloDropCommand implements CommandExecutor
                                     .equals(Material.AIR))
                         return true;
                     DiabloItemStack tool = new DiabloItemStack(
-                                player.getItemInHand());
+                            player.getItemInHand());
                     if (args[1].equalsIgnoreCase("lore"))
                     {
                         if (args[2].equalsIgnoreCase("clear"))
@@ -161,15 +169,17 @@ public class DiabloDropCommand implements CommandExecutor
                     {
                         if (args.length < 4)
                         {
-                            if (args.length == 3 && args[2].equalsIgnoreCase("clear"))
+                            if ((args.length == 3)
+                                    && args[2].equalsIgnoreCase("clear"))
                             {
                                 tool.clearEnchantments();
                                 player.sendMessage(ChatColor.GREEN
-                                    + "Cleared the enchantments for the item!");
-                                return true;  
+                                        + "Cleared the enchantments for the item!");
+                                return true;
                             }
-                            player.sendMessage(ChatColor.RED + "Correct usage: /dd modify enchant" + 
-                                " [enchantment name] [enchantment level]");
+                            player.sendMessage(ChatColor.RED
+                                    + "Correct usage: /dd modify enchant"
+                                    + " [enchantment name] [enchantment level]");
                             return true;
                         }
                         if (args[2].equalsIgnoreCase("add"))

@@ -19,7 +19,7 @@ import com.modcrafting.diablolibrary.items.DiabloSkull;
 
 public class SocketListener implements Listener
 {
-	DiabloDrops plugin;
+	private final DiabloDrops plugin;
 
 	public SocketListener(final DiabloDrops instance)
 	{
@@ -70,6 +70,19 @@ public class SocketListener implements Listener
 										continue;
 									plugin.furnanceMap.put(event.getBlock(),
 											event.getFuel());
+									plugin.getServer()
+											.getScheduler()
+											.scheduleSyncDelayedTask(plugin,
+													new Runnable()
+													{
+														@Override
+														public void run()
+														{
+															plugin.furnanceMap
+																	.remove(event
+																			.getBlock());
+														}
+													}, 20L * 30);
 									event.setBurnTime(240);
 									event.setBurning(true);
 									return;

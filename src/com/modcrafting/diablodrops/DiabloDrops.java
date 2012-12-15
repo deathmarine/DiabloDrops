@@ -142,7 +142,7 @@ public class DiabloDrops extends JavaPlugin
         getServer().getScheduler().cancelTasks(this);
     }
 
-    public void libhandler()
+    public boolean libhandler()
     {
         if (getLibrary() == null)
         {
@@ -166,22 +166,19 @@ public class DiabloDrops extends JavaPlugin
                     {
                         getServer().getPluginManager().enablePlugin(
                                 getLibrary());
-                        return;
+                        return true;
                     }
                     else
                     {
                         addURL(new URL(urlPath));
-                        return;
+                        return true;
                     }
                 }
                 catch (Exception e1)
                 {
                     getLogger().severe("DiabloLibrary Not Found.");
-                    setEnabled(false);
-                    return;
+                    return false;
                 }
-                // TODO Compile, Include, and Organize Multiversion
-                // Crisis Averted
             }
             else if (version.equalsIgnoreCase("craftbukkit"))
             {
@@ -196,19 +193,18 @@ public class DiabloDrops extends JavaPlugin
                     {
                         getServer().getPluginManager().enablePlugin(
                                 getLibrary());
-                        return;
+                        return true;
                     }
                     else
                     {
                         addURL(new URL(urlPath));
-                        return;
+                        return true;
                     }
                 }
                 catch (Exception e1)
                 {
                     getLogger().severe("DiabloLibrary Not Found.");
-                    setEnabled(false);
-                    return;
+                    return false;
                 }
             }
             else
@@ -216,10 +212,10 @@ public class DiabloDrops extends JavaPlugin
                 getLogger().severe(
                         "DiabloLibrary Not Available Yet For Version: CB/MC"
                                 + version);
-                setEnabled(false);
-                return;
+                return false;
             }
         }
+        return true;
     }
 
     @Override
@@ -247,7 +243,10 @@ public class DiabloDrops extends JavaPlugin
         log = getLogger();
         log.addHandler(new LogHandler(getDataFolder()));
         nameLoader = new NamesLoader(this);
-        libhandler();
+        if(!libhandler()){
+        	this.setEnabled(false);
+        	return;
+        }
         nameLoader.writeDefault("config.yml",false);
         nameLoader.writeDefault("custom.yml",false);
         nameLoader.writeDefault("tier.yml",false);

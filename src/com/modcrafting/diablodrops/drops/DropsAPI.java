@@ -14,8 +14,8 @@ import org.bukkit.inventory.Inventory;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.items.Drop;
-import com.modcrafting.diablodrops.items.Socket;
 import com.modcrafting.diablodrops.items.IdentifyTome;
+import com.modcrafting.diablodrops.items.Socket;
 import com.modcrafting.diablodrops.tier.Tier;
 import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
@@ -139,7 +139,7 @@ public class DropsAPI
      * Fills a chest with items.
      * 
      * @param block
-     *            Material of item to get name for
+     *            Block to fill
      */
     public void fillChest(final Block block)
     {
@@ -150,6 +150,37 @@ public class DropsAPI
             Chest chestB = ((Chest) block.getState());
             Inventory chest = chestB.getBlockInventory();
             for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
+            {
+                DiabloItemStack cis = plugin.dropsAPI.getItem();
+                while (cis == null)
+                {
+                    cis = plugin.dropsAPI.getItem();
+                }
+                chest.setItem(i, cis);
+            }
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+    /**
+     * Fills a chest with items.
+     * 
+     * @param block
+     *            Block to fill
+     * @param size
+     *            Rarity of chest
+     */
+    public void fillChest(final Block block, final int size)
+    {
+        try
+        {
+            if (!(block.getState() instanceof Chest))
+                return;
+            Chest chestB = ((Chest) block.getState());
+            Inventory chest = chestB.getBlockInventory();
+            for (int i = 0; i < (plugin.gen.nextInt(chest.getSize()) + size); i++)
             {
                 DiabloItemStack cis = plugin.dropsAPI.getItem();
                 while (cis == null)
@@ -588,7 +619,9 @@ public class DropsAPI
             mat = dropPicker();
         }
         while (tier == null)
+        {
             tier = getTier();
+        }
         DiabloItemStack ci = null;
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))

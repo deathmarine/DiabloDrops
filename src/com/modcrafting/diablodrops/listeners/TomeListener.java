@@ -33,6 +33,15 @@ public class TomeListener implements Listener
         this.plugin = plugin;
     }
 
+    public ChatColor findColor(final String s)
+    {
+        char[] c = s.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if ((c[i] == new Character((char) 167)) && ((i + 1) < c.length))
+                return ChatColor.getByChar(c[i + 1]);
+        return null;
+    }
+
     @EventHandler
     public void onCraftItem(final CraftItemEvent e)
     {
@@ -86,6 +95,7 @@ public class TomeListener implements Listener
                         continue;
                     }
                     IdentifyItemEvent iie = new IdentifyItemEvent(tool);
+                    plugin.getServer().getPluginManager().callEvent(iie);
                     if (iie.isCancelled())
                     {
                         p.sendMessage(ChatColor.RED
@@ -114,6 +124,63 @@ public class TomeListener implements Listener
                     return;
                 }
                 p.sendMessage(ChatColor.RED + "You have no items to identify.");
+                p.closeInventory();
+                e.setUseItemInHand(Result.DENY);
+                e.setCancelled(true);
+                return;
+            }
+            else if (b.getTitle().contains(ChatColor.DARK_RED + "Diablo Tome"))
+            {
+                Player p = e.getPlayer();
+                PlayerInventory pi = p.getInventory();
+                p.updateInventory();
+                Iterator<ItemStack> itis = pi.iterator();
+                while (itis.hasNext())
+                {
+                    ItemStack next = itis.next();
+                    if ((next == null)
+                            || !plugin.dropsAPI.canBeItem(next.getType()))
+                    {
+                        continue;
+                    }
+                    DiabloItemStack tool = new DiabloItemStack(next);
+                    String name = tool.getName();
+                    if (((ChatColor.valueOf(ChatColor.getLastColors(name)) != ChatColor.WHITE) || (findColor(name) != ChatColor.WHITE))
+                            || ((ChatColor.valueOf(ChatColor
+                                    .getLastColors(name)) == null) || (findColor(name) == null)))
+                    {
+                        continue;
+                    }
+                    IdentifyItemEvent iie = new IdentifyItemEvent(tool);
+                    plugin.getServer().getPluginManager().callEvent(iie);
+                    if (iie.isCancelled())
+                    {
+                        p.sendMessage(ChatColor.RED
+                                + "You are unable to Diabloify right now.");
+                        p.closeInventory();
+                        e.setUseItemInHand(Result.DENY);
+                        e.setCancelled(true);
+                        return;
+                    }
+                    pi.setItemInHand(null);
+                    DiabloItemStack item = plugin.dropsAPI.getItem(tool);
+                    while ((item == null)
+                            || item.getName().contains(
+                                    ChatColor.RESET.toString()))
+                    {
+                        item = plugin.dropsAPI.getItem(tool);
+                    }
+                    pi.removeItem(tool);
+                    pi.addItem(item);
+                    p.sendMessage(ChatColor.GREEN
+                            + "You have Diablofied an item!");
+                    p.updateInventory();
+                    e.setUseItemInHand(Result.DENY);
+                    e.setCancelled(true);
+                    p.closeInventory();
+                    return;
+                }
+                p.sendMessage(ChatColor.RED + "You have no items to Diabloify.");
                 p.closeInventory();
                 e.setUseItemInHand(Result.DENY);
                 e.setCancelled(true);

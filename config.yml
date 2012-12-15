@@ -38,6 +38,9 @@ Display:
 IdentifyTome:
   Enabled: true
   Chance: 2
+DiabloifyTome:
+  Enabled: true
+  Chance: 2
 #Allow the drop of socketted items#
 SocketItem:
   Enabled: true

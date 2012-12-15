@@ -1,10 +1,23 @@
 <project name="DiabloDrops" default="package">
 	<property environment="env" />
 	<property name="env.BUILD_NUMBER" value="0" />
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="DiabloDrops.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/craftbukkit.jar"/>
+        <pathelement location="lib/DiabloLibrary.jar"/>
+        <pathelement location="lib/DiabloLibraryv1_4_5.jar"/>
+    </path>
 
 	<target name="init" description="Initialize directories, etc.">
-		<mkdir dir="bin" />
-		<mkdir dir="dist" />
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
 	</target>
 
 	<target name="clean" depends="init" description="Clean up all the temp stuff and previous builds">
@@ -13,13 +26,13 @@
 			<fileset dir="dist" />
 		</delete>
 	</target>
+        <echo message="${ant.project.name}: ${ant.file}"/>
 
 	<target name="compile" depends="clean, init" description="Compile all the code">
-		<javac debug="true" debuglevel="lines,vars,source" deprecation="true" srcdir="src" destdir="bin">
-			<classpath>
-				<fileset dir="lib" includes="*.jar" />
-			</classpath>
-		</javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="DiabloDrops.classpath"/>
+        </javac>
 	</target>
 	
 	<target name="document" depends="compile" description="Create JavaDocs">
@@ -35,9 +48,7 @@
 	                <link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
 	                <link href="http://jd.bukkit.org/apidocs/" />
 
-	                <classpath>
-	                    <fileset dir="lib" includes="**/*.jar"/>
-	                </classpath>
+	                <classpath refid="DiabloDrops.classpath"/>
 	                <bottom>
 	                    <![CDATA[<b>deathmarine and rmh4209, 2012</b>]]>
 	                </bottom>
@@ -52,6 +63,7 @@
             </filterset>
 		</copy>
 		<copy file="lib/DiabloLibrary.jar" todir="bin"/>
+		<copy file="lib/DiabloLibraryv1_4_5.jar" todir="bin"/>
 		            
 		<jar basedir="bin" jarfile="dist/${ant.project.name}.jar" defaultexcludes="true" />
 	</target>

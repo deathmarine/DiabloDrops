@@ -57,8 +57,7 @@ public class SetsAPI
         DiabloItemStack his = entity.getHelmet();
         if (his == null)
             return null;
-        DiabloItemStack tool = new DiabloItemStack(his);
-        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        String[] ss = ChatColor.stripColor(his.getName()).split(" ");
         return ss[0];
     }
 
@@ -79,13 +78,11 @@ public class SetsAPI
         sis.add(cis);
         sis.add(lis);
         sis.add(bis);
-        DiabloItemStack tool = new DiabloItemStack(his);
-        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        String[] ss = ChatColor.stripColor(his.getName()).split(" ");
         String potentialSet = ss[0];
-        for (ItemStack is : sis)
+        for (DiabloItemStack is : sis)
         {
-            DiabloItemStack te = new DiabloItemStack(is);
-            String[] splits = ChatColor.stripColor(te.getName()).split(" ");
+            String[] splits = ChatColor.stripColor(is.getName()).split(" ");
             if (!splits[0].equalsIgnoreCase(potentialSet))
                 return false;
         }

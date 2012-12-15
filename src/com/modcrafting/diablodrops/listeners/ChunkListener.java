@@ -7,6 +7,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -273,21 +274,6 @@ public class ChunkListener implements Listener
             blockType = 98;
             allowedTypes.add(Material.DIRT);
             allowedTypes.add(Material.GRASS);
-        }
-        else if (b == Biome.HELL)
-        {
-            if (plugin.gen.nextInt(3) == 0)
-            {
-                blockType = 112;
-            }
-            else
-            {
-                blockType = 88;
-            }
-            allowedTypes.add(Material.SOUL_SAND);
-            allowedTypes.add(Material.GLOWSTONE);
-            allowedTypes.add(Material.NETHERRACK);
-            allowedTypes.add(Material.NETHER_BRICK);
         }
         else if (b == Biome.EXTREME_HILLS)
         {
@@ -615,9 +601,9 @@ public class ChunkListener implements Listener
         int realX = (chunk.getX() * 16) + plugin.gen.nextInt(15);
         int realZ = (chunk.getZ() * 16) + plugin.gen.nextInt(15);
 
-        Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
-        if ((plugin.gen.nextInt(100) + 1) > 7)
+        if (chunk.getWorld().getEnvironment() != Environment.NETHER)
         {
+            Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
             if (plugin.gen.nextBoolean())
             {
                 RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
@@ -652,22 +638,19 @@ public class ChunkListener implements Listener
                 }
                 return;
             }
-            if (plugin.gen.nextBoolean())
-            {
-                RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
-                plugin.getServer().getPluginManager().callEvent(rge);
-                if (rge.isCancelled())
-                    return;
-                block = rge.getChest();
-                Block under = block.getRelative(BlockFace.DOWN);
-                Location loc = under.getLocation();
-                if (deathRuin(loc))
-                {
-                    block.setType(Material.CHEST);
-                    plugin.dropsAPI.fillChest(block);
-                }
+            RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
+            plugin.getServer().getPluginManager().callEvent(rge);
+            if (rge.isCancelled())
                 return;
+            block = rge.getChest();
+            Block under = block.getRelative(BlockFace.DOWN);
+            Location loc = under.getLocation();
+            if (deathRuin(loc))
+            {
+                block.setType(Material.CHEST);
+                plugin.dropsAPI.fillChest(block);
             }
+            return;
         }
     }
 

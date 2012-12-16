@@ -69,7 +69,8 @@ public class TomeListener implements Listener
                     .getItemInHand());
             if (b == null)
                 return;
-            if (b.getTitle().contains(ChatColor.DARK_AQUA + "Identity Tome"))
+            if (b.getTitle().contains("Identity Tome")||
+            		b.getTitle().contains("Diablo Tome"))
             {
                 Player p = e.getPlayer();
                 PlayerInventory pi = p.getInventory();
@@ -85,10 +86,9 @@ public class TomeListener implements Listener
                     }
                     DiabloItemStack tool = new DiabloItemStack(next);
                     String name = tool.getName();
-                    if ((!ChatColor.getLastColors(name).equalsIgnoreCase(
-                            ChatColor.MAGIC.name()) && !ChatColor
-                            .getLastColors(name).equalsIgnoreCase(
-                                    ChatColor.MAGIC.toString()))
+                    if(!b.getTitle().contains("Diablo Tome"))
+                    if ((!ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.name()) 
+                            && !ChatColor.getLastColors(name).equalsIgnoreCase(                               ChatColor.MAGIC.toString()))
                             && (!name.contains(ChatColor.MAGIC.name()) && !name
                                     .contains(ChatColor.MAGIC.toString())))
                     {

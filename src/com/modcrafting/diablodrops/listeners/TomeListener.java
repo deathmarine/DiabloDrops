@@ -69,7 +69,8 @@ public class TomeListener implements Listener
                     .getItemInHand());
             if (b == null)
                 return;
-            if (b.getTitle().contains(ChatColor.DARK_AQUA + "Identity Tome"))
+            if (b.getTitle().contains("Identity Tome")||
+            		b.getTitle().contains("Diablo Tome"))
             {
                 Player p = e.getPlayer();
                 PlayerInventory pi = p.getInventory();
@@ -85,10 +86,9 @@ public class TomeListener implements Listener
                     }
                     DiabloItemStack tool = new DiabloItemStack(next);
                     String name = tool.getName();
-                    if ((!ChatColor.getLastColors(name).equalsIgnoreCase(
-                            ChatColor.MAGIC.name()) && !ChatColor
-                            .getLastColors(name).equalsIgnoreCase(
-                                    ChatColor.MAGIC.toString()))
+                    if(!b.getTitle().contains("Diablo Tome"))
+                    if ((!ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.name()) 
+                            && !ChatColor.getLastColors(name).equalsIgnoreCase(                               ChatColor.MAGIC.toString()))
                             && (!name.contains(ChatColor.MAGIC.name()) && !name
                                     .contains(ChatColor.MAGIC.toString())))
                     {
@@ -124,63 +124,6 @@ public class TomeListener implements Listener
                     return;
                 }
                 p.sendMessage(ChatColor.RED + "You have no items to identify.");
-                p.closeInventory();
-                e.setUseItemInHand(Result.DENY);
-                e.setCancelled(true);
-                return;
-            }
-            else if (b.getTitle().contains(ChatColor.DARK_RED + "Diablo Tome"))
-            {
-                Player p = e.getPlayer();
-                PlayerInventory pi = p.getInventory();
-                p.updateInventory();
-                Iterator<ItemStack> itis = pi.iterator();
-                while (itis.hasNext())
-                {
-                    ItemStack next = itis.next();
-                    if ((next == null)
-                            || !plugin.dropsAPI.canBeItem(next.getType()))
-                    {
-                        continue;
-                    }
-                    DiabloItemStack tool = new DiabloItemStack(next);
-                    String name = tool.getName();
-                    if (((ChatColor.valueOf(ChatColor.getLastColors(name)) != ChatColor.WHITE) || (findColor(name) != ChatColor.WHITE))
-                            || ((ChatColor.valueOf(ChatColor
-                                    .getLastColors(name)) == null) || (findColor(name) == null)))
-                    {
-                        continue;
-                    }
-                    IdentifyItemEvent iie = new IdentifyItemEvent(tool);
-                    plugin.getServer().getPluginManager().callEvent(iie);
-                    if (iie.isCancelled())
-                    {
-                        p.sendMessage(ChatColor.RED
-                                + "You are unable to Diabloify right now.");
-                        p.closeInventory();
-                        e.setUseItemInHand(Result.DENY);
-                        e.setCancelled(true);
-                        return;
-                    }
-                    pi.setItemInHand(null);
-                    DiabloItemStack item = plugin.dropsAPI.getItem(tool);
-                    while ((item == null)
-                            || item.getName().contains(
-                                    ChatColor.RESET.toString()))
-                    {
-                        item = plugin.dropsAPI.getItem(tool);
-                    }
-                    pi.removeItem(tool);
-                    pi.addItem(item);
-                    p.sendMessage(ChatColor.GREEN
-                            + "You have Diablofied an item!");
-                    p.updateInventory();
-                    e.setUseItemInHand(Result.DENY);
-                    e.setCancelled(true);
-                    p.closeInventory();
-                    return;
-                }
-                p.sendMessage(ChatColor.RED + "You have no items to Diabloify.");
                 p.closeInventory();
                 e.setUseItemInHand(Result.DENY);
                 e.setCancelled(true);

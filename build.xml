@@ -13,6 +13,7 @@
 
 	<target name="init" description="Initialize directories, etc.">
         <mkdir dir="bin"/>
+        <mkdir dir="dist"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>

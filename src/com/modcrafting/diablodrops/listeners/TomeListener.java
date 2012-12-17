@@ -55,7 +55,6 @@ public class TomeListener implements Listener
             e.setCurrentItem(new IdentifyTome());
         }
     }
-
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onRightClick(final PlayerInteractEvent e)

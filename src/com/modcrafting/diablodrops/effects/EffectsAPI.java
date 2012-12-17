@@ -23,6 +23,15 @@ import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class EffectsAPI
 {
+	public static String ATTACK = "attack";
+	public static String DEFENSE = "defense";
+	public static String FREEZE = "freeze";
+	public static String SHRINK = "shrink";
+	public static String LIGHTNING = "lightning";
+	public static String FIRE = "fire";
+	public static String ENTOMB = "entomb";
+	public static String LEECH = "leech";
+	
     public static void addEffect(final LivingEntity damaged,
             final LivingEntity damager, final String s,
             final DiabloMonsterDamageByEntityEvent event)
@@ -39,7 +48,7 @@ public class EffectsAPI
         {
             level = 0;
         }
-        if (args[1].equalsIgnoreCase("attack"))
+        if (args[1].equalsIgnoreCase(ATTACK))
         {
             // Add to strike damage
             int damage = event.getDamageTaken() + level;
@@ -53,7 +62,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("defense"))
+        else if (args[1].equalsIgnoreCase(DEFENSE))
         {
             int damage = event.getDamageTaken() - level;
             if (damage >= 0)
@@ -66,7 +75,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("freeze"))
+        else if (args[1].equalsIgnoreCase(FREEZE))
         {
             // freeze entities
             float fl;
@@ -92,13 +101,13 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("shrink") && (damaged != null))
+        else if (args[1].equalsIgnoreCase(SHRINK) && (damaged != null))
         {
             // turn into baby
             EffectsUtil.makeBaby(damaged);
             return;
         }
-        else if (args[1].equalsIgnoreCase("lightning"))
+        else if (args[1].equalsIgnoreCase(LIGHTNING))
         {
             // strike lightning
             if ((level > 0) && (damaged != null))
@@ -113,7 +122,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("fire"))
+        else if (args[1].equalsIgnoreCase(FIRE))
         {
             // Set entity on fire
             if ((level > 0) && (damaged != null))
@@ -126,7 +135,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("entomb"))
+        else if (args[1].equalsIgnoreCase(ENTOMB))
         {
             if ((level > 0) && (damaged != null))
             {
@@ -138,7 +147,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("leech") && (damager != null)
+        else if (args[1].equalsIgnoreCase(LEECH) && (damager != null)
                 && (damager != null))
         {
             if (level > 0)
@@ -221,7 +230,7 @@ public class EffectsAPI
         {
             level = 0;
         }
-        if (args[1].equalsIgnoreCase("attack"))
+        if (args[1].equalsIgnoreCase(ATTACK))
         {
             // Add to strike damage
             int damage = event.getDamageTaken() + level;
@@ -235,7 +244,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("defense"))
+        else if (args[1].equalsIgnoreCase(DEFENSE))
         {
             int damage = event.getDamageTaken() - level;
             if (damage >= 0)
@@ -248,7 +257,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("freeze"))
+        else if (args[1].equalsIgnoreCase(FREEZE))
         {
             // freeze entities
             float fl;
@@ -274,13 +283,13 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("shrink") && (struck != null))
+        else if (args[1].equalsIgnoreCase(SHRINK) && (struck != null))
         {
             // turn into baby
             EffectsUtil.makeBaby(struck);
             return;
         }
-        else if (args[1].equalsIgnoreCase("lightning"))
+        else if (args[1].equalsIgnoreCase(LIGHTNING))
         {
             // strike lightning
             if ((level > 0) && (struck != null))
@@ -295,7 +304,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("fire"))
+        else if (args[1].equalsIgnoreCase(FIRE))
         {
             // Set entity on fire
             if ((level > 0) && (struck != null))
@@ -308,7 +317,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("entomb"))
+        else if (args[1].equalsIgnoreCase(ENTOMB))
         {
             if ((level > 0) && (struck != null))
             {
@@ -320,7 +329,7 @@ public class EffectsAPI
             }
             return;
         }
-        else if (args[1].equalsIgnoreCase("leech") && (striker != null)
+        else if (args[1].equalsIgnoreCase(LEECH) && (striker != null)
                 && (struck != null))
         {
             if (level > 0)

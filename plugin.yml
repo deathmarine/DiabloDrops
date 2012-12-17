@@ -5,7 +5,7 @@ website: http://modcrafting.com
 authors: [Deathmarine,Nunnery]
 description: >
              Item Drop/Equip Enhancement Plugin.
-loadbefore: [DiabloLoot, DiabloDungeonBridge]
+loadbefore: [DiabloBosses, Identify, DiabloLoot, DiabloDungeonBridge]
 load: STARTUP
              
 commands:

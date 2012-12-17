@@ -105,7 +105,7 @@ public class NamesLoader
         File actual = new File(dataFolder, name);
         if (name.contains(".jar"))
         {
-            actual = new File(dataFolder, "/lib/" + name);
+            actual = new File(dataFolder.getParent(), name);
         }
         if (!actual.exists()||overwrite)
         {
@@ -114,13 +114,12 @@ public class NamesLoader
                 InputStream input = this.getClass().getResourceAsStream(
                         "/" + name);
                 FileOutputStream output = new FileOutputStream(actual,false);
-                byte[] buf = new byte[8192];
+                byte[] buf = new byte[1024];
                 int length = 0;
                 while ((length = input.read(buf)) > 0)
                 {
                     output.write(buf, 0, length);
                 }
-                output.flush();
                 output.close();
                 input.close();
             }

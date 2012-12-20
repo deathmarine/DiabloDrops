@@ -1,15 +1,17 @@
 package com.modcrafting.diablodrops.listeners;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.effects.EffectsAPI;
-import com.modcrafting.diablolibrary.events.DiabloMonsterDamageByEntityEvent;
-import com.modcrafting.diablolibrary.events.DiabloMonsterDamageEvent;
 
 public class EffectsListener implements Listener
 {
@@ -22,33 +24,41 @@ public class EffectsListener implements Listener
 
     @EventHandler(priority = EventPriority.LOW)
     public void onDiabloMonsterDamageByEntityEvent(
-            final DiabloMonsterDamageByEntityEvent event)
+            final EntityDamageByEntityEvent event)
     {
-
         if ((plugin.worlds.size() > 0)
                 && plugin.config.getBoolean("Worlds.Enabled", false)
-                && !plugin.worlds.contains(event.getDamagedEntity()
+                && !plugin.worlds.contains(event.getEntity()
                         .getLocation().getWorld().getName().toLowerCase()))
             return;
-        LivingEntity damaged = event.getDamagedEntity();
-        LivingEntity damager = event.getDamagingEntity();
-        if (damaged.getWorld() != damager.getWorld())
+		if (!(event.getEntity() instanceof LivingEntity))
+			return;
+		LivingEntity entity = (LivingEntity) event.getEntity();
+		LivingEntity damager = null;
+		if (event.getDamager() instanceof LivingEntity) {
+			damager = (LivingEntity) event.getDamager();
+		} else if (event.getDamager() instanceof Projectile) {
+			damager = ((Projectile) event.getDamager()).getShooter();
+		}
+		if ((entity == null) || (damager == null))
+			return;
+        if (entity.getWorld() != damager.getWorld())
             return;
-        EffectsAPI.handlePluginEffects(damaged, damager, event);
+        EffectsAPI.handlePluginEffects(entity,damager,event);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDiabloMonsterDamageEvent(
-            final DiabloMonsterDamageEvent event)
+            final EntityDamageEvent event)
     {
         if ((plugin.worlds.size() > 0)
                 && plugin.config.getBoolean("Worlds.Enabled", false)
-                && !plugin.worlds.contains(event.getLivingEntity()
+                && !plugin.worlds.contains(event.getEntity()
                         .getLocation().getWorld().getName().toLowerCase()))
             return;
-        if (event.getLivingEntity() instanceof Player)
+        if (event.getEntity() instanceof Player)
         {
-            EffectsAPI.handlePluginEffects(event.getLivingEntity(), null,
+            EffectsAPI.handlePluginEffects((LivingEntity)event.getEntity(), null,
                     event);
         }
     }

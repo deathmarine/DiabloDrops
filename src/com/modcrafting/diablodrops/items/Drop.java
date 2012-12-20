@@ -1,25 +1,30 @@
 package com.modcrafting.diablodrops.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
-
-public class Drop extends DiabloItemStack
+public class Drop extends ItemStack
 {
 
     public Drop(Material mat, ChatColor color, String name)
     {
         super(mat);
-        this.setRepairCost(2);
-        this.setName(color + name);
+        ItemMeta meta = this.getItemMeta();
+        meta.setDisplayName(color + name);
+        this.setItemMeta(meta);
     }
 
     public Drop(Material mat, ChatColor color, String name, short durability)
     {
         super(mat);
-        this.setRepairCost(2);
-        this.setName(color + name);
+        ItemMeta meta = this.getItemMeta();
+        meta.setDisplayName(color + name);
+        this.setItemMeta(meta);
         this.setDurability(durability);
     }
 
@@ -27,24 +32,30 @@ public class Drop extends DiabloItemStack
             String... lore)
     {
         super(mat);
-        this.setRepairCost(2);
-        this.setName(color + name);
+        ItemMeta meta = this.getItemMeta();
+        meta.setDisplayName(color + name);
+        List<String> list = new ArrayList<String>();
         for (String e : lore)
         {
-            this.addLore(e);
+            list.add(e);
         }
+        meta.setLore(list);
+        this.setItemMeta(meta);
         this.setDurability(durability);
     }
 
     public Drop(Material mat, ChatColor color, String name, String... lore)
     {
         super(mat);
-        this.setRepairCost(2);
-        this.setName(color + name);
+        ItemMeta meta = this.getItemMeta();
+        meta.setDisplayName(color + name);
+        List<String> list = new ArrayList<String>();
         for (String e : lore)
         {
-            this.addLore(e);
+            list.add(e);
         }
+        meta.setLore(list);
+        this.setItemMeta(meta);
     }
 
 }

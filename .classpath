@@ -2,8 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/craftbukkit.jar"/>
-	<classpathentry kind="lib" path="lib/DiabloLibrary.jar"/>
-	<classpathentry kind="lib" path="lib/DiabloLibraryv1_4_5.jar"/>
+	<classpathentry kind="lib" path="lib/craftbukkit-1.4.5-R1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

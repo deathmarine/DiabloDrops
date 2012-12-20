@@ -7,8 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
+import org.bukkit.inventory.ItemStack;
 
 public class EntitySpawnWithItemEvent extends Event implements Cancellable
 {
@@ -23,16 +22,16 @@ public class EntitySpawnWithItemEvent extends Event implements Cancellable
     private boolean isCancelled = false;
     private final LivingEntity entity;
 
-    private List<DiabloItemStack> items;
+    private List<ItemStack> items;
 
     public EntitySpawnWithItemEvent(LivingEntity entity)
     {
         this.entity = entity;
-        this.setItems(new ArrayList<DiabloItemStack>());
+        this.setItems(new ArrayList<ItemStack>());
     }
 
     public EntitySpawnWithItemEvent(LivingEntity entity,
-            List<DiabloItemStack> items)
+            List<ItemStack> items)
     {
         this.entity = entity;
         setItems(items);
@@ -49,7 +48,7 @@ public class EntitySpawnWithItemEvent extends Event implements Cancellable
         return handlers;
     }
 
-    public List<DiabloItemStack> getItems()
+    public List<ItemStack> getItems()
     {
         return items;
     }
@@ -66,7 +65,7 @@ public class EntitySpawnWithItemEvent extends Event implements Cancellable
         isCancelled = bln;
     }
 
-    public void setItems(List<DiabloItemStack> items)
+    public void setItems(List<ItemStack> items)
     {
         this.items = items;
     }

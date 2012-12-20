@@ -1,6 +1,7 @@
 package com.modcrafting.diablodrops.builders;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -9,9 +10,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class CustomBuilder
 {
@@ -45,13 +47,16 @@ public class CustomBuilder
             ChatColor color = ChatColor.valueOf(cs.getString("Color")
                     .toUpperCase());
             List<String> lore = cs.getStringList("Lore");
-            DiabloItemStack tool = new DiabloItemStack(mat);
-            tool.setName(color + name);
+            ItemStack tool = new ItemStack(mat);
+            ItemMeta meta = tool.getItemMeta();
+            meta.setDisplayName(color + name);
+            List<String> list = new ArrayList<String>();
             for (String s : lore)
             {
-                tool.addLore(ChatColor.translateAlternateColorCodes(
+                list.add(ChatColor.translateAlternateColorCodes(
                         "&".toCharArray()[0], s));
             }
+            meta.setLore(list);
             ConfigurationSection cs1 = cs
                     .getConfigurationSection("Enchantments");
             if (cs1 != null)
@@ -65,6 +70,7 @@ public class CustomBuilder
                     tool.addUnsafeEnchantment(encha, cs1.getInt(ench));
                 }
             }
+            tool.setItemMeta(meta);
             plugin.custom.add(tool);
         }
     }

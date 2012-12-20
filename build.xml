@@ -6,9 +6,7 @@
     <property name="source" value="1.6"/>
     <path id="DiabloDrops.classpath">
         <pathelement location="bin"/>
-        <pathelement location="lib/craftbukkit.jar"/>
-        <pathelement location="lib/DiabloLibrary.jar"/>
-        <pathelement location="lib/DiabloLibraryv1_4_5.jar"/>
+        <pathelement location="lib/craftbukkit-1.4.5-R1.0.jar"/>
     </path>
 
 	<target name="init" description="Initialize directories, etc.">
@@ -63,8 +61,6 @@
             	<filter token="VERSION" value="${env.BUILD_NUMBER}" />
             </filterset>
 		</copy>
-		<copy file="lib/DiabloLibrary.jar" todir="bin"/>
-		<copy file="lib/DiabloLibraryv1_4_5.jar" todir="bin"/>
 		            
 		<jar basedir="bin" jarfile="dist/${ant.project.name}.jar" defaultexcludes="true" />
 	</target>

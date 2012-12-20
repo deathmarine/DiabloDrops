@@ -9,17 +9,13 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablolibrary.entities.DiabloMonster;
-import com.modcrafting.diablolibrary.events.DiabloMonsterDamageByEntityEvent;
-import com.modcrafting.diablolibrary.events.DiabloMonsterDamageEvent;
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class EffectsAPI
 {
@@ -34,7 +30,7 @@ public class EffectsAPI
 	
     public static void addEffect(final LivingEntity damaged,
             final LivingEntity damager, final String s,
-            final DiabloMonsterDamageByEntityEvent event)
+            final EntityDamageByEntityEvent event)
     {
         String[] args = s.split(" ");
         if (args.length <= 1)
@@ -51,53 +47,27 @@ public class EffectsAPI
         if (args[1].equalsIgnoreCase(ATTACK))
         {
             // Add to strike damage
-            int damage = event.getDamageTaken() + level;
+            int damage = event.getDamage() + level;
             if (damage >= 0)
             {
-                event.setDamageTaken(damage);
+                event.setDamage(damage);
             }
             else
             {
-                event.setDamageTaken(0);
+                event.setDamage(0);
             }
             return;
         }
         else if (args[1].equalsIgnoreCase(DEFENSE))
         {
-            int damage = event.getDamageTaken() - level;
+            int damage = event.getDamage() - level;
             if (damage >= 0)
             {
-                event.setDamageTaken(damage);
+                event.setDamage(damage);
             }
             else
             {
-                event.setDamageTaken(0);
-            }
-            return;
-        }
-        else if (args[1].equalsIgnoreCase(FREEZE))
-        {
-            // freeze entities
-            float fl;
-            try
-            {
-                fl = Float.parseFloat(args[0]);
-            }
-            catch (NumberFormatException e)
-            {
-                if (DiabloDrops.getInstance().debug)
-                {
-                    DiabloDrops.getInstance().log.warning(e.getMessage());
-                }
-                return;
-            }
-            if ((fl > 0) && (damaged instanceof Monster))
-            {
-                new DiabloMonster((Monster) damaged).setSpeed(Math.abs(fl) / 500);
-            }
-            else if ((fl < 0) && (damager instanceof Monster))
-            {
-                new DiabloMonster((Monster) damager).setSpeed(Math.abs(fl) / 500);
+                event.setDamage(0);
             }
             return;
         }
@@ -215,7 +185,7 @@ public class EffectsAPI
 
     public static void addEffect(final LivingEntity struck,
             final LivingEntity striker, final String string,
-            final DiabloMonsterDamageEvent event)
+            final EntityDamageEvent event)
     {
 
         String[] args = string.split(" ");
@@ -233,53 +203,27 @@ public class EffectsAPI
         if (args[1].equalsIgnoreCase(ATTACK))
         {
             // Add to strike damage
-            int damage = event.getDamageTaken() + level;
+            int damage = event.getDamage() + level;
             if (damage >= 0)
             {
-                event.setDamageTaken(damage);
+                event.setDamage(damage);
             }
             else
             {
-                event.setDamageTaken(0);
+                event.setDamage(0);
             }
             return;
         }
         else if (args[1].equalsIgnoreCase(DEFENSE))
         {
-            int damage = event.getDamageTaken() - level;
+            int damage = event.getDamage() - level;
             if (damage >= 0)
             {
-                event.setDamageTaken(damage);
+                event.setDamage(damage);
             }
             else
             {
-                event.setDamageTaken(0);
-            }
-            return;
-        }
-        else if (args[1].equalsIgnoreCase(FREEZE))
-        {
-            // freeze entities
-            float fl;
-            try
-            {
-                fl = Float.parseFloat(args[0]);
-            }
-            catch (NumberFormatException e)
-            {
-                if (DiabloDrops.getInstance().debug)
-                {
-                    DiabloDrops.getInstance().log.warning(e.getMessage());
-                }
-                return;
-            }
-            if ((fl > 0) && (struck instanceof Monster))
-            {
-                new DiabloMonster((Monster) struck).setSpeed(Math.abs(fl) / 500);
-            }
-            else if ((fl < 0) && (striker instanceof Monster))
-            {
-                new DiabloMonster((Monster) striker).setSpeed(Math.abs(fl) / 500);
+                event.setDamage(0);
             }
             return;
         }
@@ -397,7 +341,7 @@ public class EffectsAPI
 
     public static void handlePluginEffects(final LivingEntity damaged,
             final LivingEntity damager,
-            final DiabloMonsterDamageByEntityEvent event)
+            final EntityDamageByEntityEvent event)
     {
         if (damager instanceof Player)
         {
@@ -434,7 +378,7 @@ public class EffectsAPI
      */
     public static void handlePluginEffects(final LivingEntity entityStruck,
             final LivingEntity entityStriker,
-            final DiabloMonsterDamageEvent event)
+            final EntityDamageEvent event)
     {
         if (entityStriker instanceof Player)
         {
@@ -461,16 +405,17 @@ public class EffectsAPI
 
     public static List<String> listEffects(final List<ItemStack> equipment)
     {
-        Set<DiabloItemStack> toolSet = new HashSet<DiabloItemStack>();
+        Set<ItemStack> toolSet = new HashSet<ItemStack>();
         for (ItemStack is : equipment)
             if ((is != null) && !is.getType().equals(Material.AIR))
             {
-                toolSet.add(new DiabloItemStack(is));
+                toolSet.add(new ItemStack(is));
             }
         List<String> effects = new ArrayList<String>();
-        for (DiabloItemStack tool : toolSet)
+        for (ItemStack tool : toolSet)
         {
-            for (String string : tool.getLoreList())
+        	ItemMeta meta = tool.getItemMeta();
+            for (String string : meta.getLore())
             {
                 string = ChatColor.stripColor(string).replace("%", "")
                         .replace("+", "");

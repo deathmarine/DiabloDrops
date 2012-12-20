@@ -1,16 +1,33 @@
 package com.modcrafting.diablodrops.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.MaterialData;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
-import com.modcrafting.diablolibrary.items.DiabloSkull;
-import com.modcrafting.diablolibrary.items.DiabloSkull.SkullType;
 
-public class Socket extends DiabloItemStack
+public class Socket extends ItemStack
 {
+    public enum SkullType {
+		SKELETON(0), WITHER(1), ZOMBIE(2), PLAYER(3), CREEPER(4);
+		public int type;
+
+		private SkullType(final int i) {
+			type = i;
+		}
+
+		public byte getData() {
+			return (byte) type;
+		}
+
+	}
 
     public Socket(final Material mat)
     {
@@ -27,21 +44,26 @@ public class Socket extends DiabloItemStack
             default:
                 color = ChatColor.GREEN;
         }
-        setName(color + "Socket Enhancement");
-        addLore(ChatColor.GOLD + "Put in the bottom of a furnace");
-        addLore(ChatColor.GOLD + "with another item in the top");
-        addLore(ChatColor.GOLD + "to add socket enhancements.");
+        ItemMeta meta = this.getItemMeta();
+        meta.setDisplayName(color + "Socket Enhancement");
+        List<String> list = new ArrayList<String>();
+        list.add(ChatColor.GOLD + "Put in the bottom of a furnace");
+        list.add(ChatColor.GOLD + "with another item in the top");
+        list.add(ChatColor.GOLD + "to add socket enhancements.");
         if (mat.equals(Material.SKULL_ITEM))
         {
-            DiabloSkull sk = new DiabloSkull(getHandle());
+            SkullMeta sk = (SkullMeta) meta;
             SkullType type = SkullType.values()[DiabloDrops.getInstance().gen
                     .nextInt(SkullType.values().length)];
             if (type.equals(SkullType.PLAYER))
                 sk.setOwner(Bukkit.getServer().getOfflinePlayers()[DiabloDrops
                         .getInstance().gen.nextInt(Bukkit.getServer()
                         .getOfflinePlayers().length)].getName());
-            else
-                sk.setSkullType(type);
+            else{
+                MaterialData md = this.getData();
+            	md.setData(type.getData());
+            	this.setData(md);
+            }
         }
     }
 }

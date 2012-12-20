@@ -14,14 +14,12 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.IdentifyItemEvent;
 import com.modcrafting.diablodrops.items.IdentifyTome;
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
-
-import de.bananaco.bookapi.lib.Book;
-import de.bananaco.bookapi.lib.CraftBookBuilder;
 
 public class TomeListener implements Listener
 {
@@ -64,8 +62,8 @@ public class TomeListener implements Listener
                 && e.getPlayer().getItemInHand().getType()
                         .equals(Material.WRITTEN_BOOK))
         {
-            Book b = new CraftBookBuilder().getBook(e.getPlayer()
-                    .getItemInHand());
+        	ItemStack inh = e.getPlayer().getItemInHand();
+        	BookMeta b = (BookMeta) inh.getItemMeta();
             if (b == null)
                 return;
             if (b.getTitle().contains("Identity Tome")||
@@ -77,14 +75,14 @@ public class TomeListener implements Listener
                 Iterator<ItemStack> itis = pi.iterator();
                 while (itis.hasNext())
                 {
-                    ItemStack next = itis.next();
-                    if ((next == null)
-                            || !plugin.dropsAPI.canBeItem(next.getType()))
+                    ItemStack tool = itis.next();
+                    if ((tool == null)
+                            || !plugin.dropsAPI.canBeItem(tool.getType()))
                     {
                         continue;
                     }
-                    DiabloItemStack tool = new DiabloItemStack(next);
-                    String name = tool.getName();
+                    ItemMeta meta = tool.getItemMeta();
+                    String name = meta.getDisplayName();
                     if(!b.getTitle().contains("Diablo Tome"))
                     if ((!ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.name()) 
                             && !ChatColor.getLastColors(name).equalsIgnoreCase(                               ChatColor.MAGIC.toString()))
@@ -105,9 +103,9 @@ public class TomeListener implements Listener
                         return;
                     }
                     pi.setItemInHand(null);
-                    DiabloItemStack item = plugin.dropsAPI.getItem(tool);
+                    ItemStack item = plugin.dropsAPI.getItem(tool);
                     while ((item == null)
-                            || item.getName().contains(
+                            || item.getItemMeta().getDisplayName().contains(
                                     ChatColor.MAGIC.toString()))
                     {
                         item = plugin.dropsAPI.getItem(tool);

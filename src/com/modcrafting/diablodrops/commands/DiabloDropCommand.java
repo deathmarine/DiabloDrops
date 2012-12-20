@@ -1,5 +1,6 @@
 package com.modcrafting.diablodrops.commands;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.items.DiabloifyTome;
@@ -20,7 +22,6 @@ import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.tier.Tier;
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class DiabloDropCommand implements CommandExecutor
 {
@@ -67,7 +68,7 @@ public class DiabloDropCommand implements CommandExecutor
         switch (args.length)
         {
             case 0:
-                DiabloItemStack ci = plugin.dropsAPI.getItem();
+                ItemStack ci = plugin.dropsAPI.getItem();
                 while (ci == null)
                 {
                     ci = plugin.dropsAPI.getItem();
@@ -122,13 +123,14 @@ public class DiabloDropCommand implements CommandExecutor
                             || player.getItemInHand().getType()
                                     .equals(Material.AIR))
                         return true;
-                    DiabloItemStack tool = new DiabloItemStack(
-                            player.getItemInHand());
+                    ItemStack tool = player.getItemInHand();
+                    ItemMeta meta = tool.getItemMeta();
                     if (args[1].equalsIgnoreCase("lore"))
                     {
                         if (args[2].equalsIgnoreCase("clear"))
                         {
-                            tool.clearLore();
+                            meta.setLore(null);
+                            tool.setItemMeta(meta);
                             player.sendMessage(ChatColor.GREEN
                                     + "Cleared the lore for the item!");
                             return true;
@@ -136,13 +138,8 @@ public class DiabloDropCommand implements CommandExecutor
                         String lore = combineSplit(2, args, " ");
                         lore = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], lore);
-                        for (String s : lore.split(","))
-                        {
-                            if (s.length() > 0)
-                            {
-                                tool.addLore(s);
-                            }
-                        }
+                        meta.setLore(Arrays.asList(lore.split(",")));
+                        tool.setItemMeta(meta);
                         player.sendMessage(ChatColor.GREEN
                                 + "Set the lore for the item!");
                         return true;
@@ -151,7 +148,7 @@ public class DiabloDropCommand implements CommandExecutor
                     {
                         if (args[2].equalsIgnoreCase("clear"))
                         {
-                            tool.clearName();
+                            tool.getItemMeta().setDisplayName(null);
                             player.sendMessage(ChatColor.GREEN
                                     + "Cleared the name for the item!");
                             return true;
@@ -159,8 +156,9 @@ public class DiabloDropCommand implements CommandExecutor
                         String name = combineSplit(2, args, " ");
                         name = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], name);
-                        new DiabloItemStack(player.getItemInHand())
-                                .setName(name);
+                        
+                        meta.setDisplayName(name);
+                        tool.setItemMeta(meta);
                         player.sendMessage(ChatColor.GREEN
                                 + "Set the name for the item!");
                         return true;
@@ -172,7 +170,8 @@ public class DiabloDropCommand implements CommandExecutor
                             if ((args.length == 3)
                                     && args[2].equalsIgnoreCase("clear"))
                             {
-                                tool.clearEnchantments();
+                            	for(Enchantment e: Enchantment.values())
+                            		tool.getItemMeta().removeEnchant(e);
                                 player.sendMessage(ChatColor.GREEN
                                         + "Cleared the enchantments for the item!");
                                 return true;
@@ -300,9 +299,9 @@ public class DiabloDropCommand implements CommandExecutor
                             sb.append("\n");
                             sb.append("-----Custom-----");
                             sb.append("\n");
-                            for (DiabloItemStack tool : plugin.custom)
+                            for (ItemStack tool : plugin.custom)
                             {
-                                sb.append(tool.getName() + " ");
+                                sb.append(tool.getItemMeta().getDisplayName() + " ");
                             }
                             sb.append("\n");
                             sb.append("-----ArmorSet-----");
@@ -376,7 +375,7 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("tier"))
                 {
                     Tier tier = plugin.dropsAPI.getTier(args[1]);
-                    DiabloItemStack ci2 = plugin.dropsAPI.getItem(tier);
+                    ItemStack ci2 = plugin.dropsAPI.getItem(tier);
                     while (ci2 == null)
                     {
                         ci2 = plugin.dropsAPI.getItem(tier);
@@ -398,7 +397,7 @@ public class DiabloDropCommand implements CommandExecutor
                     }
                     return true;
                 }
-                DiabloItemStack ci2 = plugin.dropsAPI.getItem();
+                ItemStack ci2 = plugin.dropsAPI.getItem();
                 while (ci2 == null)
                 {
                     ci2 = plugin.dropsAPI.getItem();

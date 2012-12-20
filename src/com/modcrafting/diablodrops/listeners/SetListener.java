@@ -2,18 +2,18 @@ package com.modcrafting.diablodrops.listeners;
 
 import java.util.List;
 
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.effects.EffectsAPI;
 import com.modcrafting.diablodrops.sets.ArmorSet;
-import com.modcrafting.diablolibrary.entities.DiabloMonster;
-import com.modcrafting.diablolibrary.events.DiabloMonsterDamageByEntityEvent;
-import com.modcrafting.diablolibrary.events.DiabloMonsterDamageEvent;
 
 public class SetListener implements Listener
 {
@@ -26,77 +26,75 @@ public class SetListener implements Listener
 
     @EventHandler(priority = EventPriority.LOW)
     public void onDiabloMonsterDamageByEntityEvent(
-            final DiabloMonsterDamageByEntityEvent event)
+            final EntityDamageByEntityEvent event)
     {
-    	if(event.getDamagingEntity() instanceof Monster)
+    	if(event.getDamager() instanceof Monster && event.getEntity() instanceof LivingEntity)
     	{
-            if (plugin.setsAPI.wearingSet((DiabloMonster) event.getDamagingEntity()))
+            if (plugin.setsAPI.wearingSet((LivingEntity) event.getDamager()))
             {
-                String sName = plugin.setsAPI.getNameOfSet((DiabloMonster) event
-                        .getDamagingEntity());
+                String sName = plugin.setsAPI.getNameOfSet((LivingEntity) event.getDamager());
                 ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                 if (aSet != null)
                 {
                     List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                     {
-                        EffectsAPI.addEffect(event.getDamagedEntity(),
-                                event.getDamagingEntity(), s, event);
+                        EffectsAPI.addEffect((LivingEntity) event.getEntity(),
+                        		(LivingEntity) event.getDamager(), s, event);
                     }
                 }
             }
     	}
-    	else if(event.getDamagingEntity() instanceof Player)
+    	else if(event.getDamager() instanceof Player && event.getEntity() instanceof LivingEntity)
     	{
-            if (plugin.setsAPI.wearingSet((Player) event.getDamagingEntity()))
+            if (plugin.setsAPI.wearingSet((Player) event.getDamager()))
             {
-                String sName = plugin.setsAPI.getNameOfSet((Player) event
-                        .getDamagingEntity());
+                String sName = plugin.setsAPI.getNameOfSet((Player) event.getDamager());
                 ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                 if (aSet != null)
                 {
                     List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                     {
-                        EffectsAPI.addEffect(event.getDamagedEntity(),
-                                event.getDamagingEntity(), s, event);
+                        EffectsAPI.addEffect((LivingEntity) event.getEntity(),
+                        		(LivingEntity) event.getDamager(), s, event);
                     }
                 }
             }
     	}
-    	if(event.getDamagedEntity() instanceof Monster)
+    	if(event.getEntity() instanceof Monster && event.getDamager() instanceof LivingEntity)
     	{
-            if (plugin.setsAPI.wearingSet((DiabloMonster) event.getDamagedEntity()))
+            if (plugin.setsAPI.wearingSet((LivingEntity) event.getEntity()))
             {
                 String sName = plugin.setsAPI
-                        .getNameOfSet((DiabloMonster) event.getDamagedEntity());
+                        .getNameOfSet((LivingEntity) event.getEntity());
                 ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                 if (aSet != null)
                 {
                     List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                     {
-                        EffectsAPI.addEffect(event.getDamagingEntity(),
-                                event.getDamagedEntity(), s, event);
+                        EffectsAPI.addEffect((LivingEntity) event.getDamager(),
+                        		(LivingEntity) event.getEntity(), s, event);
                     }
                 }
             }
     		
     	}
-    	else if(event.getDamagedEntity() instanceof Player)
+    	else if(event.getEntity() instanceof Player && event.getDamager() instanceof LivingEntity)
     	{
-            if (plugin.setsAPI.wearingSet((Player) event.getDamagedEntity()))
+            if (plugin.setsAPI.wearingSet((Player) event.getEntity()))
             {
                 String sName = plugin.setsAPI
-                        .getNameOfSet((Player) event.getDamagedEntity());
+                        .getNameOfSet((Player) event.getEntity());
                 ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                 if (aSet != null)
                 {
                     List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                     {
-                        EffectsAPI.addEffect(event.getDamagingEntity(),
-                                event.getDamagedEntity(), s, event);
+                        EffectsAPI.addEffect((LivingEntity) event.getDamager(),
+                                (Player) event.getEntity(), s, event);
                     }
                 }
             }
@@ -106,40 +104,40 @@ public class SetListener implements Listener
 
     @EventHandler(priority = EventPriority.LOW)
     public void onDiabloMonsterDamageEvent(
-            final DiabloMonsterDamageEvent event)
+            final EntityDamageEvent event)
     {
-    	if(event.getLivingEntity() instanceof Monster)
+    	if(event.getEntity() instanceof Monster)
     	{
-            if (plugin.setsAPI.wearingSet((DiabloMonster) event.getLivingEntity()))
+            if (plugin.setsAPI.wearingSet((LivingEntity) event.getEntity()))
             {
-                String sName = plugin.setsAPI.getNameOfSet((DiabloMonster) event
-                        .getLivingEntity());
+                String sName = plugin.setsAPI.getNameOfSet((LivingEntity) event
+                        .getEntity());
                 ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                 if (aSet != null)
                 {
                     List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                     {
-                        EffectsAPI.addEffect(event.getLivingEntity(), null,
+                        EffectsAPI.addEffect((LivingEntity) event.getEntity(), null,
                                 s, event);
                     }
                 }
             }
     		
     	}
-    	else if(event.getLivingEntity() instanceof Player)
+    	else if(event.getEntity() instanceof Player)
     	{
-            if (plugin.setsAPI.wearingSet((Player) event.getLivingEntity()))
+            if (plugin.setsAPI.wearingSet((Player) event.getEntity()))
             {
                 String sName = plugin.setsAPI.getNameOfSet((Player) event
-                        .getLivingEntity());
+                        .getEntity());
                 ArmorSet aSet = plugin.setsAPI.getArmorSet(sName);
                 if (aSet != null)
                 {
                     List<String> effects = aSet.getBonuses();
                     for (String s : effects)
                     {
-                        EffectsAPI.addEffect(event.getLivingEntity(), null,
+                        EffectsAPI.addEffect((Player) event.getEntity(), null,
                                 s, event);
                     }
                 }

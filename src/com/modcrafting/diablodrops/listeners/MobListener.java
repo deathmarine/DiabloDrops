@@ -4,21 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
-import com.modcrafting.diablolibrary.entities.DiabloMonster;
-import com.modcrafting.diablolibrary.entities.DiabloMonster.EntityEquipment;
-import com.modcrafting.diablolibrary.events.DiabloMonsterDeathEvent;
-import com.modcrafting.diablolibrary.events.DiabloMonsterSpawnEvent;
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class MobListener implements Listener
 {
@@ -30,31 +28,37 @@ public class MobListener implements Listener
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onEntityDeath(final DiabloMonsterDeathEvent event)
+	public void onEntityDeath(final EntityDeathEvent event)
 	{
-		if (event.getDiabloMonster() instanceof Monster)
+		if (event.getEntity() instanceof Monster)
 		{
-			Location loc = event.getDiabloMonster().getLocation();
+			Monster monster = (Monster) event.getEntity();
+			Location loc = monster.getLocation();
 			if (!plugin.worlds.contains(loc.getWorld().getName())
 					&& plugin.config.getBoolean("Worlds.Enabled", false))
 				return;
+			
 			EntityDropItemEvent edie = new EntityDropItemEvent(
-					event.getDiabloMonster());
+					event.getEntity());
 			plugin.getServer().getPluginManager().callEvent(edie);
 			if (edie.isCancelled())
-				for (EntityEquipment e : EntityEquipment.values())
-					event.getDiabloMonster().setEquipment(e,
-							new DiabloItemStack(Material.AIR));
-			else
-				for (EntityEquipment e : EntityEquipment.values())
-					event.getDiabloMonster().setDropChance(e, 2.0F);
+				event.getDrops().clear();
+			else{
+				monster.getEquipment().setBootsDropChance(2.0F);	
+				monster.getEquipment().setChestplateDropChance(2.0F);
+				monster.getEquipment().setLeggingsDropChance(2.0F);
+				monster.getEquipment().setHelmetDropChance(2.0F);
+				monster.getEquipment().setItemInHandDropChance(2.0F);			
+			}
 		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onSpawn(final DiabloMonsterSpawnEvent event)
+	public void onSpawn(final CreatureSpawnEvent event)
 	{
-		DiabloMonster entity = event.getDiabloMonster();
+		LivingEntity entity = event.getEntity();
+		if(!(entity instanceof Monster))
+			return;
 		if ((plugin.worlds.size() > 0)
 				&& plugin.config.getBoolean("Worlds.Enabled", false)
 				&& !plugin.worlds.contains(entity.getLocation().getWorld()
@@ -71,10 +75,10 @@ public class MobListener implements Listener
 		if ((entity instanceof Monster)
 				&& (plugin.config.getInt("Precentages.ChancePerSpawn", 9) >= random))
 		{
-			List<DiabloItemStack> items = new ArrayList<DiabloItemStack>();
+			List<ItemStack> items = new ArrayList<ItemStack>();
 			for (int i = 0; i < (plugin.gen.nextInt(5) + 1); i++)
 			{
-				DiabloItemStack ci = plugin.dropsAPI.getItem();
+				ItemStack ci = plugin.dropsAPI.getItem();
 				while (ci == null)
 					ci = plugin.dropsAPI.getItem();
 				if (plugin.config.getBoolean("Custom.Only", false))
@@ -89,11 +93,30 @@ public class MobListener implements Listener
 			if (eswi.isCancelled())
 				return;
 
-			for (DiabloItemStack cis : eswi.getItems())
+			for (ItemStack cis : eswi.getItems())
 				if(cis!=null)
-					entity.setEquipment(cis);
-			for (EntityEquipment e : EntityEquipment.values())
-				entity.setDropChance(e, 2.0F);
+				{
+					if(plugin.drop.isHelmet(cis.getType()))
+					{
+						entity.getEquipment().setHelmet(cis);
+						entity.getEquipment().setHelmetDropChance(2.0F);						
+					}
+					else if(plugin.drop.isChestPlate(cis.getType()))
+					{
+						entity.getEquipment().setChestplate(cis);
+						entity.getEquipment().setChestplateDropChance(2.0F);
+					}
+					else if(plugin.drop.isLeggings(cis.getType()))
+					{
+						entity.getEquipment().setLeggings(cis);
+						entity.getEquipment().setLeggingsDropChance(2.0F);
+					}
+					else
+					{
+						entity.getEquipment().setItemInHand(cis);
+						entity.getEquipment().setItemInHandDropChance(2.0F);	
+					}
+				}
 		}
 	}
 }

@@ -5,23 +5,21 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
-
-import de.bananaco.bookapi.lib.Book;
-import de.bananaco.bookapi.lib.CraftBookBuilder;
-
-public class IdentifyTome extends DiabloItemStack
+public class IdentifyTome extends ItemStack
 {
     public IdentifyTome()
     {
         super(Material.WRITTEN_BOOK);
-        Book b = new CraftBookBuilder().getBook(this);
-        b.setTitle(ChatColor.DARK_AQUA + "Identity Tome");
-        b.setAuthor(ChatColor.MAGIC + "AAAAAAAA");
+        BookMeta meta = (BookMeta) this.getItemMeta();
+        meta.setTitle(ChatColor.DARK_AQUA + "Identity Tome");
+        meta.setAuthor(ChatColor.MAGIC + "AAAAAAAA");
         List<String> pages = new ArrayList<String>();
         pages.add(0, ChatColor.MAGIC + "AAAAA AA AAAA AAAA AAAA");
-        b.setPages(pages);
+        meta.setPages(pages);
+        this.setItemMeta(meta);
     }
 
 }

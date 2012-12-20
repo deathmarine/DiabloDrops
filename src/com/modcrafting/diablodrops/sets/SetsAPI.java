@@ -5,12 +5,12 @@ import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablolibrary.entities.DiabloMonster;
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class SetsAPI
 {
@@ -52,12 +52,13 @@ public class SetsAPI
      *            Player to check
      * @return name of the set
      */
-    public String getNameOfSet(final DiabloMonster entity)
+    public String getNameOfSet(final LivingEntity entity)
     {
-        DiabloItemStack his = entity.getHelmet();
+        ItemStack his = entity.getEquipment().getHelmet();
         if (his == null)
             return null;
-        String[] ss = ChatColor.stripColor(his.getName()).split(" ");
+        ItemMeta meta = his.getItemMeta();
+        String[] ss = ChatColor.stripColor(meta.getDisplayName()).split(" ");
         return ss[0];
     }
 
@@ -66,23 +67,25 @@ public class SetsAPI
         return plugin;
     }
 
-    public boolean wearingSet(final DiabloMonster entity)
+    public boolean wearingSet(final LivingEntity entity)
     {
-        DiabloItemStack his = entity.getHelmet();
-        DiabloItemStack cis = entity.getChestplate();
-        DiabloItemStack lis = entity.getLeggings();
-        DiabloItemStack bis = entity.getBoots();
+        ItemStack his = entity.getEquipment().getHelmet();
+        ItemStack cis = entity.getEquipment().getChestplate();
+        ItemStack lis = entity.getEquipment().getLeggings();
+        ItemStack bis = entity.getEquipment().getBoots();
         if ((his == null) || (cis == null) || (lis == null) || (bis == null))
             return false;
-        Set<DiabloItemStack> sis = new HashSet<DiabloItemStack>();
+        Set<ItemStack> sis = new HashSet<ItemStack>();
         sis.add(cis);
         sis.add(lis);
         sis.add(bis);
-        String[] ss = ChatColor.stripColor(his.getName()).split(" ");
+        ItemMeta meta = his.getItemMeta();
+        String[] ss = ChatColor.stripColor(meta.getDisplayName()).split(" ");
         String potentialSet = ss[0];
-        for (DiabloItemStack is : sis)
+        for (ItemStack is : sis)
         {
-            String[] splits = ChatColor.stripColor(is.getName()).split(" ");
+            ItemMeta ism = is.getItemMeta();
+            String[] splits = ChatColor.stripColor(ism.getDisplayName()).split(" ");
             if (!splits[0].equalsIgnoreCase(potentialSet))
                 return false;
         }
@@ -107,13 +110,13 @@ public class SetsAPI
         sis.add(cis);
         sis.add(lis);
         sis.add(bis);
-        DiabloItemStack tool = new DiabloItemStack(his);
-        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        ItemMeta meta = his.getItemMeta();
+        String[] ss = ChatColor.stripColor(meta.getDisplayName()).split(" ");
         String potentialSet = ss[0];
         for (ItemStack is : sis)
         {
-            DiabloItemStack te = new DiabloItemStack(is);
-            String[] splits = ChatColor.stripColor(te.getName()).split(" ");
+            ItemMeta ism = is.getItemMeta();
+            String[] splits = ChatColor.stripColor(ism.getDisplayName()).split(" ");
             if (!splits[0].equalsIgnoreCase(potentialSet))
                 return false;
         }
@@ -133,8 +136,8 @@ public class SetsAPI
     	ItemStack his = player.getInventory().getHelmet();
         if (his == null)
             return null;
-        DiabloItemStack tool = new DiabloItemStack(his);
-        String[] ss = ChatColor.stripColor(tool.getName()).split(" ");
+        ItemMeta meta = his.getItemMeta();
+        String[] ss = ChatColor.stripColor(meta.getDisplayName()).split(" ");
         return ss[0];
     }
 }

@@ -11,6 +11,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.items.DiabloifyTome;
@@ -18,7 +20,6 @@ import com.modcrafting.diablodrops.items.Drop;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
 import com.modcrafting.diablodrops.tier.Tier;
-import com.modcrafting.diablolibrary.items.DiabloItemStack;
 
 public class DropsAPI
 {
@@ -152,10 +153,10 @@ public class DropsAPI
             Inventory chest = chestB.getBlockInventory();
             for (int i = 0; i < plugin.gen.nextInt(chest.getSize()); i++)
             {
-                DiabloItemStack cis = plugin.dropsAPI.getItem();
+                ItemStack cis = getItem();
                 while (cis == null)
                 {
-                    cis = plugin.dropsAPI.getItem();
+                    cis = getItem();
                 }
                 chest.setItem(i, cis);
             }
@@ -183,10 +184,10 @@ public class DropsAPI
             Inventory chest = chestB.getBlockInventory();
             for (int i = 0; i < (plugin.gen.nextInt(chest.getSize()) + size); i++)
             {
-                DiabloItemStack cis = plugin.dropsAPI.getItem();
+                ItemStack cis = getItem();
                 while (cis == null)
                 {
-                    cis = plugin.dropsAPI.getItem();
+                    cis = getItem();
                 }
                 chest.setItem(i, cis);
             }
@@ -202,15 +203,16 @@ public class DropsAPI
      * @param name
      * @return particular custom itemstack
      */
-    public DiabloItemStack getCustomItem(final String name)
+    public ItemStack getCustomItem(final String name)
     {
-        DiabloItemStack cis = null;
-        for (DiabloItemStack item : plugin.custom)
-            if (ChatColor.stripColor(item.getName()).equalsIgnoreCase(name))
+        for (ItemStack t : plugin.custom){
+        	ItemMeta meta = t.getItemMeta();
+            if (ChatColor.stripColor(meta.getDisplayName()).equalsIgnoreCase(name))
             {
-                cis = item;
+               return t;
             }
-        return cis;
+        }
+        return null;
     }
 
     /**
@@ -219,7 +221,7 @@ public class DropsAPI
      * @param ci
      * @return set
      */
-    public List<Enchantment> getEnchantStack(final DiabloItemStack ci)
+    public List<Enchantment> getEnchantStack(final ItemStack ci)
     {
         List<Enchantment> set = new ArrayList<Enchantment>();
         for (Enchantment e : Enchantment.values())
@@ -230,14 +232,14 @@ public class DropsAPI
         return set;
     }
 
-    public DiabloItemStack getIdItem(Material mat, final String name)
+    public ItemStack getIdItem(Material mat, final String name)
     {
         while (mat == null)
         {
             mat = dropPicker();
         }
         Material material = mat;
-        DiabloItemStack ci = null;
+        ItemStack ci = null;
         Tier tier = getTier();
         while (tier == null)
         {
@@ -277,12 +279,9 @@ public class DropsAPI
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
-        DiabloItemStack tool = new DiabloItemStack(ci);
-        for (String s : tier.getLore())
-            if (s != null)
-            {
-                tool.addLore(s);
-            }
+        ItemMeta tool = ci.getItemMeta();
+        tool.setLore(tier.getLore());
+        ci.setItemMeta(tool);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
@@ -324,12 +323,15 @@ public class DropsAPI
                     ci.addUnsafeEnchantment(ench, lvl);
                 }
         }
+    	List<String> list = new ArrayList<String>();
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "SocketItem.Chance", 5)))
         {
-            tool.addLore(colorPicker() + "(Socket)");
-            return tool;
+        	list.add(colorPicker() + "(Socket)");
+            tool.setLore(list);
+            ci.setItemMeta(tool);
+            return ci;
         }
         if (plugin.config.getBoolean("Lore.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
@@ -338,16 +340,21 @@ public class DropsAPI
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
                 if (plugin.drop.isArmor(mat))
                 {
-                    tool.addLore(plugin.defenselore.get(plugin.gen
+                    list.add(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
+                    tool.setLore(list);
+                    ci.setItemMeta(tool);
+                    
                 }
                 else if (plugin.drop.isTool(mat))
                 {
-                    tool.addLore(plugin.offenselore.get(plugin.gen
+                	list.add(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
+                    tool.setLore(list);
+                    ci.setItemMeta(tool);
                 }
         }
-        return tool;
+        return ci;
     }
 
     /**
@@ -355,7 +362,7 @@ public class DropsAPI
      * 
      * @return DiabloItemStack
      */
-    public DiabloItemStack getItem()
+    public ItemStack getItem()
     {
         if (plugin.gen.nextBoolean()
                 && plugin.config.getBoolean("IdentifyTome.Enabled", true)
@@ -390,10 +397,10 @@ public class DropsAPI
      * @param tool
      * @return brand new tool
      */
-    public DiabloItemStack getItem(DiabloItemStack tool)
+    public ItemStack getItem(ItemStack tool)
     {
         short oldDam = tool.getDurability();
-        tool = new DiabloItemStack(tool.getType());
+        tool = new ItemStack(tool.getType());
         tool.setDurability(oldDam);
         Tier tier = getTier();
         while ((tier == null) || tier.getColor().equals(ChatColor.MAGIC))
@@ -402,15 +409,17 @@ public class DropsAPI
         }
         int e = tier.getAmount();
         int l = tier.getLevels();
-        tool.setName(tier.getColor() + name(tool.getType()));
+        ItemMeta meta = tool.getItemMeta();
+        meta.setDisplayName(tier.getColor() + name(tool.getType()));
+        List<String> list = new ArrayList<String>();
         if (plugin.config.getBoolean("Display.TierName", true))
         {
-            tool.addLore(tier.getColor() + tier.getName());
+            list.add(tier.getColor() + tier.getName());
         }
         for (String s : tier.getLore())
             if (s != null)
             {
-                tool.addLore(s);
+                list.add(s);
             }
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
@@ -459,7 +468,7 @@ public class DropsAPI
                         "SocketItem.Chance", 5))
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            tool.addLore(colorPicker() + "(Socket)");
+            list.add(colorPicker() + "(Socket)");
             sock = true;
         }
         if (plugin.config.getBoolean("Lore.Enabled", true)
@@ -470,15 +479,17 @@ public class DropsAPI
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
                 if (plugin.drop.isArmor(tool.getType()))
                 {
-                    tool.addLore(plugin.defenselore.get(plugin.gen
+                    list.add(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
                 }
                 else if (plugin.drop.isTool(tool.getType()))
                 {
-                    tool.addLore(plugin.offenselore.get(plugin.gen
+                    list.add(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
                 }
         }
+        meta.setLore(list);
+        tool.setItemMeta(meta);
         return tool;
     }
 
@@ -489,13 +500,13 @@ public class DropsAPI
      *            Material of itemstack
      * @return item
      */
-    public DiabloItemStack getItem(Material mat)
+    public ItemStack getItem(Material mat)
     {
         while (mat == null)
         {
             mat = dropPicker();
         }
-        DiabloItemStack ci = null;
+        ItemStack ci = null;
         Tier tier = getTier();
         while (tier == null)
         {
@@ -535,13 +546,20 @@ public class DropsAPI
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
-        DiabloItemStack tool = new DiabloItemStack(ci);
+        ItemStack tool = new ItemStack(ci);
+        ItemMeta meta = tool.getItemMeta();
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
+        List<String> list = new ArrayList<String>();
+        if (plugin.config.getBoolean("Display.TierName", true))
+        {
+            list.add(tier.getColor() + tier.getName());
+        }
         for (String s : tier.getLore())
             if (s != null)
             {
-                tool.addLore(s);
+                list.add(s);
             }
+        
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
         {
@@ -587,7 +605,7 @@ public class DropsAPI
                         "SocketItem.Chance", 5))
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            tool.addLore(colorPicker() + "(Socket)");
+            list.add(colorPicker() + "(Socket)");
             return tool;
         }
         if (plugin.config.getBoolean("Lore.Enabled", true)
@@ -598,15 +616,17 @@ public class DropsAPI
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
                 if (plugin.drop.isArmor(mat))
                 {
-                    tool.addLore(plugin.defenselore.get(plugin.gen
+                	list.add(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
                 }
                 else if (plugin.drop.isTool(mat))
                 {
-                    tool.addLore(plugin.offenselore.get(plugin.gen
+                	list.add(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
                 }
         }
+        meta.setLore(list);
+        tool.setItemMeta(meta);
         return tool;
     }
 
@@ -617,7 +637,7 @@ public class DropsAPI
      *            name
      * @return item
      */
-    public DiabloItemStack getItem(Tier tier)
+    public ItemStack getItem(Tier tier)
     {
         Material mat = dropPicker();
         while (mat == null)
@@ -628,7 +648,7 @@ public class DropsAPI
         {
             tier = getTier();
         }
-        DiabloItemStack ci = null;
+        ItemStack ci = null;
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))
         {
@@ -663,11 +683,17 @@ public class DropsAPI
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
-        DiabloItemStack tool = new DiabloItemStack(ci);
+        ItemStack tool = new ItemStack(ci);
+        ItemMeta meta = tool.getItemMeta();
+        List<String> list = new ArrayList<String>();
+        if (plugin.config.getBoolean("Display.TierName", true))
+        {
+            list.add(tier.getColor() + tier.getName());
+        }
         for (String s : tier.getLore())
             if (s != null)
             {
-                tool.addLore(s);
+                list.add(s);
             }
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
@@ -715,7 +741,7 @@ public class DropsAPI
                         "SocketItem.Chance", 5))
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            tool.addLore(colorPicker() + "(Socket)");
+            list.add(colorPicker() + "(Socket)");
             return tool;
         }
         if (plugin.config.getBoolean("Lore.Enabled", true)
@@ -726,16 +752,17 @@ public class DropsAPI
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
                 if (plugin.drop.isArmor(mat))
                 {
-                    tool.addLore(plugin.defenselore.get(plugin.gen
+                	list.add(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
                 }
                 else if (plugin.drop.isTool(mat))
                 {
-                    tool.addLore(plugin.offenselore.get(plugin.gen
+                	list.add(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
                 }
         }
-
+        meta.setLore(list);
+        tool.setItemMeta(meta);
         return tool;
     }
 
@@ -834,19 +861,21 @@ public class DropsAPI
      *            Line replacing toReplace
      * @return Tool with new lore
      */
-    public DiabloItemStack replaceLore(final DiabloItemStack tool,
+    public ItemStack replaceLore(final ItemStack tool,
             final String toReplace, final String replaceWith)
     {
-        List<String> loreList = tool.getLoreList();
+    	ItemMeta meta = tool.getItemMeta();
+        List<String> loreList = meta.getLore();
         if ((loreList == null) || loreList.isEmpty())
             return tool;
-        for (String s : tool.getLoreList())
+        for (String s : meta.getLore())
             if (s.equals(toReplace))
             {
                 loreList.remove(s);
                 loreList.add(replaceWith);
             }
-        tool.setLore(loreList);
+        meta.setLore(loreList);
+        tool.setItemMeta(meta);
         return tool;
     }
 }

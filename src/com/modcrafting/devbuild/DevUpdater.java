@@ -111,8 +111,6 @@ public class DevUpdater {
 			}
 		}
 	}
-
-<<<<<<< HEAD
 	public Integer build;
 	private final Plugin plugin;
 	private String versionTitle;
@@ -122,31 +120,11 @@ public class DevUpdater {
 	// "https://diabloplugins.ci.cloudbees.com/rssLatest"
 	private String DBOUrl;
 	private static final int BYTE_SIZE = 1024; // Used for downloading files
-=======
-    public Integer build;
-    private final Plugin plugin;
-    private String versionTitle;
-    private String versionLink;
-    private long totalSize;
-    private URL url; // Connecting to RSS
-    // "https://diabloplugins.ci.cloudbees.com/rssLatest"
-    private String DBOUrl;
-    private static final int BYTE_SIZE = 1024; // Used for downloading files
->>>>>>> refs/remotes/origin/master
 
 	private final String updateFolder = YamlConfiguration.loadConfiguration(
 			new File("bukkit.yml")).getString("settings.update-folder");
 
 	private DevUpdateResult result = DevUpdateResult.NO_UPDATE;
-
-<<<<<<< HEAD
-	public DevUpdater(final Plugin plugin, final File file,
-			final Integer build, String url) {
-		this.build = build;
-		this.plugin = plugin;
-		this.DBOUrl = url;
-		forceUpdate(file);
-=======
     public DevUpdater(final Plugin plugin, final File file,
             final Integer build, String url)
     {

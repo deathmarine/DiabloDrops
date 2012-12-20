@@ -37,7 +37,6 @@ import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.items.ItemAPI;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
-import com.modcrafting.diablodrops.listeners.EntityListener;
 import com.modcrafting.diablodrops.listeners.MobListener;
 import com.modcrafting.diablodrops.listeners.SetListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
@@ -200,7 +199,6 @@ public class DiabloDrops extends JavaPlugin
         debug = config.getBoolean("Plugin.Debug", false);
 
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new EntityListener(this), this);
         pm.registerEvents(new MobListener(this), this);
         pm.registerEvents(new TomeListener(this), this);
         pm.registerEvents(new SocketListener(this), this);

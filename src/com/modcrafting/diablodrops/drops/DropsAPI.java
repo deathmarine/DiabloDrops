@@ -279,9 +279,6 @@ public class DropsAPI
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
-        ItemMeta tool = ci.getItemMeta();
-        tool.setLore(tier.getLore());
-        ci.setItemMeta(tool);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
@@ -323,6 +320,8 @@ public class DropsAPI
                     ci.addUnsafeEnchantment(ench, lvl);
                 }
         }
+        ItemMeta tool = ci.getItemMeta();
+        tool.setLore(tier.getLore());
     	List<String> list = new ArrayList<String>();
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
@@ -343,7 +342,6 @@ public class DropsAPI
                     list.add(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
                     tool.setLore(list);
-                    ci.setItemMeta(tool);
                     
                 }
                 else if (plugin.drop.isTool(mat))
@@ -351,9 +349,9 @@ public class DropsAPI
                 	list.add(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
                     tool.setLore(list);
-                    ci.setItemMeta(tool);
                 }
         }
+        ci.setItemMeta(tool);
         return ci;
     }
 
@@ -409,8 +407,6 @@ public class DropsAPI
         }
         int e = tier.getAmount();
         int l = tier.getLevels();
-        ItemMeta meta = tool.getItemMeta();
-        meta.setDisplayName(tier.getColor() + name(tool.getType()));
         List<String> list = new ArrayList<String>();
         if (plugin.config.getBoolean("Display.TierName", true))
         {
@@ -462,6 +458,8 @@ public class DropsAPI
                     tool.addUnsafeEnchantment(ench, lvl);
                 }
         }
+        ItemMeta meta = tool.getItemMeta();
+        meta.setDisplayName(tier.getColor() + name(tool.getType()));
         boolean sock = false;
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
@@ -547,7 +545,6 @@ public class DropsAPI
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         ItemStack tool = new ItemStack(ci);
-        ItemMeta meta = tool.getItemMeta();
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         List<String> list = new ArrayList<String>();
         if (plugin.config.getBoolean("Display.TierName", true))
@@ -600,12 +597,15 @@ public class DropsAPI
                     tool.addUnsafeEnchantment(ench, lvl);
                 }
         }
+        ItemMeta meta = tool.getItemMeta();
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "SocketItem.Chance", 5))
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             list.add(colorPicker() + "(Socket)");
+            meta.setLore(list);
+            tool.setItemMeta(meta);
             return tool;
         }
         if (plugin.config.getBoolean("Lore.Enabled", true)
@@ -684,7 +684,6 @@ public class DropsAPI
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         ItemStack tool = new ItemStack(ci);
-        ItemMeta meta = tool.getItemMeta();
         List<String> list = new ArrayList<String>();
         if (plugin.config.getBoolean("Display.TierName", true))
         {
@@ -736,12 +735,15 @@ public class DropsAPI
                     tool.addUnsafeEnchantment(ench, lvl);
                 }
         }
+        ItemMeta meta = tool.getItemMeta();
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "SocketItem.Chance", 5))
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             list.add(colorPicker() + "(Socket)");
+            meta.setLore(list);
+            tool.setItemMeta(meta);
             return tool;
         }
         if (plugin.config.getBoolean("Lore.Enabled", true)

@@ -1,6 +1,5 @@
 package com.modcrafting.diablodrops.listeners;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;

@@ -48,15 +48,12 @@ public class CustomBuilder
                     .toUpperCase());
             List<String> lore = cs.getStringList("Lore");
             ItemStack tool = new ItemStack(mat);
-            ItemMeta meta = tool.getItemMeta();
-            meta.setDisplayName(color + name);
             List<String> list = new ArrayList<String>();
             for (String s : lore)
             {
                 list.add(ChatColor.translateAlternateColorCodes(
                         "&".toCharArray()[0], s));
             }
-            meta.setLore(list);
             ConfigurationSection cs1 = cs
                     .getConfigurationSection("Enchantments");
             if (cs1 != null)
@@ -70,6 +67,9 @@ public class CustomBuilder
                     tool.addUnsafeEnchantment(encha, cs1.getInt(ench));
                 }
             }
+            ItemMeta meta = tool.getItemMeta();
+            meta.setDisplayName(color + name);
+            meta.setLore(list);
             tool.setItemMeta(meta);
             plugin.custom.add(tool);
         }

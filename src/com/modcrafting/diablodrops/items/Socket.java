@@ -15,19 +15,22 @@ import com.modcrafting.diablodrops.DiabloDrops;
 
 public class Socket extends ItemStack
 {
-    public enum SkullType {
-		SKELETON(0), WITHER(1), ZOMBIE(2), PLAYER(3), CREEPER(4);
-		public int type;
+    public enum SkullType
+    {
+        SKELETON(0), WITHER(1), ZOMBIE(2), PLAYER(3), CREEPER(4);
+        public int type;
 
-		private SkullType(final int i) {
-			type = i;
-		}
+        private SkullType(final int i)
+        {
+            type = i;
+        }
 
-		public byte getData() {
-			return (byte) type;
-		}
+        public byte getData()
+        {
+            return (byte) type;
+        }
 
-	}
+    }
 
     public Socket(final Material mat)
     {
@@ -44,7 +47,7 @@ public class Socket extends ItemStack
             default:
                 color = ChatColor.GREEN;
         }
-        ItemMeta meta = this.getItemMeta();
+        ItemMeta meta = getItemMeta();
         meta.setDisplayName(color + "Socket Enhancement");
         List<String> list = new ArrayList<String>();
         list.add(ChatColor.GOLD + "Put in the bottom of a furnace");
@@ -55,16 +58,31 @@ public class Socket extends ItemStack
             SkullMeta sk = (SkullMeta) meta;
             SkullType type = SkullType.values()[DiabloDrops.getInstance().gen
                     .nextInt(SkullType.values().length)];
-            if (type.equals(SkullType.PLAYER)){
-                sk.setOwner(Bukkit.getServer().getOfflinePlayers()[DiabloDrops
-                        .getInstance().gen.nextInt(Bukkit.getServer()
-                        .getOfflinePlayers().length)].getName());
+            if (type.equals(SkullType.PLAYER))
+            {
+                if (Bukkit.getServer().getOfflinePlayers().length > 0)
+                {
+                    sk.setOwner(Bukkit.getServer().getOfflinePlayers()[DiabloDrops
+                            .getInstance().gen.nextInt(Bukkit.getServer()
+                            .getOfflinePlayers().length)].getName());
+                }
+                else
+                {
+                    if (DiabloDrops.getInstance().gen.nextBoolean())
+                    {
+                        sk.setOwner("deathmarin");
+                    }
+                    else
+                    {
+                        sk.setOwner("ToppleTheNun");
+                    }
+                }
             }
-        	MaterialData md = this.getData();
-        	md.setData(type.getData());
-        	this.setData(md);
+            MaterialData md = getData();
+            md.setData(type.getData());
+            setData(md);
         }
         meta.setLore(list);
-        this.setItemMeta(meta);
+        setItemMeta(meta);
     }
 }

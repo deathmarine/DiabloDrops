@@ -414,7 +414,19 @@ public class EffectsAPI
         List<String> effects = new ArrayList<String>();
         for (ItemStack tool : toolSet)
         {
-        	ItemMeta meta = tool.getItemMeta();
+            ItemMeta meta;
+            if (tool.hasItemMeta())
+            {
+            	meta = tool.getItemMeta();
+            }
+            else
+            {
+            	meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
+            }
+            if (meta.getLore()==null || meta.getLore().isEmpty())
+            {
+            	continue;
+            }
             for (String string : meta.getLore())
             {
                 string = ChatColor.stripColor(string).replace("%", "")

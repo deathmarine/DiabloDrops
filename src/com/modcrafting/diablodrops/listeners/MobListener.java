@@ -121,6 +121,11 @@ public class MobListener implements Listener
                         entity.getEquipment().setLeggings(cis);
                         entity.getEquipment().setLeggingsDropChance(2.0F);
                     }
+                    else if (plugin.drop.isBoots(cis.getType()))
+                    {
+                        entity.getEquipment().setBoots(cis);
+                        entity.getEquipment().setLeggingsDropChance(2.0F);
+                    }
                     else
                     {
                         entity.getEquipment().setItemInHand(cis);

@@ -64,6 +64,7 @@ public class Socket extends ItemStack
         	md.setData(type.getData());
         	this.setData(md);
         }
+        meta.setLore(list);
         this.setItemMeta(meta);
     }
 }

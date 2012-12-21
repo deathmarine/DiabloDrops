@@ -93,10 +93,12 @@ public class SetsAPI
                 for (ItemStack is : sis)
                 {
                     ItemMeta ism = is.getItemMeta();
-                    if(ism.getDisplayName()!=null){
-                    	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
-                    	if (!splits1[0].equalsIgnoreCase(potentialSet))
-                    		return false;
+                    if(ism!=null){
+                        if(ism.getDisplayName()!=null){
+                        	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
+                        	if (!splits1[0].equalsIgnoreCase(potentialSet))
+                        		return false;
+                        }
                     }
                 }
             }        	
@@ -131,10 +133,12 @@ public class SetsAPI
                 for (ItemStack is : sis)
                 {
                     ItemMeta ism = is.getItemMeta();
-                    if(ism.getDisplayName()!=null){
-                    	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
-                    	if (!splits1[0].equalsIgnoreCase(potentialSet))
-                    		return false;
+                    if(ism!=null){
+                        if(ism.getDisplayName()!=null){
+                        	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
+                        	if (!splits1[0].equalsIgnoreCase(potentialSet))
+                        		return false;
+                        }
                     }
                 }
             }        	

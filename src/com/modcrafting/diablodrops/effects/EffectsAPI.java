@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -19,15 +20,16 @@ import org.bukkit.potion.PotionEffectType;
 
 public class EffectsAPI
 {
-	public static String ATTACK = "attack";
-	public static String DEFENSE = "defense";
-	public static String FREEZE = "freeze";
-	public static String SHRINK = "shrink";
-	public static String LIGHTNING = "lightning";
-	public static String FIRE = "fire";
-	public static String ENTOMB = "entomb";
-	public static String LEECH = "leech";
-	
+    private static final Entity DiabloDrops = null;
+    public static String ATTACK = "attack";
+    public static String DEFENSE = "defense";
+    public static String FREEZE = "freeze";
+    public static String SHRINK = "shrink";
+    public static String LIGHTNING = "lightning";
+    public static String FIRE = "fire";
+    public static String ENTOMB = "entomb";
+    public static String LEECH = "leech";
+
     public static void addEffect(final LivingEntity damaged,
             final LivingEntity damager, final String s,
             final EntityDamageByEntityEvent event)
@@ -340,8 +342,7 @@ public class EffectsAPI
     }
 
     public static void handlePluginEffects(final LivingEntity damaged,
-            final LivingEntity damager,
-            final EntityDamageByEntityEvent event)
+            final LivingEntity damager, final EntityDamageByEntityEvent event)
     {
         if (damager instanceof Player)
         {
@@ -377,8 +378,7 @@ public class EffectsAPI
      *            EntityDamageEvent that requires effects
      */
     public static void handlePluginEffects(final LivingEntity entityStruck,
-            final LivingEntity entityStriker,
-            final EntityDamageEvent event)
+            final LivingEntity entityStriker, final EntityDamageEvent event)
     {
         if (entityStriker instanceof Player)
         {
@@ -417,15 +417,16 @@ public class EffectsAPI
             ItemMeta meta;
             if (tool.hasItemMeta())
             {
-            	meta = tool.getItemMeta();
+                meta = tool.getItemMeta();
             }
             else
             {
-            	meta = DiabloDrops.getServer().getItemFactory().getItemMeta(tool.getType());
+                meta = DiabloDrops.getServer().getItemFactory()
+                        .getItemMeta(tool.getType());
             }
-            if (meta.getLore()==null || meta.getLore().isEmpty())
+            if ((meta.getLore() == null) || meta.getLore().isEmpty())
             {
-            	continue;
+                continue;
             }
             for (String string : meta.getLore())
             {

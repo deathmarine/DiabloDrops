@@ -55,15 +55,15 @@ public class Socket extends ItemStack
             SkullMeta sk = (SkullMeta) meta;
             SkullType type = SkullType.values()[DiabloDrops.getInstance().gen
                     .nextInt(SkullType.values().length)];
-            if (type.equals(SkullType.PLAYER))
+            if (type.equals(SkullType.PLAYER)){
                 sk.setOwner(Bukkit.getServer().getOfflinePlayers()[DiabloDrops
                         .getInstance().gen.nextInt(Bukkit.getServer()
                         .getOfflinePlayers().length)].getName());
-            else{
-                MaterialData md = this.getData();
-            	md.setData(type.getData());
-            	this.setData(md);
             }
+        	MaterialData md = this.getData();
+        	md.setData(type.getData());
+        	this.setData(md);
         }
+        this.setItemMeta(meta);
     }
 }

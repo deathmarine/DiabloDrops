@@ -85,9 +85,11 @@ public class SetsAPI
         for (ItemStack is : sis)
         {
             ItemMeta ism = is.getItemMeta();
-            String[] splits = ChatColor.stripColor(ism.getDisplayName()).split(" ");
-            if (!splits[0].equalsIgnoreCase(potentialSet))
-                return false;
+            if(ism.getDisplayName()!=null){
+            	String[] splits = ChatColor.stripColor(ism.getDisplayName()).split(" ");
+            	if (!splits[0].equalsIgnoreCase(potentialSet))
+            		return false;
+            }
         }
         return true;
     }

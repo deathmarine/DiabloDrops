@@ -421,7 +421,7 @@ public class EffectsAPI
             }
             else
             {
-            	meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
+            	meta = DiabloDrops.getServer().getItemFactory().getItemMeta(tool.getType());
             }
             if (meta.getLore()==null || meta.getLore().isEmpty())
             {

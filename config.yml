@@ -55,7 +55,7 @@ SocketItem:
   - Diamond
   - Skull_Item
 #This is the initial chance to retrieve an item#
-Precentages:
+Percentages:
   ChancePerSpawn: 3
 #If enabled only worlds listed will be affected#
 Worlds:

@@ -58,8 +58,11 @@ public class SetsAPI
         if (his == null)
             return null;
         ItemMeta meta = his.getItemMeta();
-        String[] ss = ChatColor.stripColor(meta.getDisplayName()).split(" ");
-        return ss[0];
+        if(meta.getDisplayName()!=null){
+        	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
+        	return splits[0];
+        }
+        return null;
     }
 
     public DiabloDrops getPlugin()
@@ -80,15 +83,18 @@ public class SetsAPI
         sis.add(lis);
         sis.add(bis);
         ItemMeta meta = his.getItemMeta();
-        String[] ss = ChatColor.stripColor(meta.getDisplayName()).split(" ");
-        String potentialSet = ss[0];
-        for (ItemStack is : sis)
-        {
-            ItemMeta ism = is.getItemMeta();
-            if(ism.getDisplayName()!=null){
-            	String[] splits = ChatColor.stripColor(ism.getDisplayName()).split(" ");
-            	if (!splits[0].equalsIgnoreCase(potentialSet))
-            		return false;
+        String potentialSet = "";
+        if(meta.getDisplayName()!=null){
+        	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
+        	potentialSet = splits[0];
+            for (ItemStack is : sis)
+            {
+                ItemMeta ism = is.getItemMeta();
+                if(ism.getDisplayName()!=null){
+                	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
+                	if (!splits1[0].equalsIgnoreCase(potentialSet))
+                		return false;
+                }
             }
         }
         return true;
@@ -113,14 +119,19 @@ public class SetsAPI
         sis.add(lis);
         sis.add(bis);
         ItemMeta meta = his.getItemMeta();
-        String[] ss = ChatColor.stripColor(meta.getDisplayName()).split(" ");
-        String potentialSet = ss[0];
-        for (ItemStack is : sis)
-        {
-            ItemMeta ism = is.getItemMeta();
-            String[] splits = ChatColor.stripColor(ism.getDisplayName()).split(" ");
-            if (!splits[0].equalsIgnoreCase(potentialSet))
-                return false;
+        String potentialSet = "";
+        if(meta.getDisplayName()!=null){
+        	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
+        	potentialSet = splits[0];
+            for (ItemStack is : sis)
+            {
+                ItemMeta ism = is.getItemMeta();
+                if(ism.getDisplayName()!=null){
+                	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
+                	if (!splits1[0].equalsIgnoreCase(potentialSet))
+                		return false;
+                }
+            }
         }
         return true;
     }
@@ -139,7 +150,10 @@ public class SetsAPI
         if (his == null)
             return null;
         ItemMeta meta = his.getItemMeta();
-        String[] ss = ChatColor.stripColor(meta.getDisplayName()).split(" ");
-        return ss[0];
+        if(meta.getDisplayName()!=null){
+        	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
+        	return splits[0];
+        }
+        return null;
     }
 }

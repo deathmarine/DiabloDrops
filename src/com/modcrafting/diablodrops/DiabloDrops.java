@@ -1,9 +1,6 @@
 package com.modcrafting.diablodrops;
 
 import java.io.File;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +12,6 @@ import net.h31ix.updater.Updater;
 import net.h31ix.updater.Updater.UpdateResult;
 import net.h31ix.updater.Updater.UpdateType;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -49,31 +45,6 @@ import com.modcrafting.diablodrops.tier.Tier;
 
 public class DiabloDrops extends JavaPlugin
 {
-    @SuppressWarnings("rawtypes")
-    public static void addURL(final URL u)
-    {
-        Class[] parameters = new Class[] { URL.class };
-        URLClassLoader sysLoader = (URLClassLoader) ClassLoader
-                .getSystemClassLoader();
-        URL urls[] = sysLoader.getURLs();
-        for (URL url : urls)
-        {
-            if (StringUtils.equalsIgnoreCase(url.toString(), u.toString()))
-                return;
-        }
-        Class<URLClassLoader> sysclass = URLClassLoader.class;
-        try
-        {
-            Method method = sysclass.getDeclaredMethod("addURL", parameters);
-            method.setAccessible(true);
-            method.invoke(sysLoader, new Object[] { u });
-        }
-        catch (Exception t)
-        {
-            t.printStackTrace();
-        }
-    }
-
     public boolean debug;
     public Random gen = new Random();
     public ItemAPI drop;

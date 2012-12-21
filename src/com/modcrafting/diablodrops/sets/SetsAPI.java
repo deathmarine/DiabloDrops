@@ -57,10 +57,12 @@ public class SetsAPI
         ItemStack his = entity.getEquipment().getHelmet();
         if (his == null)
             return null;
-        ItemMeta meta = his.getItemMeta();
-        if(meta.getDisplayName()!=null){
-        	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
-        	return splits[0];
+        if(his.hasItemMeta()){
+            ItemMeta meta = his.getItemMeta();
+            if(meta.getDisplayName()!=null){
+            	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
+            	return splits[0];
+            }        	
         }
         return null;
     }
@@ -82,20 +84,22 @@ public class SetsAPI
         sis.add(cis);
         sis.add(lis);
         sis.add(bis);
-        ItemMeta meta = his.getItemMeta();
-        String potentialSet = "";
-        if(meta.getDisplayName()!=null){
-        	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
-        	potentialSet = splits[0];
-            for (ItemStack is : sis)
-            {
-                ItemMeta ism = is.getItemMeta();
-                if(ism.getDisplayName()!=null){
-                	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
-                	if (!splits1[0].equalsIgnoreCase(potentialSet))
-                		return false;
+        if(his.hasItemMeta()){
+            ItemMeta meta = his.getItemMeta();
+            String potentialSet = "";
+            if(meta.getDisplayName()!=null){
+            	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
+            	potentialSet = splits[0];
+                for (ItemStack is : sis)
+                {
+                    ItemMeta ism = is.getItemMeta();
+                    if(ism.getDisplayName()!=null){
+                    	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
+                    	if (!splits1[0].equalsIgnoreCase(potentialSet))
+                    		return false;
+                    }
                 }
-            }
+            }        	
         }
         return true;
     }
@@ -118,20 +122,22 @@ public class SetsAPI
         sis.add(cis);
         sis.add(lis);
         sis.add(bis);
-        ItemMeta meta = his.getItemMeta();
-        String potentialSet = "";
-        if(meta.getDisplayName()!=null){
-        	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
-        	potentialSet = splits[0];
-            for (ItemStack is : sis)
-            {
-                ItemMeta ism = is.getItemMeta();
-                if(ism.getDisplayName()!=null){
-                	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
-                	if (!splits1[0].equalsIgnoreCase(potentialSet))
-                		return false;
+        if(his.hasItemMeta()){
+            ItemMeta meta = his.getItemMeta();
+            String potentialSet = "";
+            if(meta.getDisplayName()!=null){
+            	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
+            	potentialSet = splits[0];
+                for (ItemStack is : sis)
+                {
+                    ItemMeta ism = is.getItemMeta();
+                    if(ism.getDisplayName()!=null){
+                    	String[] splits1 = ChatColor.stripColor(ism.getDisplayName()).split(" ");
+                    	if (!splits1[0].equalsIgnoreCase(potentialSet))
+                    		return false;
+                    }
                 }
-            }
+            }        	
         }
         return true;
     }
@@ -149,10 +155,12 @@ public class SetsAPI
     	ItemStack his = player.getInventory().getHelmet();
         if (his == null)
             return null;
-        ItemMeta meta = his.getItemMeta();
-        if(meta.getDisplayName()!=null){
-        	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
-        	return splits[0];
+        if(his.hasItemMeta()){
+            ItemMeta meta = his.getItemMeta();
+            if(meta.getDisplayName()!=null){
+            	String[] splits = ChatColor.stripColor(meta.getDisplayName()).split(" ");
+            	return splits[0];
+            }        	
         }
         return null;
     }

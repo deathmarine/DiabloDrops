@@ -66,8 +66,7 @@ public class TomeListener implements Listener
         	BookMeta b = (BookMeta) inh.getItemMeta();
             if (b == null)
                 return;
-            if (b.getTitle().contains("Identity Tome")||
-            		b.getTitle().contains("Diablo Tome"))
+            if (b.getTitle().contains("Identity Tome") && b.getAuthor().endsWith("AAAA"))
             {
                 Player p = e.getPlayer();
                 PlayerInventory pi = p.getInventory();
@@ -83,7 +82,6 @@ public class TomeListener implements Listener
                     }
                     ItemMeta meta = tool.getItemMeta();
                     String name = meta.getDisplayName();
-                    if(!b.getTitle().contains("Diablo Tome"))
                     if ((!ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.name()) 
                             && !ChatColor.getLastColors(name).equalsIgnoreCase(                               ChatColor.MAGIC.toString()))
                             && (!name.contains(ChatColor.MAGIC.name()) && !name

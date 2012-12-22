@@ -412,15 +412,11 @@ public class EffectsAPI
         List<String> effects = new ArrayList<String>();
         for (ItemStack tool : toolSet)
         {
-            ItemMeta meta = null;
-            if (tool.hasItemMeta())
-            {
-                meta = tool.getItemMeta();
-            }
-            if ((meta.getLore() == null) || meta.getLore().isEmpty())
-            {
+            if (!tool.hasItemMeta())
                 continue;
-            }
+            ItemMeta meta = tool.getItemMeta();
+            if ((meta.getLore() == null) || meta.getLore().isEmpty())
+                continue;
             for (String string : meta.getLore())
             {
                 string = ChatColor.stripColor(string).replace("%", "")

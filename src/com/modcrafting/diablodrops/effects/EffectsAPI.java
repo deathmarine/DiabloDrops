@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -20,7 +19,6 @@ import org.bukkit.potion.PotionEffectType;
 
 public class EffectsAPI
 {
-    private static final Entity DiabloDrops = null;
     public static String ATTACK = "attack";
     public static String DEFENSE = "defense";
     public static String FREEZE = "freeze";
@@ -414,15 +412,10 @@ public class EffectsAPI
         List<String> effects = new ArrayList<String>();
         for (ItemStack tool : toolSet)
         {
-            ItemMeta meta;
+            ItemMeta meta = null;
             if (tool.hasItemMeta())
             {
                 meta = tool.getItemMeta();
-            }
-            else
-            {
-                meta = DiabloDrops.getServer().getItemFactory()
-                        .getItemMeta(tool.getType());
             }
             if ((meta.getLore() == null) || meta.getLore().isEmpty())
             {

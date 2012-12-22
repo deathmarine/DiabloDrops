@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.items.DiabloifyTome;
 import com.modcrafting.diablodrops.items.Drop;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
@@ -367,11 +366,6 @@ public class DropsAPI
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "IdentifyTome.Chance", 3)))
             return new IdentifyTome();
-        if (plugin.gen.nextBoolean()
-                && plugin.config.getBoolean("DiabloifyTome.Enabled", true)
-                && (plugin.gen.nextInt(100) <= plugin.config.getInt(
-                        "DiabloifyTome.Chance", 3)))
-            return new DiabloifyTome();
         if (plugin.gen.nextBoolean()
                 && plugin.config.getBoolean("SocketItem.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(

@@ -17,7 +17,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.items.DiabloifyTome;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
 import com.modcrafting.diablodrops.sets.ArmorSet;
@@ -82,14 +81,7 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("tome")
                         || args[0].equalsIgnoreCase("book"))
                 {
-                    if (plugin.gen.nextBoolean())
-                    {
-                        pi.addItem(new IdentifyTome());
-                    }
-                    else
-                    {
-                        pi.addItem(new DiabloifyTome());
-                    }
+                       pi.addItem(new IdentifyTome());
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a tome.");
                     player.updateInventory();

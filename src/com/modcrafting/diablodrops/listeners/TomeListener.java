@@ -82,10 +82,10 @@ public class TomeListener implements Listener
                     }
                     ItemMeta meta = tool.getItemMeta();
                     String name = meta.getDisplayName();
-                    if ((!ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.name()) 
-                            && !ChatColor.getLastColors(name).equalsIgnoreCase(                               ChatColor.MAGIC.toString()))
-                            && (!name.contains(ChatColor.MAGIC.name()) && !name
-                                    .contains(ChatColor.MAGIC.toString())))
+                    if ((ChatColor.getLastColors(name)==null||(
+                    		!ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.name()) 
+                            && !ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.toString()))
+                            && (!name.contains(ChatColor.MAGIC.name()) && !name.contains(ChatColor.MAGIC.toString()))))
                     {
                         continue;
                     }

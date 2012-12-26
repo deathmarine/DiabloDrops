@@ -26,7 +26,6 @@ import com.modcrafting.devbuild.DevUpdater;
 import com.modcrafting.devbuild.DevUpdater.DevUpdateResult;
 import com.modcrafting.diablodrops.builders.ArmorSetBuilder;
 import com.modcrafting.diablodrops.builders.CustomBuilder;
-import com.modcrafting.diablodrops.builders.RuinBuilder;
 import com.modcrafting.diablodrops.builders.SocketBuilder;
 import com.modcrafting.diablodrops.builders.TierBuilder;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
@@ -43,7 +42,6 @@ import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
 import com.modcrafting.diablodrops.tier.Tier;
-import com.modcrafting.diablodrops.utils.Biomes;
 
 public class DiabloDrops extends JavaPlugin
 {
@@ -61,8 +59,6 @@ public class DiabloDrops extends JavaPlugin
     public List<String> defenselore = new ArrayList<String>();
     public List<String> offenselore = new ArrayList<String>();
     public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
-    public HashMap<String, HashMap<Biomes, List<String>>> materialsOfRuins = new HashMap<String, HashMap<Biomes, List<String>>>();
-    public HashMap<String, HashMap<Biomes, List<String>>> ruinsCanSpawnOn = new HashMap<String, HashMap<Biomes, List<String>>>();
     private NamesLoader nameLoader;
     public FileConfiguration config;
     public DropsAPI dropsAPI;
@@ -108,8 +104,6 @@ public class DiabloDrops extends JavaPlugin
         offenselore.clear();
         defenselore.clear();
         furnanceMap.clear();
-        materialsOfRuins.clear();
-        ruinsCanSpawnOn.clear();
     }
 
     @Override
@@ -165,7 +159,6 @@ public class DiabloDrops extends JavaPlugin
         new SocketBuilder(this).build();
         new TierBuilder(this).build();
         new ArmorSetBuilder(this).build();
-        new RuinBuilder(this).build();
         dropsAPI = new DropsAPI(this);
         setsAPI = new SetsAPI(this);
         if (config.getBoolean("Worlds.Enabled", false))

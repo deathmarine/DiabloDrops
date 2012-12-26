@@ -30,79 +30,30 @@ public class ChunkListener implements Listener
         this.plugin = plugin;
     }
 
-    private void addWebRuinPattern(final Block block, final int size)
+    private void addRuin1Pattern(final Block block, final int size)
     {
         World world = block.getWorld();
         Location location = block.getRelative(BlockFace.DOWN).getLocation();
         Block start = world.getBlockAt(location);
-        webRuinPillar(world, webRuinNorth(start, size), size);
-        webRuinPillar(world, webRuinSouth(start, size), size);
-        webRuinPillar(world, webRuinEast(start, size), size);
-        webRuinPillar(world, webRuinWest(start, size), size);
-        webRuinPillar(world, webRuinNorthwest(start, size), size);
-        webRuinPillar(world, webRuinNortheast(start, size), size);
-        webRuinPillar(world, webRuinSouthwest(start, size), size);
-        webRuinPillar(world, webRuinSoutheast(start, size), size);
+        pillarRuin1(world, northRuin1(start, size), size);
+        pillarRuin1(world, southRuin1(start, size), size);
+        pillarRuin1(world, eastRuin1(start, size), size);
+        pillarRuin1(world, westRuin1(start, size), size);
+        pillarRuin1(world, northwestRuin1(start, size), size);
+        pillarRuin1(world, northeastRuin1(start, size), size);
+        pillarRuin1(world, southwestRuin1(start, size), size);
+        pillarRuin1(world, southeastRuin1(start, size), size);
         Block newStart = world
                 .getBlockAt(new Location(world, location.getBlockX(), location
                         .getBlockY() + size, location.getBlockZ()));
-        webRuinNorth(newStart, size);
-        webRuinSouth(newStart, size);
-        webRuinEast(newStart, size);
-        webRuinWest(newStart, size);
-        webRuinNorthwest(newStart, size);
-        webRuinNortheast(newStart, size);
-        webRuinSouthwest(newStart, size);
-        webRuinSoutheast(newStart, size);
-    }
-
-    /**
-     * Builds death's ruins.
-     * 
-     * @param loc
-     */
-    private boolean generateDeathRuin(final Location loc)
-    {
-        int square = plugin.gen.nextInt(6);
-        if (square < 1)
-            return false;
-        List<Material> mats = getBiomeMaterials(loc.getBlock().getBiome());
-        if (mats.size() < 1)
-            return false;
-        double maxX = Math.max(loc.getX() - square, loc.getX() + square);
-        double maxZ = Math.max(loc.getZ() - square, loc.getZ() + square);
-        double minX = Math.min(loc.getX() - square, loc.getX() + square);
-        double minZ = Math.min(loc.getZ() - square, loc.getZ() + square);
-        for (double i = 0; i <= Math.abs(maxX - minX); i++)
-        {
-            for (double ii = 0; ii <= Math.abs(maxZ - minZ); ii++)
-            {
-                Location nt = new Location(loc.getWorld(), minX + i,
-                        loc.getY(), minZ + ii);
-                Block n = nt.getBlock();
-                if (!n.getType().equals(Material.STATIONARY_WATER)
-                        && !n.getType().equals(Material.AIR))
-                {
-                    n.setTypeId(mats.get(plugin.gen.nextInt(mats.size()))
-                            .getId());
-
-                    if ((i == 0) || (ii == 0) || (i == Math.abs(maxX - minX))
-                            || (ii == Math.abs(maxZ - minZ)))
-                    {
-                        for (int iii = plugin.gen.nextInt(6); iii > 0; iii--)
-                        {
-                            Location t = new Location(loc.getWorld(), minX + i,
-                                    loc.getY() + iii, minZ + ii);
-                            t.getBlock().setTypeId(
-                                    mats.get(plugin.gen.nextInt(mats.size()))
-                                            .getId());
-
-                        }
-                    }
-                }
-            }
-        }
-        return true;
+        northRuin1(newStart, size);
+        southRuin1(newStart, size);
+        eastRuin1(newStart, size);
+        westRuin1(newStart, size);
+        northwestRuin1(newStart, size);
+        northeastRuin1(newStart, size);
+        southwestRuin1(newStart, size);
+        southeastRuin1(newStart, size);
     }
 
     /**
@@ -111,7 +62,7 @@ public class ChunkListener implements Listener
      * @param loc
      * @return
      */
-    private boolean generateNetherRuin(final Location loc)
+    private boolean buildNetherTemple(final Location loc)
     {
         int square = 5;
         World world = loc.getWorld();
@@ -220,7 +171,144 @@ public class ChunkListener implements Listener
 
     }
 
-    private void generateTowerRuin(final Block block)
+    /**
+     * Builds death's ruins.
+     * 
+     * @param loc
+     */
+    private boolean deathRuin(final Location loc)
+    {
+        int square = plugin.gen.nextInt(6);
+        if (square < 1)
+            return false;
+        List<Material> mats = getBiomeMaterials(loc.getBlock().getBiome());
+        if (mats.size() < 1)
+            return false;
+        double maxX = Math.max(loc.getX() - square, loc.getX() + square);
+        double maxZ = Math.max(loc.getZ() - square, loc.getZ() + square);
+        double minX = Math.min(loc.getX() - square, loc.getX() + square);
+        double minZ = Math.min(loc.getZ() - square, loc.getZ() + square);
+        for (double i = 0; i <= Math.abs(maxX - minX); i++)
+        {
+            for (double ii = 0; ii <= Math.abs(maxZ - minZ); ii++)
+            {
+                Location nt = new Location(loc.getWorld(), minX + i,
+                        loc.getY(), minZ + ii);
+                Block n = nt.getBlock();
+                if (!n.getType().equals(Material.STATIONARY_WATER)
+                        && !n.getType().equals(Material.AIR))
+                {
+                    n.setTypeId(mats.get(plugin.gen.nextInt(mats.size()))
+                            .getId());
+
+                    if ((i == 0) || (ii == 0) || (i == Math.abs(maxX - minX))
+                            || (ii == Math.abs(maxZ - minZ)))
+                    {
+                        for (int iii = plugin.gen.nextInt(6); iii > 0; iii--)
+                        {
+                            Location t = new Location(loc.getWorld(), minX + i,
+                                    loc.getY() + iii, minZ + ii);
+                            t.getBlock().setTypeId(
+                                    mats.get(plugin.gen.nextInt(mats.size()))
+                                            .getId());
+
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private Location eastRuin1(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.EAST);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
+    private void generateRuin1(final Block block, final int size)
+    {
+        Biome b = block.getBiome();
+        List<Material> allowedTypes = new ArrayList<Material>();
+        if ((b == Biome.DESERT) || (b == Biome.DESERT_HILLS)
+                || (b == Biome.BEACH))
+        {
+            blockType = 24;
+            allowedTypes.add(Material.SAND);
+            allowedTypes.add(Material.SANDSTONE);
+        }
+        else if ((b == Biome.FOREST) || (b == Biome.FOREST_HILLS)
+                || (b == Biome.JUNGLE) || (b == Biome.JUNGLE_HILLS))
+        {
+            blockType = 17;
+            allowedTypes.add(Material.DIRT);
+            allowedTypes.add(Material.GRASS);
+        }
+        else if ((b == Biome.TAIGA) || (b == Biome.TAIGA_HILLS)
+                || (b == Biome.FROZEN_OCEAN) || (b == Biome.FROZEN_RIVER)
+                || (b == Biome.ICE_MOUNTAINS) || (b == Biome.ICE_PLAINS))
+        {
+            if (plugin.gen.nextBoolean())
+            {
+                blockType = 79;
+            }
+            else
+            {
+                blockType = 80;
+            }
+            allowedTypes.add(Material.SNOW);
+            allowedTypes.add(Material.ICE);
+            allowedTypes.add(Material.GRASS);
+            allowedTypes.add(Material.DIRT);
+        }
+        else if ((b == Biome.PLAINS) || (b == Biome.SWAMPLAND)
+                || (b == Biome.SMALL_MOUNTAINS))
+        {
+            blockType = 98;
+            allowedTypes.add(Material.DIRT);
+            allowedTypes.add(Material.GRASS);
+        }
+        else if (b == Biome.EXTREME_HILLS)
+        {
+            int chance = plugin.gen.nextInt(100);
+            if (chance <= 75)
+            {
+                blockType = 98;
+            }
+            else if ((chance > 75) && (chance <= 85))
+            {
+                blockType = 73;
+            }
+            else if ((chance > 85) && (chance <= 90))
+            {
+                blockType = 15;
+            }
+            else if ((chance > 90) && (chance <= 95))
+            {
+                blockType = 56;
+            }
+            else
+            {
+                blockType = 129;
+            }
+            allowedTypes.add(Material.DIRT);
+            allowedTypes.add(Material.GRASS);
+            allowedTypes.add(Material.STONE);
+        }
+        Block blockUnder = block.getRelative(BlockFace.DOWN);
+        if (!allowedTypes.contains(blockUnder.getType()))
+            return;
+        addRuin1Pattern(block, size);
+    }
+
+    private void generateRuin2(final Block block)
     {
         Biome b = block.getBiome();
         List<Material> allowedTypes = new ArrayList<Material>();
@@ -313,7 +401,7 @@ public class ChunkListener implements Listener
                         .getRelative(BlockFace.EAST) };
         for (Block b1 : ruinBase)
         {
-            towerRuinPillar(b1, plugin.gen.nextInt(4) + 3, blockType);
+            pillarRuin2(b1, plugin.gen.nextInt(4) + 3, blockType);
         }
         for (Block b2 : blockSurround)
         {
@@ -338,81 +426,6 @@ public class ChunkListener implements Listener
                     break;
             }
         }
-    }
-
-    private void generateWebRuin(final Block block, final int size)
-    {
-        Biome b = block.getBiome();
-        List<Material> allowedTypes = new ArrayList<Material>();
-        if ((b == Biome.DESERT) || (b == Biome.DESERT_HILLS)
-                || (b == Biome.BEACH))
-        {
-            blockType = 24;
-            allowedTypes.add(Material.SAND);
-            allowedTypes.add(Material.SANDSTONE);
-        }
-        else if ((b == Biome.FOREST) || (b == Biome.FOREST_HILLS)
-                || (b == Biome.JUNGLE) || (b == Biome.JUNGLE_HILLS))
-        {
-            blockType = 17;
-            allowedTypes.add(Material.DIRT);
-            allowedTypes.add(Material.GRASS);
-        }
-        else if ((b == Biome.TAIGA) || (b == Biome.TAIGA_HILLS)
-                || (b == Biome.FROZEN_OCEAN) || (b == Biome.FROZEN_RIVER)
-                || (b == Biome.ICE_MOUNTAINS) || (b == Biome.ICE_PLAINS))
-        {
-            if (plugin.gen.nextBoolean())
-            {
-                blockType = 79;
-            }
-            else
-            {
-                blockType = 80;
-            }
-            allowedTypes.add(Material.SNOW);
-            allowedTypes.add(Material.ICE);
-            allowedTypes.add(Material.GRASS);
-            allowedTypes.add(Material.DIRT);
-        }
-        else if ((b == Biome.PLAINS) || (b == Biome.SWAMPLAND)
-                || (b == Biome.SMALL_MOUNTAINS))
-        {
-            blockType = 98;
-            allowedTypes.add(Material.DIRT);
-            allowedTypes.add(Material.GRASS);
-        }
-        else if (b == Biome.EXTREME_HILLS)
-        {
-            int chance = plugin.gen.nextInt(100);
-            if (chance <= 75)
-            {
-                blockType = 98;
-            }
-            else if ((chance > 75) && (chance <= 85))
-            {
-                blockType = 73;
-            }
-            else if ((chance > 85) && (chance <= 90))
-            {
-                blockType = 15;
-            }
-            else if ((chance > 90) && (chance <= 95))
-            {
-                blockType = 56;
-            }
-            else
-            {
-                blockType = 129;
-            }
-            allowedTypes.add(Material.DIRT);
-            allowedTypes.add(Material.GRASS);
-            allowedTypes.add(Material.STONE);
-        }
-        Block blockUnder = block.getRelative(BlockFace.DOWN);
-        if (!allowedTypes.contains(blockUnder.getType()))
-            return;
-        addWebRuinPattern(block, size);
     }
 
     private List<Material> getBiomeMaterials(final Biome b)
@@ -533,6 +546,45 @@ public class ChunkListener implements Listener
         return world.getBlockAt(x, y, z);
     }
 
+    private Location northeastRuin1(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.NORTH_EAST);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
+    private Location northRuin1(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.NORTH);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
+    private Location northwestRuin1(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.NORTH_WEST);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
     @EventHandler
     public void onChunkPopulate(final ChunkPopulateEvent event)
     {
@@ -560,14 +612,14 @@ public class ChunkListener implements Listener
                     return;
                 block = rge.getChest();
                 int size = plugin.gen.nextInt(4) + 3;
-                generateWebRuin(block, size);
+                generateRuin1(block, size);
                 block.setType(Material.CHEST);
                 plugin.dropsAPI.fillChest(block, size);
                 return;
             }
             if (plugin.gen.nextBoolean())
             {
-                generateTowerRuin(block);
+                generateRuin2(block);
                 return;
             }
             if (plugin.gen.nextBoolean())
@@ -579,7 +631,7 @@ public class ChunkListener implements Listener
                 block = rge.getChest();
                 Block under = block.getRelative(BlockFace.DOWN);
                 Location loc = under.getLocation();
-                if (generateNetherRuin(loc))
+                if (buildNetherTemple(loc))
                 {
                     block.setType(Material.CHEST);
                     plugin.dropsAPI.fillChest(block);
@@ -593,12 +645,41 @@ public class ChunkListener implements Listener
             block = rge.getChest();
             Block under = block.getRelative(BlockFace.DOWN);
             Location loc = under.getLocation();
-            if (generateDeathRuin(loc))
+            if (deathRuin(loc))
             {
                 block.setType(Material.CHEST);
                 plugin.dropsAPI.fillChest(block);
             }
             return;
+        }
+    }
+
+    private void pillarRuin1(final World world, final Location location,
+            final int size)
+    {
+        Block start = world.getBlockAt(location);
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.UP);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+    }
+
+    private void pillarRuin2(final Block block, final int size, final int type)
+    {
+        List<Block> blocks = new ArrayList<Block>();
+        blocks.add(block);
+        for (int i = 0; i <= Math.abs(size); i++)
+        {
+            blocks.add(block.getRelative(0, i, 0));
+            blocks.add(block.getRelative(0, -i, 0));
+        }
+        for (Block b : blocks)
+        {
+            b.setTypeIdAndData(type, (byte) plugin.gen.nextInt(4), false);
         }
     }
 
@@ -629,102 +710,7 @@ public class ChunkListener implements Listener
         }
     }
 
-    private void towerRuinPillar(final Block block, final int size,
-            final int type)
-    {
-        List<Block> blocks = new ArrayList<Block>();
-        blocks.add(block);
-        for (int i = 0; i <= Math.abs(size); i++)
-        {
-            blocks.add(block.getRelative(0, i, 0));
-            blocks.add(block.getRelative(0, -i, 0));
-        }
-        for (Block b : blocks)
-        {
-            b.setTypeIdAndData(type, (byte) plugin.gen.nextInt(4), false);
-        }
-    }
-
-    private Location webRuinEast(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.EAST);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
-    }
-
-    private Location webRuinNorth(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.NORTH);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
-    }
-
-    private Location webRuinNortheast(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.NORTH_EAST);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
-    }
-
-    private Location webRuinNorthwest(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.NORTH_WEST);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
-    }
-
-    private void webRuinPillar(final World world, final Location location,
-            final int size)
-    {
-        Block start = world.getBlockAt(location);
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.UP);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-    }
-
-    private Location webRuinSouth(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.SOUTH);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
-    }
-
-    private Location webRuinSoutheast(final Block start, final int size)
+    private Location southeastRuin1(final Block start, final int size)
     {
         Block block = start;
         for (int i = 0; i < size; i++)
@@ -737,7 +723,20 @@ public class ChunkListener implements Listener
         return block.getLocation();
     }
 
-    private Location webRuinSouthwest(final Block start, final int size)
+    private Location southRuin1(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.SOUTH);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
+    private Location southwestRuin1(final Block start, final int size)
     {
         Block block = start;
         for (int i = 0; i < size; i++)
@@ -750,7 +749,7 @@ public class ChunkListener implements Listener
         return block.getLocation();
     }
 
-    private Location webRuinWest(final Block start, final int size)
+    private Location westRuin1(final Block start, final int size)
     {
         Block block = start;
         for (int i = 0; i < size; i++)

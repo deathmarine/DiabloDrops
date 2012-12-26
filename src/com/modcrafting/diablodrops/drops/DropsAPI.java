@@ -181,7 +181,7 @@ public class DropsAPI
                 return;
             Chest chestB = ((Chest) block.getState());
             Inventory chest = chestB.getBlockInventory();
-            for (int i = 0; i < (plugin.gen.nextInt(chest.getSize()) + size); i++)
+            for (int i = 0; i < size; i++)
             {
                 ItemStack cis = getItem();
                 while (cis == null)
@@ -209,9 +209,7 @@ public class DropsAPI
             ItemMeta meta = t.getItemMeta();
             if (ChatColor.stripColor(meta.getDisplayName()).equalsIgnoreCase(
                     name))
-            {
                 return t;
-            }
         }
         return null;
     }

@@ -30,43 +30,30 @@ public class ChunkListener implements Listener
         this.plugin = plugin;
     }
 
-    private void addRuin1Pattern(final Block block, final int size)
+    private void addWebRuinPattern(final Block block, final int size)
     {
         World world = block.getWorld();
         Location location = block.getRelative(BlockFace.DOWN).getLocation();
         Block start = world.getBlockAt(location);
-        pillarRuin1(world, northRuin1(start, size), size);
-        pillarRuin1(world, southRuin1(start, size), size);
-        pillarRuin1(world, eastRuin1(start, size), size);
-        pillarRuin1(world, westRuin1(start, size), size);
-        pillarRuin1(world, northwestRuin1(start, size), size);
-        pillarRuin1(world, northeastRuin1(start, size), size);
-        pillarRuin1(world, southwestRuin1(start, size), size);
-        pillarRuin1(world, southeastRuin1(start, size), size);
+        webRuinPillar(world, webRuinNorth(start, size), size);
+        webRuinPillar(world, webRuinSouth(start, size), size);
+        webRuinPillar(world, webRuinEast(start, size), size);
+        webRuinPillar(world, webRuinWest(start, size), size);
+        webRuinPillar(world, webRuinNorthwest(start, size), size);
+        webRuinPillar(world, webRuinNortheast(start, size), size);
+        webRuinPillar(world, webRuinSouthwest(start, size), size);
+        webRuinPillar(world, webRuinSoutheast(start, size), size);
         Block newStart = world
                 .getBlockAt(new Location(world, location.getBlockX(), location
                         .getBlockY() + size, location.getBlockZ()));
-        northRuin1(newStart, size);
-        southRuin1(newStart, size);
-        eastRuin1(newStart, size);
-        westRuin1(newStart, size);
-        northwestRuin1(newStart, size);
-        northeastRuin1(newStart, size);
-        southwestRuin1(newStart, size);
-        southeastRuin1(newStart, size);
-    }
-
-    private Location eastRuin1(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.EAST);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
+        webRuinNorth(newStart, size);
+        webRuinSouth(newStart, size);
+        webRuinEast(newStart, size);
+        webRuinWest(newStart, size);
+        webRuinNorthwest(newStart, size);
+        webRuinNortheast(newStart, size);
+        webRuinSouthwest(newStart, size);
+        webRuinSoutheast(newStart, size);
     }
 
     /**
@@ -326,7 +313,7 @@ public class ChunkListener implements Listener
                         .getRelative(BlockFace.EAST) };
         for (Block b1 : ruinBase)
         {
-            pillarRuin2(b1, plugin.gen.nextInt(4) + 3, blockType);
+            towerRuinPillar(b1, plugin.gen.nextInt(4) + 3, blockType);
         }
         for (Block b2 : blockSurround)
         {
@@ -425,7 +412,7 @@ public class ChunkListener implements Listener
         Block blockUnder = block.getRelative(BlockFace.DOWN);
         if (!allowedTypes.contains(blockUnder.getType()))
             return;
-        addRuin1Pattern(block, size);
+        addWebRuinPattern(block, size);
     }
 
     private List<Material> getBiomeMaterials(final Biome b)
@@ -546,45 +533,6 @@ public class ChunkListener implements Listener
         return world.getBlockAt(x, y, z);
     }
 
-    private Location northeastRuin1(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.NORTH_EAST);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
-    }
-
-    private Location northRuin1(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.NORTH);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
-    }
-
-    private Location northwestRuin1(final Block start, final int size)
-    {
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.NORTH_WEST);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-        return block.getLocation();
-    }
-
     @EventHandler
     public void onChunkPopulate(final ChunkPopulateEvent event)
     {
@@ -654,35 +602,6 @@ public class ChunkListener implements Listener
         }
     }
 
-    private void pillarRuin1(final World world, final Location location,
-            final int size)
-    {
-        Block start = world.getBlockAt(location);
-        Block block = start;
-        for (int i = 0; i < size; i++)
-        {
-            Block next = block.getRelative(BlockFace.UP);
-            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
-                    false);
-            block = next;
-        }
-    }
-
-    private void pillarRuin2(final Block block, final int size, final int type)
-    {
-        List<Block> blocks = new ArrayList<Block>();
-        blocks.add(block);
-        for (int i = 0; i <= Math.abs(size); i++)
-        {
-            blocks.add(block.getRelative(0, i, 0));
-            blocks.add(block.getRelative(0, -i, 0));
-        }
-        for (Block b : blocks)
-        {
-            b.setTypeIdAndData(type, (byte) plugin.gen.nextInt(4), false);
-        }
-    }
-
     public void setBlockAt(final World world, final int x, final int y,
             final int z, final int id)
     {
@@ -710,12 +629,28 @@ public class ChunkListener implements Listener
         }
     }
 
-    private Location southeastRuin1(final Block start, final int size)
+    private void towerRuinPillar(final Block block, final int size,
+            final int type)
+    {
+        List<Block> blocks = new ArrayList<Block>();
+        blocks.add(block);
+        for (int i = 0; i <= Math.abs(size); i++)
+        {
+            blocks.add(block.getRelative(0, i, 0));
+            blocks.add(block.getRelative(0, -i, 0));
+        }
+        for (Block b : blocks)
+        {
+            b.setTypeIdAndData(type, (byte) plugin.gen.nextInt(4), false);
+        }
+    }
+
+    private Location webRuinEast(final Block start, final int size)
     {
         Block block = start;
         for (int i = 0; i < size; i++)
         {
-            Block next = block.getRelative(BlockFace.SOUTH_EAST);
+            Block next = block.getRelative(BlockFace.EAST);
             next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
                     false);
             block = next;
@@ -723,7 +658,60 @@ public class ChunkListener implements Listener
         return block.getLocation();
     }
 
-    private Location southRuin1(final Block start, final int size)
+    private Location webRuinNorth(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.NORTH);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
+    private Location webRuinNortheast(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.NORTH_EAST);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
+    private Location webRuinNorthwest(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.NORTH_WEST);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
+    private void webRuinPillar(final World world, final Location location,
+            final int size)
+    {
+        Block start = world.getBlockAt(location);
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.UP);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+    }
+
+    private Location webRuinSouth(final Block start, final int size)
     {
         Block block = start;
         for (int i = 0; i < size; i++)
@@ -736,7 +724,20 @@ public class ChunkListener implements Listener
         return block.getLocation();
     }
 
-    private Location southwestRuin1(final Block start, final int size)
+    private Location webRuinSoutheast(final Block start, final int size)
+    {
+        Block block = start;
+        for (int i = 0; i < size; i++)
+        {
+            Block next = block.getRelative(BlockFace.SOUTH_EAST);
+            next.setTypeIdAndData(blockType, (byte) plugin.gen.nextInt(4),
+                    false);
+            block = next;
+        }
+        return block.getLocation();
+    }
+
+    private Location webRuinSouthwest(final Block start, final int size)
     {
         Block block = start;
         for (int i = 0; i < size; i++)
@@ -749,7 +750,7 @@ public class ChunkListener implements Listener
         return block.getLocation();
     }
 
-    private Location westRuin1(final Block start, final int size)
+    private Location webRuinWest(final Block start, final int size)
     {
         Block block = start;
         for (int i = 0; i < size; i++)

@@ -26,6 +26,7 @@ import com.modcrafting.devbuild.DevUpdater;
 import com.modcrafting.devbuild.DevUpdater.DevUpdateResult;
 import com.modcrafting.diablodrops.builders.ArmorSetBuilder;
 import com.modcrafting.diablodrops.builders.CustomBuilder;
+import com.modcrafting.diablodrops.builders.RuinBuilder;
 import com.modcrafting.diablodrops.builders.SocketBuilder;
 import com.modcrafting.diablodrops.builders.TierBuilder;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
@@ -42,6 +43,7 @@ import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
 import com.modcrafting.diablodrops.tier.Tier;
+import com.modcrafting.diablodrops.utils.Biomes;
 
 public class DiabloDrops extends JavaPlugin
 {
@@ -59,6 +61,8 @@ public class DiabloDrops extends JavaPlugin
     public List<String> defenselore = new ArrayList<String>();
     public List<String> offenselore = new ArrayList<String>();
     public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
+    public HashMap<String, HashMap<Biomes, List<String>>> materialsOfRuins = new HashMap<String, HashMap<Biomes, List<String>>>();
+    public HashMap<String, HashMap<Biomes, List<String>>> ruinsCanSpawnOn = new HashMap<String, HashMap<Biomes, List<String>>>();
     private NamesLoader nameLoader;
     public FileConfiguration config;
     public DropsAPI dropsAPI;
@@ -104,6 +108,8 @@ public class DiabloDrops extends JavaPlugin
         offenselore.clear();
         defenselore.clear();
         furnanceMap.clear();
+        materialsOfRuins.clear();
+        ruinsCanSpawnOn.clear();
     }
 
     @Override
@@ -114,14 +120,15 @@ public class DiabloDrops extends JavaPlugin
         log = getLogger();
         log.addHandler(new LogHandler(getDataFolder()));
         nameLoader = new NamesLoader(this);
-        nameLoader.writeDefault("config.yml",false);
-        nameLoader.writeDefault("custom.yml",false);
-        nameLoader.writeDefault("tier.yml",false);
-        nameLoader.writeDefault("set.yml",false);
-        nameLoader.writeDefault("prefix.txt",false);
-        nameLoader.writeDefault("suffix.txt",false);
-        nameLoader.writeDefault("defenselore.txt",false);
-        nameLoader.writeDefault("offenselore.txt",false);
+        nameLoader.writeDefault("config.yml", false);
+        nameLoader.writeDefault("custom.yml", false);
+        nameLoader.writeDefault("tier.yml", false);
+        nameLoader.writeDefault("set.yml", false);
+        nameLoader.writeDefault("ruins.yml", false);
+        nameLoader.writeDefault("prefix.txt", false);
+        nameLoader.writeDefault("suffix.txt", false);
+        nameLoader.writeDefault("defenselore.txt", false);
+        nameLoader.writeDefault("offenselore.txt", false);
         config = getConfig();
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {
@@ -158,6 +165,7 @@ public class DiabloDrops extends JavaPlugin
         new SocketBuilder(this).build();
         new TierBuilder(this).build();
         new ArmorSetBuilder(this).build();
+        new RuinBuilder(this).build();
         dropsAPI = new DropsAPI(this);
         setsAPI = new SetsAPI(this);
         if (config.getBoolean("Worlds.Enabled", false))
@@ -182,37 +190,35 @@ public class DiabloDrops extends JavaPlugin
         final PluginDescriptionFile pdf = getDescription();
         if (config.getBoolean("Plugin.AutoUpdate", true))
         {
-            getServer().getScheduler().runTask(this,
-                    new Runnable()
+            getServer().getScheduler().runTask(this, new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    Updater up = new Updater(getInstance(), pdf.getName()
+                            .toLowerCase(), getFile(), UpdateType.DEFAULT, true);
+                    if (!up.getResult().equals(UpdateResult.SUCCESS)
+                            || up.pluginFile(getFile().getName()))
                     {
-                        @Override
-                        public void run()
+                        if (up.getResult().equals(
+                                Updater.UpdateResult.FAIL_NOVERSION))
                         {
-                            Updater up = new Updater(getInstance(), pdf
-                                    .getName().toLowerCase(), getFile(),
-                                    UpdateType.DEFAULT, true);
-                            if (!up.getResult().equals(UpdateResult.SUCCESS)
-                                    || up.pluginFile(getFile().getName()))
-                            {
-                                if (up.getResult().equals(
-                                        Updater.UpdateResult.FAIL_NOVERSION))
-                                {
-                                    log.info("Unable to connect to dev.bukkit.org.");
-                                }
-                                else
-                                {
-                                    log.info("No Updates found on dev.bukkit.org.");
-                                }
-                            }
-                            else
-                            {
-                                log.info("Update "
-                                        + up.getLatestVersionString()
-                                        + " found and downloaded please restart your server.");
-                            }
+                            log.info("Unable to connect to dev.bukkit.org.");
                         }
+                        else
+                        {
+                            log.info("No Updates found on dev.bukkit.org.");
+                        }
+                    }
+                    else
+                    {
+                        log.info("Update "
+                                + up.getLatestVersionString()
+                                + " found and downloaded please restart your server.");
+                    }
+                }
 
-                    });
+            });
         }
         // Jenkins AutoUpdater
         if (config.getBoolean("Plugin.Dev.Update", false))

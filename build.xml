@@ -56,7 +56,7 @@
 
 	<target name="package" depends="document" description="Make the distributable jar file">
 		<copy todir="bin" overwrite="true">
-			<fileset dir="." includes="plugin.yml,config.yml,custom.yml,offenselore.txt,defenselore.txt,tier.yml,prefix.txt,suffix.txt,set.yml" />
+			<fileset dir="." includes="plugin.yml,config.yml,custom.yml,offenselore.txt,defenselore.txt,tier.yml,prefix.txt,suffix.txt,set.yml,ruins.yml" />
             <filterset>
             	<filter token="VERSION" value="${env.BUILD_NUMBER}" />
             </filterset>

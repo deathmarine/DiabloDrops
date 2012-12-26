@@ -27,38 +27,40 @@ public class EffectsListener implements Listener
     {
         if ((plugin.worlds.size() > 0)
                 && plugin.config.getBoolean("Worlds.Enabled", false)
-                && !plugin.worlds.contains(event.getEntity()
-                        .getLocation().getWorld().getName().toLowerCase()))
+                && !plugin.worlds.contains(event.getEntity().getLocation()
+                        .getWorld().getName().toLowerCase()))
             return;
-		if (!(event.getEntity() instanceof LivingEntity))
-			return;
-		LivingEntity entity = (LivingEntity) event.getEntity();
-		LivingEntity damager = null;
-		if (event.getDamager() instanceof LivingEntity) {
-			damager = (LivingEntity) event.getDamager();
-		} else if (event.getDamager() instanceof Projectile) {
-			damager = ((Projectile) event.getDamager()).getShooter();
-		}
-		if ((entity == null) || (damager == null))
-			return;
+        if (!(event.getEntity() instanceof LivingEntity))
+            return;
+        LivingEntity entity = (LivingEntity) event.getEntity();
+        LivingEntity damager = null;
+        if (event.getDamager() instanceof LivingEntity)
+        {
+            damager = (LivingEntity) event.getDamager();
+        }
+        else if (event.getDamager() instanceof Projectile)
+        {
+            damager = ((Projectile) event.getDamager()).getShooter();
+        }
+        if ((entity == null) || (damager == null))
+            return;
         if (entity.getWorld() != damager.getWorld())
             return;
-        EffectsAPI.handlePluginEffects(entity,damager,event);
+        EffectsAPI.handlePluginEffects(entity, damager, event);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onDiabloMonsterDamageEvent(
-            final EntityDamageEvent event)
+    public void onDiabloMonsterDamageEvent(final EntityDamageEvent event)
     {
         if ((plugin.worlds.size() > 0)
                 && plugin.config.getBoolean("Worlds.Enabled", false)
-                && !plugin.worlds.contains(event.getEntity()
-                        .getLocation().getWorld().getName().toLowerCase()))
+                && !plugin.worlds.contains(event.getEntity().getLocation()
+                        .getWorld().getName().toLowerCase()))
             return;
         if (event.getEntity() instanceof Player)
         {
-            EffectsAPI.handlePluginEffects((LivingEntity)event.getEntity(), null,
-                    event);
+            EffectsAPI.handlePluginEffects((LivingEntity) event.getEntity(),
+                    null, event);
         }
     }
 }

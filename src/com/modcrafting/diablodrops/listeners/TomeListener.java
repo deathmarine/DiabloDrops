@@ -53,6 +53,7 @@ public class TomeListener implements Listener
             e.setCurrentItem(new IdentifyTome());
         }
     }
+
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onRightClick(final PlayerInteractEvent e)
@@ -62,11 +63,12 @@ public class TomeListener implements Listener
                 && e.getPlayer().getItemInHand().getType()
                         .equals(Material.WRITTEN_BOOK))
         {
-        	ItemStack inh = e.getPlayer().getItemInHand();
-        	BookMeta b = (BookMeta) inh.getItemMeta();
+            ItemStack inh = e.getPlayer().getItemInHand();
+            BookMeta b = (BookMeta) inh.getItemMeta();
             if (b == null)
                 return;
-            if (b.getTitle().contains("Identity Tome") && b.getAuthor().endsWith("AAAA"))
+            if (b.getTitle().contains("Identity Tome")
+                    && b.getAuthor().endsWith("AAAA"))
             {
                 Player p = e.getPlayer();
                 PlayerInventory pi = p.getInventory();
@@ -82,10 +84,13 @@ public class TomeListener implements Listener
                     }
                     ItemMeta meta = tool.getItemMeta();
                     String name = meta.getDisplayName();
-                    if ((ChatColor.getLastColors(name)==null||(
-                    		!ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.name()) 
-                            && !ChatColor.getLastColors(name).equalsIgnoreCase(ChatColor.MAGIC.toString()))
-                            && (!name.contains(ChatColor.MAGIC.name()) && !name.contains(ChatColor.MAGIC.toString()))))
+                    if ((ChatColor.getLastColors(name) == null || (!ChatColor
+                            .getLastColors(name).equalsIgnoreCase(
+                                    ChatColor.MAGIC.name()) && !ChatColor
+                            .getLastColors(name).equalsIgnoreCase(
+                                    ChatColor.MAGIC.toString()))
+                            && (!name.contains(ChatColor.MAGIC.name()) && !name
+                                    .contains(ChatColor.MAGIC.toString()))))
                     {
                         continue;
                     }
@@ -103,8 +108,8 @@ public class TomeListener implements Listener
                     pi.setItemInHand(null);
                     ItemStack item = plugin.dropsAPI.getItem(tool);
                     while ((item == null)
-                            || item.getItemMeta().getDisplayName().contains(
-                                    ChatColor.MAGIC.toString()))
+                            || item.getItemMeta().getDisplayName()
+                                    .contains(ChatColor.MAGIC.toString()))
                     {
                         item = plugin.dropsAPI.getItem(tool);
                     }

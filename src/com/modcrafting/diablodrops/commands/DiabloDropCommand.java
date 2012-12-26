@@ -81,7 +81,7 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("tome")
                         || args[0].equalsIgnoreCase("book"))
                 {
-                       pi.addItem(new IdentifyTome());
+                    pi.addItem(new IdentifyTome());
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a tome.");
                     player.updateInventory();
@@ -148,7 +148,7 @@ public class DiabloDropCommand implements CommandExecutor
                         String name = combineSplit(2, args, " ");
                         name = ChatColor.translateAlternateColorCodes(
                                 "&".toCharArray()[0], name);
-                        
+
                         meta.setDisplayName(name);
                         tool.setItemMeta(meta);
                         player.sendMessage(ChatColor.GREEN
@@ -162,8 +162,8 @@ public class DiabloDropCommand implements CommandExecutor
                             if ((args.length == 3)
                                     && args[2].equalsIgnoreCase("clear"))
                             {
-                            	for(Enchantment e: Enchantment.values())
-                            		tool.getItemMeta().removeEnchant(e);
+                                for (Enchantment e : Enchantment.values())
+                                    tool.getItemMeta().removeEnchant(e);
                                 player.sendMessage(ChatColor.GREEN
                                         + "Cleared the enchantments for the item!");
                                 return true;
@@ -293,7 +293,8 @@ public class DiabloDropCommand implements CommandExecutor
                             sb.append("\n");
                             for (ItemStack tool : plugin.custom)
                             {
-                                sb.append(tool.getItemMeta().getDisplayName() + " ");
+                                sb.append(tool.getItemMeta().getDisplayName()
+                                        + " ");
                             }
                             sb.append("\n");
                             sb.append("-----ArmorSet-----");

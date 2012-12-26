@@ -204,11 +204,13 @@ public class DropsAPI
      */
     public ItemStack getCustomItem(final String name)
     {
-        for (ItemStack t : plugin.custom){
-        	ItemMeta meta = t.getItemMeta();
-            if (ChatColor.stripColor(meta.getDisplayName()).equalsIgnoreCase(name))
+        for (ItemStack t : plugin.custom)
+        {
+            ItemMeta meta = t.getItemMeta();
+            if (ChatColor.stripColor(meta.getDisplayName()).equalsIgnoreCase(
+                    name))
             {
-               return t;
+                return t;
             }
         }
         return null;
@@ -321,12 +323,12 @@ public class DropsAPI
         }
         ItemMeta tool = ci.getItemMeta();
         tool.setLore(tier.getLore());
-    	List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
         if (plugin.config.getBoolean("SocketItem.Enabled", true)
                 && (plugin.gen.nextInt(100) <= plugin.config.getInt(
                         "SocketItem.Chance", 5)))
         {
-        	list.add(colorPicker() + "(Socket)");
+            list.add(colorPicker() + "(Socket)");
             tool.setLore(list);
             ci.setItemMeta(tool);
             return ci;
@@ -341,11 +343,11 @@ public class DropsAPI
                     list.add(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
                     tool.setLore(list);
-                    
+
                 }
                 else if (plugin.drop.isTool(mat))
                 {
-                	list.add(plugin.offenselore.get(plugin.gen
+                    list.add(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
                     tool.setLore(list);
                 }
@@ -550,7 +552,7 @@ public class DropsAPI
             {
                 list.add(s);
             }
-        
+
         boolean safe = plugin.config.getBoolean("SafeEnchant.Enabled", true);
         if (safe)
         {
@@ -610,12 +612,12 @@ public class DropsAPI
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
                 if (plugin.drop.isArmor(mat))
                 {
-                	list.add(plugin.defenselore.get(plugin.gen
+                    list.add(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
                 }
                 else if (plugin.drop.isTool(mat))
                 {
-                	list.add(plugin.offenselore.get(plugin.gen
+                    list.add(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
                 }
         }
@@ -748,12 +750,12 @@ public class DropsAPI
             for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
                 if (plugin.drop.isArmor(mat))
                 {
-                	list.add(plugin.defenselore.get(plugin.gen
+                    list.add(plugin.defenselore.get(plugin.gen
                             .nextInt(plugin.defenselore.size())));
                 }
                 else if (plugin.drop.isTool(mat))
                 {
-                	list.add(plugin.offenselore.get(plugin.gen
+                    list.add(plugin.offenselore.get(plugin.gen
                             .nextInt(plugin.offenselore.size())));
                 }
         }
@@ -857,10 +859,10 @@ public class DropsAPI
      *            Line replacing toReplace
      * @return Tool with new lore
      */
-    public ItemStack replaceLore(final ItemStack tool,
-            final String toReplace, final String replaceWith)
+    public ItemStack replaceLore(final ItemStack tool, final String toReplace,
+            final String replaceWith)
     {
-    	ItemMeta meta = tool.getItemMeta();
+        ItemMeta meta = tool.getItemMeta();
         List<String> loreList = meta.getLore();
         if ((loreList == null) || loreList.isEmpty())
             return tool;

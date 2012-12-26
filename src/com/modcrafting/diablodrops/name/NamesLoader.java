@@ -100,20 +100,20 @@ public class NamesLoader
      * @param name
      *            Name of the file to write
      */
-    public void writeDefault(final String name,boolean overwrite)
+    public void writeDefault(final String name, boolean overwrite)
     {
         File actual = new File(dataFolder, name);
         if (name.contains(".jar"))
         {
             actual = new File(dataFolder.getParent(), name);
         }
-        if (!actual.exists()||overwrite)
+        if (!actual.exists() || overwrite)
         {
             try
             {
                 InputStream input = this.getClass().getResourceAsStream(
                         "/" + name);
-                FileOutputStream output = new FileOutputStream(actual,false);
+                FileOutputStream output = new FileOutputStream(actual, false);
                 byte[] buf = new byte[1024];
                 int length = 0;
                 while ((length = input.read(buf)) > 0)

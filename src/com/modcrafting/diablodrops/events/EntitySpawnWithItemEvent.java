@@ -30,8 +30,7 @@ public class EntitySpawnWithItemEvent extends Event implements Cancellable
         this.setItems(new ArrayList<ItemStack>());
     }
 
-    public EntitySpawnWithItemEvent(LivingEntity entity,
-            List<ItemStack> items)
+    public EntitySpawnWithItemEvent(LivingEntity entity, List<ItemStack> items)
     {
         this.entity = entity;
         setItems(items);

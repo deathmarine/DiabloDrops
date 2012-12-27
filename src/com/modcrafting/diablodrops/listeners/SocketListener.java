@@ -43,6 +43,8 @@ public class SocketListener implements Listener
                         .equals(Material.matchMaterial(name)))
                 {
                     ItemStack fuel = event.getFuel();
+                    if (fuel == null)
+                        continue;
                     ItemMeta meta;
                     if (fuel.hasItemMeta())
                     {

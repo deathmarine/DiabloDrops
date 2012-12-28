@@ -57,15 +57,21 @@ public class SocketListener implements Listener
                     }
                     if (meta.getDisplayName() != null)
                     {
-                        ItemMeta tismeta = tis.getItemMeta();
+                        ItemMeta tismeta;
+                        if (tis.hasItemMeta())
+                            tismeta = tis.getItemMeta();
+                        else
+                            tismeta = plugin.getServer().getItemFactory()
+                                    .getItemMeta(tis.getType());
                         boolean test = false;
                         String toReplace = null;
-                        for (String t : tismeta.getLore())
-                            if (t.contains("(Socket)"))
-                            {
-                                test = true;
-                                toReplace = t;
-                            }
+                        if (tismeta.hasLore())
+                            for (String t : tismeta.getLore())
+                                if (t.contains("(Socket)"))
+                                {
+                                    test = true;
+                                    toReplace = t;
+                                }
                         if (toReplace != null)
                             if ((meta.getDisplayName().contains("Socket") || fuel
                                     .getType().equals(Material.SKULL_ITEM))

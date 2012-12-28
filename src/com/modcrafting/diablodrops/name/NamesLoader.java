@@ -54,7 +54,7 @@ public class NamesLoader
         }
         catch (Exception e)
         {
-            if (plugin.debug)
+            if (plugin.getDebug())
             {
                 plugin.log.warning(e.getMessage());
             }
@@ -87,7 +87,7 @@ public class NamesLoader
         }
         catch (Exception e)
         {
-            if (plugin.debug)
+            if (plugin.getDebug())
             {
                 plugin.log.warning(e.getMessage());
             }
@@ -125,7 +125,7 @@ public class NamesLoader
             }
             catch (Exception e)
             {
-                if (plugin.debug)
+                if (plugin.getDebug())
                 {
                     plugin.log.warning(e.getMessage());
                 }

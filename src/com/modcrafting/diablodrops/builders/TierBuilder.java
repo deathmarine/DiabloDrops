@@ -33,14 +33,14 @@ public class TierBuilder
             }
             catch (Exception e)
             {
-                if (plugin.debug)
+                if (plugin.getDebug())
                     plugin.log.warning(e.getMessage());
             }
         for (String name : cs.getKeys(false))
         {
             int amt = cs.getInt(name + ".Enchantments.Amt");
             int lvl = cs.getInt(name + ".Enchantments.Levels");
-            int chance = cs.getInt(name + ".Chance");
+            double chance = cs.getDouble(name + ".Chance");
             String color = cs.getString(name + ".Color");
             List<Material> l = new ArrayList<Material>();
             for (String s : cs.getStringList(name + ".Materials"))
@@ -61,7 +61,7 @@ public class TierBuilder
                     lore.add(ChatColor.translateAlternateColorCodes('&', s));
             plugin.tiers.add(new Tier(name, ChatColor.valueOf(color
                     .toUpperCase()), Math.abs(amt), Math.abs(lvl), Math
-                    .abs(chance), l, lore));
+                    .abs((int) (chance*100)), l, lore));
         }
     }
 }

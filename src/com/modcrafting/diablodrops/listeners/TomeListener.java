@@ -78,7 +78,7 @@ public class TomeListener implements Listener
                 {
                     ItemStack tool = itis.next();
                     if ((tool == null)
-                            || !plugin.dropsAPI.canBeItem(tool.getType()))
+                            || !plugin.getDropAPI().canBeItem(tool.getType()))
                     {
                         continue;
                     }
@@ -115,14 +115,14 @@ public class TomeListener implements Listener
                         return;
                     }
                     pi.setItemInHand(null);
-                    ItemStack item = plugin.dropsAPI.getItem(tool);
+                    ItemStack item = plugin.getDropAPI().getItem(tool);
                     while ((item == null)
                             || !item.hasItemMeta()
                             || !item.getItemMeta().hasDisplayName()
                             || item.getItemMeta().getDisplayName()
                                     .contains(ChatColor.MAGIC.toString()))
                     {
-                        item = plugin.dropsAPI.getItem(tool);
+                        item = plugin.getDropAPI().getItem(tool);
                     }
                     pi.removeItem(tool);
                     pi.addItem(item);

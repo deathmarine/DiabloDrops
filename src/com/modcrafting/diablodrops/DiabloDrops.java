@@ -45,9 +45,6 @@ import com.modcrafting.diablodrops.tier.Tier;
 
 public class DiabloDrops extends JavaPlugin
 {
-    public boolean debug;
-    public Random gen = new Random();
-    public ItemAPI drop;
     public List<String> prefix = new ArrayList<String>();
     public List<String> suffix = new ArrayList<String>();
     public HashMap<Material, List<String>> hmprefix = new HashMap<Material, List<String>>();
@@ -59,12 +56,16 @@ public class DiabloDrops extends JavaPlugin
     public List<String> defenselore = new ArrayList<String>();
     public List<String> offenselore = new ArrayList<String>();
     public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
+    
+    private boolean debug;
+    private Random gen = new Random();
+    private ItemAPI drop;
     private NamesLoader nameLoader;
-    public FileConfiguration config;
-    public DropsAPI dropsAPI;
-    public SetsAPI setsAPI;
-    public Integer build;
-
+    private DropsAPI dropsAPI;
+    private SetsAPI setsAPI;
+    private Integer build;
+    private Settings settings;
+    
     private static DiabloDrops instance;
 
     /**
@@ -123,7 +124,8 @@ public class DiabloDrops extends JavaPlugin
         nameLoader.writeDefault("suffix.txt", false);
         nameLoader.writeDefault("defenselore.txt", false);
         nameLoader.writeDefault("offenselore.txt", false);
-        config = getConfig();
+        FileConfiguration config = getConfig();
+        settings = new Settings(config);
         if (config.getBoolean("Display.ItemMaterialExtras", false))
         {
             File loc = new File(getDataFolder(), "/NamesPrefix/");
@@ -261,6 +263,25 @@ public class DiabloDrops extends JavaPlugin
                         }
                     }, 0, 2400);
         }
+    }
+    
+    public Settings getSettings(){
+    	return settings;
+    }
+    public boolean getDebug(){
+    	return debug;
+    }
+    public ItemAPI getItemAPI(){
+    	return drop;
+    }
+    public DropsAPI getDropAPI(){
+    	return dropsAPI;
+    }
+    public SetsAPI getSetAPI(){
+    	return setsAPI;
+    }
+    public Random getSingleRandom(){
+    	return gen;
     }
 
 }

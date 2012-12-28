@@ -1,7 +1,6 @@
 package com.modcrafting.diablodrops.sets;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
@@ -14,13 +13,11 @@ import com.modcrafting.diablodrops.DiabloDrops;
 
 public class SetsAPI
 {
-    private final Random gen;
     private final DiabloDrops plugin;
 
     public SetsAPI(final DiabloDrops instance)
     {
         plugin = instance;
-        gen = plugin.gen;
     }
 
     /**
@@ -38,11 +35,6 @@ public class SetsAPI
                 return as;
         }
         return null;
-    }
-
-    public Random getGen()
-    {
-        return gen;
     }
 
     /**

@@ -67,10 +67,10 @@ public class DiabloDropCommand implements CommandExecutor
         switch (args.length)
         {
             case 0:
-                ItemStack ci = plugin.dropsAPI.getItem();
+                ItemStack ci = plugin.getDropAPI().getItem();
                 while (ci == null)
                 {
-                    ci = plugin.dropsAPI.getItem();
+                    ci = plugin.getDropAPI().getItem();
                 }
                 pi.addItem(ci);
                 player.updateInventory();
@@ -90,10 +90,10 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("socket")
                         || args[0].equalsIgnoreCase("socketitem"))
                 {
-                    List<String> l = plugin.config
+                    List<String> l = plugin.getConfig()
                             .getStringList("SocketItem.Items");
                     pi.addItem(new Socket(Material.valueOf(l.get(
-                            plugin.gen.nextInt(l.size())).toUpperCase())));
+                            plugin.getSingleRandom().nextInt(l.size())).toUpperCase())));
                     player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a SocketItem.");
@@ -101,7 +101,7 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("custom"))
                 {
-                    pi.addItem(plugin.custom.get(plugin.gen
+                    pi.addItem(plugin.custom.get(plugin.getSingleRandom()
                             .nextInt(plugin.custom.size())));
                     player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
@@ -184,7 +184,7 @@ public class DiabloDropCommand implements CommandExecutor
                             }
                             catch (NumberFormatException nfe)
                             {
-                                if (plugin.debug)
+                                if (plugin.getDebug())
                                 {
                                     plugin.log.warning(nfe.getMessage());
                                 }
@@ -236,7 +236,7 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("repair"))
                 {
-                    if (plugin.dropsAPI.canBeItem(player.getItemInHand()
+                    if (plugin.getDropAPI().canBeItem(player.getItemInHand()
                             .getType()))
                     {
                         player.getItemInHand().setDurability((short) 0);
@@ -367,11 +367,11 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("tier"))
                 {
-                    Tier tier = plugin.dropsAPI.getTier(args[1]);
-                    ItemStack ci2 = plugin.dropsAPI.getItem(tier);
+                    Tier tier = plugin.getDropAPI().getTier(args[1]);
+                    ItemStack ci2 = plugin.getDropAPI().getItem(tier);
                     while (ci2 == null)
                     {
-                        ci2 = plugin.dropsAPI.getItem(tier);
+                        ci2 = plugin.getDropAPI().getItem(tier);
                     }
                     pi.addItem(ci2);
                     player.updateInventory();
@@ -390,10 +390,10 @@ public class DiabloDropCommand implements CommandExecutor
                     }
                     return true;
                 }
-                ItemStack ci2 = plugin.dropsAPI.getItem();
+                ItemStack ci2 = plugin.getDropAPI().getItem();
                 while (ci2 == null)
                 {
-                    ci2 = plugin.dropsAPI.getItem();
+                    ci2 = plugin.getDropAPI().getItem();
                 }
                 pi.addItem(ci2);
                 player.updateInventory();

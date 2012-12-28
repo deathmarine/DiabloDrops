@@ -35,7 +35,7 @@ public class MobListener implements Listener
             Monster monster = (Monster) event.getEntity();
             Location loc = monster.getLocation();
             if (!plugin.worlds.contains(loc.getWorld().getName())
-                    && plugin.config.getBoolean("Worlds.Enabled", false))
+                    && plugin.getConfig().getBoolean("Worlds.Enabled", false))
                 return;
 
             EntityDropItemEvent edie = new EntityDropItemEvent(
@@ -63,33 +63,33 @@ public class MobListener implements Listener
         if (!(entity instanceof Monster))
             return;
         if ((plugin.worlds.size() > 0)
-                && plugin.config.getBoolean("Worlds.Enabled", false)
+                && plugin.getConfig().getBoolean("Worlds.Enabled", false)
                 && !plugin.worlds.contains(entity.getLocation().getWorld()
                         .getName().toLowerCase()))
             return;
-        if (plugin.config.getBoolean("Reason.Spawner", true)
+        if (plugin.getConfig().getBoolean("Reason.Spawner", true)
                 && event.getSpawnReason().equals(SpawnReason.SPAWNER))
             return;
-        if (plugin.config.getBoolean("Reason.Egg", true)
+        if (plugin.getConfig().getBoolean("Reason.Egg", true)
                 && (event.getSpawnReason().equals(SpawnReason.EGG) || event
                         .getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
             return;
-        Integer random = plugin.gen.nextInt(100) + 1;
+        Integer random = plugin.getSingleRandom().nextInt(100) + 1;
         if ((entity instanceof Monster)
-                && (plugin.config.getInt("Percentages.ChancePerSpawn", 9) >= random))
+                && (plugin.getConfig().getInt("Percentages.ChancePerSpawn", 9) >= random))
         {
             List<ItemStack> items = new ArrayList<ItemStack>();
-            for (int i = 0; i < (plugin.gen.nextInt(5) + 1); i++)
+            for (int i = 0; i < (plugin.getSingleRandom().nextInt(5) + 1); i++)
             {
-                ItemStack ci = plugin.dropsAPI.getItem();
+                ItemStack ci = plugin.getDropAPI().getItem();
                 while (ci == null)
                 {
-                    ci = plugin.dropsAPI.getItem();
+                    ci = plugin.getDropAPI().getItem();
                 }
-                if (plugin.config.getBoolean("Custom.Only", false)
-                        && plugin.config.getBoolean("Custom.Enabled", true))
+                if (plugin.getConfig().getBoolean("Custom.Only", false)
+                        && plugin.getConfig().getBoolean("Custom.Enabled", true))
                 {
-                    ci = plugin.custom.get(plugin.gen.nextInt(plugin.custom
+                    ci = plugin.custom.get(plugin.getSingleRandom().nextInt(plugin.custom
                             .size()));
                 }
                 if (ci != null)
@@ -106,22 +106,22 @@ public class MobListener implements Listener
             for (ItemStack cis : eswi.getItems())
                 if (cis != null)
                 {
-                    if (plugin.drop.isHelmet(cis.getType()))
+                    if (plugin.getItemAPI().isHelmet(cis.getType()))
                     {
                         entity.getEquipment().setHelmet(cis);
                         entity.getEquipment().setHelmetDropChance(2.0F);
                     }
-                    else if (plugin.drop.isChestPlate(cis.getType()))
+                    else if (plugin.getItemAPI().isChestPlate(cis.getType()))
                     {
                         entity.getEquipment().setChestplate(cis);
                         entity.getEquipment().setChestplateDropChance(2.0F);
                     }
-                    else if (plugin.drop.isLeggings(cis.getType()))
+                    else if (plugin.getItemAPI().isLeggings(cis.getType()))
                     {
                         entity.getEquipment().setLeggings(cis);
                         entity.getEquipment().setLeggingsDropChance(2.0F);
                     }
-                    else if (plugin.drop.isBoots(cis.getType()))
+                    else if (plugin.getItemAPI().isBoots(cis.getType()))
                     {
                         entity.getEquipment().setBoots(cis);
                         entity.getEquipment().setLeggingsDropChance(2.0F);

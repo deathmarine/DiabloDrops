@@ -35,10 +35,10 @@ public class SocketListener implements Listener
     {
         Furnace furn = (Furnace) event.getBlock().getState();
         ItemStack tis = furn.getInventory().getSmelting();
-        if (plugin.drop.isArmor(tis.getType())
-                || plugin.drop.isTool(tis.getType()))
+        if (plugin.getItemAPI().isArmor(tis.getType())
+                || plugin.getItemAPI().isTool(tis.getType()))
         {
-            for (String name : plugin.config.getStringList("SocketItem.Items"))
+            for (String name : plugin.getConfig().getStringList("SocketItem.Items"))
                 if (event.getFuel().getType()
                         .equals(Material.matchMaterial(name)))
                 {
@@ -136,7 +136,7 @@ public class SocketListener implements Listener
     public void onSmeltSocket(final FurnaceSmeltEvent event)
     {
         if (!plugin.furnanceMap.containsKey(event.getBlock())
-                && !plugin.drop.isTool(event.getResult().getType()))
+                && !plugin.getItemAPI().isTool(event.getResult().getType()))
             return;
         ItemStack is = plugin.furnanceMap.remove(event.getBlock());
         Material fuel = is.getType();
@@ -158,8 +158,8 @@ public class SocketListener implements Listener
             return;
         }
 
-        int eni = plugin.config.getInt("SocketItem.EnhanceBy", 1);
-        int ene = plugin.config.getInt("SocketItem.EnhanceMax", 10);
+        int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
+        int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
         for (Enchantment ench : oldtool.getEnchantments().keySet())
         {
             int il = oldtool.getEnchantments().get(ench);
@@ -219,20 +219,20 @@ public class SocketListener implements Listener
             meta.setDisplayName(metaold.getDisplayName());
         }
         List<String> list = new ArrayList<String>();
-        if (plugin.config.getBoolean("Socket.Lore", true))
+        if (plugin.getConfig().getBoolean("Socket.Lore", true))
         {
-            for (int i = 0; i < plugin.config.getInt("Lore.EnhanceAmount", 2); i++)
+            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount", 2); i++)
             {
-                if (plugin.drop.isArmor(oldtool.getType()))
+                if (plugin.getItemAPI().isArmor(oldtool.getType()))
                 {
                     list.add(fuelColor
-                            + plugin.defenselore.get(plugin.gen
+                            + plugin.defenselore.get(plugin.getSingleRandom()
                                     .nextInt(plugin.defenselore.size())));
                 }
-                else if (plugin.drop.isTool(oldtool.getType()))
+                else if (plugin.getItemAPI().isTool(oldtool.getType()))
                 {
                     list.add(fuelColor
-                            + plugin.offenselore.get(plugin.gen
+                            + plugin.offenselore.get(plugin.getSingleRandom()
                                     .nextInt(plugin.offenselore.size())));
                 }
             }

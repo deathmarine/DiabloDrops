@@ -82,8 +82,17 @@ public class TomeListener implements Listener
                     {
                         continue;
                     }
-                    ItemMeta meta = tool.getItemMeta();
-                    String name = meta.getDisplayName();
+                    ItemMeta meta;
+                    if (tool.hasItemMeta())
+                        meta = tool.getItemMeta();
+                    else
+                        meta = plugin.getServer().getItemFactory()
+                                .getItemMeta(tool.getType());
+                    String name;
+                    if (meta.hasDisplayName())
+                        name = meta.getDisplayName();
+                    else
+                        name = tool.getType().name();
                     if ((ChatColor.getLastColors(name) == null || (!ChatColor
                             .getLastColors(name).equalsIgnoreCase(
                                     ChatColor.MAGIC.name()) && !ChatColor
@@ -108,6 +117,8 @@ public class TomeListener implements Listener
                     pi.setItemInHand(null);
                     ItemStack item = plugin.dropsAPI.getItem(tool);
                     while ((item == null)
+                            || !item.hasItemMeta()
+                            || !item.getItemMeta().hasDisplayName()
                             || item.getItemMeta().getDisplayName()
                                     .contains(ChatColor.MAGIC.toString()))
                     {

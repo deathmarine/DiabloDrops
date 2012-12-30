@@ -36,7 +36,7 @@ public class Socket extends ItemStack
     {
         super(mat);
         ChatColor color = null;
-        switch (DiabloDrops.getInstance().gen.nextInt(3))
+        switch (DiabloDrops.getInstance().getSingleRandom().nextInt(3))
         {
             case 1:
                 color = ChatColor.RED;
@@ -56,19 +56,19 @@ public class Socket extends ItemStack
         if (mat.equals(Material.SKULL_ITEM))
         {
             SkullMeta sk = (SkullMeta) meta;
-            SkullType type = SkullType.values()[DiabloDrops.getInstance().gen
+            SkullType type = SkullType.values()[DiabloDrops.getInstance().getSingleRandom()
                     .nextInt(SkullType.values().length)];
             if (type.equals(SkullType.PLAYER))
             {
                 if (Bukkit.getServer().getOfflinePlayers().length > 0)
                 {
                     sk.setOwner(Bukkit.getServer().getOfflinePlayers()[DiabloDrops
-                            .getInstance().gen.nextInt(Bukkit.getServer()
+                            .getInstance().getSingleRandom().nextInt(Bukkit.getServer()
                             .getOfflinePlayers().length)].getName());
                 }
                 else
                 {
-                    if (DiabloDrops.getInstance().gen.nextBoolean())
+                    if (DiabloDrops.getInstance().getSingleRandom().nextBoolean())
                     {
                         sk.setOwner("deathmarin");
                     }

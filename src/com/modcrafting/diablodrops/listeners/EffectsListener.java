@@ -26,7 +26,7 @@ public class EffectsListener implements Listener
             final EntityDamageByEntityEvent event)
     {
         if ((plugin.worlds.size() > 0)
-                && plugin.config.getBoolean("Worlds.Enabled", false)
+                && plugin.getConfig().getBoolean("Worlds.Enabled", false)
                 && !plugin.worlds.contains(event.getEntity().getLocation()
                         .getWorld().getName().toLowerCase()))
             return;
@@ -53,7 +53,7 @@ public class EffectsListener implements Listener
     public void onDiabloMonsterDamageEvent(final EntityDamageEvent event)
     {
         if ((plugin.worlds.size() > 0)
-                && plugin.config.getBoolean("Worlds.Enabled", false)
+                && plugin.getConfig().getBoolean("Worlds.Enabled", false)
                 && !plugin.worlds.contains(event.getEntity().getLocation()
                         .getWorld().getName().toLowerCase()))
             return;

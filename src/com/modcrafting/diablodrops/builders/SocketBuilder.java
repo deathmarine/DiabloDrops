@@ -22,10 +22,10 @@ public class SocketBuilder
     public void build()
     {
         // Catch on FurnaceSmeltEvent
-        List<String> l = plugin.config.getStringList("SocketItem.Items");
+        List<String> l = plugin.getConfig().getStringList("SocketItem.Items");
         for (String name : l)
         {
-            for (Material mat : plugin.drop.allItems())
+            for (Material mat : plugin.getItemAPI().allItems())
             {
                 FurnaceRecipe recipe = new FurnaceRecipe(new ItemStack(mat),
                         Material.valueOf(name.toUpperCase()));

@@ -32,7 +32,7 @@ public class ArmorSetBuilder
             }
             catch (Exception e)
             {
-                if (plugin.debug)
+                if (plugin.getDebug())
                     plugin.log.warning(e.getMessage());
             }
         }

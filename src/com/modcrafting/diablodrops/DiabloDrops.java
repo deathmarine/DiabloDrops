@@ -118,7 +118,6 @@ public class DiabloDrops extends JavaPlugin
         nameLoader.writeDefault("custom.yml", false);
         nameLoader.writeDefault("tier.yml", false);
         nameLoader.writeDefault("set.yml", false);
-        nameLoader.writeDefault("ruins.yml", false);
         nameLoader.writeDefault("prefix.txt", false);
         nameLoader.writeDefault("suffix.txt", false);
         nameLoader.writeDefault("defenselore.txt", false);

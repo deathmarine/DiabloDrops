@@ -303,9 +303,8 @@ public class ChunkListener implements Listener
             allowedTypes.add(Material.STONE);
         }
         Block blockUnder = block.getRelative(BlockFace.DOWN);
-        if (!allowedTypes.contains(blockUnder.getType()))
-            return;
-        addRuin1Pattern(block, size);
+        if (allowedTypes.contains(blockUnder.getType()))
+            addRuin1Pattern(block, size);
     }
 
     private void generateRuin2(final Block block)
@@ -351,79 +350,80 @@ public class ChunkListener implements Listener
             allowedTypes.add(Material.GRASS);
         }
         Block blockUnder = block.getRelative(BlockFace.DOWN);
-        if (!allowedTypes.contains(blockUnder.getType()))
-            return;
-        Block[] blockSurround = new Block[] { block,
-                block.getRelative(BlockFace.NORTH),
-                block.getRelative(BlockFace.NORTH_EAST),
-                block.getRelative(BlockFace.EAST),
-                block.getRelative(BlockFace.SOUTH_EAST),
-                block.getRelative(BlockFace.SOUTH),
-                block.getRelative(BlockFace.SOUTH_WEST),
-                block.getRelative(BlockFace.WEST),
-                block.getRelative(BlockFace.NORTH_WEST) };
-        Block northern = block.getRelative(BlockFace.NORTH).getRelative(
-                BlockFace.NORTH);
-        Block eastern = block.getRelative(BlockFace.EAST).getRelative(
-                BlockFace.EAST);
-        Block southern = block.getRelative(BlockFace.SOUTH).getRelative(
-                BlockFace.SOUTH);
-        Block western = block.getRelative(BlockFace.WEST).getRelative(
-                BlockFace.WEST);
-        Block[] ruinBase = new Block[] {
-                northern,
-                northern.getRelative(BlockFace.EAST),
-                northern.getRelative(BlockFace.EAST)
-                        .getRelative(BlockFace.EAST),
-                northern.getRelative(BlockFace.EAST)
-                        .getRelative(BlockFace.EAST)
-                        .getRelative(BlockFace.SOUTH),
-                eastern,
-                eastern.getRelative(BlockFace.SOUTH),
-                eastern.getRelative(BlockFace.SOUTH).getRelative(
-                        BlockFace.SOUTH),
-                eastern.getRelative(BlockFace.SOUTH)
-                        .getRelative(BlockFace.SOUTH)
-                        .getRelative(BlockFace.WEST),
-                southern,
-                southern.getRelative(BlockFace.WEST),
-                southern.getRelative(BlockFace.WEST)
-                        .getRelative(BlockFace.WEST),
-                southern.getRelative(BlockFace.WEST)
-                        .getRelative(BlockFace.WEST)
-                        .getRelative(BlockFace.NORTH),
-                western,
-                western.getRelative(BlockFace.NORTH),
-                western.getRelative(BlockFace.NORTH).getRelative(
-                        BlockFace.NORTH),
-                western.getRelative(BlockFace.NORTH)
-                        .getRelative(BlockFace.NORTH)
-                        .getRelative(BlockFace.EAST) };
-        for (Block b1 : ruinBase)
+        if (allowedTypes.contains(blockUnder.getType()))
         {
-            pillarRuin2(b1, plugin.gen.nextInt(4) + 3, blockType);
-        }
-        for (Block b2 : blockSurround)
-        {
-            b2.getRelative(0, -1, 0).setType(Material.LAVA);
-            for (int i = 2; i < (plugin.gen.nextInt(5) + 2); i++)
+            Block[] blockSurround = new Block[] { block,
+                    block.getRelative(BlockFace.NORTH),
+                    block.getRelative(BlockFace.NORTH_EAST),
+                    block.getRelative(BlockFace.EAST),
+                    block.getRelative(BlockFace.SOUTH_EAST),
+                    block.getRelative(BlockFace.SOUTH),
+                    block.getRelative(BlockFace.SOUTH_WEST),
+                    block.getRelative(BlockFace.WEST),
+                    block.getRelative(BlockFace.NORTH_WEST) };
+            Block northern = block.getRelative(BlockFace.NORTH).getRelative(
+                    BlockFace.NORTH);
+            Block eastern = block.getRelative(BlockFace.EAST).getRelative(
+                    BlockFace.EAST);
+            Block southern = block.getRelative(BlockFace.SOUTH).getRelative(
+                    BlockFace.SOUTH);
+            Block western = block.getRelative(BlockFace.WEST).getRelative(
+                    BlockFace.WEST);
+            Block[] ruinBase = new Block[] {
+                    northern,
+                    northern.getRelative(BlockFace.EAST),
+                    northern.getRelative(BlockFace.EAST).getRelative(
+                            BlockFace.EAST),
+                    northern.getRelative(BlockFace.EAST)
+                            .getRelative(BlockFace.EAST)
+                            .getRelative(BlockFace.SOUTH),
+                    eastern,
+                    eastern.getRelative(BlockFace.SOUTH),
+                    eastern.getRelative(BlockFace.SOUTH).getRelative(
+                            BlockFace.SOUTH),
+                    eastern.getRelative(BlockFace.SOUTH)
+                            .getRelative(BlockFace.SOUTH)
+                            .getRelative(BlockFace.WEST),
+                    southern,
+                    southern.getRelative(BlockFace.WEST),
+                    southern.getRelative(BlockFace.WEST).getRelative(
+                            BlockFace.WEST),
+                    southern.getRelative(BlockFace.WEST)
+                            .getRelative(BlockFace.WEST)
+                            .getRelative(BlockFace.NORTH),
+                    western,
+                    western.getRelative(BlockFace.NORTH),
+                    western.getRelative(BlockFace.NORTH).getRelative(
+                            BlockFace.NORTH),
+                    western.getRelative(BlockFace.NORTH)
+                            .getRelative(BlockFace.NORTH)
+                            .getRelative(BlockFace.EAST) };
+            for (Block b1 : ruinBase)
             {
-                b2.getRelative(0, -i, 0).setTypeId(blockType);
+                pillarRuin2(b1, plugin.gen.nextInt(4) + 3, blockType);
             }
-            b2.setType(Material.GLASS);
-            switch (plugin.gen.nextInt(7))
+            for (Block b2 : blockSurround)
             {
-                case 1:
-                    b2.getRelative(0, 1, 0).setType(Material.IRON_BLOCK);
-                    break;
-                case 2:
-                    b2.getRelative(0, 1, 0).setType(Material.GOLD_BLOCK);
-                    break;
-                case 3:
-                    b2.getRelative(0, 1, 0).setType(Material.LAPIS_BLOCK);
-                    break;
-                default:
-                    break;
+                b2.getRelative(0, -1, 0).setType(Material.LAVA);
+                for (int i = 2; i < (plugin.gen.nextInt(5) + 2); i++)
+                {
+                    b2.getRelative(0, -i, 0).setTypeId(blockType);
+                }
+                b2.setType(Material.GLASS);
+                switch (plugin.gen.nextInt(7))
+                {
+                    case 1:
+                        b2.getRelative(0, 1, 0).setType(Material.IRON_BLOCK);
+                        break;
+                    case 2:
+                        b2.getRelative(0, 1, 0).setType(Material.GOLD_BLOCK);
+                        break;
+                    case 3:
+                        b2.getRelative(0, 1, 0).setType(Material.LAPIS_BLOCK);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

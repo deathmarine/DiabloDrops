@@ -56,19 +56,23 @@ public class Socket extends ItemStack
         if (mat.equals(Material.SKULL_ITEM))
         {
             SkullMeta sk = (SkullMeta) meta;
-            SkullType type = SkullType.values()[DiabloDrops.getInstance().getSingleRandom()
-                    .nextInt(SkullType.values().length)];
+            SkullType type = SkullType.values()[DiabloDrops.getInstance()
+                    .getSingleRandom().nextInt(SkullType.values().length)];
             if (type.equals(SkullType.PLAYER))
             {
                 if (Bukkit.getServer().getOfflinePlayers().length > 0)
                 {
                     sk.setOwner(Bukkit.getServer().getOfflinePlayers()[DiabloDrops
-                            .getInstance().getSingleRandom().nextInt(Bukkit.getServer()
-                            .getOfflinePlayers().length)].getName());
+                            .getInstance()
+                            .getSingleRandom()
+                            .nextInt(
+                                    Bukkit.getServer().getOfflinePlayers().length)]
+                            .getName());
                 }
                 else
                 {
-                    if (DiabloDrops.getInstance().getSingleRandom().nextBoolean())
+                    if (DiabloDrops.getInstance().getSingleRandom()
+                            .nextBoolean())
                     {
                         sk.setOwner("deathmarin");
                     }

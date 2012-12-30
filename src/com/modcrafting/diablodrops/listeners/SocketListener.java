@@ -38,7 +38,8 @@ public class SocketListener implements Listener
         if (plugin.getItemAPI().isArmor(tis.getType())
                 || plugin.getItemAPI().isTool(tis.getType()))
         {
-            for (String name : plugin.getConfig().getStringList("SocketItem.Items"))
+            for (String name : plugin.getConfig().getStringList(
+                    "SocketItem.Items"))
                 if (event.getFuel().getType()
                         .equals(Material.matchMaterial(name)))
                 {
@@ -221,7 +222,8 @@ public class SocketListener implements Listener
         List<String> list = new ArrayList<String>();
         if (plugin.getConfig().getBoolean("Socket.Lore", true))
         {
-            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount", 2); i++)
+            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
+                    2); i++)
             {
                 if (plugin.getItemAPI().isArmor(oldtool.getType()))
                 {

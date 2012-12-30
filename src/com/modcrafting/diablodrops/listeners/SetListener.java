@@ -31,10 +31,11 @@ public class SetListener implements Listener
         if (event.getDamager() instanceof Monster
                 && event.getEntity() instanceof LivingEntity)
         {
-            if (plugin.getSetAPI().wearingSet((LivingEntity) event.getDamager()))
+            if (plugin.getSetAPI()
+                    .wearingSet((LivingEntity) event.getDamager()))
             {
-                String sName = plugin.getSetAPI().getNameOfSet((LivingEntity) event
-                        .getDamager());
+                String sName = plugin.getSetAPI().getNameOfSet(
+                        (LivingEntity) event.getDamager());
                 ArmorSet aSet = plugin.getSetAPI().getArmorSet(sName);
                 if (aSet != null)
                 {
@@ -52,8 +53,8 @@ public class SetListener implements Listener
         {
             if (plugin.getSetAPI().wearingSet((Player) event.getDamager()))
             {
-                String sName = plugin.getSetAPI().getNameOfSet((Player) event
-                        .getDamager());
+                String sName = plugin.getSetAPI().getNameOfSet(
+                        (Player) event.getDamager());
                 ArmorSet aSet = plugin.getSetAPI().getArmorSet(sName);
                 if (aSet != null)
                 {
@@ -71,8 +72,8 @@ public class SetListener implements Listener
         {
             if (plugin.getSetAPI().wearingSet((LivingEntity) event.getEntity()))
             {
-                String sName = plugin.getSetAPI().getNameOfSet((LivingEntity) event
-                        .getEntity());
+                String sName = plugin.getSetAPI().getNameOfSet(
+                        (LivingEntity) event.getEntity());
                 ArmorSet aSet = plugin.getSetAPI().getArmorSet(sName);
                 if (aSet != null)
                 {
@@ -91,8 +92,8 @@ public class SetListener implements Listener
         {
             if (plugin.getSetAPI().wearingSet((Player) event.getEntity()))
             {
-                String sName = plugin.getSetAPI().getNameOfSet((Player) event
-                        .getEntity());
+                String sName = plugin.getSetAPI().getNameOfSet(
+                        (Player) event.getEntity());
                 ArmorSet aSet = plugin.getSetAPI().getArmorSet(sName);
                 if (aSet != null)
                 {
@@ -115,8 +116,8 @@ public class SetListener implements Listener
         {
             if (plugin.getSetAPI().wearingSet((LivingEntity) event.getEntity()))
             {
-                String sName = plugin.getSetAPI().getNameOfSet((LivingEntity) event
-                        .getEntity());
+                String sName = plugin.getSetAPI().getNameOfSet(
+                        (LivingEntity) event.getEntity());
                 ArmorSet aSet = plugin.getSetAPI().getArmorSet(sName);
                 if (aSet != null)
                 {
@@ -134,8 +135,8 @@ public class SetListener implements Listener
         {
             if (plugin.getSetAPI().wearingSet((Player) event.getEntity()))
             {
-                String sName = plugin.getSetAPI().getNameOfSet((Player) event
-                        .getEntity());
+                String sName = plugin.getSetAPI().getNameOfSet(
+                        (Player) event.getEntity());
                 ArmorSet aSet = plugin.getSetAPI().getArmorSet(sName);
                 if (aSet != null)
                 {

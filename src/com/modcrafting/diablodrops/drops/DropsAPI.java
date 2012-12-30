@@ -37,7 +37,8 @@ public class DropsAPI
      */
     public boolean canBeItem(final Material material)
     {
-        if (plugin.getItemAPI().isArmor(material) || plugin.getItemAPI().isTool(material))
+        if (plugin.getItemAPI().isArmor(material)
+                || plugin.getItemAPI().isTool(material))
             return true;
         return false;
     }
@@ -150,7 +151,8 @@ public class DropsAPI
                 return;
             Chest chestB = ((Chest) block.getState());
             Inventory chest = chestB.getBlockInventory();
-            for (int i = 0; i < plugin.getSingleRandom().nextInt(chest.getSize()); i++)
+            for (int i = 0; i < plugin.getSingleRandom().nextInt(
+                    chest.getSize()); i++)
             {
                 ItemStack cis = getItem();
                 while (cis == null)
@@ -248,7 +250,8 @@ public class DropsAPI
                 && !tier.getMaterials().contains(material))
         {
             material = tier.getMaterials().get(
-                    plugin.getSingleRandom().nextInt(tier.getMaterials().size()));
+                    plugin.getSingleRandom()
+                            .nextInt(tier.getMaterials().size()));
         }
         int e = tier.getAmount();
         int l = tier.getLevels();
@@ -279,7 +282,8 @@ public class DropsAPI
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
-        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled", true);
+        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled",
+                true);
         if (safe)
         {
             eStack = getEnchantStack(ci);
@@ -292,7 +296,8 @@ public class DropsAPI
             {
                 continue;
             }
-            Enchantment ench = eStack.get(plugin.getSingleRandom().nextInt(size));
+            Enchantment ench = eStack.get(plugin.getSingleRandom()
+                    .nextInt(size));
             if ((lvl != 0) && (ench != null)
                     && !tier.getColor().equals(ChatColor.MAGIC))
                 if (safe)
@@ -323,7 +328,8 @@ public class DropsAPI
         tool.setLore(tier.getLore());
         List<String> list = new ArrayList<String>();
         if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin.getSettings().getSocketChance()))
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getSocketChance()))
         {
             list.add(colorPicker() + "(Socket)");
             tool.setLore(list);
@@ -331,9 +337,11 @@ public class DropsAPI
             return ci;
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin.getSettings().getLoreChance()))
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getLoreChance()))
         {
-            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount", 2); i++)
+            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
+                    2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
                     list.add(plugin.defenselore.get(plugin.getSingleRandom()
@@ -361,20 +369,25 @@ public class DropsAPI
     {
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("IdentifyTome.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin.getSettings().getTomeChance()))
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getTomeChance()))
             return new IdentifyTome();
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("SocketItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin.getSettings().getSocketChance()))
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getSocketChance()))
         {
-            List<String> l = plugin.getConfig().getStringList("SocketItem.Items");
+            List<String> l = plugin.getConfig().getStringList(
+                    "SocketItem.Items");
             return new Socket(Material.valueOf(l.get(
                     plugin.getSingleRandom().nextInt(l.size())).toUpperCase()));
         }
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("Custom.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(100) <= plugin.getSettings().getCustomChance()))
-            return plugin.custom.get(plugin.getSingleRandom().nextInt(plugin.custom.size()));
+                && (plugin.getSingleRandom().nextInt(100) <= plugin
+                        .getSettings().getCustomChance()))
+            return plugin.custom.get(plugin.getSingleRandom().nextInt(
+                    plugin.custom.size()));
         return getItem(dropPicker());
     }
 
@@ -407,7 +420,8 @@ public class DropsAPI
                 list.add(s);
             }
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
-        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled", true);
+        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled",
+                true);
         if (safe)
         {
             eStack = getEnchantStack(tool);
@@ -420,7 +434,8 @@ public class DropsAPI
             {
                 continue;
             }
-            Enchantment ench = eStack.get(plugin.getSingleRandom().nextInt(size));
+            Enchantment ench = eStack.get(plugin.getSingleRandom()
+                    .nextInt(size));
             if ((lvl != 0) && (ench != null)
                     && !tier.getColor().equals(ChatColor.MAGIC))
                 if (safe)
@@ -451,17 +466,20 @@ public class DropsAPI
         meta.setDisplayName(tier.getColor() + name(tool.getType()));
         boolean sock = false;
         if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(100) <= plugin.getSettings().getSocketChance())
+                && (plugin.getSingleRandom().nextInt(100) <= plugin
+                        .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             list.add(colorPicker() + "(Socket)");
             sock = true;
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(100) <= plugin.getSettings().getLoreChance())
+                && (plugin.getSingleRandom().nextInt(100) <= plugin
+                        .getSettings().getLoreChance())
                 && !tier.getColor().equals(ChatColor.MAGIC) && !sock)
         {
-            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount", 2); i++)
+            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
+                    2); i++)
                 if (plugin.getItemAPI().isArmor(tool.getType()))
                 {
                     list.add(plugin.defenselore.get(plugin.getSingleRandom()
@@ -501,7 +519,8 @@ public class DropsAPI
                 && !tier.getMaterials().contains(mat))
         {
             mat = tier.getMaterials().get(
-                    plugin.getSingleRandom().nextInt(tier.getMaterials().size()));
+                    plugin.getSingleRandom()
+                            .nextInt(tier.getMaterials().size()));
         }
         int e = tier.getAmount();
         int l = tier.getLevels();
@@ -544,7 +563,8 @@ public class DropsAPI
                 list.add(s);
             }
 
-        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled", true);
+        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled",
+                true);
         if (safe)
         {
             eStack = getEnchantStack(tool);
@@ -557,7 +577,8 @@ public class DropsAPI
             {
                 continue;
             }
-            Enchantment ench = eStack.get(plugin.getSingleRandom().nextInt(size));
+            Enchantment ench = eStack.get(plugin.getSingleRandom()
+                    .nextInt(size));
             if ((lvl != 0) && (ench != null)
                     && !tier.getColor().equals(ChatColor.MAGIC))
                 if (safe)
@@ -586,7 +607,8 @@ public class DropsAPI
         }
         ItemMeta meta = tool.getItemMeta();
         if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(100) <= plugin.getSettings().getSocketChance())
+                && (plugin.getSingleRandom().nextInt(100) <= plugin
+                        .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             list.add(colorPicker() + "(Socket)");
@@ -595,10 +617,12 @@ public class DropsAPI
             return tool;
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin.getSettings().getLoreChance())
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getLoreChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount", 2); i++)
+            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
+                    2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
                     list.add(plugin.defenselore.get(plugin.getSingleRandom()
@@ -616,7 +640,8 @@ public class DropsAPI
     }
 
     /**
-     * Returns an specific type of ItemStack that was randomly getSingleRandom()erated
+     * Returns an specific type of ItemStack that was randomly
+     * getSingleRandom()erated
      * 
      * @param tier
      *            name
@@ -638,7 +663,8 @@ public class DropsAPI
                 && !tier.getMaterials().contains(mat))
         {
             mat = tier.getMaterials().get(
-                    plugin.getSingleRandom().nextInt(tier.getMaterials().size()));
+                    plugin.getSingleRandom()
+                            .nextInt(tier.getMaterials().size()));
         }
         int e = tier.getAmount();
         int l = tier.getLevels();
@@ -680,7 +706,8 @@ public class DropsAPI
                 list.add(s);
             }
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
-        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled", true);
+        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled",
+                true);
         if (safe)
         {
             eStack = getEnchantStack(ci);
@@ -693,7 +720,8 @@ public class DropsAPI
             {
                 continue;
             }
-            Enchantment ench = eStack.get(plugin.getSingleRandom().nextInt(size));
+            Enchantment ench = eStack.get(plugin.getSingleRandom()
+                    .nextInt(size));
             if ((lvl != 0) && (ench != null)
                     && !tier.getColor().equals(ChatColor.MAGIC))
                 if (safe)
@@ -722,7 +750,8 @@ public class DropsAPI
         }
         ItemMeta meta = tool.getItemMeta();
         if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin.getSettings().getSocketChance())
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             list.add(colorPicker() + "(Socket)");
@@ -731,10 +760,12 @@ public class DropsAPI
             return tool;
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin.getSettings().getLoreChance())
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getLoreChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount", 2); i++)
+            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
+                    2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
                     list.add(plugin.defenselore.get(plugin.getSingleRandom()
@@ -801,8 +832,8 @@ public class DropsAPI
      */
     public String name(final Material material)
     {
-        String template = plugin.getConfig().getString("Display.ItemNameFormat",
-                "%randprefix% %randsuffix%");
+        String template = plugin.getConfig().getString(
+                "Display.ItemNameFormat", "%randprefix% %randsuffix%");
         String prefix = "";
         String suffix = "";
         String matName = material.name();
@@ -820,13 +851,13 @@ public class DropsAPI
                 false);
         if ((prefix.length() < 1) || !t)
         {
-            prefix = plugin.prefix
-                    .get(plugin.getSingleRandom().nextInt(plugin.prefix.size()));
+            prefix = plugin.prefix.get(plugin.getSingleRandom().nextInt(
+                    plugin.prefix.size()));
         }
         if ((suffix.length() < 1) || !t)
         {
-            suffix = plugin.suffix
-                    .get(plugin.getSingleRandom().nextInt(plugin.suffix.size()));
+            suffix = plugin.suffix.get(plugin.getSingleRandom().nextInt(
+                    plugin.suffix.size()));
         }
 
         if (template == null)

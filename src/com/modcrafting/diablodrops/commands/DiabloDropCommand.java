@@ -90,10 +90,11 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("socket")
                         || args[0].equalsIgnoreCase("socketitem"))
                 {
-                    List<String> l = plugin.getConfig()
-                            .getStringList("SocketItem.Items");
+                    List<String> l = plugin.getConfig().getStringList(
+                            "SocketItem.Items");
                     pi.addItem(new Socket(Material.valueOf(l.get(
-                            plugin.getSingleRandom().nextInt(l.size())).toUpperCase())));
+                            plugin.getSingleRandom().nextInt(l.size()))
+                            .toUpperCase())));
                     player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a SocketItem.");
@@ -236,8 +237,8 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("repair"))
                 {
-                    if (plugin.getDropAPI().canBeItem(player.getItemInHand()
-                            .getType()))
+                    if (plugin.getDropAPI().canBeItem(
+                            player.getItemInHand().getType()))
                     {
                         player.getItemInHand().setDurability((short) 0);
                         player.sendMessage(ChatColor.GREEN + "Item repaired.");

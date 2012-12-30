@@ -56,7 +56,7 @@ public class DiabloDrops extends JavaPlugin
     public List<String> defenselore = new ArrayList<String>();
     public List<String> offenselore = new ArrayList<String>();
     public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
-    
+
     private boolean debug;
     private Random gen = new Random();
     private ItemAPI drop;
@@ -65,7 +65,7 @@ public class DiabloDrops extends JavaPlugin
     private SetsAPI setsAPI;
     private Integer build;
     private Settings settings;
-    
+
     private static DiabloDrops instance;
 
     /**
@@ -81,6 +81,36 @@ public class DiabloDrops extends JavaPlugin
     private int id;
 
     public Logger log;
+
+    public boolean getDebug()
+    {
+        return debug;
+    }
+
+    public DropsAPI getDropAPI()
+    {
+        return dropsAPI;
+    }
+
+    public ItemAPI getItemAPI()
+    {
+        return drop;
+    }
+
+    public SetsAPI getSetAPI()
+    {
+        return setsAPI;
+    }
+
+    public Settings getSettings()
+    {
+        return settings;
+    }
+
+    public Random getSingleRandom()
+    {
+        return gen;
+    }
 
     /**
      * Stops all tasks for the plugin.
@@ -262,25 +292,6 @@ public class DiabloDrops extends JavaPlugin
                         }
                     }, 0, 2400);
         }
-    }
-    
-    public Settings getSettings(){
-    	return settings;
-    }
-    public boolean getDebug(){
-    	return debug;
-    }
-    public ItemAPI getItemAPI(){
-    	return drop;
-    }
-    public DropsAPI getDropAPI(){
-    	return dropsAPI;
-    }
-    public SetsAPI getSetAPI(){
-    	return setsAPI;
-    }
-    public Random getSingleRandom(){
-    	return gen;
     }
 
 }

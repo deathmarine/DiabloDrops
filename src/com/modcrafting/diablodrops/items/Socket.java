@@ -1,19 +1,15 @@
 package com.modcrafting.diablodrops.items;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 
-public class Socket extends ItemStack
+public class Socket extends Drop
 {
     public enum SkullType
     {
@@ -32,27 +28,30 @@ public class Socket extends ItemStack
 
     }
 
-    public Socket(final Material mat)
+    private static ChatColor color()
     {
-        super(mat);
-        ChatColor color = null;
         switch (DiabloDrops.getInstance().getSingleRandom().nextInt(3))
         {
             case 1:
-                color = ChatColor.RED;
-                break;
+                return ChatColor.RED;
             case 2:
-                color = ChatColor.BLUE;
-                break;
+                return ChatColor.BLUE;
             default:
-                color = ChatColor.GREEN;
+                return ChatColor.GREEN;
         }
-        ItemMeta meta = getItemMeta();
-        meta.setDisplayName(color + "Socket Enhancement");
-        List<String> list = new ArrayList<String>();
-        list.add(ChatColor.GOLD + "Put in the bottom of a furnace");
-        list.add(ChatColor.GOLD + "with another item in the top");
-        list.add(ChatColor.GOLD + "to add socket enhancements.");
+    }
+
+    public Socket(final Material mat)
+    {
+        super(mat, color(), "Socket Enhancement", ChatColor.GOLD
+                + "Put in the bottom of a furnace", ChatColor.GOLD
+                + "with another item in the top", ChatColor.GOLD
+                + "to add socket enhancements.");
+        ItemMeta meta;
+        if (hasItemMeta())
+            meta = getItemMeta();
+        else
+            meta = Bukkit.getItemFactory().getItemMeta(mat);
         if (mat.equals(Material.SKULL_ITEM))
         {
             SkullMeta sk = (SkullMeta) meta;
@@ -86,7 +85,6 @@ public class Socket extends ItemStack
             md.setData(type.getData());
             setData(md);
         }
-        meta.setLore(list);
         setItemMeta(meta);
     }
 }

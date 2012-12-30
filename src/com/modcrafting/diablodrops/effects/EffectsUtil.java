@@ -1,14 +1,18 @@
 package com.modcrafting.diablodrops.effects;
 
+import java.lang.reflect.Method;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Pig;
@@ -16,6 +20,7 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -333,5 +338,48 @@ public class EffectsUtil
                                 }
                             }, 20L * i);
         }
+    }
+
+    /**
+     * Explodes random firework on location
+     * 
+     * @param location
+     *            to explode
+     */
+    public void playFirework(Location loc)
+    {
+    	Random gen = DiabloDrops.getInstance().getSingleRandom();
+    	try
+    	{
+            Firework fw = (Firework) loc.getWorld().spawn(loc, Firework.class);
+            Method d0 = getMethod(loc.getWorld().getClass(), "getHandle");
+            Method d2 = getMethod(fw.getClass(), "getHandle");
+            Object o3 = d0.invoke(loc.getWorld(), (Object[]) null);
+            Object o4 = d2.invoke(fw, (Object[]) null);
+            Method d1 = getMethod(o3.getClass(), "broadcastEntityEffect");
+            FireworkMeta data = (FireworkMeta) fw.getFireworkMeta();
+            data.addEffect(
+            		FireworkEffect.builder()
+            		.with(FireworkEffect.Type.values()[gen.nextInt(FireworkEffect.Type.values().length)])
+            		.flicker(gen.nextBoolean())
+            		.trail(gen.nextBoolean())
+            		.withColor(Color.fromRGB(gen.nextInt(255), gen.nextInt(255), gen.nextInt(255)))
+            		.withFade(Color.fromRGB(gen.nextInt(255), gen.nextInt(255), gen.nextInt(255)))
+            		.build());
+            fw.setFireworkMeta(data);
+            d1.invoke(o3, new Object[] {o4, (byte) 17});
+            fw.remove();
+    	}
+    	catch(Exception ex)
+    	{
+    		//not a Beta1.4.6R0.2 Server
+    	}
+    }
+    private Method getMethod(Class<?> cl, String method)
+    {
+        for(Method m : cl.getMethods()) 
+        	if(m.getName().equals(method)) 
+        		return m;
+        return null;
     }
 }

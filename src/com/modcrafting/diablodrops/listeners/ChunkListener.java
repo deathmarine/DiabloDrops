@@ -200,7 +200,8 @@ public class ChunkListener implements Listener
                 if (!n.getType().equals(Material.STATIONARY_WATER)
                         && !n.getType().equals(Material.AIR))
                 {
-                    n.setTypeId(mats.get(plugin.getSingleRandom().nextInt(mats.size()))
+                    n.setTypeId(mats.get(
+                            plugin.getSingleRandom().nextInt(mats.size()))
                             .getId());
 
                     if ((i == 0) || (ii == 0) || (i == Math.abs(maxX - minX))
@@ -211,8 +212,9 @@ public class ChunkListener implements Listener
                             Location t = new Location(loc.getWorld(), minX + i,
                                     loc.getY() + iii, minZ + ii);
                             t.getBlock().setTypeId(
-                                    mats.get(plugin.getSingleRandom().nextInt(mats.size()))
-                                            .getId());
+                                    mats.get(
+                                            plugin.getSingleRandom().nextInt(
+                                                    mats.size())).getId());
 
                         }
                     }
@@ -230,8 +232,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.EAST);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
         return block.getLocation();
@@ -556,8 +558,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.NORTH_EAST);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
         return block.getLocation();
@@ -569,8 +571,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.NORTH);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
         return block.getLocation();
@@ -582,8 +584,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.NORTH_WEST);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
         return block.getLocation();
@@ -608,55 +610,61 @@ public class ChunkListener implements Listener
         if (chunk.getWorld().getEnvironment() != Environment.NETHER)
         {
             Block block = chunk.getWorld().getHighestBlockAt(realX, realZ);
-        	switch(plugin.getSingleRandom().nextInt(4)){
-        	case 0:{
-                int size = plugin.getSingleRandom().nextInt(4) + 3;
-                generateRuin1(block, size);
-                RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
-                plugin.getServer().getPluginManager().callEvent(rge);
-                if (rge.isCancelled())
-                    return;
-                block = rge.getChest();
-                block.setType(Material.CHEST);
-                plugin.getDropAPI().fillChest(block, size);
-                break;	
-        	}
-        	case 1:{
-                generateRuin2(block);
-                break;        		
-        	}
-        	case 2:
+            switch (plugin.getSingleRandom().nextInt(4))
             {
-                Block under = block.getRelative(BlockFace.DOWN);
-                Location loc = under.getLocation();
-                if (buildNetherTemple(loc))
+                case 0:
                 {
+                    int size = plugin.getSingleRandom().nextInt(4) + 3;
+                    generateRuin1(block, size);
                     RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
                     plugin.getServer().getPluginManager().callEvent(rge);
                     if (rge.isCancelled())
                         return;
                     block = rge.getChest();
                     block.setType(Material.CHEST);
-                    plugin.getDropAPI().fillChest(block);
+                    plugin.getDropAPI().fillChest(block, size);
+                    break;
                 }
-                break;
+                case 1:
+                {
+                    generateRuin2(block);
+                    break;
+                }
+                case 2:
+                {
+                    Block under = block.getRelative(BlockFace.DOWN);
+                    Location loc = under.getLocation();
+                    if (buildNetherTemple(loc))
+                    {
+                        RuinGenerateEvent rge = new RuinGenerateEvent(chunk,
+                                block);
+                        plugin.getServer().getPluginManager().callEvent(rge);
+                        if (rge.isCancelled())
+                            return;
+                        block = rge.getChest();
+                        block.setType(Material.CHEST);
+                        plugin.getDropAPI().fillChest(block);
+                    }
+                    break;
+                }
+                case 3:
+                {
+                    Block under = block.getRelative(BlockFace.DOWN);
+                    Location loc = under.getLocation();
+                    if (deathRuin(loc))
+                    {
+                        RuinGenerateEvent rge = new RuinGenerateEvent(chunk,
+                                block);
+                        plugin.getServer().getPluginManager().callEvent(rge);
+                        if (rge.isCancelled())
+                            return;
+                        block = rge.getChest();
+                        block.setType(Material.CHEST);
+                        plugin.getDropAPI().fillChest(block);
+                    }
+                    break;
+                }
             }
-        	case 3:{
-                Block under = block.getRelative(BlockFace.DOWN);
-                Location loc = under.getLocation();
-                if (deathRuin(loc))
-                {
-                    RuinGenerateEvent rge = new RuinGenerateEvent(chunk, block);
-                    plugin.getServer().getPluginManager().callEvent(rge);
-                    if (rge.isCancelled())
-                        return;
-                    block = rge.getChest();
-                    block.setType(Material.CHEST);
-                    plugin.getDropAPI().fillChest(block);
-                }
-                break;
-        	}
-        	}
         }
     }
 
@@ -668,8 +676,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.UP);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
     }
@@ -685,7 +693,8 @@ public class ChunkListener implements Listener
         }
         for (Block b : blocks)
         {
-            b.setTypeIdAndData(type, (byte) plugin.getSingleRandom().nextInt(4), false);
+            b.setTypeIdAndData(type,
+                    (byte) plugin.getSingleRandom().nextInt(4), false);
         }
     }
 
@@ -722,8 +731,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.SOUTH_EAST);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
         return block.getLocation();
@@ -735,8 +744,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.SOUTH);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
         return block.getLocation();
@@ -748,8 +757,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.SOUTH_WEST);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
         return block.getLocation();
@@ -761,8 +770,8 @@ public class ChunkListener implements Listener
         for (int i = 0; i < size; i++)
         {
             Block next = block.getRelative(BlockFace.WEST);
-            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom().nextInt(4),
-                    false);
+            next.setTypeIdAndData(blockType, (byte) plugin.getSingleRandom()
+                    .nextInt(4), false);
             block = next;
         }
         return block.getLocation();

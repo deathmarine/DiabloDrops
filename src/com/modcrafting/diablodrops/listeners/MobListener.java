@@ -87,10 +87,11 @@ public class MobListener implements Listener
                     ci = plugin.getDropAPI().getItem();
                 }
                 if (plugin.getConfig().getBoolean("Custom.Only", false)
-                        && plugin.getConfig().getBoolean("Custom.Enabled", true))
+                        && plugin.getConfig()
+                                .getBoolean("Custom.Enabled", true))
                 {
-                    ci = plugin.custom.get(plugin.getSingleRandom().nextInt(plugin.custom
-                            .size()));
+                    ci = plugin.custom.get(plugin.getSingleRandom().nextInt(
+                            plugin.custom.size()));
                 }
                 if (ci != null)
                 {

@@ -74,9 +74,10 @@ public class MobListener implements Listener
                 && (event.getSpawnReason().equals(SpawnReason.EGG) || event
                         .getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
             return;
-        Integer random = plugin.getSingleRandom().nextInt(100) + 1;
+        Integer random = plugin.getSingleRandom().nextInt(10000) + 1;
         if ((entity instanceof Monster)
-                && (plugin.getConfig().getInt("Percentages.ChancePerSpawn", 9) >= random))
+                && (plugin.getConfig()
+                        .getInt("Percentages.ChancePerSpawn", 300) >= random))
         {
             List<ItemStack> items = new ArrayList<ItemStack>();
             for (int i = 0; i < (plugin.getSingleRandom().nextInt(5) + 1); i++)

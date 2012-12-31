@@ -8,6 +8,7 @@ import org.bukkit.Material;
 public class Tier
 {
     private final String name;
+    private final String displayName;
     private final ChatColor color;
     private final int amt;
     private final int lvl;
@@ -17,7 +18,7 @@ public class Tier
 
     public Tier(final String name, final ChatColor color, final int amt,
             final int lvl, final int chance, final List<Material> l,
-            final List<String> lore)
+            final List<String> lore, final String displayName)
     {
         this.name = name;
         this.color = color;
@@ -26,6 +27,10 @@ public class Tier
         this.chance = chance;
         this.l = l;
         this.lore = lore;
+        if (displayName != null)
+            this.displayName = displayName;
+        else
+            this.displayName = name;
     }
 
     /**
@@ -56,6 +61,13 @@ public class Tier
     public ChatColor getColor()
     {
         return color;
+    }
+
+    public String getDisplayName()
+    {
+        if (displayName != null)
+            return displayName;
+        return name;
     }
 
     /**

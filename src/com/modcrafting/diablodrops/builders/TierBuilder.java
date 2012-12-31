@@ -61,7 +61,8 @@ public class TierBuilder
                     lore.add(ChatColor.translateAlternateColorCodes('&', s));
             plugin.tiers.add(new Tier(name, ChatColor.valueOf(color
                     .toUpperCase()), Math.abs(amt), Math.abs(lvl), Math
-                    .abs((int) (chance * 100)), l, lore));
+                    .abs((int) (chance * 100)), l, lore, cs.getString(name
+                    + ".DisplayName", name)));
         }
     }
 }

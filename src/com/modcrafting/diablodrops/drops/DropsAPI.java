@@ -795,6 +795,19 @@ public class DropsAPI
         return null;
     }
 
+    public Tier getTier(ItemStack item)
+    {
+        if (!item.hasItemMeta() || !item.getItemMeta().hasLore())
+            return null;
+        for (String s : item.getItemMeta().getLore())
+        {
+            Tier tier = getTier(s);
+            if (tier != null)
+                return tier;
+        }
+        return null;
+    }
+
     /**
      * Gets tier from name
      * 

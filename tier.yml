@@ -1,45 +1,50 @@
 # Visit the wiki page at: https://github.com/deathmarine/DiabloDrops/wiki/Tier.yml-Reference
 # DisplayName is only used if Tier name displaying is enabled in config.yml
-# Chances are out of 10000 instead of 100
 Legendary:
   Color: Gold
   DisplayName: Legendary
-  Chance: 300
+  Chance: 3
+  DropChance: 100
   Enchantments:
     Amt: 7
     Levels: 10
 Lore:
   Color: Yellow
   DisplayName: Lore
-  Chance: 700
+  Chance: 7
+  DropChance: 100
   Enchantments:
     Amt: 7
     Levels: 9
 Magical:
   Color: Blue
   DisplayName: Magical
-  Chance: 1500
+  Chance: 15
+  DropChance: 100
   Enchantments:
     Amt: 3
     Levels: 4
 Rare:
   Color: Red
   DisplayName: Rare
-  Chance: 2000
+  Chance: 20
+  DropChance: 100
   Enchantments:
     Amt: 5
     Levels: 5
 Set:
   Color: Green
   DisplayName: Set
-  Chance: 1000
+  Chance: 10
+  DropChance: 100
   Enchantments:
     Amt: 7
     Levels: 6
 Unidentified:
   Color: Magic
   DisplayName: Unidentified
-  Chance: 3300
+  Chance: 33
+  DropChance: 100
   #When Identified
   Enchantments:
     Amt: 10

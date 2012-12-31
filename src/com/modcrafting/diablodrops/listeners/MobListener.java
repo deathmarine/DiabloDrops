@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
+import com.modcrafting.diablodrops.tier.Tier;
 
 public class MobListener implements Listener
 {
@@ -74,10 +75,9 @@ public class MobListener implements Listener
                 && (event.getSpawnReason().equals(SpawnReason.EGG) || event
                         .getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
             return;
-        Integer random = plugin.getSingleRandom().nextInt(10000) + 1;
+        Integer random = plugin.getSingleRandom().nextInt(100) + 1;
         if ((entity instanceof Monster)
-                && (plugin.getConfig()
-                        .getInt("Percentages.ChancePerSpawn", 300) >= random))
+                && (plugin.getConfig().getInt("Percentages.ChancePerSpawn", 3) >= random))
         {
             List<ItemStack> items = new ArrayList<ItemStack>();
             for (int i = 0; i < (plugin.getSingleRandom().nextInt(5) + 1); i++)
@@ -106,34 +106,40 @@ public class MobListener implements Listener
                 return;
 
             for (ItemStack cis : eswi.getItems())
+            {
+                Tier tier = plugin.getDropAPI().getTier(cis);
+                float dropChance = tier.getDropChance();
                 if (cis != null)
                 {
                     if (plugin.getItemAPI().isHelmet(cis.getType()))
                     {
                         entity.getEquipment().setHelmet(cis);
-                        entity.getEquipment().setHelmetDropChance(2.0F);
+                        entity.getEquipment().setHelmetDropChance(dropChance);
                     }
                     else if (plugin.getItemAPI().isChestPlate(cis.getType()))
                     {
                         entity.getEquipment().setChestplate(cis);
-                        entity.getEquipment().setChestplateDropChance(2.0F);
+                        entity.getEquipment().setChestplateDropChance(
+                                dropChance);
                     }
                     else if (plugin.getItemAPI().isLeggings(cis.getType()))
                     {
                         entity.getEquipment().setLeggings(cis);
-                        entity.getEquipment().setLeggingsDropChance(2.0F);
+                        entity.getEquipment().setLeggingsDropChance(dropChance);
                     }
                     else if (plugin.getItemAPI().isBoots(cis.getType()))
                     {
                         entity.getEquipment().setBoots(cis);
-                        entity.getEquipment().setLeggingsDropChance(2.0F);
+                        entity.getEquipment().setLeggingsDropChance(dropChance);
                     }
                     else
                     {
                         entity.getEquipment().setItemInHand(cis);
-                        entity.getEquipment().setItemInHandDropChance(2.0F);
+                        entity.getEquipment().setItemInHandDropChance(
+                                dropChance);
                     }
                 }
+            }
         }
     }
 }

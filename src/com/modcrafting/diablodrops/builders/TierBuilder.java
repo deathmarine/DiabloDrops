@@ -62,7 +62,8 @@ public class TierBuilder
             plugin.tiers.add(new Tier(name, ChatColor.valueOf(color
                     .toUpperCase()), Math.abs(amt), Math.abs(lvl), Math
                     .abs((int) (chance * 100)), l, lore, cs.getString(name
-                    + ".DisplayName", name)));
+                    + ".DisplayName", name), (float) cs.getInt(name
+                    + ".DropChance", 100) / 100));
         }
     }
 }

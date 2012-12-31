@@ -1,5 +1,4 @@
 #Configuration#
-#Any and all chances are now out of 10000 instead of 100#
 Plugin:
 #AutoUpdate the plugin when a update is found#
   AutoUpdate: true
@@ -19,16 +18,16 @@ SafeEnchant:
 #Allow the generation of ruins in the map#
 Ruins:
   Enabled: true
-  Chance: 100
+  Chance: 1
 #Allow the drop of custom items (custom.yml)#
 Custom:
   Only: false
   Enabled: true
-  Chance: 100
+  Chance: 1
 #Allow the drop of lore items (lore.txt enhancements)#
 Lore:
   Enabled: true
-  Chance: 500
+  Chance: 5
   EnhanceAmount: 2
 #Changing the way that a few things are displayed#
 Display:
@@ -38,11 +37,11 @@ Display:
 #Allow the drop of book to "identify" Magic color items#
 IdentifyTome:
   Enabled: true
-  Chance: 200
+  Chance: 2
 #Allow the drop of socketted items#
 SocketItem:
   Enabled: true
-  Chance: 500
+  Chance: 5
   #Add levels to enchantment when socketting#
   EnhanceLevelBy: 1
   EnhanceMax: 10
@@ -54,7 +53,7 @@ SocketItem:
   - Skull_Item
 #This is the initial chance to retrieve an item#
 Percentages:
-  ChancePerSpawn: 300
+  ChancePerSpawn: 3
 #If enabled only worlds listed will be affected#
 Worlds:
   Enabled: false

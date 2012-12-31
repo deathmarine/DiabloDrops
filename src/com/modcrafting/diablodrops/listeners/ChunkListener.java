@@ -184,6 +184,7 @@ public class ChunkListener implements Listener
         List<Material> mats = getBiomeMaterials(loc.getBlock().getBiome());
         if (mats.size() < 1)
             return false;
+        int iiii = 0;
         double maxX = Math.max(loc.getX() - square, loc.getX() + square);
         double maxZ = Math.max(loc.getZ() - square, loc.getZ() + square);
         double minX = Math.min(loc.getX() - square, loc.getX() + square);
@@ -192,6 +193,7 @@ public class ChunkListener implements Listener
         {
             for (double ii = 0; ii <= Math.abs(maxZ - minZ); ii++)
             {
+            	iiii++;
                 Location nt = new Location(loc.getWorld(), minX + i,
                         loc.getY(), minZ + ii);
                 Block n = nt.getBlock();
@@ -219,6 +221,8 @@ public class ChunkListener implements Listener
                 }
             }
         }
+        if(iiii<1)
+        	return false;
         return true;
     }
 

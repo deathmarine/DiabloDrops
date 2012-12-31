@@ -265,14 +265,14 @@ public class DropsAPI
         {
             ci = new Drop(material, tier.getColor(),
                     ChatColor.stripColor(name(mat)), damage, tier.getColor()
-                            + tier.getName());
+                            + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
         {
             ci = new Drop(material, tier.getColor(),
                     ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
-                            + tier.getName());
+                            + tier.getDisplayName());
         }
         else
         {
@@ -412,7 +412,7 @@ public class DropsAPI
         List<String> list = new ArrayList<String>();
         if (plugin.getConfig().getBoolean("Display.TierName", true))
         {
-            list.add(tier.getColor() + tier.getName());
+            list.add(tier.getColor() + tier.getDisplayName());
         }
         for (String s : tier.getLore())
             if (s != null)
@@ -534,14 +534,14 @@ public class DropsAPI
         {
             ci = new Drop(mat, tier.getColor(),
                     ChatColor.stripColor(name(mat)), damage, tier.getColor()
-                            + tier.getName());
+                            + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
         {
             ci = new Drop(mat, tier.getColor(),
                     ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
-                            + tier.getName());
+                            + tier.getDisplayName());
         }
         else
         {
@@ -555,7 +555,7 @@ public class DropsAPI
         List<String> list = new ArrayList<String>();
         if (plugin.getConfig().getBoolean("Display.TierName", true))
         {
-            list.add(tier.getColor() + tier.getName());
+            list.add(tier.getColor() + tier.getDisplayName());
         }
         for (String s : tier.getLore())
             if (s != null)
@@ -678,14 +678,14 @@ public class DropsAPI
         {
             ci = new Drop(mat, tier.getColor(),
                     ChatColor.stripColor(name(mat)), damage, tier.getColor()
-                            + tier.getName());
+                            + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
         {
             ci = new Drop(mat, tier.getColor(),
                     ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
-                            + tier.getName());
+                            + tier.getDisplayName());
         }
         else
         {
@@ -698,7 +698,7 @@ public class DropsAPI
         List<String> list = new ArrayList<String>();
         if (plugin.getConfig().getBoolean("Display.TierName", true))
         {
-            list.add(tier.getColor() + tier.getName());
+            list.add(tier.getColor() + tier.getDisplayName());
         }
         for (String s : tier.getLore())
             if (s != null)
@@ -804,7 +804,8 @@ public class DropsAPI
     public Tier getTier(final String name)
     {
         for (Tier tier : plugin.tiers)
-            if (tier.getName().equalsIgnoreCase(name))
+            if (tier.getDisplayName().equalsIgnoreCase(name)
+                    || tier.getName().equalsIgnoreCase(name))
                 return tier;
         return null;
     }
@@ -818,7 +819,8 @@ public class DropsAPI
     public boolean matchesTier(final String type)
     {
         for (Tier tier : plugin.tiers)
-            if (tier.getName().equalsIgnoreCase(type))
+            if (tier.getDisplayName().equalsIgnoreCase(type)
+                    || tier.getName().equalsIgnoreCase(type))
                 return true;
         return false;
     }

@@ -321,17 +321,30 @@ public class EffectsUtil
         final World world = location.getWorld();
         for (int i = times; i > 0; i--)
         {
-            Bukkit.getServer()
-                    .getScheduler()
-                    .scheduleSyncDelayedTask(DiabloDrops.getInstance(),
-                            new Runnable()
-                            {
-                                @Override
-                                public void run()
+            if (i == 0)
+                Bukkit.getServer()
+                        .getScheduler()
+                        .scheduleSyncDelayedTask(DiabloDrops.getInstance(),
+                                new Runnable()
                                 {
-                                    world.strikeLightning(location);
-                                }
-                            }, 20L * i);
+                                    @Override
+                                    public void run()
+                                    {
+                                        world.strikeLightning(location);
+                                    }
+                                });
+            else
+                Bukkit.getServer()
+                        .getScheduler()
+                        .scheduleSyncDelayedTask(DiabloDrops.getInstance(),
+                                new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        world.strikeLightning(location);
+                                    }
+                                }, 20L * i);
         }
     }
 }

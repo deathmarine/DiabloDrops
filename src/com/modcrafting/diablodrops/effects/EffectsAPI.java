@@ -38,12 +38,14 @@ public class EffectsAPI
         Integer level = null;
         try
         {
-            level = Integer.valueOf(args[0]);
+            level = Integer.parseInt(args[0]);
         }
-        catch (NumberFormatException e)
+        catch (Exception e)
         {
             level = 0;
         }
+        if (level == 0)
+            return;
         if (args[1].equalsIgnoreCase(ATTACK))
         {
             // Add to strike damage

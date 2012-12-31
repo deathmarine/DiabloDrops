@@ -120,49 +120,34 @@ public class EffectsAPI
         else if (args[1].equalsIgnoreCase(LEECH) && (damager != null)
                 && (damager != null))
         {
-        }
-        if (level > 0)
-        {
-            int chng = damaged.getHealth() - Math.abs(level);
-            if ((chng < damaged.getMaxHealth()) && (chng > 0))
+            if (level > 0)
             {
-                damaged.setHealth(chng);
+                int chng = damaged.getHealth() - Math.abs(level);
+                if ((chng < damaged.getMaxHealth()) && (chng > 0))
+                    damaged.setHealth(chng);
+                else
+                    damaged.setHealth(0);
+                
+                chng = level + damager.getHealth();
+                if ((chng < damager.getMaxHealth()) && (chng > 0))
+                    damager.setHealth(chng);
+                else
+                    damager.setHealth(damager.getMaxHealth());
             }
-            else
+            else if (level < 0)
             {
-                damaged.setHealth(0);
+                int chng = Math.abs(level) + damaged.getHealth();
+                if ((chng < damaged.getMaxHealth()) && (chng > 0))
+                    damager.setHealth(chng);
+                else
+                    damager.setHealth(damager.getMaxHealth());
+                chng = damager.getHealth() - Math.abs(level);
+                if ((chng < damager.getMaxHealth()) && (chng > 0))
+                    damaged.setHealth(chng);
+                else
+                    damaged.setHealth(0);
+                return;
             }
-            chng = level + damager.getHealth();
-            if ((chng < damager.getMaxHealth()) && (chng > 0))
-            {
-                damager.setHealth(chng);
-            }
-            else
-            {
-                damager.setHealth(damager.getMaxHealth());
-            }
-        }
-        else if (level < 0)
-        {
-            int chng = Math.abs(level) + damaged.getHealth();
-            if ((chng < damaged.getMaxHealth()) && (chng > 0))
-            {
-                damager.setHealth(chng);
-            }
-            else
-            {
-                damager.setHealth(damager.getMaxHealth());
-            }
-            chng = damager.getHealth() - Math.abs(level);
-            if ((chng < damager.getMaxHealth()) && (chng > 0))
-            {
-                damaged.setHealth(chng);
-            }
-            else
-            {
-                damaged.setHealth(0);
-            }
-            return;
         }
         else
         {

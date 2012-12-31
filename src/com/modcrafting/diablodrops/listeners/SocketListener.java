@@ -145,8 +145,8 @@ public class SocketListener implements Listener
 
         ItemStack tool = event.getResult();
         ItemStack oldtool = event.getSource();
-        ItemMeta meta = tool.getItemMeta();
         ItemMeta metaold = oldtool.getItemMeta();
+        
         boolean namTest = false;
         for (String n : metaold.getLore())
             if (StringUtils.containsIgnoreCase(n, "(Socket)"))
@@ -171,6 +171,7 @@ public class SocketListener implements Listener
             tool.addUnsafeEnchantment(ench, il);
         }
 
+        ItemMeta meta = tool.getItemMeta();
         if (fuel.equals(Material.SKULL_ITEM))
         {
             ChatColor color = findColor(metaold.getDisplayName());
@@ -215,10 +216,6 @@ public class SocketListener implements Listener
             metaold.setDisplayName(color + skullName + "'s "
                     + ChatColor.stripColor(old));
         }
-        else
-        {
-            meta.setDisplayName(metaold.getDisplayName());
-        }
         List<String> list = new ArrayList<String>();
         if (plugin.getConfig().getBoolean("Socket.Lore", true))
         {
@@ -243,6 +240,7 @@ public class SocketListener implements Listener
                 event.getSource(), is, tool, ((Furnace) event.getBlock()
                         .getState()));
         plugin.getServer().getPluginManager().callEvent(see);
+        meta.setDisplayName(metaold.getDisplayName());
         meta.setLore(list);
         tool.setItemMeta(meta);
         event.setResult(tool);

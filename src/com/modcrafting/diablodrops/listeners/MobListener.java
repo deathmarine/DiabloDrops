@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.EntityDropItemEvent;
+import com.modcrafting.diablodrops.events.EntitySpawnEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
 import com.modcrafting.diablodrops.tier.Tier;
 
@@ -75,9 +76,12 @@ public class MobListener implements Listener
                 && (event.getSpawnReason().equals(SpawnReason.EGG) || event
                         .getSpawnReason().equals(SpawnReason.SPAWNER_EGG)))
             return;
-        Integer random = plugin.getSingleRandom().nextInt(100) + 1;
+        EntitySpawnEvent ese = new EntitySpawnEvent(entity, plugin
+                .getSingleRandom().nextInt(100) + 1);
+        plugin.getServer().getPluginManager().callEvent(ese);
         if ((entity instanceof Monster)
-                && (plugin.getConfig().getInt("Percentages.ChancePerSpawn", 3) >= random))
+                && (plugin.getConfig().getInt("Percentages.ChancePerSpawn", 3) >= ese
+                        .getChance()))
         {
             List<ItemStack> items = new ArrayList<ItemStack>();
             for (int i = 0; i < (plugin.getSingleRandom().nextInt(5) + 1); i++)

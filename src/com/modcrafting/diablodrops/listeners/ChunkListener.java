@@ -193,7 +193,7 @@ public class ChunkListener implements Listener
         {
             for (double ii = 0; ii <= Math.abs(maxZ - minZ); ii++)
             {
-            	iiii++;
+                iiii++;
                 Location nt = new Location(loc.getWorld(), minX + i,
                         loc.getY(), minZ + ii);
                 Block n = nt.getBlock();
@@ -221,8 +221,8 @@ public class ChunkListener implements Listener
                 }
             }
         }
-        if(iiii<1)
-        	return false;
+        if (iiii < 1)
+            return false;
         return true;
     }
 

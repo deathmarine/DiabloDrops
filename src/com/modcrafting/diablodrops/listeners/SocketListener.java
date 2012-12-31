@@ -146,7 +146,7 @@ public class SocketListener implements Listener
         ItemStack tool = event.getResult();
         ItemStack oldtool = event.getSource();
         ItemMeta metaold = oldtool.getItemMeta();
-        
+
         boolean namTest = false;
         for (String n : metaold.getLore())
             if (StringUtils.containsIgnoreCase(n, "(Socket)"))

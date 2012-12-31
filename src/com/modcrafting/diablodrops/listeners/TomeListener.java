@@ -67,8 +67,10 @@ public class TomeListener implements Listener
             BookMeta b = (BookMeta) inh.getItemMeta();
             if (b == null)
                 return;
-            if (b.getTitle().contains("Identity Tome")
-                    && b.getAuthor().endsWith("AAAA"))
+            if (!b.hasTitle() || !b.hasAuthor())
+                return;
+            if (b.getTitle().equalsIgnoreCase(
+                    ChatColor.DARK_AQUA + "Identity Tome"))
             {
                 Player p = e.getPlayer();
                 PlayerInventory pi = p.getInventory();

@@ -384,7 +384,7 @@ public class DropsAPI
         }
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("Custom.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(100) <= plugin
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getCustomChance()))
             return plugin.custom.get(plugin.getSingleRandom().nextInt(
                     plugin.custom.size()));

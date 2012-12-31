@@ -80,7 +80,11 @@ public class MobListener implements Listener
             for (ItemStack cis : eswi.getItems())
             {
                 Tier tier = plugin.getDropAPI().getTier(cis);
-                float dropChance = tier.getDropChance();
+                float dropChance;
+                if (tier != null)
+                    dropChance = tier.getDropChance();
+                else
+                    dropChance = 1.0F;
                 if (cis != null)
                 {
                     if (plugin.getItemAPI().isHelmet(cis.getType()))

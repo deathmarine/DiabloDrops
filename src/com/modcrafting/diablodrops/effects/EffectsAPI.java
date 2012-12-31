@@ -84,13 +84,11 @@ public class EffectsAPI
             // strike lightning
             if ((level > 0) && (damaged != null))
             {
-                EffectsUtil.strikeLightning(damaged.getLocation(),
-                        Math.abs(level));
+                EffectsUtil.strikeLightning(damaged, Math.abs(level));
             }
             else if ((level < 0) && (damager != null))
             {
-                EffectsUtil.strikeLightning(damager.getLocation(),
-                        Math.abs(level));
+                EffectsUtil.strikeLightning(damager, Math.abs(level));
             }
             return;
         }
@@ -240,13 +238,11 @@ public class EffectsAPI
             // strike lightning
             if ((level > 0) && (struck != null))
             {
-                EffectsUtil.strikeLightning(struck.getLocation(),
-                        Math.abs(level));
+                EffectsUtil.strikeLightning(struck, Math.abs(level));
             }
             else if ((level < 0) && (striker != null))
             {
-                EffectsUtil.strikeLightning(striker.getLocation(),
-                        Math.abs(level));
+                EffectsUtil.strikeLightning(striker, Math.abs(level));
             }
             return;
         }

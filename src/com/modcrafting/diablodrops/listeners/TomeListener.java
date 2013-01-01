@@ -70,7 +70,7 @@ public class TomeListener implements Listener
             if (!b.hasTitle() || !b.hasAuthor())
                 return;
             if (b.getTitle().contains("Identity Tome")
-                    && findColor(b.getTitle()) == ChatColor.DARK_AQUA)
+                    && findColor(b.getAuthor()).equals(ChatColor.MAGIC))
             {
                 Player p = e.getPlayer();
                 PlayerInventory pi = p.getInventory();

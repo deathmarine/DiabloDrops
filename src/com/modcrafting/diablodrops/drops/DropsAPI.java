@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -326,7 +327,11 @@ public class DropsAPI
                     ci.addUnsafeEnchantment(ench, lvl);
                 }
         }
-        ItemMeta tool = ci.getItemMeta();
+        ItemMeta tool;
+        if (ci.hasItemMeta())
+            tool = ci.getItemMeta();
+        else
+            tool = Bukkit.getItemFactory().getItemMeta(ci.getType());
         tool.setLore(tier.getLore());
         List<String> list = new ArrayList<String>();
         if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
@@ -464,11 +469,15 @@ public class DropsAPI
                     tool.addUnsafeEnchantment(ench, lvl);
                 }
         }
-        ItemMeta meta = tool.getItemMeta();
+        ItemMeta meta;
+        if (tool.hasItemMeta())
+            meta = tool.getItemMeta();
+        else
+            meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
         meta.setDisplayName(tier.getColor() + name(tool.getType()));
         boolean sock = false;
         if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(100) <= plugin
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
@@ -607,9 +616,13 @@ public class DropsAPI
                     tool.addUnsafeEnchantment(ench, lvl);
                 }
         }
-        ItemMeta meta = tool.getItemMeta();
+        ItemMeta meta;
+        if (tool.hasItemMeta())
+            meta = tool.getItemMeta();
+        else
+            meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
         if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(100) <= plugin
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
@@ -641,16 +654,16 @@ public class DropsAPI
         if (plugin.getItemAPI().isLeather(tool.getType()))
         {
             LeatherArmorMeta lam = (LeatherArmorMeta) meta;
-            lam.setColor(Color.fromRGB(plugin.getSingleRandom().nextInt(255),plugin.getSingleRandom().nextInt(255),
-            		plugin.getSingleRandom().nextInt(255)));
+            lam.setColor(Color.fromRGB(plugin.getSingleRandom().nextInt(255),
+                    plugin.getSingleRandom().nextInt(255), plugin
+                            .getSingleRandom().nextInt(255)));
             tool.setItemMeta(lam);
         }
         return tool;
     }
 
     /**
-     * Returns an specific type of ItemStack that was randomly
-     * generated
+     * Returns an specific type of ItemStack that was randomly generated
      * 
      * @param tier
      *            name

@@ -11,22 +11,6 @@ import com.modcrafting.diablodrops.DiabloDrops;
 
 public class Socket extends Drop
 {
-    public enum SkullType
-    {
-        SKELETON(0), WITHER(1), ZOMBIE(2), PLAYER(3), CREEPER(4);
-        public int type;
-
-        private SkullType(final int i)
-        {
-            type = i;
-        }
-
-        public byte getData()
-        {
-            return (byte) type;
-        }
-
-    }
 
     private static ChatColor color()
     {
@@ -47,50 +31,19 @@ public class Socket extends Drop
                 + "Put in the bottom of a furnace", ChatColor.GOLD
                 + "with another item in the top", ChatColor.GOLD
                 + "to add socket enhancements.");
-        SkullType type = null;
-        int numType = DiabloDrops.getInstance().getSingleRandom()
-                .nextInt(SkullType.values().length);
-        for (SkullType skullType : SkullType.values())
-        {
-            if (skullType.getData() == numType)
+            int num = DiabloDrops.getInstance().getSingleRandom().nextInt(5);
+            MaterialData md = getData();
+            md.setData((byte) num);
+            setData(md);
+            ItemMeta meta;
+            if (hasItemMeta())
+                meta = getItemMeta();
+            else
+                meta = Bukkit.getItemFactory().getItemMeta(mat);
+            if (mat.equals(Material.SKULL_ITEM))
             {
-                type = skullType;
-                break;
-            }
-        }
-        if (type == null)
-        {
-            switch (DiabloDrops.getInstance().getSingleRandom().nextInt(5))
-            {
-                case 1:
-                    type = SkullType.WITHER;
-                    break;
-                case 2:
-                    type = SkullType.ZOMBIE;
-                    break;
-                case 3:
-                    type = SkullType.PLAYER;
-                    break;
-                case 4:
-                    type = SkullType.CREEPER;
-                    break;
-                default:
-                    type = SkullType.SKELETON;
-                    break;
-            }
-        }
-        MaterialData md = getData();
-        md.setData(type.getData());
-        setData(md);
-        ItemMeta meta;
-        if (hasItemMeta())
-            meta = getItemMeta();
-        else
-            meta = Bukkit.getItemFactory().getItemMeta(mat);
-        if (mat.equals(Material.SKULL_ITEM))
-        {
-            SkullMeta sk = (SkullMeta) meta;
-            if (type.equals(SkullType.PLAYER))
+                SkullMeta sk = (SkullMeta) meta;
+            if (num==3)
             {
                 if (Bukkit.getServer().getOfflinePlayers().length > 0)
                 {

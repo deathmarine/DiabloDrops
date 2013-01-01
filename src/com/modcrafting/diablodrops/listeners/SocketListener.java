@@ -236,6 +236,7 @@ public class SocketListener implements Listener
                     if (plugin.getSettings().useColorLoreExtra()
                             && plugin.ccdefenselore != null
                             && !plugin.ccdefenselore.isEmpty()
+                            && metaold.hasDisplayName()
                             && plugin.ccdefenselore.get(findColor(metaold
                                     .getDisplayName())) != null
                             && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
@@ -256,13 +257,13 @@ public class SocketListener implements Listener
                                         .getSingleRandom().nextInt(
                                                 plugin.defenselore.size())));
                     meta.setLore(list);
-
                 }
                 else if (plugin.getItemAPI().isTool(tool.getType()))
                 {
                     if (plugin.getSettings().useColorLoreExtra()
                             && plugin.ccdefenselore != null
                             && !plugin.ccoffenselore.isEmpty()
+                            && metaold.hasDisplayName()
                             && plugin.ccoffenselore.get(findColor(metaold
                                     .getDisplayName())) != null
                             && (plugin.getSettings().isOnlyColorLoreExtra() || plugin

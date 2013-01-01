@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -16,7 +17,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.color.ArmorColors;
 import com.modcrafting.diablodrops.items.Drop;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
@@ -641,8 +641,8 @@ public class DropsAPI
         if (plugin.getItemAPI().isLeather(tool.getType()))
         {
             LeatherArmorMeta lam = (LeatherArmorMeta) meta;
-            lam.setColor(ArmorColors.values()[plugin.getSingleRandom().nextInt(
-                    ArmorColors.values().length)].getColor());
+            lam.setColor(Color.fromRGB(plugin.getSingleRandom().nextInt(255),plugin.getSingleRandom().nextInt(255),
+            		plugin.getSingleRandom().nextInt(255)));
             tool.setItemMeta(lam);
         }
         return tool;
@@ -650,7 +650,7 @@ public class DropsAPI
 
     /**
      * Returns an specific type of ItemStack that was randomly
-     * getSingleRandom()erated
+     * generated
      * 
      * @param tier
      *            name

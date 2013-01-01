@@ -86,7 +86,8 @@ public class MobListener implements Listener
                 	if(true)
                 	{
                 		Tier tier = plugin.getDropAPI().getTier(cis);
-                		dropChance = (tier.getDropChance()*0.01F);
+                		if(tier!=null)
+                			dropChance = (tier.getDropChance()*0.01F);
                 	}
                     if (plugin.getItemAPI().isHelmet(cis.getType())
                             || cis.getType().equals(Material.SKULL_ITEM))

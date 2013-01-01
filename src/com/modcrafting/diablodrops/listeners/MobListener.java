@@ -5,13 +5,11 @@ import java.util.List;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
@@ -25,49 +23,6 @@ public class MobListener implements Listener
     public MobListener(final DiabloDrops instance)
     {
         plugin = instance;
-    }
-
-    @EventHandler(priority = EventPriority.LOW)
-    public void onDeath(final EntityDeathEvent event)
-    {
-        if (!(event.getEntity() instanceof LivingEntity))
-            return;
-        LivingEntity entity = event.getEntity();
-        if (entity instanceof Player)
-            return;
-        for (ItemStack cis : entity.getEquipment().getArmorContents())
-        {
-            float dropChance = 0.0F + plugin.getSingleRandom().nextFloat()
-                    * (2.0F - 0.0F);
-            if (cis != null)
-            {
-                if (plugin.getItemAPI().isHelmet(cis.getType()))
-                {
-                    entity.getEquipment().setHelmet(cis);
-                    entity.getEquipment().setHelmetDropChance(dropChance);
-                }
-                else if (plugin.getItemAPI().isChestPlate(cis.getType()))
-                {
-                    entity.getEquipment().setChestplate(cis);
-                    entity.getEquipment().setChestplateDropChance(dropChance);
-                }
-                else if (plugin.getItemAPI().isLeggings(cis.getType()))
-                {
-                    entity.getEquipment().setLeggings(cis);
-                    entity.getEquipment().setLeggingsDropChance(dropChance);
-                }
-                else if (plugin.getItemAPI().isBoots(cis.getType()))
-                {
-                    entity.getEquipment().setBoots(cis);
-                    entity.getEquipment().setLeggingsDropChance(dropChance);
-                }
-                else
-                {
-                    entity.getEquipment().setItemInHand(cis);
-                    entity.getEquipment().setItemInHandDropChance(dropChance);
-                }
-            }
-        }
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -125,25 +80,35 @@ public class MobListener implements Listener
             {
                 if (cis != null)
                 {
+                	float dropChance = 2.0F;
+                	if(plugin.getSingleRandom().nextFloat() - 0.1F<dropChance)
+                	{
+                		dropChance = 0.0F;
+                	}
                     if (plugin.getItemAPI().isHelmet(cis.getType()))
                     {
                         entity.getEquipment().setHelmet(cis);
+                        entity.getEquipment().setHelmetDropChance(dropChance);
                     }
                     else if (plugin.getItemAPI().isChestPlate(cis.getType()))
                     {
                         entity.getEquipment().setChestplate(cis);
+                        entity.getEquipment().setChestplateDropChance(dropChance);
                     }
                     else if (plugin.getItemAPI().isLeggings(cis.getType()))
                     {
                         entity.getEquipment().setLeggings(cis);
+                        entity.getEquipment().setLeggingsDropChance(dropChance);
                     }
                     else if (plugin.getItemAPI().isBoots(cis.getType()))
                     {
                         entity.getEquipment().setBoots(cis);
+                        entity.getEquipment().setBootsDropChance(dropChance);
                     }
                     else
                     {
                         entity.getEquipment().setItemInHand(cis);
+                        entity.getEquipment().setItemInHandDropChance(dropChance);
                     }
                 }
             }

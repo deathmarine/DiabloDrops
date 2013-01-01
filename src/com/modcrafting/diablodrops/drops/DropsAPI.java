@@ -46,6 +46,14 @@ public class DropsAPI
         return false;
     }
 
+    public boolean canBeTier(Material mat, Tier tier)
+    {
+        if (tier.getMaterials() == null || tier.getMaterials().isEmpty()
+                || tier.getMaterials().contains(mat))
+            return true;
+        return false;
+    }
+
     /**
      * Gets a random color.
      * 
@@ -510,14 +518,21 @@ public class DropsAPI
                             && plugin.ccdefenselore.get(tier.getColor()) != null
                             && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
                                     .getSingleRandom().nextBoolean()))
-                        list.add(plugin.ccdefenselore.get(tier.getColor()).get(
-                                plugin.getSingleRandom().nextInt(
-                                        plugin.ccdefenselore.get(
-                                                tier.getColor()).size())));
+                        list.add(colorPicker()
+                                + plugin.ccdefenselore
+                                        .get(tier.getColor())
+                                        .get(plugin
+                                                .getSingleRandom()
+                                                .nextInt(
+                                                        plugin.ccdefenselore
+                                                                .get(tier
+                                                                        .getColor())
+                                                                .size())));
                     else
-                        list.add(plugin.defenselore.get(plugin
-                                .getSingleRandom().nextInt(
-                                        plugin.defenselore.size())));
+                        list.add(colorPicker()
+                                + plugin.defenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.defenselore.size())));
                     meta.setLore(list);
 
                 }
@@ -529,14 +544,21 @@ public class DropsAPI
                             && plugin.ccoffenselore.get(tier.getColor()) != null
                             && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
                                     .getSingleRandom().nextBoolean()))
-                        list.add(plugin.ccoffenselore.get(tier.getColor()).get(
-                                plugin.getSingleRandom().nextInt(
-                                        plugin.ccoffenselore.get(
-                                                tier.getColor()).size())));
+                        list.add(colorPicker()
+                                + plugin.ccoffenselore
+                                        .get(tier.getColor())
+                                        .get(plugin
+                                                .getSingleRandom()
+                                                .nextInt(
+                                                        plugin.ccoffenselore
+                                                                .get(tier
+                                                                        .getColor())
+                                                                .size())));
                     else
-                        list.add(plugin.offenselore.get(plugin
-                                .getSingleRandom().nextInt(
-                                        plugin.offenselore.size())));
+                        list.add(colorPicker()
+                                + plugin.offenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.offenselore.size())));
                     meta.setLore(list);
                 }
         }
@@ -684,14 +706,21 @@ public class DropsAPI
                             && plugin.ccdefenselore.get(tier.getColor()) != null
                             && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
                                     .getSingleRandom().nextBoolean()))
-                        list.add(plugin.ccdefenselore.get(tier.getColor()).get(
-                                plugin.getSingleRandom().nextInt(
-                                        plugin.ccdefenselore.get(
-                                                tier.getColor()).size())));
+                        list.add(colorPicker()
+                                + plugin.ccdefenselore
+                                        .get(tier.getColor())
+                                        .get(plugin
+                                                .getSingleRandom()
+                                                .nextInt(
+                                                        plugin.ccdefenselore
+                                                                .get(tier
+                                                                        .getColor())
+                                                                .size())));
                     else
-                        list.add(plugin.defenselore.get(plugin
-                                .getSingleRandom().nextInt(
-                                        plugin.defenselore.size())));
+                        list.add(colorPicker()
+                                + plugin.defenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.defenselore.size())));
                     meta.setLore(list);
 
                 }
@@ -703,14 +732,218 @@ public class DropsAPI
                             && plugin.ccoffenselore.get(tier.getColor()) != null
                             && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
                                     .getSingleRandom().nextBoolean()))
-                        list.add(plugin.ccoffenselore.get(tier.getColor()).get(
-                                plugin.getSingleRandom().nextInt(
-                                        plugin.ccoffenselore.get(
-                                                tier.getColor()).size())));
+                        list.add(colorPicker()
+                                + plugin.ccoffenselore
+                                        .get(tier.getColor())
+                                        .get(plugin
+                                                .getSingleRandom()
+                                                .nextInt(
+                                                        plugin.ccoffenselore
+                                                                .get(tier
+                                                                        .getColor())
+                                                                .size())));
                     else
-                        list.add(plugin.offenselore.get(plugin
-                                .getSingleRandom().nextInt(
-                                        plugin.offenselore.size())));
+                        list.add(colorPicker()
+                                + plugin.offenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.offenselore.size())));
+                    meta.setLore(list);
+                }
+        }
+        meta.setLore(list);
+        tool.setItemMeta(meta);
+        if (plugin.getItemAPI().isLeather(tool.getType()))
+        {
+            LeatherArmorMeta lam = (LeatherArmorMeta) meta;
+            lam.setColor(Color.fromRGB(plugin.getSingleRandom().nextInt(255),
+                    plugin.getSingleRandom().nextInt(255), plugin
+                            .getSingleRandom().nextInt(255)));
+            tool.setItemMeta(lam);
+        }
+        return tool;
+    }
+
+    /**
+     * Returns a specific type of item randomly getSingleRandom()erated
+     * 
+     * @param mat
+     *            Material of itemstack
+     * @return item
+     */
+    public ItemStack getItem(Material passMat, Tier passTier)
+    {
+        Material mat = passMat;
+        Tier tier = passTier;
+        while (mat == null)
+        {
+            mat = dropPicker();
+        }
+        ItemStack ci = null;
+        while (tier == null)
+        {
+            tier = getTier();
+        }
+        if ((tier.getMaterials().size() > 0)
+                && !tier.getMaterials().contains(mat))
+        {
+            mat = tier.getMaterials().get(
+                    plugin.getSingleRandom()
+                            .nextInt(tier.getMaterials().size()));
+        }
+        int e = tier.getAmount();
+        int l = tier.getLevels();
+        short damage = 0;
+        if (plugin.getConfig().getBoolean("DropFix.Damage", true))
+        {
+            damage = damageItemStack(mat);
+        }
+        if (plugin.getConfig().getBoolean("Display.TierName", true)
+                && !tier.getColor().equals(ChatColor.MAGIC))
+        {
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage, tier.getColor()
+                            + tier.getDisplayName());
+        }
+        else if (plugin.getConfig().getBoolean("Display.TierName", true)
+                && tier.getColor().equals(ChatColor.MAGIC))
+        {
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
+                            + tier.getDisplayName());
+        }
+        else
+        {
+            ci = new Drop(mat, tier.getColor(),
+                    ChatColor.stripColor(name(mat)), damage);
+        }
+        if (tier.getColor().equals(ChatColor.MAGIC))
+            return ci;
+        ItemStack tool = new ItemStack(ci);
+        List<Enchantment> eStack = Arrays.asList(Enchantment.values());
+        List<String> list = new ArrayList<String>();
+        if (plugin.getConfig().getBoolean("Display.TierName", true))
+        {
+            list.add(tier.getColor() + tier.getDisplayName());
+        }
+        for (String s : tier.getLore())
+            if (s != null)
+            {
+                list.add(s);
+            }
+
+        boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled",
+                true);
+        if (safe)
+        {
+            eStack = getEnchantStack(tool);
+        }
+        for (; e > 0; e--)
+        {
+            int lvl = plugin.getSingleRandom().nextInt(l + 1);
+            int size = eStack.size();
+            if (size < 1)
+            {
+                continue;
+            }
+            Enchantment ench = eStack.get(plugin.getSingleRandom()
+                    .nextInt(size));
+            if ((lvl != 0) && (ench != null)
+                    && !tier.getColor().equals(ChatColor.MAGIC))
+                if (safe)
+                {
+                    if ((lvl >= ench.getStartLevel())
+                            && (lvl <= ench.getMaxLevel()))
+                    {
+                        try
+                        {
+                            tool.addEnchantment(ench, lvl);
+                        }
+                        catch (Exception e1)
+                        {
+                            if (plugin.getDebug())
+                            {
+                                plugin.log.warning(e1.getMessage());
+                            }
+                            e++;
+                        }
+                    }
+                }
+                else
+                {
+                    tool.addUnsafeEnchantment(ench, lvl);
+                }
+        }
+        ItemMeta meta;
+        if (tool.hasItemMeta())
+            meta = tool.getItemMeta();
+        else
+            meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
+        if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getSocketChance())
+                && !tier.getColor().equals(ChatColor.MAGIC))
+        {
+            list.add(colorPicker() + "(Socket)");
+            meta.setLore(list);
+            tool.setItemMeta(meta);
+            return tool;
+        }
+        if (plugin.getConfig().getBoolean("Lore.Enabled", true)
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getLoreChance())
+                && !tier.getColor().equals(ChatColor.MAGIC))
+        {
+            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
+                    2); i++)
+                if (plugin.getItemAPI().isArmor(mat))
+                {
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
+                            && !plugin.ccdefenselore.isEmpty()
+                            && plugin.ccdefenselore.get(tier.getColor()) != null
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
+                        list.add(colorPicker()
+                                + plugin.ccdefenselore
+                                        .get(tier.getColor())
+                                        .get(plugin
+                                                .getSingleRandom()
+                                                .nextInt(
+                                                        plugin.ccdefenselore
+                                                                .get(tier
+                                                                        .getColor())
+                                                                .size())));
+                    else
+                        list.add(colorPicker()
+                                + plugin.defenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.defenselore.size())));
+                    meta.setLore(list);
+
+                }
+                else if (plugin.getItemAPI().isTool(mat))
+                {
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
+                            && !plugin.ccoffenselore.isEmpty()
+                            && plugin.ccoffenselore.get(tier.getColor()) != null
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
+                        list.add(colorPicker()
+                                + plugin.ccoffenselore
+                                        .get(tier.getColor())
+                                        .get(plugin
+                                                .getSingleRandom()
+                                                .nextInt(
+                                                        plugin.ccoffenselore
+                                                                .get(tier
+                                                                        .getColor())
+                                                                .size())));
+                    else
+                        list.add(colorPicker()
+                                + plugin.offenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.offenselore.size())));
                     meta.setLore(list);
                 }
         }

@@ -141,6 +141,8 @@ public class SocketListener implements Listener
             return;
         ItemStack is = plugin.furnanceMap.remove(event.getBlock());
         Material fuel = is.getType();
+        if (!is.hasItemMeta() || !is.getItemMeta().hasDisplayName())
+            return;
         ChatColor fuelColor = findColor(is.getItemMeta().getDisplayName());
 
         ItemStack tool = event.getResult();
@@ -222,17 +224,58 @@ public class SocketListener implements Listener
             for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
                     2); i++)
             {
-                if (plugin.getItemAPI().isArmor(oldtool.getType()))
+                if (plugin.getItemAPI().isArmor(tool.getType()))
                 {
-                    list.add(fuelColor
-                            + plugin.defenselore.get(plugin.getSingleRandom()
-                                    .nextInt(plugin.defenselore.size())));
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
+                            && !plugin.ccdefenselore.isEmpty()
+                            && plugin.ccdefenselore.get(findColor(metaold
+                                    .getDisplayName())) != null
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
+                        list.add(fuelColor
+                                + plugin.ccdefenselore
+                                        .get(findColor(metaold.getDisplayName()))
+                                        .get(plugin
+                                                .getSingleRandom()
+                                                .nextInt(
+                                                        plugin.ccdefenselore
+                                                                .get(findColor(metaold
+                                                                        .getDisplayName()))
+                                                                .size())));
+                    else
+                        list.add(fuelColor
+                                + plugin.defenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.defenselore.size())));
+                    meta.setLore(list);
+
                 }
-                else if (plugin.getItemAPI().isTool(oldtool.getType()))
+                else if (plugin.getItemAPI().isTool(tool.getType()))
                 {
-                    list.add(fuelColor
-                            + plugin.offenselore.get(plugin.getSingleRandom()
-                                    .nextInt(plugin.offenselore.size())));
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
+                            && !plugin.ccoffenselore.isEmpty()
+                            && plugin.ccoffenselore.get(findColor(metaold
+                                    .getDisplayName())) != null
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
+                        list.add(fuelColor
+                                + plugin.ccoffenselore
+                                        .get(findColor(metaold.getDisplayName()))
+                                        .get(plugin
+                                                .getSingleRandom()
+                                                .nextInt(
+                                                        plugin.ccoffenselore
+                                                                .get(findColor(metaold
+                                                                        .getDisplayName()))
+                                                                .size())));
+                    else
+                        list.add(fuelColor
+                                + plugin.offenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.offenselore.size())));
+                    meta.setLore(list);
                 }
             }
         }
@@ -243,6 +286,7 @@ public class SocketListener implements Listener
         meta.setDisplayName(metaold.getDisplayName());
         meta.setLore(list);
         tool.setItemMeta(meta);
+        tool.setDurability(oldtool.getDurability());
         event.setResult(tool);
         return;
     }

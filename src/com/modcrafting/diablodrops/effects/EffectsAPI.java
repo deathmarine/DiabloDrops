@@ -120,7 +120,7 @@ public class EffectsAPI
             return;
         }
         else if (args[1].equalsIgnoreCase(LEECH) && (damager != null)
-                && (damager != null))
+                && (damaged != null))
         {
             if (level > 0)
             {
@@ -151,10 +151,9 @@ public class EffectsAPI
                 return;
             }
         }
-        else if (args[1].equalsIgnoreCase(EXPLODE) && (damager != null)
-                && (damager != null))
+        else if (args[1].equalsIgnoreCase(EXPLODE) && (damaged != null))
         {
-        	EffectsUtil.playFirework(damager.getLocation());
+        	EffectsUtil.playFirework(damaged.getLocation());
         }
         else
         {
@@ -309,6 +308,10 @@ public class EffectsAPI
                 }
             }
             return;
+        }
+        else if (args[1].equalsIgnoreCase(EXPLODE) && (struck != null))
+        {
+        	EffectsUtil.playFirework(struck.getLocation());
         }
         else
         {

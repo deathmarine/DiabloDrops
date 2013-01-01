@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.EntitySpawnEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
-import com.modcrafting.diablodrops.tier.Tier;
 
 public class MobListener implements Listener
 {
@@ -79,12 +78,7 @@ public class MobListener implements Listener
 
             for (ItemStack cis : eswi.getItems())
             {
-                Tier tier = plugin.getDropAPI().getTier(cis);
-                float dropChance;
-                if (tier != null)
-                    dropChance = tier.getDropChance();
-                else
-                    dropChance = 1.0F;
+                float dropChance = plugin.getSingleRandom().nextFloat();
                 if (cis != null)
                 {
                     if (plugin.getItemAPI().isHelmet(cis.getType()))

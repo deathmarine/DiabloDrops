@@ -37,7 +37,6 @@ import com.modcrafting.diablodrops.listeners.MobListener;
 import com.modcrafting.diablodrops.listeners.SetListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
-import com.modcrafting.diablodrops.log.LogHandler;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
@@ -143,7 +142,6 @@ public class DiabloDrops extends JavaPlugin
         instance = this;
         getDataFolder().mkdir();
         log = getLogger();
-        log.addHandler(new LogHandler(getDataFolder()));
         nameLoader = new NamesLoader(this);
         nameLoader.writeDefault("config.yml", false);
         nameLoader.writeDefault("custom.yml", false);

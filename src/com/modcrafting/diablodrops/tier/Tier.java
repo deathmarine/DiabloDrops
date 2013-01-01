@@ -15,10 +15,12 @@ public class Tier
     private final int chance;
     private final List<Material> l;
     private final List<String> lore;
+    private final float dropChance;
 
     public Tier(final String name, final ChatColor color, final int amt,
             final int lvl, final int chance, final List<Material> l,
-            final List<String> lore, final String displayName)
+            final List<String> lore, final String displayName,
+            final float dropChance)
     {
         this.name = name;
         this.color = color;
@@ -31,6 +33,7 @@ public class Tier
             this.displayName = displayName;
         else
             this.displayName = name;
+        this.dropChance = dropChance;
     }
 
     /**
@@ -68,6 +71,11 @@ public class Tier
         if (displayName != null)
             return displayName;
         return name;
+    }
+
+    public float getDropChance()
+    {
+        return dropChance;
     }
 
     /**

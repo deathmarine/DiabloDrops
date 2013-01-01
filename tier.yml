@@ -4,6 +4,7 @@ Legendary:
   Color: Gold
   DisplayName: Legendary
   Chance: 3
+  DropChance: 100
   Enchantments:
     Amt: 7
     Levels: 10
@@ -11,6 +12,7 @@ Lore:
   Color: Yellow
   DisplayName: Lore
   Chance: 7
+  DropChance: 100
   Enchantments:
     Amt: 7
     Levels: 9
@@ -18,6 +20,7 @@ Magical:
   Color: Blue
   DisplayName: Magical
   Chance: 15
+  DropChance: 100
   Enchantments:
     Amt: 3
     Levels: 4
@@ -25,6 +28,7 @@ Rare:
   Color: Red
   DisplayName: Rare
   Chance: 20
+  DropChance: 100
   Enchantments:
     Amt: 5
     Levels: 5
@@ -32,6 +36,7 @@ Set:
   Color: Green
   DisplayName: Set
   Chance: 10
+  DropChance: 100
   Enchantments:
     Amt: 7
     Levels: 6
@@ -39,6 +44,7 @@ Unidentified:
   Color: Magic
   DisplayName: Unidentified
   Chance: 33
+  DropChance: 100
   #When Identified
   Enchantments:
     Amt: 10

@@ -184,7 +184,7 @@ public class DiabloDrops extends JavaPlugin
         }
         if (config.getBoolean("SocketItem.ColorLoreExtras", false))
         {
-            File loc = new File(getDataFolder(), "/ColorOffense/");
+            File loc = new File(getDataFolder(), "/SocketColorOffenseLore/");
             if (!loc.exists())
             {
                 loc.mkdir();
@@ -196,7 +196,7 @@ public class DiabloDrops extends JavaPlugin
                     nameLoader.loadChatColorFile(ccoffenselore,
                             new File(loc, f.getName()));
                 }
-            File sloc = new File(getDataFolder(), "/ColorDefense/");
+            File sloc = new File(getDataFolder(), "/SocketColorDefenseLore/");
             if (!sloc.exists())
             {
                 sloc.mkdir();

@@ -3,7 +3,6 @@ package com.modcrafting.diablodrops.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
@@ -11,7 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
@@ -24,24 +22,6 @@ public class MobListener implements Listener
     public MobListener(final DiabloDrops instance)
     {
         plugin = instance;
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onEntityDeath(final EntityDeathEvent event)
-    {
-        if (event.getEntity() instanceof Monster)
-        {
-            Monster monster = (Monster) event.getEntity();
-            Location loc = monster.getLocation();
-            if (!plugin.worlds.contains(loc.getWorld().getName())
-                    && plugin.getConfig().getBoolean("Worlds.Enabled", false))
-                return;
-                monster.getEquipment().setBootsDropChance(2.0F);
-                monster.getEquipment().setChestplateDropChance(2.0F);
-                monster.getEquipment().setLeggingsDropChance(2.0F);
-                monster.getEquipment().setHelmetDropChance(2.0F);
-                monster.getEquipment().setItemInHandDropChance(2.0F);
-        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)

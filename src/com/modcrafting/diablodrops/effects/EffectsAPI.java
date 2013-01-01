@@ -27,6 +27,7 @@ public class EffectsAPI
     public static String LIGHTNING = "lightning";
     public static String FIRE = "fire";
     public static String ENTOMB = "entomb";
+    public static String LEECH = "leech";
     public static String EXPLODE = "explode";
 
     public static void addEffect(final LivingEntity damaged,
@@ -118,9 +119,42 @@ public class EffectsAPI
             }
             return;
         }
+        else if (args[1].equalsIgnoreCase(LEECH) && (damager != null)
+                && (damaged != null))
+        {
+            if (level > 0)
+            {
+                int chng = damaged.getHealth() - Math.abs(level);
+                if ((chng < damaged.getMaxHealth()) && (chng > 0))
+                    damaged.setHealth(chng);
+                else
+                    damaged.setHealth(0);
+
+                chng = level + damager.getHealth();
+                if ((chng < damager.getMaxHealth()) && (chng > 0))
+                    damager.setHealth(chng);
+                else
+                    damager.setHealth(damager.getMaxHealth());
+            }
+            else if (level < 0)
+            {
+                int chng = Math.abs(level) + damaged.getHealth();
+                if ((chng < damaged.getMaxHealth()) && (chng > 0))
+                    damager.setHealth(chng);
+                else
+                    damager.setHealth(damager.getMaxHealth());
+                chng = damager.getHealth() - Math.abs(level);
+                if ((chng < damager.getMaxHealth()) && (chng > 0))
+                    damaged.setHealth(chng);
+                else
+                    damaged.setHealth(0);
+                return;
+            }
+        }
         else if (args[1].equalsIgnoreCase(EXPLODE) && (damaged != null))
         {
-            EffectsUtil.playFirework(damaged.getLocation());
+            for(int i=Math.abs(level);i>0;i--)
+            	EffectsUtil.playFirework(damaged.getLocation());
         }
         else
         {
@@ -226,6 +260,53 @@ public class EffectsAPI
             else if ((level < 0) && (striker != null))
             {
                 EffectsUtil.entomb(striker.getLocation(), Math.abs(level));
+            }
+            return;
+        }
+        else if (args[1].equalsIgnoreCase(LEECH) && (striker != null)
+                && (struck != null))
+        {
+            if (level > 0)
+            {
+                int chng = struck.getHealth() - Math.abs(level);
+                if ((chng < struck.getMaxHealth()) && (chng > 0))
+                {
+                    struck.setHealth(chng);
+                }
+                else
+                {
+                    struck.setHealth(0);
+                }
+                chng = level + striker.getHealth();
+                if ((chng < striker.getMaxHealth()) && (chng > 0))
+                {
+                    striker.setHealth(chng);
+                }
+                else
+                {
+                    striker.setHealth(striker.getMaxHealth());
+                }
+            }
+            else if (level < 0)
+            {
+                int chng = Math.abs(level) + struck.getHealth();
+                if ((chng < struck.getMaxHealth()) && (chng > 0))
+                {
+                    striker.setHealth(chng);
+                }
+                else
+                {
+                    striker.setHealth(striker.getMaxHealth());
+                }
+                chng = striker.getHealth() - Math.abs(level);
+                if ((chng < striker.getMaxHealth()) && (chng > 0))
+                {
+                    struck.setHealth(chng);
+                }
+                else
+                {
+                    struck.setHealth(0);
+                }
             }
             return;
         }

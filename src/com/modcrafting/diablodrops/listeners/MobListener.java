@@ -78,7 +78,8 @@ public class MobListener implements Listener
 
             for (ItemStack cis : eswi.getItems())
             {
-                float dropChance = plugin.getSingleRandom().nextFloat();
+                float dropChance = 0.0F + plugin.getSingleRandom().nextFloat()
+                        * (2.0F - 0.0F);
                 if (cis != null)
                 {
                     if (plugin.getItemAPI().isHelmet(cis.getType()))

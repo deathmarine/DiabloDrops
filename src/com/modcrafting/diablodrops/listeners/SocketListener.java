@@ -212,21 +212,24 @@ public class SocketListener implements Listener
                     }
                 }
             }
-            String old = "";
+            String old = null;
             if (metaold.hasDisplayName())
                 old = metaold.getDisplayName();
-            if (old.contains("'"))
+            if (old != null)
             {
-                old = old.split("'")[1].substring(2);
+                if (old.contains("'"))
+                {
+                    old = old.split("'")[1].substring(2);
+                }
+                metaold.setDisplayName(color + skullName + "'s "
+                        + ChatColor.stripColor(old));
             }
-            metaold.setDisplayName(color + skullName + "'s "
-                    + ChatColor.stripColor(old));
         }
         List<String> list = new ArrayList<String>();
         if (plugin.getConfig().getBoolean("Socket.Lore", true))
         {
             for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
-                    2); i++)
+                    1); i++)
             {
                 if (plugin.getItemAPI().isArmor(tool.getType()))
                 {

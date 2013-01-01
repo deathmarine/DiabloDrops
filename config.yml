@@ -28,7 +28,7 @@ Custom:
 Lore:
   Enabled: true
   Chance: 5
-  EnhanceAmount: 2
+  EnhanceAmount: 1
 #Changing the way that a few things are displayed#
 Display:
   TierName: true

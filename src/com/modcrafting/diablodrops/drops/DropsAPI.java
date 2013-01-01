@@ -370,7 +370,7 @@ public class DropsAPI
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("IdentifyTome.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getTomeChance() * 100))
+                        .getSettings().getTomeChance()))
             return new IdentifyTome();
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("SocketItem.Enabled", true)
@@ -385,7 +385,7 @@ public class DropsAPI
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("Custom.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getCustomChance() * 100))
+                        .getSettings().getCustomChance()))
             return plugin.custom.get(plugin.getSingleRandom().nextInt(
                     plugin.custom.size()));
         return getItem(dropPicker());

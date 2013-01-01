@@ -212,7 +212,9 @@ public class SocketListener implements Listener
                     }
                 }
             }
-            String old = metaold.getDisplayName();
+            String old = "";
+            if (metaold.hasDisplayName())
+                old = metaold.getDisplayName();
             if (old.contains("'"))
             {
                 old = old.split("'")[1].substring(2);

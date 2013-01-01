@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import com.modcrafting.diablodrops.DiabloDrops;
@@ -24,7 +25,41 @@ public class NamesLoader
         dataFolder = instance.getDataFolder();
     }
 
-    public void loadFile(final HashMap<Material, List<String>> hm, final File f)
+    public void loadChatColorFile(final HashMap<ChatColor, List<String>> hm,
+            final File f)
+    {
+        ChatColor m = ChatColor.valueOf(f.getName().replace(".txt", "")
+                .toUpperCase());
+        List<String> l = new ArrayList<String>();
+        try
+        {
+            BufferedReader list = new BufferedReader(new FileReader(f));
+            String p;
+            while ((p = list.readLine()) != null)
+            {
+                if (!p.contains("#") && (p.length() > 0))
+                {
+                    l.add(p);
+                }
+            }
+
+            if (m != null)
+            {
+                hm.put(m, l);
+            }
+
+            list.close();
+        }
+        catch (Exception e)
+        {
+            if (plugin.getDebug())
+            {
+                plugin.log.warning(e.getMessage());
+            }
+        }
+    }
+
+    public void loadMaterialFile(final HashMap<Material, List<String>> hm, final File f)
     {
         Material m = Material.getMaterial(f.getName().replace(".txt", "")
                 .toUpperCase());

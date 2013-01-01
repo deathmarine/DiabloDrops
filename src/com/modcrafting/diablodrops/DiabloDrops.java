@@ -48,6 +48,8 @@ public class DiabloDrops extends JavaPlugin
     public List<String> suffix = new ArrayList<String>();
     public HashMap<Material, List<String>> hmprefix = new HashMap<Material, List<String>>();
     public HashMap<Material, List<String>> hmsuffix = new HashMap<Material, List<String>>();
+    public HashMap<ChatColor, List<String>> ccoffenselore = new HashMap<ChatColor, List<String>>();
+    public HashMap<ChatColor, List<String>> ccdefenselore = new HashMap<ChatColor, List<String>>();
     public HashSet<Tier> tiers = new HashSet<Tier>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
     public List<ItemStack> custom = new ArrayList<ItemStack>();
@@ -57,7 +59,7 @@ public class DiabloDrops extends JavaPlugin
     public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
 
     private boolean debug;
-    private Random gen = new Random();
+    private final Random gen = new Random();
     private ItemAPI drop;
     private NamesLoader nameLoader;
     private DropsAPI dropsAPI;
@@ -164,7 +166,8 @@ public class DiabloDrops extends JavaPlugin
                 if (f.getName().endsWith(".txt"))
                 {
                     getLogger().info("Loading Prefix File:" + f.getName());
-                    nameLoader.loadFile(hmprefix, new File(loc, f.getName()));
+                    nameLoader.loadMaterialFile(hmprefix,
+                            new File(loc, f.getName()));
                 }
             File sloc = new File(getDataFolder(), "/NamesSuffix/");
             if (!sloc.exists())
@@ -175,7 +178,35 @@ public class DiabloDrops extends JavaPlugin
                 if (f.getName().endsWith(".txt"))
                 {
                     getLogger().info("Loading Suffix File:" + f.getName());
-                    nameLoader.loadFile(hmsuffix, new File(sloc, f.getName()));
+                    nameLoader.loadMaterialFile(hmsuffix,
+                            new File(sloc, f.getName()));
+                }
+        }
+        if (config.getBoolean("SocketItem.ColorLoreExtras", false))
+        {
+            File loc = new File(getDataFolder(), "/ColorOffense/");
+            if (!loc.exists())
+            {
+                loc.mkdir();
+            }
+            for (File f : loc.listFiles())
+                if (f.getName().endsWith(".txt"))
+                {
+                    getLogger().info("Loading Offense File:" + f.getName());
+                    nameLoader.loadChatColorFile(ccoffenselore,
+                            new File(loc, f.getName()));
+                }
+            File sloc = new File(getDataFolder(), "/ColorDefense/");
+            if (!sloc.exists())
+            {
+                sloc.mkdir();
+            }
+            for (File f : loc.listFiles())
+                if (f.getName().endsWith(".txt"))
+                {
+                    getLogger().info("Loading Defense File:" + f.getName());
+                    nameLoader.loadChatColorFile(ccdefenselore, new File(sloc,
+                            f.getName()));
                 }
         }
         nameLoader.loadFile(prefix, "prefix.txt");

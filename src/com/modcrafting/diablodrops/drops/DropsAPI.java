@@ -342,15 +342,35 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
-                    list.add(plugin.defenselore.get(plugin.getSingleRandom()
-                            .nextInt(plugin.defenselore.size())));
+                    if (plugin.ccdefenselore != null
+                            && !plugin.ccdefenselore.isEmpty()
+                            && plugin.ccdefenselore.get(tier.getColor()) != null
+                            && plugin.getSingleRandom().nextBoolean())
+                        list.add(plugin.ccdefenselore.get(tier.getColor()).get(
+                                plugin.getSingleRandom().nextInt(
+                                        plugin.ccdefenselore.get(
+                                                tier.getColor()).size())));
+                    else
+                        list.add(plugin.defenselore.get(plugin
+                                .getSingleRandom().nextInt(
+                                        plugin.defenselore.size())));
                     tool.setLore(list);
 
                 }
                 else if (plugin.getItemAPI().isTool(mat))
                 {
-                    list.add(plugin.offenselore.get(plugin.getSingleRandom()
-                            .nextInt(plugin.offenselore.size())));
+                    if (plugin.ccdefenselore != null
+                            && !plugin.ccoffenselore.isEmpty()
+                            && plugin.ccoffenselore.get(tier.getColor()) != null
+                            && plugin.getSingleRandom().nextBoolean())
+                        list.add(plugin.ccoffenselore.get(tier.getColor()).get(
+                                plugin.getSingleRandom().nextInt(
+                                        plugin.ccoffenselore.get(
+                                                tier.getColor()).size())));
+                    else
+                        list.add(plugin.offenselore.get(plugin
+                                .getSingleRandom().nextInt(
+                                        plugin.offenselore.size())));
                     tool.setLore(list);
                 }
         }
@@ -484,13 +504,36 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(tool.getType()))
                 {
-                    list.add(plugin.defenselore.get(plugin.getSingleRandom()
-                            .nextInt(plugin.defenselore.size())));
+                    if (plugin.ccdefenselore != null
+                            && !plugin.ccdefenselore.isEmpty()
+                            && plugin.ccdefenselore.get(tier.getColor()) != null
+                            && plugin.getSingleRandom().nextBoolean())
+                        list.add(plugin.ccdefenselore.get(tier.getColor()).get(
+                                plugin.getSingleRandom().nextInt(
+                                        plugin.ccdefenselore.get(
+                                                tier.getColor()).size())));
+                    else
+                        list.add(plugin.defenselore.get(plugin
+                                .getSingleRandom().nextInt(
+                                        plugin.defenselore.size())));
+                    meta.setLore(list);
+
                 }
                 else if (plugin.getItemAPI().isTool(tool.getType()))
                 {
-                    list.add(plugin.offenselore.get(plugin.getSingleRandom()
-                            .nextInt(plugin.offenselore.size())));
+                    if (plugin.ccdefenselore != null
+                            && !plugin.ccoffenselore.isEmpty()
+                            && plugin.ccoffenselore.get(tier.getColor()) != null
+                            && plugin.getSingleRandom().nextBoolean())
+                        list.add(plugin.ccoffenselore.get(tier.getColor()).get(
+                                plugin.getSingleRandom().nextInt(
+                                        plugin.ccoffenselore.get(
+                                                tier.getColor()).size())));
+                    else
+                        list.add(plugin.offenselore.get(plugin
+                                .getSingleRandom().nextInt(
+                                        plugin.offenselore.size())));
+                    meta.setLore(list);
                 }
         }
         meta.setLore(list);
@@ -631,13 +674,36 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
-                    list.add(plugin.defenselore.get(plugin.getSingleRandom()
-                            .nextInt(plugin.defenselore.size())));
+                    if (plugin.ccdefenselore != null
+                            && !plugin.ccdefenselore.isEmpty()
+                            && plugin.ccdefenselore.get(tier.getColor()) != null
+                            && plugin.getSingleRandom().nextBoolean())
+                        list.add(plugin.ccdefenselore.get(tier.getColor()).get(
+                                plugin.getSingleRandom().nextInt(
+                                        plugin.ccdefenselore.get(
+                                                tier.getColor()).size())));
+                    else
+                        list.add(plugin.defenselore.get(plugin
+                                .getSingleRandom().nextInt(
+                                        plugin.defenselore.size())));
+                    meta.setLore(list);
+
                 }
                 else if (plugin.getItemAPI().isTool(mat))
                 {
-                    list.add(plugin.offenselore.get(plugin.getSingleRandom()
-                            .nextInt(plugin.offenselore.size())));
+                    if (plugin.ccdefenselore != null
+                            && !plugin.ccoffenselore.isEmpty()
+                            && plugin.ccoffenselore.get(tier.getColor()) != null
+                            && plugin.getSingleRandom().nextBoolean())
+                        list.add(plugin.ccoffenselore.get(tier.getColor()).get(
+                                plugin.getSingleRandom().nextInt(
+                                        plugin.ccoffenselore.get(
+                                                tier.getColor()).size())));
+                    else
+                        list.add(plugin.offenselore.get(plugin
+                                .getSingleRandom().nextInt(
+                                        plugin.offenselore.size())));
+                    meta.setLore(list);
                 }
         }
         meta.setLore(list);
@@ -779,19 +845,50 @@ public class DropsAPI
         {
             for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
                     2); i++)
-                if (plugin.getItemAPI().isArmor(mat))
+                if (plugin.getItemAPI().isArmor(tool.getType()))
                 {
-                    list.add(plugin.defenselore.get(plugin.getSingleRandom()
-                            .nextInt(plugin.defenselore.size())));
+                    if (plugin.ccdefenselore != null
+                            && !plugin.ccdefenselore.isEmpty()
+                            && plugin.ccdefenselore.get(tier.getColor()) != null
+                            && plugin.getSingleRandom().nextBoolean())
+                        list.add(plugin.ccdefenselore.get(tier.getColor()).get(
+                                plugin.getSingleRandom().nextInt(
+                                        plugin.ccdefenselore.get(
+                                                tier.getColor()).size())));
+                    else
+                        list.add(plugin.defenselore.get(plugin
+                                .getSingleRandom().nextInt(
+                                        plugin.defenselore.size())));
+                    meta.setLore(list);
+
                 }
-                else if (plugin.getItemAPI().isTool(mat))
+                else if (plugin.getItemAPI().isTool(tool.getType()))
                 {
-                    list.add(plugin.offenselore.get(plugin.getSingleRandom()
-                            .nextInt(plugin.offenselore.size())));
+                    if (plugin.ccdefenselore != null
+                            && !plugin.ccoffenselore.isEmpty()
+                            && plugin.ccoffenselore.get(tier.getColor()) != null
+                            && plugin.getSingleRandom().nextBoolean())
+                        list.add(plugin.ccoffenselore.get(tier.getColor()).get(
+                                plugin.getSingleRandom().nextInt(
+                                        plugin.ccoffenselore.get(
+                                                tier.getColor()).size())));
+                    else
+                        list.add(plugin.offenselore.get(plugin
+                                .getSingleRandom().nextInt(
+                                        plugin.offenselore.size())));
+                    meta.setLore(list);
                 }
         }
         meta.setLore(list);
         tool.setItemMeta(meta);
+        if (plugin.getItemAPI().isLeather(tool.getType()))
+        {
+            LeatherArmorMeta lam = (LeatherArmorMeta) meta;
+            lam.setColor(Color.fromRGB(plugin.getSingleRandom().nextInt(255),
+                    plugin.getSingleRandom().nextInt(255), plugin
+                            .getSingleRandom().nextInt(255)));
+            tool.setItemMeta(lam);
+        }
         return tool;
     }
 

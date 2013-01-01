@@ -55,7 +55,8 @@ SocketItem:
   - GREEN
   - RED
   - BLUE
-  ColorLoreExtras: false 
+  ColorLoreExtras: false
+  OnlyColorLoreExtras: false
 #This is the initial chance to retrieve an item#
 Percentages:
   ChancePerSpawn: 3

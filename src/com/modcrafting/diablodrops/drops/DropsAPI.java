@@ -504,10 +504,12 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(tool.getType()))
                 {
-                    if (plugin.ccdefenselore != null
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
                             && !plugin.ccdefenselore.isEmpty()
                             && plugin.ccdefenselore.get(tier.getColor()) != null
-                            && plugin.getSingleRandom().nextBoolean())
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
                         list.add(plugin.ccdefenselore.get(tier.getColor()).get(
                                 plugin.getSingleRandom().nextInt(
                                         plugin.ccdefenselore.get(
@@ -521,10 +523,12 @@ public class DropsAPI
                 }
                 else if (plugin.getItemAPI().isTool(tool.getType()))
                 {
-                    if (plugin.ccdefenselore != null
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
                             && !plugin.ccoffenselore.isEmpty()
                             && plugin.ccoffenselore.get(tier.getColor()) != null
-                            && plugin.getSingleRandom().nextBoolean())
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
                         list.add(plugin.ccoffenselore.get(tier.getColor()).get(
                                 plugin.getSingleRandom().nextInt(
                                         plugin.ccoffenselore.get(
@@ -674,10 +678,12 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
-                    if (plugin.ccdefenselore != null
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
                             && !plugin.ccdefenselore.isEmpty()
                             && plugin.ccdefenselore.get(tier.getColor()) != null
-                            && plugin.getSingleRandom().nextBoolean())
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
                         list.add(plugin.ccdefenselore.get(tier.getColor()).get(
                                 plugin.getSingleRandom().nextInt(
                                         plugin.ccdefenselore.get(
@@ -691,10 +697,12 @@ public class DropsAPI
                 }
                 else if (plugin.getItemAPI().isTool(mat))
                 {
-                    if (plugin.ccdefenselore != null
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
                             && !plugin.ccoffenselore.isEmpty()
                             && plugin.ccoffenselore.get(tier.getColor()) != null
-                            && plugin.getSingleRandom().nextBoolean())
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
                         list.add(plugin.ccoffenselore.get(tier.getColor()).get(
                                 plugin.getSingleRandom().nextInt(
                                         plugin.ccoffenselore.get(
@@ -847,10 +855,12 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(tool.getType()))
                 {
-                    if (plugin.ccdefenselore != null
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
                             && !plugin.ccdefenselore.isEmpty()
                             && plugin.ccdefenselore.get(tier.getColor()) != null
-                            && plugin.getSingleRandom().nextBoolean())
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
                         list.add(plugin.ccdefenselore.get(tier.getColor()).get(
                                 plugin.getSingleRandom().nextInt(
                                         plugin.ccdefenselore.get(
@@ -864,10 +874,12 @@ public class DropsAPI
                 }
                 else if (plugin.getItemAPI().isTool(tool.getType()))
                 {
-                    if (plugin.ccdefenselore != null
+                    if (plugin.getSettings().useColorLoreExtra()
+                            && plugin.ccdefenselore != null
                             && !plugin.ccoffenselore.isEmpty()
                             && plugin.ccoffenselore.get(tier.getColor()) != null
-                            && plugin.getSingleRandom().nextBoolean())
+                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
+                                    .getSingleRandom().nextBoolean()))
                         list.add(plugin.ccoffenselore.get(tier.getColor()).get(
                                 plugin.getSingleRandom().nextInt(
                                         plugin.ccoffenselore.get(

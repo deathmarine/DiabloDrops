@@ -176,7 +176,9 @@ public class SocketListener implements Listener
         ItemMeta meta = tool.getItemMeta();
         if (fuel.equals(Material.SKULL_ITEM))
         {
-            ChatColor color = findColor(metaold.getDisplayName());
+            ChatColor color = ChatColor.WHITE;
+            if (metaold.hasDisplayName())
+                color = findColor(metaold.getDisplayName());
             SkullMeta skull = (SkullMeta) is.getItemMeta();
             String skullName = skull.getOwner();
             if ((skullName == null) || (skullName.trim().length() < 1))

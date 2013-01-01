@@ -625,6 +625,16 @@ public class ItemAPI
         return false;
     }
 
+    public boolean isLeather(final Material mat)
+    {
+        if (mat.equals(Material.LEATHER_HELMET)
+                || mat.equals(Material.LEATHER_CHESTPLATE)
+                || mat.equals(Material.LEATHER_LEGGINGS)
+                || mat.equals(Material.LEATHER_BOOTS))
+            return true;
+        return false;
+    }
+
     /**
      * Is material leggings?
      * 
@@ -708,7 +718,6 @@ public class ItemAPI
                 || isHoe(mat) || mat.equals(Material.BOW))
             return true;
         return false;
-
     }
 
     /**

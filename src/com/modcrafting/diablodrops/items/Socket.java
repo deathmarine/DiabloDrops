@@ -31,19 +31,19 @@ public class Socket extends Drop
                 + "Put in the bottom of a furnace", ChatColor.GOLD
                 + "with another item in the top", ChatColor.GOLD
                 + "to add socket enhancements.");
-            int num = DiabloDrops.getInstance().getSingleRandom().nextInt(5);
-            MaterialData md = getData();
-            md.setData((byte) num);
-            setData(md);
-            ItemMeta meta;
-            if (hasItemMeta())
-                meta = getItemMeta();
-            else
-                meta = Bukkit.getItemFactory().getItemMeta(mat);
-            if (mat.equals(Material.SKULL_ITEM))
-            {
-                SkullMeta sk = (SkullMeta) meta;
-            if (num==3)
+        int num = DiabloDrops.getInstance().getSingleRandom().nextInt(5);
+        MaterialData md = getData();
+        md.setData((byte) num);
+        setData(md);
+        ItemMeta meta;
+        if (hasItemMeta())
+            meta = getItemMeta();
+        else
+            meta = Bukkit.getItemFactory().getItemMeta(mat);
+        if (mat.equals(Material.SKULL_ITEM))
+        {
+            SkullMeta sk = (SkullMeta) meta;
+            if (num == 3)
             {
                 if (Bukkit.getServer().getOfflinePlayers().length > 0)
                 {

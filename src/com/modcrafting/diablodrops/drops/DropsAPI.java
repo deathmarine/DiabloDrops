@@ -13,8 +13,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.color.ArmorColors;
 import com.modcrafting.diablodrops.items.Drop;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
@@ -636,6 +638,13 @@ public class DropsAPI
         }
         meta.setLore(list);
         tool.setItemMeta(meta);
+        if (plugin.getItemAPI().isLeather(tool.getType()))
+        {
+            LeatherArmorMeta lam = (LeatherArmorMeta) meta;
+            lam.setColor(ArmorColors.values()[plugin.getSingleRandom().nextInt(
+                    ArmorColors.values().length)].getColor());
+            tool.setItemMeta(lam);
+        }
         return tool;
     }
 

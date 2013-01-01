@@ -63,7 +63,6 @@ public class DiabloDrops extends JavaPlugin
     private NamesLoader nameLoader;
     private DropsAPI dropsAPI;
     private SetsAPI setsAPI;
-    private Integer build;
     private Settings settings;
 
     private static DiabloDrops instance;
@@ -244,6 +243,7 @@ public class DiabloDrops extends JavaPlugin
 
             });
         }
+        
         // Jenkins AutoUpdater
         if (config.getBoolean("Plugin.Dev.Update", false))
         {
@@ -254,7 +254,7 @@ public class DiabloDrops extends JavaPlugin
                         public void run()
                         {
                             DevUpdater up = new DevUpdater(getInstance(),
-                                    getFile(), build,
+                                    getFile(),Integer.valueOf(getDescription().getVersion().split(".")[2]),
                                     "https://diabloplugins.ci.cloudbees.com/rssLatest");
                             if (up.getResult().equals(DevUpdateResult.FAILED))
                                 return;
@@ -288,7 +288,6 @@ public class DiabloDrops extends JavaPlugin
                                     }
                                 }).start();
                             }
-                            build = up.getBuild();
                         }
                     }, 0, 2400);
         }

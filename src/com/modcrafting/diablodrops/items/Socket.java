@@ -55,8 +55,38 @@ public class Socket extends Drop
         if (mat.equals(Material.SKULL_ITEM))
         {
             SkullMeta sk = (SkullMeta) meta;
-            SkullType type = SkullType.values()[DiabloDrops.getInstance()
-                    .getSingleRandom().nextInt(SkullType.values().length)];
+            SkullType type = null;
+            int numType = DiabloDrops.getInstance().getSingleRandom()
+                    .nextInt(SkullType.values().length);
+            for (SkullType skullType : SkullType.values())
+            {
+                if (skullType.getData() == numType)
+                {
+                    type = skullType;
+                    break;
+                }
+            }
+            if (type == null)
+            {
+                switch (DiabloDrops.getInstance().getSingleRandom().nextInt(5))
+                {
+                    case 1:
+                        type = SkullType.WITHER;
+                        break;
+                    case 2:
+                        type = SkullType.ZOMBIE;
+                        break;
+                    case 3:
+                        type = SkullType.PLAYER;
+                        break;
+                    case 4:
+                        type = SkullType.CREEPER;
+                        break;
+                    default:
+                        type = SkullType.SKELETON;
+                        break;
+                }
+            }
             if (type.equals(SkullType.PLAYER))
             {
                 if (Bukkit.getServer().getOfflinePlayers().length > 0)

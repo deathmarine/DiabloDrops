@@ -81,10 +81,6 @@ public class MobListener implements Listener
                 if (cis != null)
                 {
                 	float dropChance = 2.0F;
-                	if(plugin.getSingleRandom().nextFloat() - 0.1F<dropChance)
-                	{
-                		dropChance = 0.0F;
-                	}
                     if (plugin.getItemAPI().isHelmet(cis.getType()))
                     {
                         entity.getEquipment().setHelmet(cis);

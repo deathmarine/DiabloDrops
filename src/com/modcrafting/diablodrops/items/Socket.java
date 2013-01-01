@@ -47,49 +47,49 @@ public class Socket extends Drop
                 + "Put in the bottom of a furnace", ChatColor.GOLD
                 + "with another item in the top", ChatColor.GOLD
                 + "to add socket enhancements.");
-            SkullType type = null;
-            int numType = DiabloDrops.getInstance().getSingleRandom()
-                    .nextInt(SkullType.values().length);
-            for (SkullType skullType : SkullType.values())
+        SkullType type = null;
+        int numType = DiabloDrops.getInstance().getSingleRandom()
+                .nextInt(SkullType.values().length);
+        for (SkullType skullType : SkullType.values())
+        {
+            if (skullType.getData() == numType)
             {
-                if (skullType.getData() == numType)
-                {
-                    type = skullType;
+                type = skullType;
+                break;
+            }
+        }
+        if (type == null)
+        {
+            switch (DiabloDrops.getInstance().getSingleRandom().nextInt(5))
+            {
+                case 1:
+                    type = SkullType.WITHER;
                     break;
-                }
+                case 2:
+                    type = SkullType.ZOMBIE;
+                    break;
+                case 3:
+                    type = SkullType.PLAYER;
+                    break;
+                case 4:
+                    type = SkullType.CREEPER;
+                    break;
+                default:
+                    type = SkullType.SKELETON;
+                    break;
             }
-            if (type == null)
-            {
-                switch (DiabloDrops.getInstance().getSingleRandom().nextInt(5))
-                {
-                    case 1:
-                        type = SkullType.WITHER;
-                        break;
-                    case 2:
-                        type = SkullType.ZOMBIE;
-                        break;
-                    case 3:
-                        type = SkullType.PLAYER;
-                        break;
-                    case 4:
-                        type = SkullType.CREEPER;
-                        break;
-                    default:
-                        type = SkullType.SKELETON;
-                        break;
-                }
-            }
-            MaterialData md = getData();
-            md.setData(type.getData());
-            setData(md);
-            ItemMeta meta;
-            if (hasItemMeta())
-                meta = getItemMeta();
-            else
-                meta = Bukkit.getItemFactory().getItemMeta(mat);
-            if (mat.equals(Material.SKULL_ITEM))
-            {
-                SkullMeta sk = (SkullMeta) meta;
+        }
+        MaterialData md = getData();
+        md.setData(type.getData());
+        setData(md);
+        ItemMeta meta;
+        if (hasItemMeta())
+            meta = getItemMeta();
+        else
+            meta = Bukkit.getItemFactory().getItemMeta(mat);
+        if (mat.equals(Material.SKULL_ITEM))
+        {
+            SkullMeta sk = (SkullMeta) meta;
             if (type.equals(SkullType.PLAYER))
             {
                 if (Bukkit.getServer().getOfflinePlayers().length > 0)

@@ -82,13 +82,13 @@ public class MobListener implements Listener
             {
                 if (cis != null)
                 {
-                	float dropChance = 2.0F;
-                	if(true)
-                	{
-                		Tier tier = plugin.getDropAPI().getTier(cis);
-                		if(tier!=null)
-                			dropChance = (tier.getDropChance()*0.01F);
-                	}
+                    float dropChance = 2.0F;
+                    if (true)
+                    {
+                        Tier tier = plugin.getDropAPI().getTier(cis);
+                        if (tier != null)
+                            dropChance = (tier.getDropChance() * 0.01F);
+                    }
                     if (plugin.getItemAPI().isHelmet(cis.getType())
                             || cis.getType().equals(Material.SKULL_ITEM))
                     {
@@ -98,7 +98,8 @@ public class MobListener implements Listener
                     else if (plugin.getItemAPI().isChestPlate(cis.getType()))
                     {
                         entity.getEquipment().setChestplate(cis);
-                        entity.getEquipment().setChestplateDropChance(dropChance);
+                        entity.getEquipment().setChestplateDropChance(
+                                dropChance);
                     }
                     else if (plugin.getItemAPI().isLeggings(cis.getType()))
                     {
@@ -113,7 +114,8 @@ public class MobListener implements Listener
                     else
                     {
                         entity.getEquipment().setItemInHand(cis);
-                        entity.getEquipment().setItemInHandDropChance(dropChance);
+                        entity.getEquipment().setItemInHandDropChance(
+                                dropChance);
                     }
                 }
             }

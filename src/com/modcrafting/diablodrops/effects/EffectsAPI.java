@@ -19,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class EffectsAPI
 {
-	//Planning to use this to start localization.
+    // Planning to use this to start localization.
     public static String ATTACK = "attack";
     public static String DEFENSE = "defense";
     public static String FREEZE = "freeze";
@@ -129,7 +129,7 @@ public class EffectsAPI
                     damaged.setHealth(chng);
                 else
                     damaged.setHealth(0);
-                
+
                 chng = level + damager.getHealth();
                 if ((chng < damager.getMaxHealth()) && (chng > 0))
                     damager.setHealth(chng);
@@ -153,7 +153,7 @@ public class EffectsAPI
         }
         else if (args[1].equalsIgnoreCase(EXPLODE) && (damaged != null))
         {
-        	EffectsUtil.playFirework(damaged.getLocation());
+            EffectsUtil.playFirework(damaged.getLocation());
         }
         else
         {
@@ -311,7 +311,7 @@ public class EffectsAPI
         }
         else if (args[1].equalsIgnoreCase(EXPLODE) && (struck != null))
         {
-        	EffectsUtil.playFirework(struck.getLocation());
+            EffectsUtil.playFirework(struck.getLocation());
         }
         else
         {

@@ -160,6 +160,14 @@ public class EffectsUtil
         }
     }
 
+    private static Method getMethod(Class<?> cl, String method)
+    {
+        for (Method m : cl.getMethods())
+            if (m.getName().equals(method))
+                return m;
+        return null;
+    }
+
     /**
      * Launch entity into the air with an acceleration of 2 times value
      * 
@@ -241,6 +249,46 @@ public class EffectsUtil
     }
 
     /**
+     * Explodes random firework on location
+     * 
+     * @param location
+     *            to explode
+     */
+    public static void playFirework(Location loc)
+    {
+        Random gen = DiabloDrops.getInstance().getSingleRandom();
+        try
+        {
+            Firework fw = loc.getWorld().spawn(loc, Firework.class);
+            Method d0 = getMethod(loc.getWorld().getClass(), "getHandle");
+            Method d2 = getMethod(fw.getClass(), "getHandle");
+            Object o3 = d0.invoke(loc.getWorld(), (Object[]) null);
+            Object o4 = d2.invoke(fw, (Object[]) null);
+            Method d1 = getMethod(o3.getClass(), "broadcastEntityEffect");
+            FireworkMeta data = fw.getFireworkMeta();
+            data.addEffect(FireworkEffect
+                    .builder()
+                    .with(FireworkEffect.Type.values()[gen
+                            .nextInt(FireworkEffect.Type.values().length)])
+                    .flicker(gen.nextBoolean())
+                    .trail(gen.nextBoolean())
+                    .withColor(
+                            Color.fromRGB(gen.nextInt(255), gen.nextInt(255),
+                                    gen.nextInt(255)))
+                    .withFade(
+                            Color.fromRGB(gen.nextInt(255), gen.nextInt(255),
+                                    gen.nextInt(255))).build());
+            fw.setFireworkMeta(data);
+            d1.invoke(o3, new Object[] { o4, (byte) 17 });
+            fw.remove();
+        }
+        catch (Exception ex)
+        {
+            // not a Beta1.4.6R0.2 Server
+        }
+    }
+
+    /**
      * Add PotionEffect to entity
      * 
      * @param e
@@ -311,54 +359,6 @@ public class EffectsUtil
                                     entity.getLocation());
                         }
                     }, 20L * x);
-        }
-    }
-
-    private static Method getMethod(Class<?> cl, String method)
-    {
-        for (Method m : cl.getMethods())
-            if (m.getName().equals(method))
-                return m;
-        return null;
-    }
-
-    /**
-     * Explodes random firework on location
-     * 
-     * @param location
-     *            to explode
-     */
-    public static void playFirework(Location loc)
-    {
-        Random gen = DiabloDrops.getInstance().getSingleRandom();
-        try
-        {
-            Firework fw = loc.getWorld().spawn(loc, Firework.class);
-            Method d0 = getMethod(loc.getWorld().getClass(), "getHandle");
-            Method d2 = getMethod(fw.getClass(), "getHandle");
-            Object o3 = d0.invoke(loc.getWorld(), (Object[]) null);
-            Object o4 = d2.invoke(fw, (Object[]) null);
-            Method d1 = getMethod(o3.getClass(), "broadcastEntityEffect");
-            FireworkMeta data = fw.getFireworkMeta();
-            data.addEffect(FireworkEffect
-                    .builder()
-                    .with(FireworkEffect.Type.values()[gen
-                            .nextInt(FireworkEffect.Type.values().length)])
-                    .flicker(gen.nextBoolean())
-                    .trail(gen.nextBoolean())
-                    .withColor(
-                            Color.fromRGB(gen.nextInt(255), gen.nextInt(255),
-                                    gen.nextInt(255)))
-                    .withFade(
-                            Color.fromRGB(gen.nextInt(255), gen.nextInt(255),
-                                    gen.nextInt(255))).build());
-            fw.setFireworkMeta(data);
-            d1.invoke(o3, new Object[] { o4, (byte) 17 });
-            fw.remove();
-        }
-        catch (Exception ex)
-        {
-            // not a Beta1.4.6R0.2 Server
         }
     }
 }

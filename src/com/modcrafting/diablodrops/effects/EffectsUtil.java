@@ -314,7 +314,7 @@ public class EffectsUtil
         }
     }
 
-    private Method getMethod(Class<?> cl, String method)
+    private static Method getMethod(Class<?> cl, String method)
     {
         for (Method m : cl.getMethods())
             if (m.getName().equals(method))
@@ -328,7 +328,7 @@ public class EffectsUtil
      * @param location
      *            to explode
      */
-    public void playFirework(Location loc)
+    public static void playFirework(Location loc)
     {
         Random gen = DiabloDrops.getInstance().getSingleRandom();
         try

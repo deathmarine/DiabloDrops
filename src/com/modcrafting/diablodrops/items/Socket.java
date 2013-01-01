@@ -47,14 +47,6 @@ public class Socket extends Drop
                 + "Put in the bottom of a furnace", ChatColor.GOLD
                 + "with another item in the top", ChatColor.GOLD
                 + "to add socket enhancements.");
-        ItemMeta meta;
-        if (hasItemMeta())
-            meta = getItemMeta();
-        else
-            meta = Bukkit.getItemFactory().getItemMeta(mat);
-        if (mat.equals(Material.SKULL_ITEM))
-        {
-            SkullMeta sk = (SkullMeta) meta;
             SkullType type = null;
             int numType = DiabloDrops.getInstance().getSingleRandom()
                     .nextInt(SkullType.values().length);
@@ -87,6 +79,17 @@ public class Socket extends Drop
                         break;
                 }
             }
+            MaterialData md = getData();
+            md.setData(type.getData());
+            setData(md);
+            ItemMeta meta;
+            if (hasItemMeta())
+                meta = getItemMeta();
+            else
+                meta = Bukkit.getItemFactory().getItemMeta(mat);
+            if (mat.equals(Material.SKULL_ITEM))
+            {
+                SkullMeta sk = (SkullMeta) meta;
             if (type.equals(SkullType.PLAYER))
             {
                 if (Bukkit.getServer().getOfflinePlayers().length > 0)
@@ -111,9 +114,6 @@ public class Socket extends Drop
                     }
                 }
             }
-            MaterialData md = getData();
-            md.setData(type.getData());
-            setData(md);
         }
         setItemMeta(meta);
     }

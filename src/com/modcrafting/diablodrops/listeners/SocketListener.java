@@ -48,14 +48,10 @@ public class SocketListener implements Listener
                         continue;
                     ItemMeta meta;
                     if (fuel.hasItemMeta())
-                    {
                         meta = fuel.getItemMeta();
-                    }
                     else
-                    {
                         meta = Bukkit.getItemFactory().getItemMeta(
                                 fuel.getType());
-                    }
                     if (meta.getDisplayName() != null)
                     {
                         ItemMeta tismeta;
@@ -147,7 +143,18 @@ public class SocketListener implements Listener
 
         ItemStack tool = event.getResult();
         ItemStack oldtool = event.getSource();
-        ItemMeta metaold = oldtool.getItemMeta();
+        ItemMeta metaold;
+        if (oldtool.hasItemMeta())
+            metaold = oldtool.getItemMeta();
+        else
+            metaold = Bukkit.getItemFactory().getItemMeta(oldtool.getType());
+
+        if (!metaold.hasLore())
+        {
+            event.setCancelled(true);
+            event.setResult(oldtool);
+            return;
+        }
 
         boolean namTest = false;
         for (String n : metaold.getLore())

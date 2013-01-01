@@ -51,6 +51,10 @@ SocketItem:
   - Emerald
   - Diamond
   - Skull_Item
+  Colors:
+  - GREEN
+  - RED
+  - BLUE
 #This is the initial chance to retrieve an item#
 Percentages:
   ChancePerSpawn: 3

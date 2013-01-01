@@ -1,14 +1,19 @@
 package com.modcrafting.diablodrops;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Settings
 {
-    private double socket;
-    private double tome;
-    private double standard;
-    private double lore;
-    private double custom;
+    private final double socket;
+    private final double tome;
+    private final double standard;
+    private final double lore;
+    private final double custom;
+    private final ChatColor[] colorList;
 
     public Settings(FileConfiguration fc)
     {
@@ -17,6 +22,7 @@ public class Settings
         standard = fc.getDouble("Percentages.ChancePerSpawn", 2.0);
         lore = fc.getDouble("Lore.Chance", 2.0);
         custom = fc.getDouble("Custom.Chance", 2.0);
+        colorList = setupSocketColors(fc);
     }
 
     public int getCustomChance()
@@ -34,6 +40,11 @@ public class Settings
         return (int) (socket * 100);
     }
 
+    public ChatColor[] getSocketColors()
+    {
+        return colorList;
+    }
+
     public int getStandardChance()
     {
         return (int) (standard * 100);
@@ -42,6 +53,32 @@ public class Settings
     public int getTomeChance()
     {
         return (int) (tome * 100);
+    }
+
+    private ChatColor[] setupSocketColors(FileConfiguration fc)
+    {
+        List<String> colorStringList = fc.getStringList("SocketItem.Colors");
+        if (colorStringList == null)
+            colorStringList = Arrays.asList(new String[] { "GREEN", "BLUE",
+                    "RED" });
+        ChatColor[] colorList = new ChatColor[colorStringList.size()];
+        for (int i = 0; i < colorStringList.size(); i++)
+        {
+            String string = colorStringList.get(i);
+            ChatColor cc = null;
+            try
+            {
+                cc = ChatColor.valueOf(string.toUpperCase());
+            }
+            catch (Exception e)
+            {
+                continue;
+            }
+            if (cc != null)
+                colorList[i] = cc;
+        }
+        System.out.println(colorList.toString());
+        return colorList;
     }
 
 }

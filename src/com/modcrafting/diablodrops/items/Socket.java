@@ -29,15 +29,7 @@ public class Socket extends Drop
 
     private static ChatColor color()
     {
-        switch (DiabloDrops.getInstance().getSingleRandom().nextInt(3))
-        {
-            case 1:
-                return ChatColor.RED;
-            case 2:
-                return ChatColor.BLUE;
-            default:
-                return ChatColor.GREEN;
-        }
+        return DiabloDrops.getInstance().getDropAPI().colorPicker();
     }
 
     public Socket(final Material mat)

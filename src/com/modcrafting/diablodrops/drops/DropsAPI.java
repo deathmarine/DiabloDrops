@@ -53,17 +53,8 @@ public class DropsAPI
      */
     public ChatColor colorPicker()
     {
-        switch (plugin.getSingleRandom().nextInt(4))
-        {
-            case 1:
-                return ChatColor.RED;
-            case 2:
-                return ChatColor.BLUE;
-            case 3:
-                return ChatColor.GREEN;
-            default:
-                return ChatColor.RESET;
-        }
+        return plugin.getSettings().getSocketColors()[plugin.getSingleRandom()
+                .nextInt(plugin.getSettings().getSocketColors().length)];
     }
 
     /**

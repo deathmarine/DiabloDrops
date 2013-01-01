@@ -9,7 +9,6 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Firework;
@@ -315,30 +314,6 @@ public class EffectsUtil
     public static void setOnFire(final LivingEntity entity, final int value)
     {
         entity.setFireTicks(20 * 3 * Math.abs(value));
-    }
-
-    /**
-     * Launches an arrow from the entity an amount of times equal to value
-     * 
-     * @param entity
-     * @param value
-     */
-    public static void spine(final LivingEntity entity, final int value)
-    {
-        for (int i = value; i > 0; i--)
-        {
-            Bukkit.getServer()
-                    .getScheduler()
-                    .scheduleSyncDelayedTask(DiabloDrops.getInstance(),
-                            new Runnable()
-                            {
-                                @Override
-                                public void run()
-                                {
-                                    entity.launchProjectile(Arrow.class);
-                                }
-                            }, 20L * i);
-        }
     }
 
     public static void strikeLightning(final LivingEntity entity,

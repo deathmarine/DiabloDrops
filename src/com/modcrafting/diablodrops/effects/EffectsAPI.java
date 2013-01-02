@@ -17,6 +17,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import com.modcrafting.diablodrops.DiabloDrops;
+
 public class EffectsAPI
 {
     // Planning to use this to start localization.
@@ -34,7 +36,7 @@ public class EffectsAPI
             final LivingEntity damager, final String s,
             final EntityDamageByEntityEvent event)
     {
-        String[] args = s.split(" ");
+        String[] args = s.replace("+", "").split(" ");
         if (args.length <= 1)
             return;
         Integer level = null;
@@ -153,8 +155,8 @@ public class EffectsAPI
         }
         else if (args[1].equalsIgnoreCase(EXPLODE) && (damaged != null))
         {
-            for(int i=Math.abs(level);i>0;i--)
-            	EffectsUtil.playFirework(damaged.getLocation());
+            for (int i = Math.abs(level); i > 0; i--)
+                EffectsUtil.playFirework(damaged.getLocation());
         }
         else
         {
@@ -333,6 +335,15 @@ public class EffectsAPI
         }
     }
 
+    public static ChatColor findColor(final String s)
+    {
+        char[] c = s.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if ((c[i] == new Character((char) 167)) && ((i + 1) < c.length))
+                return ChatColor.getByChar(c[i + 1]);
+        return null;
+    }
+
     public static void handlePluginEffects(final LivingEntity damaged,
             final LivingEntity damager, final EntityDamageByEntityEvent event)
     {
@@ -343,7 +354,19 @@ public class EffectsAPI
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
             {
-                addEffect(damaged, damager, s, event);
+                if (DiabloDrops
+                        .getInstance()
+                        .getDropAPI()
+                        .containsIgnoreCase(
+                                DiabloDrops.getInstance().offenselore, s)
+                        || DiabloDrops
+                                .getInstance()
+                                .getDropAPI()
+                                .containsIgnoreCase(
+                                        DiabloDrops.getInstance().ccoffenselore
+                                                .get(findColor(s)),
+                                        s))
+                    addEffect(damaged, damager, s, event);
             }
         }
         if (damaged instanceof Player)
@@ -354,7 +377,19 @@ public class EffectsAPI
                     .getArmorContents()));
             for (String s : listEffects(struckEquipment))
             {
-                addEffect(damager, damaged, s, event);
+                if (DiabloDrops
+                        .getInstance()
+                        .getDropAPI()
+                        .containsIgnoreCase(
+                                DiabloDrops.getInstance().defenselore, s)
+                        || DiabloDrops
+                                .getInstance()
+                                .getDropAPI()
+                                .containsIgnoreCase(
+                                        DiabloDrops.getInstance().ccdefenselore
+                                                .get(findColor(s)),
+                                        s))
+                    addEffect(damager, damaged, s, event);
             }
         }
     }
@@ -379,7 +414,19 @@ public class EffectsAPI
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
             {
-                addEffect(entityStruck, entityStriker, s, event);
+                if (DiabloDrops
+                        .getInstance()
+                        .getDropAPI()
+                        .containsIgnoreCase(
+                                DiabloDrops.getInstance().offenselore, s)
+                        || DiabloDrops
+                                .getInstance()
+                                .getDropAPI()
+                                .containsIgnoreCase(
+                                        DiabloDrops.getInstance().ccoffenselore
+                                                .get(findColor(s)),
+                                        s))
+                    addEffect(entityStruck, entityStriker, s, event);
             }
         }
         if (entityStruck instanceof Player)
@@ -390,7 +437,19 @@ public class EffectsAPI
                     .getArmorContents()));
             for (String s : listEffects(struckEquipment))
             {
-                addEffect(entityStriker, entityStruck, s, event);
+                if (DiabloDrops
+                        .getInstance()
+                        .getDropAPI()
+                        .containsIgnoreCase(
+                                DiabloDrops.getInstance().defenselore, s)
+                        || DiabloDrops
+                                .getInstance()
+                                .getDropAPI()
+                                .containsIgnoreCase(
+                                        DiabloDrops.getInstance().ccdefenselore
+                                                .get(findColor(s)),
+                                        s))
+                    addEffect(entityStriker, entityStruck, s, event);
             }
         }
     }
@@ -409,12 +468,12 @@ public class EffectsAPI
             if (!tool.hasItemMeta())
                 continue;
             ItemMeta meta = tool.getItemMeta();
-            if ((meta.getLore() == null) || meta.getLore().isEmpty())
+            if ((!meta.hasLore() || meta.getLore() == null)
+                    || meta.getLore().isEmpty())
                 continue;
             for (String string : meta.getLore())
             {
-                string = ChatColor.stripColor(string).replace("%", "")
-                        .replace("+", "");
+                string = ChatColor.stripColor(string).replace("%", "");
                 effects.add(string);
             }
         }

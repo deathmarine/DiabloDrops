@@ -354,6 +354,7 @@ public class EffectsAPI
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
             {
+            	/*
                 if (DiabloDrops
                         .getInstance()
                         .getDropAPI()
@@ -363,9 +364,10 @@ public class EffectsAPI
                                 .getInstance()
                                 .getDropAPI()
                                 .containsIgnoreCase(
-                                        DiabloDrops.getInstance().ccoffenselore
+                                        DiabloDrops.getInstance().offenselore
                                                 .get(findColor(s)),
                                         s))
+                                        */
                     addEffect(damaged, damager, s, event);
             }
         }
@@ -377,18 +379,20 @@ public class EffectsAPI
                     .getArmorContents()));
             for (String s : listEffects(struckEquipment))
             {
+            	/*
                 if (DiabloDrops
                         .getInstance()
                         .getDropAPI()
                         .containsIgnoreCase(
-                                DiabloDrops.getInstance().defenselore, s)
+                                DiabloDrops.getInstance().offenselore, s)
                         || DiabloDrops
                                 .getInstance()
                                 .getDropAPI()
                                 .containsIgnoreCase(
-                                        DiabloDrops.getInstance().ccdefenselore
+                                        DiabloDrops.getInstance().offenselore
                                                 .get(findColor(s)),
                                         s))
+                                        */
                     addEffect(damager, damaged, s, event);
             }
         }
@@ -414,6 +418,7 @@ public class EffectsAPI
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
             {
+            	/*
                 if (DiabloDrops
                         .getInstance()
                         .getDropAPI()
@@ -423,9 +428,10 @@ public class EffectsAPI
                                 .getInstance()
                                 .getDropAPI()
                                 .containsIgnoreCase(
-                                        DiabloDrops.getInstance().ccoffenselore
+                                        DiabloDrops.getInstance().offenselore
                                                 .get(findColor(s)),
                                         s))
+                                        */
                     addEffect(entityStruck, entityStriker, s, event);
             }
         }
@@ -437,18 +443,20 @@ public class EffectsAPI
                     .getArmorContents()));
             for (String s : listEffects(struckEquipment))
             {
+            	/*
                 if (DiabloDrops
                         .getInstance()
                         .getDropAPI()
                         .containsIgnoreCase(
-                                DiabloDrops.getInstance().defenselore, s)
+                                DiabloDrops.getInstance().offenselore, s)
                         || DiabloDrops
                                 .getInstance()
                                 .getDropAPI()
                                 .containsIgnoreCase(
-                                        DiabloDrops.getInstance().ccdefenselore
+                                        DiabloDrops.getInstance().offenselore
                                                 .get(findColor(s)),
                                         s))
+                                        */
                     addEffect(entityStriker, entityStruck, s, event);
             }
         }

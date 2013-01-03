@@ -754,7 +754,7 @@ public class DropsAPI
         tool.setItemMeta(meta);
         if (plugin.getItemAPI().isLeather(tool.getType()))
         {
-            LeatherArmorMeta lam = (LeatherArmorMeta) meta;
+            LeatherArmorMeta lam = (LeatherArmorMeta) tool.getItemMeta();
             lam.setColor(Color.fromRGB(plugin.getSingleRandom().nextInt(255),
                     plugin.getSingleRandom().nextInt(255), plugin
                             .getSingleRandom().nextInt(255)));
@@ -951,7 +951,7 @@ public class DropsAPI
         tool.setItemMeta(meta);
         if (plugin.getItemAPI().isLeather(tool.getType()))
         {
-            LeatherArmorMeta lam = (LeatherArmorMeta) meta;
+            LeatherArmorMeta lam = (LeatherArmorMeta) tool.getItemMeta();
             lam.setColor(Color.fromRGB(plugin.getSingleRandom().nextInt(255),
                     plugin.getSingleRandom().nextInt(255), plugin
                             .getSingleRandom().nextInt(255)));
@@ -1128,7 +1128,7 @@ public class DropsAPI
         tool.setItemMeta(meta);
         if (plugin.getItemAPI().isLeather(tool.getType()))
         {
-            LeatherArmorMeta lam = (LeatherArmorMeta) meta;
+            LeatherArmorMeta lam = (LeatherArmorMeta) tool.getItemMeta();
             lam.setColor(Color.fromRGB(plugin.getSingleRandom().nextInt(255),
                     plugin.getSingleRandom().nextInt(255), plugin
                             .getSingleRandom().nextInt(255)));

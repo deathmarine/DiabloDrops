@@ -15,7 +15,7 @@ public class IdentifyTome extends ItemStack
     {
         super(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) this.getItemMeta();
-        meta.setTitle(ChatColor.DARK_AQUA+"Identity Tome");
+        meta.setTitle(ChatColor.DARK_AQUA + "Identity Tome");
         String author = UUID.randomUUID().toString();
         if (author.length() > 16)
             author = author.substring(0, 15);

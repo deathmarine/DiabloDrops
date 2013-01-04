@@ -59,7 +59,41 @@ public class NamesLoader
         }
     }
 
-    public void loadMaterialFile(final HashMap<Material, List<String>> hm, final File f)
+    /**
+     * Takes values from a file and adds them to list
+     * 
+     * @param l
+     *            List of strings to add values
+     * @param name
+     *            Name of the file to take values from
+     */
+    public void loadFile(final List<String> l, final String name)
+    {
+        try
+        {
+            BufferedReader list = new BufferedReader(new FileReader(new File(
+                    dataFolder, name)));
+            String p;
+            while ((p = list.readLine()) != null)
+            {
+                if (!p.contains("#") && (p.length() > 0))
+                {
+                    l.add(p);
+                }
+            }
+            list.close();
+        }
+        catch (Exception e)
+        {
+            if (plugin.getDebug())
+            {
+                plugin.log.warning(e.getMessage());
+            }
+        }
+    }
+
+    public void loadMaterialFile(final HashMap<Material, List<String>> hm,
+            final File f)
     {
         Material m = Material.getMaterial(f.getName().replace(".txt", "")
                 .toUpperCase());
@@ -85,39 +119,6 @@ public class NamesLoader
                 hm.put(Material.AIR, l);
             }
 
-            list.close();
-        }
-        catch (Exception e)
-        {
-            if (plugin.getDebug())
-            {
-                plugin.log.warning(e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Takes values from a file and adds them to list
-     * 
-     * @param l
-     *            List of strings to add values
-     * @param name
-     *            Name of the file to take values from
-     */
-    public void loadFile(final List<String> l, final String name)
-    {
-        try
-        {
-            BufferedReader list = new BufferedReader(new FileReader(new File(
-                    dataFolder, name)));
-            String p;
-            while ((p = list.readLine()) != null)
-            {
-                if (!p.contains("#") && (p.length() > 0))
-                {
-                    l.add(p);
-                }
-            }
             list.close();
         }
         catch (Exception e)

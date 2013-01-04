@@ -56,16 +56,6 @@ Enemies Shrink
 +8 Explode
 +9 Explode
 +10 Explode
--1 Explode
--2 Explode
--3 Explode
--4 Explode
--5 Explode
--6 Explode
--7 Explode
--8 Explode
--9 Explode
--10 Explode
 ## Potions can be added by name ##
 ## Configurable ## 
 ## Positive Affects Mobs, Negative Affects The Player ##

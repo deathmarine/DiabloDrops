@@ -182,33 +182,6 @@ public class DiabloDrops extends JavaPlugin
                             new File(sloc, f.getName()));
                 }
         }
-        if (config.getBoolean("SocketItem.ColorLoreExtras", false))
-        {
-            File loc = new File(getDataFolder(), "/SocketColorOffenseLore/");
-            if (!loc.exists())
-            {
-                loc.mkdir();
-            }
-            for (File f : loc.listFiles())
-                if (f.getName().endsWith(".txt"))
-                {
-                    getLogger().info("Loading Offense File:" + f.getName());
-                    nameLoader.loadChatColorFile(ccoffenselore,
-                            new File(loc, f.getName()));
-                }
-            File sloc = new File(getDataFolder(), "/SocketColorDefenseLore/");
-            if (!sloc.exists())
-            {
-                sloc.mkdir();
-            }
-            for (File f : loc.listFiles())
-                if (f.getName().endsWith(".txt"))
-                {
-                    getLogger().info("Loading Defense File:" + f.getName());
-                    nameLoader.loadChatColorFile(ccdefenselore, new File(sloc,
-                            f.getName()));
-                }
-        }
         nameLoader.loadFile(prefix, "prefix.txt");
         nameLoader.loadFile(suffix, "suffix.txt");
         nameLoader.loadFile(defenselore, "defenselore.txt");

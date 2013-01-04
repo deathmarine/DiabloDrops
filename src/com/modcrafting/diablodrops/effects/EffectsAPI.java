@@ -17,6 +17,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import com.modcrafting.diablodrops.DiabloDrops;
+
 public class EffectsAPI
 {
     // Planning to use this to start localization.
@@ -352,14 +354,35 @@ public class EffectsAPI
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
             {
-                /*
-                 * if (DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore,
-                 * s) || DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
-                 * .get(findColor(s)), s))
-                 */
-                addEffect(damaged, damager, s, event);
+                if (DiabloDrops.getInstance().ccoffenselore != null
+                        && !DiabloDrops.getInstance().ccoffenselore.isEmpty())
+                {
+                    if (DiabloDrops
+                            .getInstance()
+                            .getDropAPI()
+                            .containsIgnoreCase(
+                                    DiabloDrops.getInstance().offenselore, s)
+                            || DiabloDrops
+                                    .getInstance()
+                                    .getDropAPI()
+                                    .containsIgnoreCase(
+                                            DiabloDrops.getInstance().ccoffenselore
+                                                    .get(findColor(s)), s))
+                    {
+                        addEffect(damaged, damager, s, event);
+                    }
+                }
+                else
+                {
+                    if (DiabloDrops
+                            .getInstance()
+                            .getDropAPI()
+                            .containsIgnoreCase(
+                                    DiabloDrops.getInstance().offenselore, s))
+                    {
+                        addEffect(damaged, damager, s, event);
+                    }
+                }
             }
         }
         if (damaged instanceof Player)
@@ -370,14 +393,35 @@ public class EffectsAPI
                     .getArmorContents()));
             for (String s : listEffects(struckEquipment))
             {
-                /*
-                 * if (DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore,
-                 * s) || DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
-                 * .get(findColor(s)), s))
-                 */
-                addEffect(damager, damaged, s, event);
+                if (DiabloDrops.getInstance().ccdefenselore != null
+                        && !DiabloDrops.getInstance().ccdefenselore.isEmpty())
+                {
+                    if (DiabloDrops
+                            .getInstance()
+                            .getDropAPI()
+                            .containsIgnoreCase(
+                                    DiabloDrops.getInstance().defenselore, s)
+                            || DiabloDrops
+                                    .getInstance()
+                                    .getDropAPI()
+                                    .containsIgnoreCase(
+                                            DiabloDrops.getInstance().ccdefenselore
+                                                    .get(findColor(s)), s))
+                    {
+                        addEffect(damaged, damager, s, event);
+                    }
+                }
+                else
+                {
+                    if (DiabloDrops
+                            .getInstance()
+                            .getDropAPI()
+                            .containsIgnoreCase(
+                                    DiabloDrops.getInstance().defenselore, s))
+                    {
+                        addEffect(damaged, damager, s, event);
+                    }
+                }
             }
         }
     }

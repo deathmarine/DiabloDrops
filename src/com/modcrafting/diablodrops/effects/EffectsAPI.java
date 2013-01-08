@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -16,6 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import com.modcrafting.diablodrops.events.ItemEffectEvent;
 
 public class EffectsAPI
 {
@@ -359,7 +362,11 @@ public class EffectsAPI
                  * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
                  * .get(findColor(s)), s))
                  */
-                addEffect(damaged, damager, s, event);
+                ItemEffectEvent iee = new ItemEffectEvent(damaged, damager, s);
+                Bukkit.getPluginManager().callEvent(iee);
+                if (!iee.isCancelled())
+                    addEffect(iee.getDamaged(), iee.getDamager(),
+                            iee.getEffect(), event);
             }
         }
         if (damaged instanceof Player)
@@ -377,7 +384,11 @@ public class EffectsAPI
                  * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
                  * .get(findColor(s)), s))
                  */
-                addEffect(damager, damaged, s, event);
+                ItemEffectEvent iee = new ItemEffectEvent(damaged, damager, s);
+                Bukkit.getPluginManager().callEvent(iee);
+                if (!iee.isCancelled())
+                    addEffect(iee.getDamager(), iee.getDamaged(),
+                            iee.getEffect(), event);
             }
         }
     }
@@ -385,19 +396,19 @@ public class EffectsAPI
     /**
      * Handles any effects caused by an EntityDamageEvent
      * 
-     * @param entityStruck
+     * @param damaged
      *            Entity damaged by event
-     * @param entityStriker
+     * @param damager
      *            Entity that caused the damage
      * @param event
      *            EntityDamageEvent that requires effects
      */
-    public static void handlePluginEffects(final LivingEntity entityStruck,
-            final LivingEntity entityStriker, final EntityDamageEvent event)
+    public static void handlePluginEffects(final LivingEntity damaged,
+            final LivingEntity damager, final EntityDamageEvent event)
     {
-        if (entityStriker instanceof Player)
+        if (damager instanceof Player)
         {
-            Player striker = (Player) entityStriker;
+            Player striker = (Player) damager;
             List<ItemStack> strikerEquipment = new ArrayList<ItemStack>();
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
@@ -409,12 +420,16 @@ public class EffectsAPI
                  * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
                  * .get(findColor(s)), s))
                  */
-                addEffect(entityStruck, entityStriker, s, event);
+                ItemEffectEvent iee = new ItemEffectEvent(damaged, damager, s);
+                Bukkit.getPluginManager().callEvent(iee);
+                if (!iee.isCancelled())
+                    addEffect(iee.getDamaged(), iee.getDamager(),
+                            iee.getEffect(), event);
             }
         }
-        if (entityStruck instanceof Player)
+        if (damaged instanceof Player)
         {
-            Player struck = (Player) entityStruck;
+            Player struck = (Player) damaged;
             List<ItemStack> struckEquipment = new ArrayList<ItemStack>();
             struckEquipment.addAll(Arrays.asList(struck.getInventory()
                     .getArmorContents()));
@@ -427,7 +442,11 @@ public class EffectsAPI
                  * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
                  * .get(findColor(s)), s))
                  */
-                addEffect(entityStriker, entityStruck, s, event);
+                ItemEffectEvent iee = new ItemEffectEvent(damaged, damager, s);
+                Bukkit.getPluginManager().callEvent(iee);
+                if (!iee.isCancelled())
+                    addEffect(iee.getDamager(), iee.getDamaged(),
+                            iee.getEffect(), event);
             }
         }
     }

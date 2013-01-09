@@ -1,12 +1,14 @@
 package com.modcrafting.diablodrops.effects;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Chicken;
@@ -40,10 +42,10 @@ public class EffectsUtil
      */
     public static void entomb(final Location loc, final int value)
     {
+        final HashMap<Location, Material> atLoc = new HashMap<Location, Material>();
         Bukkit.getScheduler().scheduleSyncDelayedTask(
                 DiabloDrops.getInstance(), new Runnable()
                 {
-
                     @Override
                     public void run()
                     {
@@ -77,14 +79,16 @@ public class EffectsUtil
                             for (int z_o = vertex[0].getBlockZ(); z_o <= vertex[1]
                                     .getBlockZ(); z_o++)
                             {
-                                entombBlockType(
-                                        world.getBlockAt(x_o,
-                                                vertex[0].getBlockY(), z_o),
-                                        value);
-                                entombBlockType(
-                                        world.getBlockAt(x_o,
-                                                vertex[2].getBlockY(), z_o),
-                                        value);
+                                Block block1 = world.getBlockAt(x_o,
+                                        vertex[0].getBlockY(), z_o);
+                                atLoc.put(block1.getLocation(),
+                                        block1.getType());
+                                entombBlockType(block1, value);
+                                Block block2 = world.getBlockAt(x_o,
+                                        vertex[2].getBlockY(), z_o);
+                                atLoc.put(block2.getLocation(),
+                                        block2.getType());
+                                entombBlockType(block2, value);
                             }
                         }
                         for (int y_o = vertex[0].getBlockY(); y_o <= vertex[2]
@@ -93,8 +97,16 @@ public class EffectsUtil
                             for (int z_o = vertex[0].getBlockZ(); z_o <= vertex[1]
                                     .getBlockZ(); z_o++)
                             {
+                                Block block1 = world.getBlockAt(
+                                        vertex[0].getBlockX(), y_o, z_o);
+                                atLoc.put(block1.getLocation(),
+                                        block1.getType());
                                 entombBlockType(world.getBlockAt(
                                         vertex[0].getBlockX(), y_o, z_o), value);
+                                Block block2 = world.getBlockAt(
+                                        vertex[5].getBlockX(), y_o, z_o);
+                                atLoc.put(block2.getLocation(),
+                                        block2.getType());
                                 entombBlockType(world.getBlockAt(
                                         vertex[5].getBlockX(), y_o, z_o), value);
                             }
@@ -106,9 +118,17 @@ public class EffectsUtil
                             for (int y_o = vertex[0].getBlockY(); y_o <= vertex[6]
                                     .getBlockY(); y_o++)
                             {
+                                Block block1 = world.getBlockAt(x_o, y_o,
+                                        vertex[0].getBlockZ());
+                                atLoc.put(block1.getLocation(),
+                                        block1.getType());
                                 entombBlockType(
                                         world.getBlockAt(x_o, y_o,
                                                 vertex[0].getBlockZ()), value);
+                                Block block2 = world.getBlockAt(x_o, y_o,
+                                        vertex[5].getBlockZ());
+                                atLoc.put(block2.getLocation(),
+                                        block2.getType());
                                 entombBlockType(
                                         world.getBlockAt(x_o, y_o,
                                                 vertex[5].getBlockZ()), value);
@@ -116,6 +136,19 @@ public class EffectsUtil
                         }
                     }
                 }, 20L * 1);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(
+                DiabloDrops.getInstance(), new Runnable()
+                {
+
+                    @Override
+                    public void run()
+                    {
+                        for (Location loc : atLoc.keySet())
+                        {
+                            loc.getBlock().setType(atLoc.get(loc));
+                        }
+                    }
+                }, 20L * 10);
     }
 
     private static void entombBlockType(final Block block, final int value)

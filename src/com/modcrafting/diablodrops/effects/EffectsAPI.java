@@ -357,13 +357,6 @@ public class EffectsAPI
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
             {
-                /*
-                 * if (DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore,
-                 * s) || DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
-                 * .get(findColor(s)), s))
-                 */
                 ItemEffectEvent iee = new ItemEffectEvent(damaged, damager, s);
                 Bukkit.getPluginManager().callEvent(iee);
                 if (!iee.isCancelled())
@@ -379,13 +372,6 @@ public class EffectsAPI
                     .getArmorContents()));
             for (String s : listEffects(struckEquipment))
             {
-                /*
-                 * if (DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore,
-                 * s) || DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
-                 * .get(findColor(s)), s))
-                 */
                 ItemEffectEvent iee = new ItemEffectEvent(damaged, damager, s);
                 Bukkit.getPluginManager().callEvent(iee);
                 if (!iee.isCancelled())
@@ -415,13 +401,6 @@ public class EffectsAPI
             strikerEquipment.add(striker.getItemInHand());
             for (String s : listEffects(strikerEquipment))
             {
-                /*
-                 * if (DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore,
-                 * s) || DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
-                 * .get(findColor(s)), s))
-                 */
                 ItemEffectEvent iee = new ItemEffectEvent(damaged, damager, s);
                 Bukkit.getPluginManager().callEvent(iee);
                 if (!iee.isCancelled())
@@ -437,13 +416,6 @@ public class EffectsAPI
                     .getArmorContents()));
             for (String s : listEffects(struckEquipment))
             {
-                /*
-                 * if (DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore,
-                 * s) || DiabloDrops .getInstance() .getDropAPI()
-                 * .containsIgnoreCase( DiabloDrops.getInstance().offenselore
-                 * .get(findColor(s)), s))
-                 */
                 ItemEffectEvent iee = new ItemEffectEvent(damaged, damager, s);
                 Bukkit.getPluginManager().callEvent(iee);
                 if (!iee.isCancelled())

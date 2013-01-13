@@ -512,54 +512,16 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(tool.getType()))
                 {
-                    if (plugin.getSettings().useColorLoreExtra()
-                            && plugin.ccdefenselore != null
-                            && !plugin.ccdefenselore.isEmpty()
-                            && plugin.ccdefenselore.get(tier.getColor()) != null
-                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
-                                    .getSingleRandom().nextBoolean()))
-                        list.add(colorPicker()
-                                + plugin.ccdefenselore
-                                        .get(tier.getColor())
-                                        .get(plugin
-                                                .getSingleRandom()
-                                                .nextInt(
-                                                        plugin.ccdefenselore
-                                                                .get(tier
-                                                                        .getColor())
-                                                                .size())));
-                    else
-                        list.add(colorPicker()
-                                + plugin.defenselore.get(plugin
-                                        .getSingleRandom().nextInt(
-                                                plugin.defenselore.size())));
-                    meta.setLore(list);
+                    list.add(colorPicker()
+                            + plugin.defenselore.get(plugin.getSingleRandom()
+                                    .nextInt(plugin.defenselore.size())));
 
                 }
                 else if (plugin.getItemAPI().isTool(tool.getType()))
                 {
-                    if (plugin.getSettings().useColorLoreExtra()
-                            && plugin.ccdefenselore != null
-                            && !plugin.ccoffenselore.isEmpty()
-                            && plugin.ccoffenselore.get(tier.getColor()) != null
-                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
-                                    .getSingleRandom().nextBoolean()))
-                        list.add(colorPicker()
-                                + plugin.ccoffenselore
-                                        .get(tier.getColor())
-                                        .get(plugin
-                                                .getSingleRandom()
-                                                .nextInt(
-                                                        plugin.ccoffenselore
-                                                                .get(tier
-                                                                        .getColor())
-                                                                .size())));
-                    else
-                        list.add(colorPicker()
-                                + plugin.offenselore.get(plugin
-                                        .getSingleRandom().nextInt(
-                                                plugin.offenselore.size())));
-                    meta.setLore(list);
+                    list.add(colorPicker()
+                            + plugin.offenselore.get(plugin.getSingleRandom()
+                                    .nextInt(plugin.offenselore.size())));
                 }
         }
         meta.setLore(list);
@@ -700,54 +662,17 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
-                    if (plugin.getSettings().useColorLoreExtra()
-                            && plugin.ccdefenselore != null
-                            && !plugin.ccdefenselore.isEmpty()
-                            && plugin.ccdefenselore.get(tier.getColor()) != null
-                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
-                                    .getSingleRandom().nextBoolean()))
-                        list.add(colorPicker()
-                                + plugin.ccdefenselore
-                                        .get(tier.getColor())
-                                        .get(plugin
-                                                .getSingleRandom()
-                                                .nextInt(
-                                                        plugin.ccdefenselore
-                                                                .get(tier
-                                                                        .getColor())
-                                                                .size())));
-                    else
-                        list.add(colorPicker()
-                                + plugin.defenselore.get(plugin
-                                        .getSingleRandom().nextInt(
-                                                plugin.defenselore.size())));
-                    meta.setLore(list);
+
+                    list.add(colorPicker()
+                            + plugin.defenselore.get(plugin.getSingleRandom()
+                                    .nextInt(plugin.defenselore.size())));
 
                 }
                 else if (plugin.getItemAPI().isTool(mat))
                 {
-                    if (plugin.getSettings().useColorLoreExtra()
-                            && plugin.ccdefenselore != null
-                            && !plugin.ccoffenselore.isEmpty()
-                            && plugin.ccoffenselore.get(tier.getColor()) != null
-                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
-                                    .getSingleRandom().nextBoolean()))
-                        list.add(colorPicker()
-                                + plugin.ccoffenselore
-                                        .get(tier.getColor())
-                                        .get(plugin
-                                                .getSingleRandom()
-                                                .nextInt(
-                                                        plugin.ccoffenselore
-                                                                .get(tier
-                                                                        .getColor())
-                                                                .size())));
-                    else
-                        list.add(colorPicker()
-                                + plugin.offenselore.get(plugin
-                                        .getSingleRandom().nextInt(
-                                                plugin.offenselore.size())));
-                    meta.setLore(list);
+                    list.add(colorPicker()
+                            + plugin.offenselore.get(plugin.getSingleRandom()
+                                    .nextInt(plugin.offenselore.size())));
                 }
         }
         meta.setLore(list);
@@ -897,54 +822,16 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
-                    if (plugin.getSettings().useColorLoreExtra()
-                            && plugin.ccdefenselore != null
-                            && !plugin.ccdefenselore.isEmpty()
-                            && plugin.ccdefenselore.get(tier.getColor()) != null
-                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
-                                    .getSingleRandom().nextBoolean()))
-                        list.add(colorPicker()
-                                + plugin.ccdefenselore
-                                        .get(tier.getColor())
-                                        .get(plugin
-                                                .getSingleRandom()
-                                                .nextInt(
-                                                        plugin.ccdefenselore
-                                                                .get(tier
-                                                                        .getColor())
-                                                                .size())));
-                    else
-                        list.add(colorPicker()
-                                + plugin.defenselore.get(plugin
-                                        .getSingleRandom().nextInt(
-                                                plugin.defenselore.size())));
-                    meta.setLore(list);
+                    list.add(colorPicker()
+                            + plugin.defenselore.get(plugin.getSingleRandom()
+                                    .nextInt(plugin.defenselore.size())));
 
                 }
                 else if (plugin.getItemAPI().isTool(mat))
                 {
-                    if (plugin.getSettings().useColorLoreExtra()
-                            && plugin.ccdefenselore != null
-                            && !plugin.ccoffenselore.isEmpty()
-                            && plugin.ccoffenselore.get(tier.getColor()) != null
-                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
-                                    .getSingleRandom().nextBoolean()))
-                        list.add(colorPicker()
-                                + plugin.ccoffenselore
-                                        .get(tier.getColor())
-                                        .get(plugin
-                                                .getSingleRandom()
-                                                .nextInt(
-                                                        plugin.ccoffenselore
-                                                                .get(tier
-                                                                        .getColor())
-                                                                .size())));
-                    else
-                        list.add(colorPicker()
-                                + plugin.offenselore.get(plugin
-                                        .getSingleRandom().nextInt(
-                                                plugin.offenselore.size())));
-                    meta.setLore(list);
+                    list.add(colorPicker()
+                            + plugin.offenselore.get(plugin.getSingleRandom()
+                                    .nextInt(plugin.offenselore.size())));
                 }
         }
         meta.setLore(list);
@@ -1088,40 +975,14 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(tool.getType()))
                 {
-                    if (plugin.getSettings().useColorLoreExtra()
-                            && plugin.ccdefenselore != null
-                            && !plugin.ccdefenselore.isEmpty()
-                            && plugin.ccdefenselore.get(tier.getColor()) != null
-                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
-                                    .getSingleRandom().nextBoolean()))
-                        list.add(plugin.ccdefenselore.get(tier.getColor()).get(
-                                plugin.getSingleRandom().nextInt(
-                                        plugin.ccdefenselore.get(
-                                                tier.getColor()).size())));
-                    else
-                        list.add(plugin.defenselore.get(plugin
-                                .getSingleRandom().nextInt(
-                                        plugin.defenselore.size())));
-                    meta.setLore(list);
+                    list.add(plugin.defenselore.get(plugin.getSingleRandom()
+                            .nextInt(plugin.defenselore.size())));
 
                 }
                 else if (plugin.getItemAPI().isTool(tool.getType()))
                 {
-                    if (plugin.getSettings().useColorLoreExtra()
-                            && plugin.ccdefenselore != null
-                            && !plugin.ccoffenselore.isEmpty()
-                            && plugin.ccoffenselore.get(tier.getColor()) != null
-                            && (plugin.getSettings().isOnlyColorLoreExtra() || plugin
-                                    .getSingleRandom().nextBoolean()))
-                        list.add(plugin.ccoffenselore.get(tier.getColor()).get(
-                                plugin.getSingleRandom().nextInt(
-                                        plugin.ccoffenselore.get(
-                                                tier.getColor()).size())));
-                    else
-                        list.add(plugin.offenselore.get(plugin
-                                .getSingleRandom().nextInt(
-                                        plugin.offenselore.size())));
-                    meta.setLore(list);
+                    list.add(plugin.offenselore.get(plugin.getSingleRandom()
+                            .nextInt(plugin.offenselore.size())));
                 }
         }
         meta.setLore(list);

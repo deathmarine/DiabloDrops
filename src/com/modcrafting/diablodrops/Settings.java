@@ -14,8 +14,6 @@ public class Settings
     private final double lore;
     private final double custom;
     private final ChatColor[] colorList;
-    private final boolean onlyColorLoreExtra;
-    private final boolean useColorLoreExtra;
 
     public Settings(FileConfiguration fc)
     {
@@ -25,9 +23,6 @@ public class Settings
         lore = fc.getDouble("Lore.Chance", 2.0);
         custom = fc.getDouble("Custom.Chance", 2.0);
         colorList = setupSocketColors(fc);
-        onlyColorLoreExtra = fc.getBoolean("SocketItem.OnlyColorLoreExtras",
-                false);
-        useColorLoreExtra = fc.getBoolean("SocketItem.ColorLoreExtras", false);
     }
 
     public int getCustomChance()
@@ -60,11 +55,6 @@ public class Settings
         return (int) (tome * 100);
     }
 
-    public boolean isOnlyColorLoreExtra()
-    {
-        return onlyColorLoreExtra;
-    }
-
     private ChatColor[] setupSocketColors(FileConfiguration fc)
     {
         List<String> colorStringList = fc.getStringList("SocketItem.Colors");
@@ -89,11 +79,6 @@ public class Settings
         }
         System.out.println(colorList.toString());
         return colorList;
-    }
-
-    public boolean useColorLoreExtra()
-    {
-        return useColorLoreExtra;
     }
 
 }

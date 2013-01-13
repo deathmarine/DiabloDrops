@@ -423,8 +423,9 @@ public class DropsAPI
      * @param tool
      * @return brand new tool
      */
-    public ItemStack getItem(ItemStack tool)
+    public ItemStack getItem(final ItemStack oldTool)
     {
+        ItemStack tool = oldTool;
         short oldDam = tool.getDurability();
         tool = new ItemStack(tool.getType());
         tool.setDurability(oldDam);
@@ -436,6 +437,10 @@ public class DropsAPI
         int e = tier.getAmount();
         int l = tier.getLevels();
         List<String> list = new ArrayList<String>();
+        if (plugin.getSettings().isColorBlindCompat())
+        {
+            list.add(getPrettyMaterialName(tool.getType()));
+        }
         if (plugin.getConfig().getBoolean("Display.TierName", true))
         {
             list.add(tier.getColor() + tier.getDisplayName());
@@ -562,25 +567,23 @@ public class DropsAPI
         {
             damage = damageItemStack(mat);
         }
+        List<String> startList = new ArrayList<String>();
+        if (plugin.getSettings().isColorBlindCompat())
+        {
+            startList.add(getPrettyMaterialName(mat));
+        }
         if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage, tier.getColor()
-                            + tier.getDisplayName());
+            startList.add(tier.getColor() + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
-                            + tier.getDisplayName());
+            startList.add(ChatColor.WHITE + tier.getDisplayName());
         }
-        else
-        {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage);
-        }
+        ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name(mat)),
+                damage, startList.toArray(new String[0]));
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         ItemStack tool = new ItemStack(ci);
@@ -722,25 +725,23 @@ public class DropsAPI
         {
             damage = damageItemStack(mat);
         }
+        List<String> startList = new ArrayList<String>();
+        if (plugin.getSettings().isColorBlindCompat())
+        {
+            startList.add(getPrettyMaterialName(mat));
+        }
         if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage, tier.getColor()
-                            + tier.getDisplayName());
+            startList.add(tier.getColor() + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
-                            + tier.getDisplayName());
+            startList.add(ChatColor.WHITE + tier.getDisplayName());
         }
-        else
-        {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage);
-        }
+        ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name(mat)),
+                damage, startList.toArray(new String[0]));
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         ItemStack tool = new ItemStack(ci);
@@ -880,25 +881,23 @@ public class DropsAPI
         {
             damage = damageItemStack(mat);
         }
+        List<String> startList = new ArrayList<String>();
+        if (plugin.getSettings().isColorBlindCompat())
+        {
+            startList.add(getPrettyMaterialName(mat));
+        }
         if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage, tier.getColor()
-                            + tier.getDisplayName());
+            startList.add(tier.getColor() + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage, ChatColor.WHITE
-                            + tier.getDisplayName());
+            startList.add(ChatColor.WHITE + tier.getDisplayName());
         }
-        else
-        {
-            ci = new Drop(mat, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage);
-        }
+        ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name(mat)),
+                damage, startList.toArray(new String[0]));
         if (tier.getColor().equals(ChatColor.MAGIC))
             return ci;
         ItemStack tool = new ItemStack(ci);
@@ -996,6 +995,20 @@ public class DropsAPI
             tool.setItemMeta(lam);
         }
         return tool;
+    }
+
+    public String getPrettyMaterialName(Material material)
+    {
+        String prettyMaterialName = "";
+        String matName = material.name();
+        String[] split = matName.split("_");
+        for (String s : split)
+        {
+            prettyMaterialName = prettyMaterialName
+                    + (s.substring(0, 1).toUpperCase() + s.substring(1,
+                            s.length()).toLowerCase()) + " ";
+        }
+        return prettyMaterialName;
     }
 
     /**

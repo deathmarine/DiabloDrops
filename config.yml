@@ -32,6 +32,7 @@ Lore:
 #Changing the way that a few things are displayed#
 Display:
   TierName: true
+  ColorBlind: false
   ItemMaterialExtras: false
   ItemNameFormat: '%randprefix% %randsuffix%'
 #Allow the drop of book to "identify" Magic color items#

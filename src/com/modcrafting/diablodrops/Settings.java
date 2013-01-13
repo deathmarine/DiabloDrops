@@ -14,6 +14,7 @@ public class Settings
     private final double lore;
     private final double custom;
     private final ChatColor[] colorList;
+    private final boolean colorBlindCompat;
 
     public Settings(FileConfiguration fc)
     {
@@ -22,6 +23,7 @@ public class Settings
         standard = fc.getDouble("Percentages.ChancePerSpawn", 2.0);
         lore = fc.getDouble("Lore.Chance", 2.0);
         custom = fc.getDouble("Custom.Chance", 2.0);
+        colorBlindCompat = fc.getBoolean("Display.ColorBlind", false);
         colorList = setupSocketColors(fc);
     }
 
@@ -53,6 +55,11 @@ public class Settings
     public int getTomeChance()
     {
         return (int) (tome * 100);
+    }
+
+    public boolean isColorBlindCompat()
+    {
+        return colorBlindCompat;
     }
 
     private ChatColor[] setupSocketColors(FileConfiguration fc)

@@ -1,9 +1,9 @@
 Acrobat's
 Amber
 Angel's
+Arcadian
 Archangel's
 Archer's
-Arcadian
 Arching
 Artisan's
 Assamic
@@ -13,6 +13,7 @@ Azure
 Bahamut's
 Berserker
 Beryl
+Blackguard's
 Blazing
 Blessed
 Blighting
@@ -29,6 +30,7 @@ Celestial
 Charged
 Chilling
 Chromatic
+Cleric's
 Cobalt
 Commander's
 Communal
@@ -45,8 +47,10 @@ Deadly
 Dense
 Devious
 Divine
+Doomed
 Dragon's
 Drake's
+Drunken
 Echoing
 Elysian
 Emerald
@@ -68,8 +72,8 @@ Foul
 Freezing
 Fungal
 Furious
-Garnet
 Gaea's
+Garnet
 Glacial
 Glimmering
 Glorious
@@ -122,12 +126,15 @@ Nature's
 Necromancer's
 Noxious
 Ocher
+Ornate
+Paladin's
 Pestilent
 Platinum
 Powered
 Preserver's
 Priest's
 Prismatic
+Psionic
 Psychic
 Pure
 Raging

@@ -55,27 +55,13 @@ public class EffectsAPI
         {
             // Add to strike damage
             int damage = event.getDamage() + level;
-            if (damage >= 0)
-            {
-                event.setDamage(damage);
-            }
-            else
-            {
-                event.setDamage(0);
-            }
+            event.setDamage(Math.max(damage, 0));
             return;
         }
         else if (args[1].equalsIgnoreCase(DEFENSE))
         {
             int damage = event.getDamage() - level;
-            if (damage >= 0)
-            {
-                event.setDamage(damage);
-            }
-            else
-            {
-                event.setDamage(0);
-            }
+            event.setDamage(Math.max(damage, 0));
             return;
         }
         else if (args[1].equalsIgnoreCase(SHRINK) && (damaged != null))
@@ -128,38 +114,24 @@ public class EffectsAPI
             if (level > 0)
             {
                 int chng = damaged.getHealth() - Math.abs(level);
-                if ((chng < damaged.getMaxHealth()) && (chng > 0))
-                    damaged.setHealth(chng);
-                else
-                    damaged.setHealth(0);
-
+                damaged.setHealth(Math.max(chng, 0));
                 chng = level + damager.getHealth();
-                if ((chng < damager.getMaxHealth()) && (chng > 0))
-                    damager.setHealth(chng);
-                else
-                    damager.setHealth(damager.getMaxHealth());
+                damager.setHealth(Math.max(chng, damager.getMaxHealth()));
             }
             else if (level < 0)
             {
                 int chng = Math.abs(level) + damaged.getHealth();
-                // if ((chng < damaged.getMaxHealth()) && (chng > 0))
-                // damager.setHealth(chng);
-                // else
-                // damager.setHealth(damager.getMaxHealth());
                 damager.setHealth(Math.max(chng, damager.getMaxHealth()));
                 chng = damager.getHealth() - Math.abs(level);
                 damaged.setHealth(Math.max(chng, 0));
-                // if ((chng < damager.getMaxHealth()) && (chng > 0))
-                // damaged.setHealth(chng);
-                // else
-                // damaged.setHealth(0);
-                return;
             }
+            return;
         }
         else if (args[1].equalsIgnoreCase(EXPLODE) && (damaged != null))
         {
             for (int i = Math.abs(level); i > 0; i--)
                 EffectsUtil.playFirework(damaged.getLocation());
+            return;
         }
         else
         {

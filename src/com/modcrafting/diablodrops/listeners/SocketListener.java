@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Furnace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
@@ -168,17 +167,7 @@ public class SocketListener implements Listener
             return;
         }
 
-        int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
-        int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
-        for (Enchantment ench : oldtool.getEnchantments().keySet())
-        {
-            int il = oldtool.getEnchantments().get(ench);
-            if (il < ene)
-            {
-                il = il + eni;
-            }
-            tool.addUnsafeEnchantment(ench, il);
-        }
+        tool.addUnsafeEnchantments(oldtool.getEnchantments());
 
         ItemMeta meta = tool.getItemMeta();
         if (fuel.equals(Material.SKULL_ITEM))
@@ -217,6 +206,11 @@ public class SocketListener implements Listener
                         skullName = "Zombie";
                         break;
                     }
+                    default:
+                    {
+                        skullName = "";
+                        break;
+                    }
                 }
             }
             String old = null;
@@ -233,10 +227,12 @@ public class SocketListener implements Listener
             }
         }
         List<String> list = new ArrayList<String>();
+        int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
+        int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+        int enhance = eni + plugin.getSingleRandom().nextInt(ene);
         if (plugin.getConfig().getBoolean("Socket.Lore", true))
         {
-            for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
-                    1); i++)
+            for (int i = 0; i < enhance; i++)
             {
                 if (plugin.getItemAPI().isArmor(tool.getType()))
                 {

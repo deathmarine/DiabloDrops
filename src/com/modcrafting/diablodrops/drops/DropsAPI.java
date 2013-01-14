@@ -337,7 +337,13 @@ public class DropsAPI
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getSocketChance()))
         {
-            list.add(colorPicker() + "(Socket)");
+            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
+            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
+            for (int i = 0; i < enhance; i++)
+            {
+                list.add(colorPicker() + "(Socket)");
+            }
             tool.setLore(list);
             ci.setItemMeta(tool);
             return ci;
@@ -505,7 +511,13 @@ public class DropsAPI
                         .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            list.add(colorPicker() + "(Socket)");
+            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
+            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
+            for (int i = 0; i < enhance; i++)
+            {
+                list.add(colorPicker() + "(Socket)");
+            }
             sock = true;
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
@@ -651,7 +663,13 @@ public class DropsAPI
                         .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            list.add(colorPicker() + "(Socket)");
+            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
+            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
+            for (int i = 0; i < enhance; i++)
+            {
+                list.add(colorPicker() + "(Socket)");
+            }
             meta.setLore(list);
             tool.setItemMeta(meta);
             return tool;
@@ -809,7 +827,13 @@ public class DropsAPI
                         .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            list.add(colorPicker() + "(Socket)");
+            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
+            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
+            for (int i = 0; i < enhance; i++)
+            {
+                list.add(colorPicker() + "(Socket)");
+            }
             meta.setLore(list);
             tool.setItemMeta(meta);
             return tool;
@@ -960,7 +984,13 @@ public class DropsAPI
                         .getSettings().getSocketChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            list.add(colorPicker() + "(Socket)");
+            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
+            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
+            for (int i = 0; i < enhance; i++)
+            {
+                list.add(colorPicker() + "(Socket)");
+            }
             meta.setLore(list);
             tool.setItemMeta(meta);
             return tool;

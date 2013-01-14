@@ -134,7 +134,7 @@ public class DevUpdater
     private long totalSize;
     private URL url; // Connecting to RSS
     // "https://diabloplugins.ci.cloudbees.com/rssLatest"
-    private String DBOUrl;
+    private final String DBOUrl;
     private static final int BYTE_SIZE = 1024; // Used for downloading files
 
     private final String updateFolder = YamlConfiguration.loadConfiguration(

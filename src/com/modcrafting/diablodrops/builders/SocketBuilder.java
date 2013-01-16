@@ -20,7 +20,7 @@ public class SocketBuilder
     }
 
     /**
-    * Clears and then populates plugin's socket list
+    * Clears and then populates plugin's socket list; also adds identification tome
     */
     public void build()
     {
@@ -40,6 +40,5 @@ public class SocketBuilder
         re.addIngredient(3, Material.BOOK);
         re.addIngredient(Material.EYE_OF_ENDER);
         plugin.getServer().addRecipe(re);
-
     }
 }

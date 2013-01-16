@@ -19,9 +19,11 @@ public class SocketBuilder
         this.plugin = plugin;
     }
 
+    /**
+    * Clears and then populates plugin's socket list
+    */
     public void build()
     {
-        // Catch on FurnaceSmeltEvent
         List<String> l = plugin.getConfig().getStringList("SocketItem.Items");
         for (String name : l)
         {

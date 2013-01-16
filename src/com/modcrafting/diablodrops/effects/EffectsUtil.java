@@ -283,8 +283,8 @@ public class EffectsUtil
     /**
      * Explodes random firework on location
      * 
-     * @param location
-     *            to explode
+     * @param loc
+     *            Location to explode
      */
     public static void playFirework(Location loc)
     {
@@ -349,6 +349,12 @@ public class EffectsUtil
         entity.setFireTicks(20 * 3 * Math.abs(value));
     }
 
+    /**
+    * Strike lightning on an entities location a number of times.
+    *
+    * @param entity LivingEntity to strike
+    * @param times Number of times to strike
+    */
     public static void strikeLightning(final LivingEntity entity,
             final int times)
     {

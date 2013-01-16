@@ -49,6 +49,11 @@ public class EntitySpawnEvent extends Event
         return handlers;
     }
 
+    /**
+    * Sets the event's chance
+    *
+    * @param chance Chance for entity to spawn with an item
+    */
     public void setChance(int chance)
     {
         this.chance = chance;

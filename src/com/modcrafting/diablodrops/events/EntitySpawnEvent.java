@@ -23,11 +23,21 @@ public class EntitySpawnEvent extends Event
         this.chance = chance;
     }
 
+    /**
+    * Gets the event's chance
+    *
+    * @return event's chance
+    */
     public int getChance()
     {
         return chance;
     }
 
+    /**
+    * Gets the event's entity
+    *
+    * @return event's entity
+    */
     public LivingEntity getEntity()
     {
         return entity;

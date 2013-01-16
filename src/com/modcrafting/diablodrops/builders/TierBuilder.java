@@ -21,6 +21,9 @@ public class TierBuilder
         this.plugin = plugin;
     }
 
+    /**
+    * Clears and then populates the plugin's tier list
+    */
     public void build()
     {
         plugin.tiers.clear();

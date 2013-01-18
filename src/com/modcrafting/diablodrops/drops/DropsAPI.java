@@ -35,7 +35,7 @@ public class DropsAPI
     /**
      * Is material armor or tool?
      * 
-     * @param material
+     * @param material Material to check
      * @return is armor or tool
      */
     public boolean canBeItem(final Material material)
@@ -46,6 +46,13 @@ public class DropsAPI
         return false;
     }
 
+    /**
+     * Can material be part of tier?
+     * 
+     * @param mat Material to check
+     * @param tier Tier to check
+     * @return can material be part of tier
+     */
     public boolean canBeTier(Material mat, Tier tier)
     {
         if (tier.getMaterials() == null || tier.getMaterials().isEmpty()
@@ -57,7 +64,7 @@ public class DropsAPI
     /**
      * Gets a random color.
      * 
-     * @return color
+     * @return random ChatColor
      */
     public ChatColor colorPicker()
     {
@@ -87,7 +94,7 @@ public class DropsAPI
      * Gets a random amount of damage for an ItemStack
      * 
      * @param material
-     *            of ItemStack
+     *            Material of ItemStack
      * @return durability to be set
      */
     public short damageItemStack(final Material material)
@@ -108,7 +115,7 @@ public class DropsAPI
     /**
      * Returns a Material that was randomly picked
      * 
-     * @return random material
+     * @return Random tool or armor
      */
     public Material dropPicker()
     {
@@ -201,10 +208,10 @@ public class DropsAPI
     }
 
     /**
-     * Get a particular custom itemstack
+     * Get a particular custom item
      * 
-     * @param name
-     * @return particular custom itemstack
+     * @param name Name of custom item
+     * @return particular custom item
      */
     public ItemStack getCustomItem(final String name)
     {
@@ -221,8 +228,8 @@ public class DropsAPI
     /**
      * Gets a list of safe enchantments for an item.
      * 
-     * @param ci
-     * @return set
+     * @param ci ItemStack to get safe enchantments for
+     * @return List of safe enchantments for an item.
      */
     public List<Enchantment> getEnchantStack(final ItemStack ci)
     {
@@ -235,6 +242,13 @@ public class DropsAPI
         return set;
     }
 
+    /**
+     * Returns an identified item from a material and a name
+     * 
+     * @param mat Material of ItemStack
+     * @param name Name of ItemStack
+     * @return identified item
+     */
     public ItemStack getIdItem(Material mat, final String name)
     {
         while (mat == null)
@@ -393,9 +407,9 @@ public class DropsAPI
     }
 
     /**
-     * Returns an itemstack that was randomly getSingleRandom()erated
+     * Returns an itemstack that was randomly generated
      * 
-     * @return DiabloItemStack
+     * @return Randomly generated DiabloDrops item
      */
     public ItemStack getItem()
     {
@@ -426,7 +440,7 @@ public class DropsAPI
     /**
      * Gets a new tool from an unidentified tool
      * 
-     * @param tool
+     * @param tool ItemStack to turn into a DiabloDrops item
      * @return brand new tool
      */
     public ItemStack getItem(final ItemStack oldTool)
@@ -547,11 +561,11 @@ public class DropsAPI
     }
 
     /**
-     * Returns a specific type of item randomly getSingleRandom()erated
+     * Returns a specific type of item randomly generated
      * 
      * @param mat
      *            Material of itemstack
-     * @return item
+     * @return ItemStack with a Material of mat
      */
     public ItemStack getItem(Material mat)
     {
@@ -712,9 +726,11 @@ public class DropsAPI
     /**
      * Returns a specific type of item randomly getSingleRandom()erated
      * 
-     * @param mat
-     *            Material of itemstack
-     * @return item
+     * @param passMat
+     *            Material of ItemStack
+     * @param passTier
+     *            Tier of ItemStack
+     * @return ItemStack with a Material of passMat and a Tier of passTier
      */
     public ItemStack getItem(Material passMat, Tier passTier)
     {
@@ -876,8 +892,8 @@ public class DropsAPI
      * Returns an specific type of ItemStack that was randomly generated
      * 
      * @param tier
-     *            name
-     * @return item
+     *            Tier of ItemStack
+     * @return Randomly generated ItemStack of Tier tier
      */
     public ItemStack getItem(Tier tier)
     {
@@ -1027,6 +1043,12 @@ public class DropsAPI
         return tool;
     }
 
+    /**
+    * Returns a prettier version of a material's name.
+    *
+    * @param material Material that is having its name prettified
+    * @return Pretty material name
+    */
     public String getPrettyMaterialName(Material material)
     {
         String prettyMaterialName = "";
@@ -1044,7 +1066,7 @@ public class DropsAPI
     /**
      * Gets a calculated tier.
      * 
-     * @return tier
+     * @return Random tier
      */
     public Tier getTier()
     {
@@ -1054,6 +1076,12 @@ public class DropsAPI
         return null;
     }
 
+    /**
+    * Gets the Tier of an ItemStack (not guaranteed to work)
+    * 
+    * @param item ItemStack to check
+    * @return Tier of item
+    */
     public Tier getTier(ItemStack item)
     {
         if (!item.hasItemMeta() || !item.getItemMeta().hasLore())
@@ -1070,8 +1098,8 @@ public class DropsAPI
     /**
      * Gets tier from name
      * 
-     * @param name
-     * @return tier
+     * @param name Name of Tier
+     * @return tier Tier that is named name
      */
     public Tier getTier(final String name)
     {
@@ -1085,7 +1113,7 @@ public class DropsAPI
     /**
      * Is type an actual tier?
      * 
-     * @param type
+     * @param type Tier name
      * @return is tier
      */
     public boolean matchesTier(final String type)
@@ -1102,7 +1130,7 @@ public class DropsAPI
      * 
      * @param material
      *            Material of item to get name for
-     * @return name
+     * @return name Name of ItemStack
      */
     public String name(final Material material)
     {

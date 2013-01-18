@@ -50,13 +50,10 @@ public class EffectsUtil
                     public void run()
                     {
                         int r = 3;
-
                         World world = loc.getWorld();
-
                         int x = loc.getBlockX();
                         int y = loc.getBlockY();
                         int z = loc.getBlockZ();
-
                         Location[] vertex = new Location[8];
                         int i = 0;
                         for (int dx = -1; dx <= 1; dx += 2)
@@ -72,7 +69,6 @@ public class EffectsUtil
                                 }
                             }
                         }
-
                         for (int x_o = vertex[0].getBlockX(); x_o <= vertex[4]
                                 .getBlockX(); x_o++)
                         {
@@ -111,7 +107,6 @@ public class EffectsUtil
                                         vertex[5].getBlockX(), y_o, z_o), value);
                             }
                         }
-
                         for (int x_o = vertex[0].getBlockX(); x_o <= vertex[4]
                                 .getBlockX(); x_o++)
                         {
@@ -139,7 +134,6 @@ public class EffectsUtil
         Bukkit.getScheduler().scheduleSyncDelayedTask(
                 DiabloDrops.getInstance(), new Runnable()
                 {
-
                     @Override
                     public void run()
                     {
@@ -229,49 +223,49 @@ public class EffectsUtil
                 z.setBaby(true);
             }
         }
-        if (e instanceof Villager)
+        else if (e instanceof Villager)
         {
             if (((Villager) e).isAdult())
             {
                 ((Villager) e).setBaby();
             }
         }
-        if (e instanceof Pig)
+        else if (e instanceof Pig)
         {
             if (((Pig) e).isAdult())
             {
                 ((Pig) e).setBaby();
             }
         }
-        if (e instanceof Cow)
+        else if (e instanceof Cow)
         {
             if (((Cow) e).isAdult())
             {
                 ((Cow) e).setBaby();
             }
         }
-        if (e instanceof Chicken)
+        else if (e instanceof Chicken)
         {
             if (((Chicken) e).isAdult())
             {
                 ((Chicken) e).setBaby();
             }
         }
-        if (e instanceof Wolf)
+        else if (e instanceof Wolf)
         {
             if (((Wolf) e).isAdult())
             {
                 ((Wolf) e).setBaby();
             }
         }
-        if (e instanceof Ocelot)
+        else if (e instanceof Ocelot)
         {
             if (((Ocelot) e).isAdult())
             {
                 ((Ocelot) e).setBaby();
             }
         }
-        if (e instanceof Sheep)
+        else  if (e instanceof Sheep)
         {
             if (((Sheep) e).isAdult())
             {
@@ -283,8 +277,8 @@ public class EffectsUtil
     /**
      * Explodes random firework on location
      * 
-     * @param location
-     *            to explode
+     * @param loc
+     *            Location to explode
      */
     public static void playFirework(Location loc)
     {
@@ -349,6 +343,12 @@ public class EffectsUtil
         entity.setFireTicks(20 * 3 * Math.abs(value));
     }
 
+    /**
+    * Strike lightning on an entities location a number of times.
+    *
+    * @param entity LivingEntity to strike
+    * @param times Number of times to strike
+    */
     public static void strikeLightning(final LivingEntity entity,
             final int times)
     {
@@ -359,7 +359,6 @@ public class EffectsUtil
             Bukkit.getScheduler().scheduleSyncDelayedTask(
                     DiabloDrops.getInstance(), new Runnable()
                     {
-
                         @Override
                         public void run()
                         {

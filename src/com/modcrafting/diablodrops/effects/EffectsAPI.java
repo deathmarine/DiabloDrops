@@ -33,6 +33,14 @@ public class EffectsAPI
     public static String LEECH = "leech";
     public static String EXPLODE = "explode";
 
+    /**
+    * Adds an effect to the entities passed in.
+    *
+    * @param damaged LivingEntity that was damaged
+    * @param damager LivingEntity that was the damager
+    * @param s String to read for the effect
+    * @param event EntityDamageByEntityEvent caused by
+    */
     public static void addEffect(final LivingEntity damaged,
             final LivingEntity damager, final String s,
             final EntityDamageByEntityEvent event)
@@ -152,6 +160,14 @@ public class EffectsAPI
         }
     }
 
+    /**
+    * Adds an effect to the entities passed in.
+    *
+    * @param struck LivingEntity that was damaged
+    * @param striker LivingEntity that was the damager
+    * @param string String to read for the effect
+    * @param event EntityDamageEvent caused by
+    */
     public static void addEffect(final LivingEntity struck,
             final LivingEntity striker, final String string,
             final EntityDamageEvent event)
@@ -310,6 +326,12 @@ public class EffectsAPI
         }
     }
 
+    /**
+    * Gets ChatColor from a string.
+    *
+    * @param s String to check.
+    * @return ChatColor from string
+    */
     public static ChatColor findColor(final String s)
     {
         char[] c = s.toCharArray();
@@ -319,6 +341,16 @@ public class EffectsAPI
         return null;
     }
 
+    /**
+     * Handles any effects caused by an EntityDamageByEntityEvent
+     * 
+     * @param damaged
+     *            Entity damaged by event
+     * @param damager
+     *            Entity that caused the damage
+     * @param event
+     *            EntityDamageByEntityEvent that requires effects
+     */
     public static void handlePluginEffects(final LivingEntity damaged,
             final LivingEntity damager, final EntityDamageByEntityEvent event)
     {
@@ -397,6 +429,13 @@ public class EffectsAPI
         }
     }
 
+    /**
+    * List all effects required by a list of equipment.
+    *
+    * @param equipment A list of equipment to get all effects from
+    *
+    * @return List of all effects
+    */
     public static List<String> listEffects(final List<ItemStack> equipment)
     {
         Set<ItemStack> toolSet = new HashSet<ItemStack>();

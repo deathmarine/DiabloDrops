@@ -19,9 +19,11 @@ public class SocketBuilder
         this.plugin = plugin;
     }
 
+    /**
+    * Clears and then populates plugin's socket list; also adds identification tome
+    */
     public void build()
     {
-        // Catch on FurnaceSmeltEvent
         List<String> l = plugin.getConfig().getStringList("SocketItem.Items");
         for (String name : l)
         {
@@ -38,6 +40,5 @@ public class SocketBuilder
         re.addIngredient(3, Material.BOOK);
         re.addIngredient(Material.EYE_OF_ENDER);
         plugin.getServer().addRecipe(re);
-
     }
 }

@@ -227,6 +227,10 @@ public class SocketListener implements Listener
             }
         }
         List<String> list = new ArrayList<String>();
+        for (String s : metaold.getLore())
+        {
+            list.add(s);
+        }
         int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
         int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
         int enhance = eni + plugin.getSingleRandom().nextInt(ene);
@@ -234,17 +238,24 @@ public class SocketListener implements Listener
         {
             for (int i = 0; i < enhance; i++)
             {
-                if (plugin.getItemAPI().isArmor(tool.getType()))
+                if (list.contains(fuelColor + "(Socket)"))
                 {
-                    list.add(fuelColor
-                            + plugin.defenselore.get(plugin.getSingleRandom()
-                                    .nextInt(plugin.defenselore.size())));
-                }
-                else if (plugin.getItemAPI().isTool(tool.getType()))
-                {
-                    list.add(fuelColor
-                            + plugin.offenselore.get(plugin.getSingleRandom()
-                                    .nextInt(plugin.offenselore.size())));
+                    if (plugin.getItemAPI().isArmor(tool.getType()))
+                    {
+                        list.remove(fuelColor + "(Socket)");
+                        list.add(fuelColor
+                                + plugin.defenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.defenselore.size())));
+                    }
+                    else if (plugin.getItemAPI().isTool(tool.getType()))
+                    {
+                        list.remove(fuelColor + "(Socket)");
+                        list.add(fuelColor
+                                + plugin.offenselore.get(plugin
+                                        .getSingleRandom().nextInt(
+                                                plugin.offenselore.size())));
+                    }
                 }
             }
         }

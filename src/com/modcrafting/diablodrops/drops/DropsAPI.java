@@ -35,7 +35,8 @@ public class DropsAPI
     /**
      * Is material armor or tool?
      * 
-     * @param material Material to check
+     * @param material
+     *            Material to check
      * @return is armor or tool
      */
     public boolean canBeItem(final Material material)
@@ -49,8 +50,10 @@ public class DropsAPI
     /**
      * Can material be part of tier?
      * 
-     * @param mat Material to check
-     * @param tier Tier to check
+     * @param mat
+     *            Material to check
+     * @param tier
+     *            Tier to check
      * @return can material be part of tier
      */
     public boolean canBeTier(Material mat, Tier tier)
@@ -210,7 +213,8 @@ public class DropsAPI
     /**
      * Get a particular custom item
      * 
-     * @param name Name of custom item
+     * @param name
+     *            Name of custom item
      * @return particular custom item
      */
     public ItemStack getCustomItem(final String name)
@@ -228,7 +232,8 @@ public class DropsAPI
     /**
      * Gets a list of safe enchantments for an item.
      * 
-     * @param ci ItemStack to get safe enchantments for
+     * @param ci
+     *            ItemStack to get safe enchantments for
      * @return List of safe enchantments for an item.
      */
     public List<Enchantment> getEnchantStack(final ItemStack ci)
@@ -245,8 +250,10 @@ public class DropsAPI
     /**
      * Returns an identified item from a material and a name
      * 
-     * @param mat Material of ItemStack
-     * @param name Name of ItemStack
+     * @param mat
+     *            Material of ItemStack
+     * @param name
+     *            Name of ItemStack
      * @return identified item
      */
     public ItemStack getIdItem(Material mat, final String name)
@@ -431,7 +438,8 @@ public class DropsAPI
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("Custom.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getCustomChance()))
+                        .getSettings().getCustomChance())
+                && plugin.custom.size() > 0)
             return plugin.custom.get(plugin.getSingleRandom().nextInt(
                     plugin.custom.size()));
         return getItem(dropPicker());
@@ -440,7 +448,8 @@ public class DropsAPI
     /**
      * Gets a new tool from an unidentified tool
      * 
-     * @param tool ItemStack to turn into a DiabloDrops item
+     * @param tool
+     *            ItemStack to turn into a DiabloDrops item
      * @return brand new tool
      */
     public ItemStack getItem(final ItemStack oldTool)
@@ -1044,11 +1053,12 @@ public class DropsAPI
     }
 
     /**
-    * Returns a prettier version of a material's name.
-    *
-    * @param material Material that is having its name prettified
-    * @return Pretty material name
-    */
+     * Returns a prettier version of a material's name.
+     * 
+     * @param material
+     *            Material that is having its name prettified
+     * @return Pretty material name
+     */
     public String getPrettyMaterialName(Material material)
     {
         String prettyMaterialName = "";
@@ -1077,11 +1087,12 @@ public class DropsAPI
     }
 
     /**
-    * Gets the Tier of an ItemStack (not guaranteed to work)
-    * 
-    * @param item ItemStack to check
-    * @return Tier of item
-    */
+     * Gets the Tier of an ItemStack (not guaranteed to work)
+     * 
+     * @param item
+     *            ItemStack to check
+     * @return Tier of item
+     */
     public Tier getTier(ItemStack item)
     {
         if (!item.hasItemMeta() || !item.getItemMeta().hasLore())
@@ -1098,7 +1109,8 @@ public class DropsAPI
     /**
      * Gets tier from name
      * 
-     * @param name Name of Tier
+     * @param name
+     *            Name of Tier
      * @return tier Tier that is named name
      */
     public Tier getTier(final String name)
@@ -1113,7 +1125,8 @@ public class DropsAPI
     /**
      * Is type an actual tier?
      * 
-     * @param type Tier name
+     * @param type
+     *            Tier name
      * @return is tier
      */
     public boolean matchesTier(final String type)

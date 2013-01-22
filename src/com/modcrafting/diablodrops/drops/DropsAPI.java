@@ -313,10 +313,17 @@ public class DropsAPI
         if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            ci = new Drop(material, tier.getColor(),
-                    ChatColor.stripColor(name(mat)), damage, tier.getColor()
-                            + tier.getDisplayName() + rarity.getColor() + " ("
-                            + rarity.getName() + ")");
+            if (rarity != null)
+                ci = new Drop(material, tier.getColor(),
+                        ChatColor.stripColor(name(mat)), damage,
+                        tier.getColor() + tier.getDisplayName()
+                                + rarity.getColor() + " (" + rarity.getName()
+                                + ")");
+            else
+                ci = new Drop(material, tier.getColor(),
+                        ChatColor.stripColor(name(mat)), damage,
+                        tier.getColor() + tier.getDisplayName());
+
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
@@ -504,8 +511,11 @@ public class DropsAPI
         }
         if (plugin.getConfig().getBoolean("Display.TierName", true))
         {
-            list.add(tier.getColor() + tier.getDisplayName()
-                    + rarity.getColor() + " (" + rarity.getName() + ")");
+            if (rarity != null)
+                list.add(tier.getColor() + tier.getDisplayName()
+                        + rarity.getColor() + " (" + rarity.getName() + ")");
+            else
+                list.add(tier.getColor() + tier.getDisplayName());
         }
         for (String s : tier.getLore())
             if (s != null)
@@ -644,8 +654,11 @@ public class DropsAPI
         if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            startList.add(tier.getColor() + tier.getDisplayName()
-                    + rarity.getColor() + " (" + rarity.getName() + ")");
+            if (rarity != null)
+                startList.add(tier.getColor() + tier.getDisplayName()
+                        + rarity.getColor() + " (" + rarity.getName() + ")");
+            else
+                startList.add(tier.getColor() + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
@@ -812,8 +825,11 @@ public class DropsAPI
         if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            startList.add(tier.getColor() + tier.getDisplayName()
-                    + rarity.getColor() + " (" + rarity.getName() + ")");
+            if (rarity != null)
+                startList.add(tier.getColor() + tier.getDisplayName()
+                        + rarity.getColor() + " (" + rarity.getName() + ")");
+            else
+                startList.add(tier.getColor() + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
@@ -972,8 +988,11 @@ public class DropsAPI
         if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            startList.add(tier.getColor() + tier.getDisplayName()
-                    + rarity.getColor() + " (" + rarity.getName() + ")");
+            if (rarity != null)
+                startList.add(tier.getColor() + tier.getDisplayName()
+                        + rarity.getColor() + " (" + rarity.getName() + ")");
+            else
+                startList.add(tier.getColor() + tier.getDisplayName());
         }
         else if (plugin.getConfig().getBoolean("Display.TierName", true)
                 && tier.getColor().equals(ChatColor.MAGIC))
@@ -1107,7 +1126,8 @@ public class DropsAPI
     public Rarity getRarity()
     {
         Rarity rar = null;
-        while (rar == null)
+        int att = 0;
+        while (rar == null && att < 10)
             for (Rarity rarity : plugin.rarities)
             {
                 if ((plugin.getSingleRandom().nextInt(100) * plugin
@@ -1116,6 +1136,7 @@ public class DropsAPI
                 {
                     rar = rarity;
                 }
+                att++;
             }
         return rar;
     }
@@ -1123,7 +1144,9 @@ public class DropsAPI
     public Rarity getRarity(Tier tier)
     {
         Rarity rar = null;
-        while (rar == null)
+        int att = 0;
+        while (rar == null && att < 10)
+        {
             for (Rarity rarity : tier.getRarities())
             {
                 if ((plugin.getSingleRandom().nextInt(100) * plugin
@@ -1132,7 +1155,9 @@ public class DropsAPI
                 {
                     rar = rarity;
                 }
+                att++;
             }
+        }
         return rar;
     }
 

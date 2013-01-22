@@ -18,8 +18,7 @@ public class DiabloDropsItem
         this.drop = drop;
         this.tier = tier;
         this.rarity = rarity;
-        this.dropChance = (getTier().getDropChance() * getRarity()
-                .getDropChance()) / 100;
+        this.dropChance = getRarity().getDropChance();
     }
 
     /**

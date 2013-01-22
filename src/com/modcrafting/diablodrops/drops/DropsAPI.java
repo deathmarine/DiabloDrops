@@ -32,16 +32,16 @@ public class DropsAPI
     public static final Tier SOCKETTIER = new Tier("Socket", ChatColor.WHITE,
             0, 0,
             DiabloDrops.getInstance().getSettings().getSocketChance() * 100,
-            new ArrayList<Material>(), new ArrayList<String>(), "Socket", 1.0F,
+            new ArrayList<Material>(), new ArrayList<String>(), "Socket",
             new ArrayList<Rarity>());
     public static final Tier TOMETIER = new Tier("Tome", ChatColor.WHITE, 0, 0,
             DiabloDrops.getInstance().getSettings().getTomeChance() * 100,
-            new ArrayList<Material>(), new ArrayList<String>(), "Tome", 1.0F,
+            new ArrayList<Material>(), new ArrayList<String>(), "Tome",
             new ArrayList<Rarity>());
     public static final Tier CUSTOMTIER = new Tier("Custom", ChatColor.WHITE,
             0, 0,
             DiabloDrops.getInstance().getSettings().getCustomChance() * 100,
-            new ArrayList<Material>(), new ArrayList<String>(), "Custom", 1.0F,
+            new ArrayList<Material>(), new ArrayList<String>(), "Custom",
             new ArrayList<Rarity>());
     public static final Rarity SOCKETRARITY = new Rarity("Socket", "Socket",
             ChatColor.WHITE, 1.0F, 100.0);

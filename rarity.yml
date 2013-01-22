@@ -17,6 +17,6 @@ Uncommon:
   spawnChance: 75.0
 Common:
   displayName: Common
-  color: LIGHT_GRAY
+  color: GRAY
   dropChance: 100.0
   spawnChance: 100.0

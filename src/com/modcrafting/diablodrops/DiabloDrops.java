@@ -26,6 +26,7 @@ import com.modcrafting.devbuild.DevUpdater;
 import com.modcrafting.devbuild.DevUpdater.DevUpdateResult;
 import com.modcrafting.diablodrops.builders.ArmorSetBuilder;
 import com.modcrafting.diablodrops.builders.CustomBuilder;
+import com.modcrafting.diablodrops.builders.RarityBuilder;
 import com.modcrafting.diablodrops.builders.SocketBuilder;
 import com.modcrafting.diablodrops.builders.TierBuilder;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
@@ -194,6 +195,7 @@ public class DiabloDrops extends JavaPlugin
         drop = new ItemAPI();
         new CustomBuilder(this).build();
         new SocketBuilder(this).build();
+        new RarityBuilder(this).build();
         new TierBuilder(this).build();
         new ArmorSetBuilder(this).build();
         dropsAPI = new DropsAPI(this);

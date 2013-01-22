@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.rarity.Rarity;
 import com.modcrafting.diablodrops.tier.Tier;
 
 public class TierBuilder
@@ -22,8 +23,8 @@ public class TierBuilder
     }
 
     /**
-    * Clears and then populates the plugin's tier list
-    */
+     * Clears and then populates the plugin's tier list
+     */
     public void build()
     {
         plugin.tiers.clear();
@@ -62,11 +63,25 @@ public class TierBuilder
             for (String s : cs.getStringList(name + ".Lore"))
                 if (s != null)
                     lore.add(ChatColor.translateAlternateColorCodes('&', s));
+            List<Rarity> rarities = new ArrayList<Rarity>();
+            List<String> rStrings = cs.getStringList(name + ".rarities");
+            if (rStrings != null && !rStrings.isEmpty())
+                for (String s : rStrings)
+                {
+                    for (Rarity r : plugin.rarities)
+                    {
+                        if (r.getName().equalsIgnoreCase(s)
+                                || r.getDisplayName().equalsIgnoreCase(s))
+                        {
+                            rarities.add(r);
+                        }
+                    }
+                }
             plugin.tiers.add(new Tier(name, ChatColor.valueOf(color
                     .toUpperCase()), Math.abs(amt), Math.abs(lvl), Math
                     .abs((int) (chance * 100)), l, lore, cs.getString(name
                     + ".DisplayName", name), ((float) cs.getDouble(name
-                    + ".DropChance", 100)) / 100));
+                    + ".DropChance", 100)) / 100, rarities));
         }
     }
 }

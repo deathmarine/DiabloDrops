@@ -16,10 +16,10 @@ public class RuinGenerateEvent extends Event implements Cancellable
         return handlers;
     }
 
-    private boolean isCancelled = false;
+    private Block chest;
 
     private final Chunk chunk;
-    private Block chest;
+    private boolean isCancelled = false;
 
     public RuinGenerateEvent(Chunk chunk, Block block)
     {

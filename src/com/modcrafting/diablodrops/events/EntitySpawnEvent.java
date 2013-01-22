@@ -14,8 +14,8 @@ public class EntitySpawnEvent extends Event
         return handlers;
     }
 
-    private final LivingEntity entity;
     private int chance;
+    private final LivingEntity entity;
 
     public EntitySpawnEvent(LivingEntity entity, int chance)
     {
@@ -24,20 +24,20 @@ public class EntitySpawnEvent extends Event
     }
 
     /**
-    * Gets the event's chance
-    *
-    * @return event's chance
-    */
+     * Gets the event's chance
+     * 
+     * @return event's chance
+     */
     public int getChance()
     {
         return chance;
     }
 
     /**
-    * Gets the event's entity
-    *
-    * @return event's entity
-    */
+     * Gets the event's entity
+     * 
+     * @return event's entity
+     */
     public LivingEntity getEntity()
     {
         return entity;
@@ -50,10 +50,11 @@ public class EntitySpawnEvent extends Event
     }
 
     /**
-    * Sets the event's chance
-    *
-    * @param chance Chance for entity to spawn with an item
-    */
+     * Sets the event's chance
+     * 
+     * @param chance
+     *            Chance for entity to spawn with an item
+     */
     public void setChance(int chance)
     {
         this.chance = chance;

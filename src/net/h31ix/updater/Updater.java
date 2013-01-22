@@ -62,33 +62,33 @@ public class Updater
     public enum UpdateResult
     {
         /**
-         * The updater found an update, and has readied it to be loaded the next
-         * time the server restarts/reloads.
+         * The slug provided by the plugin running the updater was invalid and
+         * doesn't exist on DBO.
          */
-        SUCCESS(1),
-        /**
-         * The updater did not find an update, and nothing was downloaded.
-         */
-        NO_UPDATE(2),
-        /**
-         * The updater found an update, but was unable to download it.
-         */
-        FAIL_DOWNLOAD(3),
+        FAIL_BADSLUG(6),
         /**
          * For some reason, the updater was unable to contact dev.bukkit.org to
          * download the file.
          */
         FAIL_DBO(4),
         /**
+         * The updater found an update, but was unable to download it.
+         */
+        FAIL_DOWNLOAD(3),
+        /**
          * When running the version check, the file on DBO did not contain the a
          * version in the format 'vVersion' such as 'v1.0'.
          */
         FAIL_NOVERSION(5),
         /**
-         * The slug provided by the plugin running the updater was invalid and
-         * doesn't exist on DBO.
+         * The updater did not find an update, and nothing was downloaded.
          */
-        FAIL_BADSLUG(6),
+        NO_UPDATE(2),
+        /**
+         * The updater found an update, and has readied it to be loaded the next
+         * time the server restarts/reloads.
+         */
+        SUCCESS(1),
         /**
          * The updater found an update, but because of the UpdateType being set
          * to NO_DOWNLOAD, it wasn't downloaded.
@@ -97,13 +97,6 @@ public class Updater
 
         private static final Map<Integer, Updater.UpdateResult> valueList = new HashMap<Integer, Updater.UpdateResult>();
 
-        public static Updater.UpdateResult getResult(int value)
-        {
-            return valueList.get(value);
-        }
-
-        private final int value;
-
         static
         {
             for (Updater.UpdateResult result : Updater.UpdateResult.values())
@@ -111,6 +104,13 @@ public class Updater
                 valueList.put(result.value, result);
             }
         }
+
+        public static Updater.UpdateResult getResult(int value)
+        {
+            return valueList.get(value);
+        }
+
+        private final int value;
 
         private UpdateResult(int value)
         {
@@ -134,24 +134,17 @@ public class Updater
          */
         DEFAULT(1),
         /**
-         * Don't run a version check, just find the latest update and download
-         * it.
-         */
-        NO_VERSION_CHECK(2),
-        /**
          * Get information about the version and the download size, but don't
          * actually download anything.
          */
-        NO_DOWNLOAD(3);
+        NO_DOWNLOAD(3),
+        /**
+         * Don't run a version check, just find the latest update and download
+         * it.
+         */
+        NO_VERSION_CHECK(2);
 
         private static final Map<Integer, Updater.UpdateType> valueList = new HashMap<Integer, Updater.UpdateType>();
-
-        public static Updater.UpdateType getResult(int value)
-        {
-            return valueList.get(value);
-        }
-
-        private final int value;
 
         static
         {
@@ -160,6 +153,13 @@ public class Updater
                 valueList.put(result.value, result);
             }
         }
+
+        public static Updater.UpdateType getResult(int value)
+        {
+            return valueList.get(value);
+        }
+
+        private final int value;
 
         private UpdateType(int value)
         {
@@ -172,20 +172,27 @@ public class Updater
         }
     }
 
-    private Plugin plugin;
-    private UpdateType type;
-    private String versionTitle;
-    private String versionLink;
-    private long totalSize; // Holds the total size of the file
-                            // private double downloadedSize; // TODO: Holds the
-                            // number of bytes
-    // downloaded
-    private int sizeLine; // Used for detecting file size
-    private int multiplier; // Used for determining when to broadcast download
-    // updates
-    private boolean announce; // Whether to announce file downloads
-    private URL url; // Connecting to RSS
+    // contains one of
+                                                       // these,
+                                                       // don't
+                                                       // update.
+    private static final int BYTE_SIZE = 1024; // Used for downloading files
     private static final String DBOUrl = "http://dev.bukkit.org/server-mods/"; // Slugs
+    private static final String ITEM = "item";
+    private static final String LINK = "link";
+    // for
+                                                                        // determining
+                                                                        // the
+                                                                        // outcome
+                                                                        // of
+                                                                        // the
+                                                                        // update
+                                                                        // process
+    // Strings for reading RSS
+    private static final String TITLE = "title";
+                            // updates
+    private boolean announce; // Whether to announce file downloads
+    private int multiplier; // Used for determining when to broadcast download
     // will
     // be
     // appended
@@ -199,14 +206,7 @@ public class Updater
     // RSS
     // feed
     private String[] noUpdateTag = { "-DEV", "-PRE" }; // If the version number
-                                                       // contains one of
-                                                       // these,
-                                                       // don't
-                                                       // update.
-    private static final int BYTE_SIZE = 1024; // Used for downloading files
-
-    private String updateFolder = YamlConfiguration.loadConfiguration(
-            new File("bukkit.yml")).getString("settings.update-folder"); // The
+    private Plugin plugin;
     // folder
     // that
     // downloads
@@ -215,20 +215,20 @@ public class Updater
     // placed
     // in
     private Updater.UpdateResult result = Updater.UpdateResult.SUCCESS; // Used
-                                                                        // for
-                                                                        // determining
-                                                                        // the
-                                                                        // outcome
-                                                                        // of
-                                                                        // the
-                                                                        // update
-                                                                        // process
-    // Strings for reading RSS
-    private static final String TITLE = "title";
+    // private double downloadedSize; // TODO: Holds the
+                            // number of bytes
+    // downloaded
+    private int sizeLine; // Used for detecting file size
+                                                       private long totalSize; // Holds the total size of the file
 
-    private static final String LINK = "link";
+    private UpdateType type;
+    private String updateFolder = YamlConfiguration.loadConfiguration(
+            new File("bukkit.yml")).getString("settings.update-folder"); // The
+                                                                        private URL url; // Connecting to RSS
 
-    private static final String ITEM = "item";
+    private String versionLink;
+
+    private String versionTitle;
 
     /**
      * Initialize the updater

@@ -41,27 +41,20 @@ public class DevUpdater
     public enum DevUpdateResult
     {
         /**
-         * The updater found an update, and has readied it to be loaded the next
-         * time the server restarts/reloads.
+         * Failed update Retry.
          */
-        SUCCESS(1),
+        FAILED(3),
         /**
          * The updater did not find an update, and nothing was downloaded.
          */
         NO_UPDATE(2),
         /**
-         * Failed update Retry.
+         * The updater found an update, and has readied it to be loaded the next
+         * time the server restarts/reloads.
          */
-        FAILED(3);
+        SUCCESS(1);
 
         private static final Map<Integer, DevUpdater.DevUpdateResult> valueList = new HashMap<Integer, DevUpdater.DevUpdateResult>();
-
-        public static DevUpdater.DevUpdateResult getResult(final int value)
-        {
-            return valueList.get(value);
-        }
-
-        private final int value;
 
         static
         {
@@ -71,6 +64,13 @@ public class DevUpdater
                 valueList.put(result.value, result);
             }
         }
+
+        public static DevUpdater.DevUpdateResult getResult(final int value)
+        {
+            return valueList.get(value);
+        }
+
+        private final int value;
 
         private DevUpdateResult(final int value)
         {
@@ -127,20 +127,20 @@ public class DevUpdater
         }
     }
 
+    private static final int BYTE_SIZE = 1024; // Used for downloading files
     public Integer build;
-    private final Plugin plugin;
-    private String versionTitle;
-    private String versionLink;
-    private long totalSize;
-    private URL url; // Connecting to RSS
     // "https://diabloplugins.ci.cloudbees.com/rssLatest"
     private final String DBOUrl;
-    private static final int BYTE_SIZE = 1024; // Used for downloading files
-
+    private final Plugin plugin;
+    private DevUpdateResult result = DevUpdateResult.NO_UPDATE;
+    private long totalSize;
     private final String updateFolder = YamlConfiguration.loadConfiguration(
             new File("bukkit.yml")).getString("settings.update-folder");
+    private URL url; // Connecting to RSS
 
-    private DevUpdateResult result = DevUpdateResult.NO_UPDATE;
+    private String versionLink;
+
+    private String versionTitle;
 
     public DevUpdater(final Plugin plugin, final File file,
             final Integer build, String url)

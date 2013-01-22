@@ -20,8 +20,9 @@ public class SocketBuilder
     }
 
     /**
-    * Clears and then populates plugin's socket list; also adds identification tome
-    */
+     * Clears and then populates plugin's socket list; also adds identification
+     * tome
+     */
     public void build()
     {
         List<String> l = plugin.getConfig().getStringList("SocketItem.Items");

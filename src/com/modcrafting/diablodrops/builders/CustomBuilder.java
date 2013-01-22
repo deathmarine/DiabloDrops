@@ -25,8 +25,8 @@ public class CustomBuilder
     }
 
     /**
-    * Clears and then populates the plugin's custom items list
-    */
+     * Clears and then populates the plugin's custom items list
+     */
     public void build()
     {
         FileConfiguration fc = new YamlConfiguration();

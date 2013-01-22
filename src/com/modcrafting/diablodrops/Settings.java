@@ -8,13 +8,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class Settings
 {
-    private final double socket;
-    private final double tome;
-    private final double standard;
-    private final double lore;
-    private final double custom;
-    private final ChatColor[] colorList;
     private final boolean colorBlindCompat;
+    private final ChatColor[] colorList;
+    private final double custom;
+    private final double lore;
+    private final double socket;
+    private final double standard;
+    private final double tome;
 
     public Settings(FileConfiguration fc)
     {
@@ -84,6 +84,7 @@ public class Settings
             if (cc != null)
                 colorList[i] = cc;
         }
+        System.out.println(colorList.toString());
         return colorList;
     }
 

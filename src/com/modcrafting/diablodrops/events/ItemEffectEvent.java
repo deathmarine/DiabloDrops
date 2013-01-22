@@ -15,11 +15,11 @@ public class ItemEffectEvent extends Event implements Cancellable
         return handlers;
     }
 
-    private boolean isCancelled = false;
-
     private final LivingEntity damaged;
+
     private final LivingEntity damager;
     private final String effect;
+    private boolean isCancelled = false;
 
     public ItemEffectEvent(LivingEntity damaged, LivingEntity damager,
             String effect)

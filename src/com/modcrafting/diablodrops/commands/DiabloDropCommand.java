@@ -17,7 +17,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
-import com.modcrafting.diablodrops.items.DiabloDropsItem;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
 import com.modcrafting.diablodrops.sets.ArmorSet;
@@ -68,12 +67,12 @@ public class DiabloDropCommand implements CommandExecutor
         switch (args.length)
         {
             case 0:
-                DiabloDropsItem ci = plugin.getDropAPI().getItem();
+                ItemStack ci = plugin.getDropAPI().getItem();
                 while (ci == null)
                 {
                     ci = plugin.getDropAPI().getItem();
                 }
-                pi.addItem(ci.getItemStack());
+                pi.addItem(ci);
                 player.updateInventory();
                 player.sendMessage(ChatColor.GREEN
                         + "You have been given a DiabloDrops item.");
@@ -107,12 +106,7 @@ public class DiabloDropCommand implements CommandExecutor
                         pi.addItem(plugin.custom.get(plugin.getSingleRandom()
                                 .nextInt(plugin.custom.size())));
                     else
-                    {
-                        DiabloDropsItem ddi = plugin.getDropAPI().getItem();
-                        while (ddi == null)
-                            ddi = plugin.getDropAPI().getItem();
-                        pi.addItem(ddi.getItemStack());
-                    }
+                        pi.addItem(plugin.getDropAPI().getItem());
                     player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
                             + "You have been given a DiabloDrops item.");
@@ -378,12 +372,12 @@ public class DiabloDropCommand implements CommandExecutor
                 if (args[0].equalsIgnoreCase("tier"))
                 {
                     Tier tier = plugin.getDropAPI().getTier(args[1]);
-                    DiabloDropsItem ci2 = plugin.getDropAPI().getItem(tier);
+                    ItemStack ci2 = plugin.getDropAPI().getItem(tier);
                     while (ci2 == null)
                     {
                         ci2 = plugin.getDropAPI().getItem(tier);
                     }
-                    pi.addItem(ci2.getItemStack());
+                    pi.addItem(ci2);
                     player.updateInventory();
                     if (tier == null)
                     {
@@ -400,12 +394,12 @@ public class DiabloDropCommand implements CommandExecutor
                     }
                     return true;
                 }
-                DiabloDropsItem ci2 = plugin.getDropAPI().getItem();
+                ItemStack ci2 = plugin.getDropAPI().getItem();
                 while (ci2 == null)
                 {
                     ci2 = plugin.getDropAPI().getItem();
                 }
-                pi.addItem(ci2.getItemStack());
+                pi.addItem(ci2);
                 player.updateInventory();
                 player.sendMessage(ChatColor.GREEN
                         + "You have been given a DiabloDrops item.");

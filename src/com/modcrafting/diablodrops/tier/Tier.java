@@ -5,24 +5,22 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import com.modcrafting.diablodrops.rarity.Rarity;
-
 public class Tier
 {
-    private final String name;
-    private final String displayName;
-    private final ChatColor color;
     private final int amt;
-    private final int lvl;
     private final int chance;
+    private final ChatColor color;
+    private final String displayName;
+    private final float dropChance;
     private final List<Material> l;
     private final List<String> lore;
-    private final List<Rarity> rarities;
+    private final int lvl;
+    private final String name;
 
     public Tier(final String name, final ChatColor color, final int amt,
             final int lvl, final int chance, final List<Material> l,
             final List<String> lore, final String displayName,
-            final List<Rarity> rarities)
+            final float dropChance)
     {
         this.name = name;
         this.color = color;
@@ -35,7 +33,7 @@ public class Tier
             this.displayName = displayName;
         else
             this.displayName = name;
-        this.rarities = rarities;
+        this.dropChance = dropChance;
     }
 
     /**
@@ -73,6 +71,11 @@ public class Tier
         if (displayName != null)
             return displayName;
         return name;
+    }
+
+    public float getDropChance()
+    {
+        return dropChance;
     }
 
     /**
@@ -113,13 +116,5 @@ public class Tier
     public String getName()
     {
         return name;
-    }
-
-    /**
-     * @return the rarities
-     */
-    public List<Rarity> getRarities()
-    {
-        return rarities;
     }
 }

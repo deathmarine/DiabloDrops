@@ -20,8 +20,8 @@ public class ArmorSetBuilder
     }
 
     /**
-    * Clears and then populates the plugin's ArmorSet list
-    */
+     * Clears and then populates the plugin's ArmorSet list
+     */
     public void build()
     {
         plugin.armorSets.clear();

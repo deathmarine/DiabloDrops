@@ -26,7 +26,6 @@ import com.modcrafting.devbuild.DevUpdater;
 import com.modcrafting.devbuild.DevUpdater.DevUpdateResult;
 import com.modcrafting.diablodrops.builders.ArmorSetBuilder;
 import com.modcrafting.diablodrops.builders.CustomBuilder;
-import com.modcrafting.diablodrops.builders.RarityBuilder;
 import com.modcrafting.diablodrops.builders.SocketBuilder;
 import com.modcrafting.diablodrops.builders.TierBuilder;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
@@ -39,39 +38,13 @@ import com.modcrafting.diablodrops.listeners.SetListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
-import com.modcrafting.diablodrops.rarity.Rarity;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
 import com.modcrafting.diablodrops.tier.Tier;
 
 public class DiabloDrops extends JavaPlugin
 {
-    public List<String> prefix = new ArrayList<String>();
-    public List<String> suffix = new ArrayList<String>();
-    public HashMap<Material, List<String>> hmprefix = new HashMap<Material, List<String>>();
-    public HashMap<Material, List<String>> hmsuffix = new HashMap<Material, List<String>>();
-    public HashMap<ChatColor, List<String>> ccoffenselore = new HashMap<ChatColor, List<String>>();
-    public HashMap<ChatColor, List<String>> ccdefenselore = new HashMap<ChatColor, List<String>>();
-    public HashSet<Tier> tiers = new HashSet<Tier>();
-    public HashSet<Rarity> rarities = new HashSet<Rarity>();
-    public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
-    public List<ItemStack> custom = new ArrayList<ItemStack>();
-    public List<String> worlds = new ArrayList<String>();
-    public List<String> defenselore = new ArrayList<String>();
-    public List<String> offenselore = new ArrayList<String>();
-    public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
-
-    private boolean debug;
-    private final Random gen = new Random();
-    private ItemAPI drop;
-    private NamesLoader nameLoader;
-    private DropsAPI dropsAPI;
-    private SetsAPI setsAPI;
-    private Integer build;
-    private Settings settings;
-
     private static DiabloDrops instance;
-
     /**
      * Gets the instance of DiabloDrops
      * 
@@ -81,10 +54,34 @@ public class DiabloDrops extends JavaPlugin
     {
         return instance;
     }
+    public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
+    private Integer build;
+    public HashMap<ChatColor, List<String>> ccdefenselore = new HashMap<ChatColor, List<String>>();
+    public HashMap<ChatColor, List<String>> ccoffenselore = new HashMap<ChatColor, List<String>>();
+    public List<ItemStack> custom = new ArrayList<ItemStack>();
+    private boolean debug;
+    public List<String> defenselore = new ArrayList<String>();
+    private ItemAPI drop;
+    private DropsAPI dropsAPI;
+    public HashMap<Block, ItemStack> furnanceMap = new HashMap<Block, ItemStack>();
+    private final Random gen = new Random();
 
+    public HashMap<Material, List<String>> hmprefix = new HashMap<Material, List<String>>();
+    public HashMap<Material, List<String>> hmsuffix = new HashMap<Material, List<String>>();
     private int id;
-
     public Logger log;
+    private NamesLoader nameLoader;
+    public List<String> offenselore = new ArrayList<String>();
+    public List<String> prefix = new ArrayList<String>();
+    private SetsAPI setsAPI;
+
+    private Settings settings;
+
+    public List<String> suffix = new ArrayList<String>();
+
+    public HashSet<Tier> tiers = new HashSet<Tier>();
+
+    public List<String> worlds = new ArrayList<String>();
 
     public boolean getDebug()
     {
@@ -133,7 +130,6 @@ public class DiabloDrops extends JavaPlugin
         hmprefix.clear();
         hmsuffix.clear();
         tiers.clear();
-        rarities.clear();
         armorSets.clear();
         custom.clear();
         worlds.clear();
@@ -153,7 +149,6 @@ public class DiabloDrops extends JavaPlugin
         nameLoader.writeDefault("custom.yml", false);
         nameLoader.writeDefault("tier.yml", false);
         nameLoader.writeDefault("set.yml", false);
-        nameLoader.writeDefault("rarity.yml", false);
         nameLoader.writeDefault("prefix.txt", false);
         nameLoader.writeDefault("suffix.txt", false);
         nameLoader.writeDefault("defenselore.txt", false);
@@ -195,7 +190,6 @@ public class DiabloDrops extends JavaPlugin
         drop = new ItemAPI();
         new CustomBuilder(this).build();
         new SocketBuilder(this).build();
-        new RarityBuilder(this).build();
         new TierBuilder(this).build();
         new ArmorSetBuilder(this).build();
         dropsAPI = new DropsAPI(this);

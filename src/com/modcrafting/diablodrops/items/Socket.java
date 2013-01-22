@@ -12,7 +12,7 @@ public class Socket extends Drop
 {
     public enum SkullType
     {
-        SKELETON(0), WITHER(1), ZOMBIE(2), PLAYER(3), CREEPER(4);
+        CREEPER(4), PLAYER(3), SKELETON(0), WITHER(1), ZOMBIE(2);
         public int type;
 
         private SkullType(final int i)

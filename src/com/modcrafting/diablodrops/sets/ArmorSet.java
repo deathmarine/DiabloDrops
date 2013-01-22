@@ -5,8 +5,8 @@ import java.util.List;
 public class ArmorSet
 {
 
-    private final String name;
     private final List<String> bonuses;
+    private final String name;
 
     public ArmorSet(String name, List<String> bonuses)
     {
@@ -15,20 +15,20 @@ public class ArmorSet
     }
 
     /**
-    * Gets the bonuses for this ArmorSet
-    *
-    * @return list of bonuses
-    */
+     * Gets the bonuses for this ArmorSet
+     * 
+     * @return list of bonuses
+     */
     public List<String> getBonuses()
     {
         return bonuses;
     }
 
     /**
-    * Gets the name of this ArmorSet
-    *
-    * @return ArmorSet name
-    */
+     * Gets the name of this ArmorSet
+     * 
+     * @return ArmorSet name
+     */
     public String getName()
     {
         return name;

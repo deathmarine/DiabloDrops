@@ -19,7 +19,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.IdentifyItemEvent;
-import com.modcrafting.diablodrops.items.DiabloDropsItem;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 
 public class TomeListener implements Listener
@@ -118,20 +117,17 @@ public class TomeListener implements Listener
                         return;
                     }
                     pi.setItemInHand(null);
-                    DiabloDropsItem item = plugin.getDropAPI().getItem(tool);
+                    ItemStack item = plugin.getDropAPI().getItem(tool);
                     while ((item == null)
-                            || item.getItemStack() == null
-                            || !item.getItemStack().hasItemMeta()
-                            || !item.getItemStack().getItemMeta()
-                                    .hasDisplayName()
-                            || item.getItemStack().getItemMeta()
-                                    .getDisplayName()
+                            || !item.hasItemMeta()
+                            || !item.getItemMeta().hasDisplayName()
+                            || item.getItemMeta().getDisplayName()
                                     .contains(ChatColor.MAGIC.toString()))
                     {
                         item = plugin.getDropAPI().getItem(tool);
                     }
                     pi.removeItem(tool);
-                    pi.addItem(item.getItemStack());
+                    pi.addItem(item);
                     p.sendMessage(ChatColor.GREEN
                             + "You have identified an item!");
                     p.updateInventory();

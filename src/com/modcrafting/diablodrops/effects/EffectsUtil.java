@@ -265,7 +265,7 @@ public class EffectsUtil
                 ((Ocelot) e).setBaby();
             }
         }
-        else  if (e instanceof Sheep)
+        else if (e instanceof Sheep)
         {
             if (((Sheep) e).isAdult())
             {
@@ -344,11 +344,13 @@ public class EffectsUtil
     }
 
     /**
-    * Strike lightning on an entities location a number of times.
-    *
-    * @param entity LivingEntity to strike
-    * @param times Number of times to strike
-    */
+     * Strike lightning on an entities location a number of times.
+     * 
+     * @param entity
+     *            LivingEntity to strike
+     * @param times
+     *            Number of times to strike
+     */
     public static void strikeLightning(final LivingEntity entity,
             final int times)
     {

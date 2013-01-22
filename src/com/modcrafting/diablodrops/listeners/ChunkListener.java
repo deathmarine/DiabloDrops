@@ -21,9 +21,9 @@ import com.modcrafting.diablodrops.events.RuinGenerateEvent;
 public class ChunkListener implements Listener
 {
 
-    private final DiabloDrops plugin;
-
     private int blockType;
+
+    private final DiabloDrops plugin;
 
     public ChunkListener(final DiabloDrops plugin)
     {

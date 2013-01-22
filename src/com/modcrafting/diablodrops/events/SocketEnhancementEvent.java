@@ -15,11 +15,11 @@ public class SocketEnhancementEvent extends Event
         return handlers;
     }
 
-    private final ItemStack input;
     private final ItemStack fuel;
-    private final ItemStack result;
-
     private final Furnace furnace;
+    private final ItemStack input;
+
+    private final ItemStack result;
 
     public SocketEnhancementEvent(ItemStack input, ItemStack fuel,
             ItemStack result, Furnace furnace)

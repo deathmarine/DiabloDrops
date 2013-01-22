@@ -16,11 +16,11 @@ public class PreSocketEnhancementEvent extends Event implements Cancellable
         return handlers;
     }
 
-    private boolean isCancelled = false;
-    private final ItemStack input;
     private final ItemStack fuel;
-
     private final Furnace furnace;
+    private final ItemStack input;
+
+    private boolean isCancelled = false;
 
     public PreSocketEnhancementEvent(ItemStack input, ItemStack fuel,
             Furnace furnace)

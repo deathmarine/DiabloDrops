@@ -44,7 +44,9 @@ public class RarityBuilder
             ChatColor cc = ChatColor.valueOf(color);
             if (cc == null)
                 cc = ChatColor.WHITE;
-            Rarity rarity = new Rarity(name, displayName, cc, dropChance);
+            double spawnChance = cs.getDouble(name + ".spawnChance", 100.0);
+            Rarity rarity = new Rarity(name, displayName, cc, dropChance,
+                    spawnChance);
             plugin.rarities.add(rarity);
         }
     }

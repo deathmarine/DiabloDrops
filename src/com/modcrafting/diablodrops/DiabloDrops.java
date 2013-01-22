@@ -38,6 +38,7 @@ import com.modcrafting.diablodrops.listeners.SetListener;
 import com.modcrafting.diablodrops.listeners.SocketListener;
 import com.modcrafting.diablodrops.listeners.TomeListener;
 import com.modcrafting.diablodrops.name.NamesLoader;
+import com.modcrafting.diablodrops.rarity.Rarity;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
 import com.modcrafting.diablodrops.tier.Tier;
@@ -51,6 +52,7 @@ public class DiabloDrops extends JavaPlugin
     public HashMap<ChatColor, List<String>> ccoffenselore = new HashMap<ChatColor, List<String>>();
     public HashMap<ChatColor, List<String>> ccdefenselore = new HashMap<ChatColor, List<String>>();
     public HashSet<Tier> tiers = new HashSet<Tier>();
+    public HashSet<Rarity> rarities = new HashSet<Rarity>();
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
     public List<ItemStack> custom = new ArrayList<ItemStack>();
     public List<String> worlds = new ArrayList<String>();
@@ -130,6 +132,7 @@ public class DiabloDrops extends JavaPlugin
         hmprefix.clear();
         hmsuffix.clear();
         tiers.clear();
+        rarities.clear();
         armorSets.clear();
         custom.clear();
         worlds.clear();
@@ -149,6 +152,7 @@ public class DiabloDrops extends JavaPlugin
         nameLoader.writeDefault("custom.yml", false);
         nameLoader.writeDefault("tier.yml", false);
         nameLoader.writeDefault("set.yml", false);
+        nameLoader.writeDefault("rarity.yml", false);
         nameLoader.writeDefault("prefix.txt", false);
         nameLoader.writeDefault("suffix.txt", false);
         nameLoader.writeDefault("defenselore.txt", false);

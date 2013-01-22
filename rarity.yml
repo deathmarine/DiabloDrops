@@ -1,0 +1,18 @@
+# Rarity configuration
+# Information will be on the wiki soon
+Common:
+  displayName: Common
+  color: LIGHT_GRAY
+  dropChance: 100.0
+Uncommon:
+  displayName: Uncommon
+  color: WHITE
+  dropChance: 80.0
+Rare:
+  displayName: Rare
+  color: GREEN
+  dropChance: 60.0
+Legendary:
+  displayName: Legendary
+  color: GOLD
+  dropChance: 40.0

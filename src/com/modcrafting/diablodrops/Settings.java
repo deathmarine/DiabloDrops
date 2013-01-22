@@ -84,7 +84,6 @@ public class Settings
             if (cc != null)
                 colorList[i] = cc;
         }
-        System.out.println(colorList.toString());
         return colorList;
     }
 

@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.items.DiabloDropsItem;
 import com.modcrafting.diablodrops.items.Drop;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
@@ -27,6 +28,25 @@ import com.modcrafting.diablodrops.tier.Tier;
 public class DropsAPI
 {
     private final DiabloDrops plugin;
+
+    public static final Tier SOCKETTIER = new Tier("Socket", ChatColor.WHITE,
+            0, 0,
+            DiabloDrops.getInstance().getSettings().getSocketChance() * 100,
+            new ArrayList<Material>(), new ArrayList<String>(), "Socket", 1.0F,
+            new ArrayList<Rarity>());
+    public static final Tier TOMETIER = new Tier("Tome", ChatColor.WHITE, 0, 0,
+            DiabloDrops.getInstance().getSettings().getTomeChance() * 100,
+            new ArrayList<Material>(), new ArrayList<String>(), "Tome", 1.0F,
+            new ArrayList<Rarity>());
+    public static final Tier CUSTOMTIER = new Tier("Custom", ChatColor.WHITE,
+            0, 0,
+            DiabloDrops.getInstance().getSettings().getCustomChance() * 100,
+            new ArrayList<Material>(), new ArrayList<String>(), "Custom", 1.0F,
+            new ArrayList<Rarity>());
+    public static final Rarity SOCKETRARITY = new Rarity("Socket", "Socket",
+            ChatColor.WHITE, 1.0F, 100.0);
+    public static final Rarity CUSTOMRARITY = new Rarity("Custom", "Custom",
+            ChatColor.WHITE, 1.0F, 100.0);
 
     public DropsAPI(final DiabloDrops instance)
     {
@@ -167,12 +187,12 @@ public class DropsAPI
             for (int i = 0; i < plugin.getSingleRandom().nextInt(
                     chest.getSize()); i++)
             {
-                ItemStack cis = getItem();
+                DiabloDropsItem cis = getItem();
                 while (cis == null)
                 {
                     cis = getItem();
                 }
-                chest.setItem(i, cis);
+                chest.setItem(i, cis.getItemStack());
             }
         }
         catch (Exception e)
@@ -198,12 +218,12 @@ public class DropsAPI
             Inventory chest = chestB.getBlockInventory();
             for (int i = 0; i < size; i++)
             {
-                ItemStack cis = getItem();
+                DiabloDropsItem cis = getItem();
                 while (cis == null)
                 {
                     cis = getItem();
                 }
-                chest.setItem(i, cis);
+                chest.setItem(i, cis.getItemStack());
             }
         }
         catch (Exception e)
@@ -257,14 +277,14 @@ public class DropsAPI
      *            Name of ItemStack
      * @return identified item
      */
-    public ItemStack getIdItem(Material mat, final String name)
+    public DiabloDropsItem getIdentifiedItem(Material mat, final String name)
     {
         while (mat == null)
         {
             mat = dropPicker();
         }
         Material material = mat;
-        ItemStack ci = null;
+        Drop ci = null;
         Tier tier = getTier();
         Rarity rarity = getRarity();
         while (tier == null)
@@ -311,7 +331,7 @@ public class DropsAPI
                     ChatColor.stripColor(name(mat)), damage);
         }
         if (tier.getColor().equals(ChatColor.MAGIC))
-            return ci;
+            return new DiabloDropsItem(ci, tier, rarity);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled",
                 true);
@@ -374,7 +394,7 @@ public class DropsAPI
             }
             tool.setLore(list);
             ci.setItemMeta(tool);
-            return ci;
+            return new DiabloDropsItem(ci, tier, rarity);
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
@@ -417,7 +437,7 @@ public class DropsAPI
                 }
         }
         ci.setItemMeta(tool);
-        return ci;
+        return new DiabloDropsItem(ci, tier, rarity);
     }
 
     /**
@@ -425,13 +445,14 @@ public class DropsAPI
      * 
      * @return Randomly generated DiabloDrops item
      */
-    public ItemStack getItem()
+    public DiabloDropsItem getItem()
     {
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("IdentifyTome.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getTomeChance()))
-            return new IdentifyTome();
+            return new DiabloDropsItem(new IdentifyTome(), TOMETIER,
+                    this.getRarity());
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("SocketItem.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
@@ -439,16 +460,19 @@ public class DropsAPI
         {
             List<String> l = plugin.getConfig().getStringList(
                     "SocketItem.Items");
-            return new Socket(Material.valueOf(l.get(
-                    plugin.getSingleRandom().nextInt(l.size())).toUpperCase()));
+            return new DiabloDropsItem(
+                    new Socket(Material.valueOf(l.get(
+                            plugin.getSingleRandom().nextInt(l.size()))
+                            .toUpperCase())), SOCKETTIER, SOCKETRARITY);
         }
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("Custom.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getCustomChance())
                 && plugin.custom.size() > 0)
-            return plugin.custom.get(plugin.getSingleRandom().nextInt(
-                    plugin.custom.size()));
+            return new DiabloDropsItem((Drop) plugin.custom.get(plugin
+                    .getSingleRandom().nextInt(plugin.custom.size())),
+                    CUSTOMTIER, CUSTOMRARITY);
         return getItem(dropPicker());
     }
 
@@ -459,7 +483,7 @@ public class DropsAPI
      *            ItemStack to turn into a DiabloDrops item
      * @return brand new tool
      */
-    public ItemStack getItem(final ItemStack oldTool)
+    public DiabloDropsItem getItem(final ItemStack oldTool)
     {
         ItemStack tool = oldTool;
         short oldDam = tool.getDurability();
@@ -575,7 +599,7 @@ public class DropsAPI
         }
         meta.setLore(list);
         tool.setItemMeta(meta);
-        return tool;
+        return new DiabloDropsItem((Drop) tool, tier, rarity);
     }
 
     /**
@@ -585,7 +609,7 @@ public class DropsAPI
      *            Material of itemstack
      * @return ItemStack with a Material of mat
      */
-    public ItemStack getItem(Material mat)
+    public DiabloDropsItem getItem(Material mat)
     {
         while (mat == null)
         {
@@ -631,7 +655,7 @@ public class DropsAPI
         ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name(mat)),
                 damage, startList.toArray(new String[0]));
         if (tier.getColor().equals(ChatColor.MAGIC))
-            return ci;
+            return new DiabloDropsItem((Drop) ci, tier, rarity);
         ItemStack tool = new ItemStack(ci);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         List<String> list = new ArrayList<String>();
@@ -706,7 +730,7 @@ public class DropsAPI
             }
             meta.setLore(list);
             tool.setItemMeta(meta);
-            return tool;
+            return new DiabloDropsItem((Drop) tool, tier, rarity);
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
@@ -740,7 +764,7 @@ public class DropsAPI
                             .getSingleRandom().nextInt(255)));
             tool.setItemMeta(lam);
         }
-        return tool;
+        return new DiabloDropsItem((Drop) tool, tier, rarity);
     }
 
     /**
@@ -752,7 +776,7 @@ public class DropsAPI
      *            Tier of ItemStack
      * @return ItemStack with a Material of passMat and a Tier of passTier
      */
-    public ItemStack getItem(Material passMat, Tier passTier)
+    public DiabloDropsItem getItem(Material passMat, Tier passTier)
     {
         Material mat = passMat;
         Tier tier = passTier;
@@ -799,7 +823,7 @@ public class DropsAPI
         ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name(mat)),
                 damage, startList.toArray(new String[0]));
         if (tier.getColor().equals(ChatColor.MAGIC))
-            return ci;
+            return new DiabloDropsItem((Drop) ci, tier, rarity);
         ItemStack tool = new ItemStack(ci);
         List<Enchantment> eStack = Arrays.asList(Enchantment.values());
         List<String> list = new ArrayList<String>();
@@ -870,7 +894,7 @@ public class DropsAPI
             }
             meta.setLore(list);
             tool.setItemMeta(meta);
-            return tool;
+            return new DiabloDropsItem((Drop) tool, tier, rarity);
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
@@ -903,7 +927,7 @@ public class DropsAPI
                             .getSingleRandom().nextInt(255)));
             tool.setItemMeta(lam);
         }
-        return tool;
+        return new DiabloDropsItem((Drop) tool, tier, rarity);
     }
 
     /**
@@ -913,7 +937,7 @@ public class DropsAPI
      *            Tier of ItemStack
      * @return Randomly generated ItemStack of Tier tier
      */
-    public ItemStack getItem(Tier tier)
+    public DiabloDropsItem getItem(Tier tier)
     {
         Material mat = dropPicker();
         Rarity rarity = getRarity();
@@ -959,7 +983,7 @@ public class DropsAPI
         ci = new Drop(mat, tier.getColor(), ChatColor.stripColor(name(mat)),
                 damage, startList.toArray(new String[0]));
         if (tier.getColor().equals(ChatColor.MAGIC))
-            return ci;
+            return new DiabloDropsItem((Drop) ci, tier, rarity);
         ItemStack tool = new ItemStack(ci);
         List<String> list = new ArrayList<String>();
         for (String s : tier.getLore())
@@ -1025,7 +1049,7 @@ public class DropsAPI
             }
             meta.setLore(list);
             tool.setItemMeta(meta);
-            return tool;
+            return new DiabloDropsItem((Drop) tool, tier, rarity);
         }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
@@ -1056,7 +1080,7 @@ public class DropsAPI
                             .getSingleRandom().nextInt(255)));
             tool.setItemMeta(lam);
         }
-        return tool;
+        return new DiabloDropsItem((Drop) tool, tier, rarity);
     }
 
     /**

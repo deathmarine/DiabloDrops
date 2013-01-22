@@ -11,12 +11,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.inventory.ItemStack;
 
 import com.modcrafting.diablodrops.DiabloDrops;
+import com.modcrafting.diablodrops.drops.DropsAPI;
 import com.modcrafting.diablodrops.events.EntitySpawnEvent;
 import com.modcrafting.diablodrops.events.EntitySpawnWithItemEvent;
-import com.modcrafting.diablodrops.tier.Tier;
+import com.modcrafting.diablodrops.items.DiabloDropsItem;
+import com.modcrafting.diablodrops.items.Drop;
 
 public class MobListener implements Listener
 {
@@ -49,13 +50,12 @@ public class MobListener implements Listener
                 .getSingleRandom().nextInt(100) + 1);
         plugin.getServer().getPluginManager().callEvent(ese);
         if ((entity instanceof Monster)
-                && (plugin.getConfig().getInt("Percentages.ChancePerSpawn", 3) >= ese
-                        .getChance()))
+                && (plugin.getSettings().getStandardChance() >= ese.getChance()))
         {
-            List<ItemStack> items = new ArrayList<ItemStack>();
+            List<DiabloDropsItem> items = new ArrayList<DiabloDropsItem>();
             for (int i = 0; i < (plugin.getSingleRandom().nextInt(5) + 1); i++)
             {
-                ItemStack ci = plugin.getDropAPI().getItem();
+                DiabloDropsItem ci = plugin.getDropAPI().getItem();
                 while (ci == null)
                 {
                     ci = plugin.getDropAPI().getItem();
@@ -64,8 +64,9 @@ public class MobListener implements Listener
                         && plugin.getConfig()
                                 .getBoolean("Custom.Enabled", true))
                 {
-                    ci = plugin.custom.get(plugin.getSingleRandom().nextInt(
-                            plugin.custom.size()));
+                    ci = new DiabloDropsItem((Drop) plugin.custom.get(plugin
+                            .getSingleRandom().nextInt(plugin.custom.size())),
+                            DropsAPI.CUSTOMTIER, DropsAPI.CUSTOMRARITY);
                 }
                 if (ci != null)
                 {
@@ -77,43 +78,47 @@ public class MobListener implements Listener
             plugin.getServer().getPluginManager().callEvent(eswi);
             if (eswi.isCancelled())
                 return;
-
-            for (ItemStack cis : eswi.getItems())
+            for (DiabloDropsItem cis : eswi.getItems())
             {
                 if (cis != null)
                 {
-                    float dropChance = 2.0F;
-                    if (true)
+                    float dropChance = cis.getDropChance();
+                    // if (true)
+                    // {
+                    // Tier tier = plugin.getDropAPI().getTier(cis);
+                    // if (tier != null)
+                    // dropChance = (tier.getDropChance() * 0.01F);
+                    // }
+                    if (plugin.getItemAPI().isHelmet(
+                            cis.getItemStack().getType())
+                            || cis.getItemStack().getType()
+                                    .equals(Material.SKULL_ITEM))
                     {
-                        Tier tier = plugin.getDropAPI().getTier(cis);
-                        if (tier != null)
-                            dropChance = (tier.getDropChance() * 0.01F);
-                    }
-                    if (plugin.getItemAPI().isHelmet(cis.getType())
-                            || cis.getType().equals(Material.SKULL_ITEM))
-                    {
-                        entity.getEquipment().setHelmet(cis);
+                        entity.getEquipment().setHelmet(cis.getItemStack());
                         entity.getEquipment().setHelmetDropChance(dropChance);
                     }
-                    else if (plugin.getItemAPI().isChestPlate(cis.getType()))
+                    else if (plugin.getItemAPI().isChestPlate(
+                            cis.getItemStack().getType()))
                     {
-                        entity.getEquipment().setChestplate(cis);
+                        entity.getEquipment().setChestplate(cis.getItemStack());
                         entity.getEquipment().setChestplateDropChance(
                                 dropChance);
                     }
-                    else if (plugin.getItemAPI().isLeggings(cis.getType()))
+                    else if (plugin.getItemAPI().isLeggings(
+                            cis.getItemStack().getType()))
                     {
-                        entity.getEquipment().setLeggings(cis);
+                        entity.getEquipment().setLeggings(cis.getItemStack());
                         entity.getEquipment().setLeggingsDropChance(dropChance);
                     }
-                    else if (plugin.getItemAPI().isBoots(cis.getType()))
+                    else if (plugin.getItemAPI().isBoots(
+                            cis.getItemStack().getType()))
                     {
-                        entity.getEquipment().setBoots(cis);
+                        entity.getEquipment().setBoots(cis.getItemStack());
                         entity.getEquipment().setBootsDropChance(dropChance);
                     }
                     else
                     {
-                        entity.getEquipment().setItemInHand(cis);
+                        entity.getEquipment().setItemInHand(cis.getItemStack());
                         entity.getEquipment().setItemInHandDropChance(
                                 dropChance);
                     }

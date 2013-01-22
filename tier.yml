@@ -1,13 +1,15 @@
 # Visit the wiki page at: https://github.com/deathmarine/DiabloDrops/wiki/Tier.yml-Reference
 # DisplayName is only used if Tier name displaying is enabled in config.yml
-Legendary:
-  Color: Gold
-  DisplayName: Legendary
-  Chance: 3
+Notched:
+  Color: LIGHT_PURPLE
+  DisplayName: Notched
+  Chance: 1
   DropChance: 100
   Enchantments:
-    Amt: 7
+    Amt: 9
     Levels: 10
+  Rarities:
+  - Legendary
 Lore:
   Color: Yellow
   DisplayName: Lore
@@ -16,6 +18,9 @@ Lore:
   Enchantments:
     Amt: 7
     Levels: 9
+  Rarities:
+  - Uncommon
+  - Rare
 Magical:
   Color: Blue
   DisplayName: Magical
@@ -24,14 +29,9 @@ Magical:
   Enchantments:
     Amt: 3
     Levels: 4
-Rare:
-  Color: Red
-  DisplayName: Rare
-  Chance: 20
-  DropChance: 100
-  Enchantments:
-    Amt: 5
-    Levels: 5
+  Rarities:
+  - Common
+  - Uncommon
 Set:
   Color: Green
   DisplayName: Set
@@ -40,6 +40,9 @@ Set:
   Enchantments:
     Amt: 7
     Levels: 6
+  Rarities:
+  - Common
+  - Uncommon
 Unidentified:
   Color: Magic
   DisplayName: Unidentified

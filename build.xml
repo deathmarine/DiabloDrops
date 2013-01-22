@@ -6,7 +6,7 @@
     <property name="source" value="1.6"/>
     <path id="DiabloDrops.classpath">
         <pathelement location="bin"/>
-        <pathelement location="lib/craftbukkit-1.4.6-R0.3.jar"/>
+        <pathelement location="lib/craftbukkit-1.4.7-R0.1.jar"/>
     </path>
 
 	<target name="init" description="Initialize directories, etc.">

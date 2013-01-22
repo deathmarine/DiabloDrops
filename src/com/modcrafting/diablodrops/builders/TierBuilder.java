@@ -64,7 +64,7 @@ public class TierBuilder
                 if (s != null)
                     lore.add(ChatColor.translateAlternateColorCodes('&', s));
             List<Rarity> rarities = new ArrayList<Rarity>();
-            List<String> rStrings = cs.getStringList(name + ".rarities");
+            List<String> rStrings = cs.getStringList(name + ".Rarities");
             if (rStrings != null && !rStrings.isEmpty())
                 for (String s : rStrings)
                 {

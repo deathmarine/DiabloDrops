@@ -286,11 +286,11 @@ public class DropsAPI
         Material material = mat;
         Drop ci = null;
         Tier tier = getTier();
-        Rarity rarity = getRarity();
         while (tier == null)
         {
             tier = getTier();
         }
+        Rarity rarity = getRarity(tier);
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(material))
         {
@@ -490,11 +490,11 @@ public class DropsAPI
         tool = new ItemStack(tool.getType());
         tool.setDurability(oldDam);
         Tier tier = getTier();
-        Rarity rarity = getRarity();
         while ((tier == null) || tier.getColor().equals(ChatColor.MAGIC))
         {
             tier = getTier();
         }
+        Rarity rarity = getRarity(tier);
         int e = tier.getAmount();
         int l = tier.getLevels();
         List<String> list = new ArrayList<String>();
@@ -617,11 +617,11 @@ public class DropsAPI
         }
         ItemStack ci = null;
         Tier tier = getTier();
-        Rarity rarity = getRarity();
         while (tier == null)
         {
             tier = getTier();
         }
+        Rarity rarity = getRarity(tier);
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))
         {
@@ -780,7 +780,6 @@ public class DropsAPI
     {
         Material mat = passMat;
         Tier tier = passTier;
-        Rarity rarity = getRarity();
         while (mat == null)
         {
             mat = dropPicker();
@@ -790,6 +789,7 @@ public class DropsAPI
         {
             tier = getTier();
         }
+        Rarity rarity = getRarity(tier);
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))
         {
@@ -940,7 +940,6 @@ public class DropsAPI
     public DiabloDropsItem getItem(Tier tier)
     {
         Material mat = dropPicker();
-        Rarity rarity = getRarity();
         while (mat == null)
         {
             mat = dropPicker();
@@ -949,6 +948,7 @@ public class DropsAPI
         {
             tier = getTier();
         }
+        Rarity rarity = getRarity(tier);
         ItemStack ci = null;
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))
@@ -1107,8 +1107,7 @@ public class DropsAPI
     public Rarity getRarity()
     {
         Rarity rar = null;
-        int att = 0;
-        while (rar == null && att < 10)
+        while (rar == null)
             for (Rarity rarity : plugin.rarities)
             {
                 if ((plugin.getSingleRandom().nextInt(100) * plugin
@@ -1117,7 +1116,22 @@ public class DropsAPI
                 {
                     rar = rarity;
                 }
-                att++;
+            }
+        return rar;
+    }
+
+    public Rarity getRarity(Tier tier)
+    {
+        Rarity rar = null;
+        while (rar == null)
+            for (Rarity rarity : tier.getRarities())
+            {
+                if ((plugin.getSingleRandom().nextInt(100) * plugin
+                        .getSingleRandom().nextDouble()) >= rarity
+                        .getSpawnChance())
+                {
+                    rar = rarity;
+                }
             }
         return rar;
     }

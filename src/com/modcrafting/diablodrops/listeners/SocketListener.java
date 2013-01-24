@@ -63,7 +63,7 @@ public class SocketListener implements Listener
                         String toReplace = null;
                         if (tismeta.hasLore())
                             for (String t : tismeta.getLore())
-                                if (t.contains("(Socket)"))
+                                if (ChatColor.stripColor(t).equals("(Socket)"))
                                 {
                                     test = true;
                                     toReplace = t;

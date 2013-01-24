@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
+import com.modcrafting.diablodrops.items.SockettedItem;
 import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.tier.Tier;
 
@@ -97,7 +98,17 @@ public class DiabloDropCommand implements CommandExecutor
                             .toUpperCase())));
                     player.updateInventory();
                     player.sendMessage(ChatColor.GREEN
-                            + "You have been given a SocketItem.");
+                            + "You have been given a Socket Enhancement.");
+                    return true;
+                }
+                if (args[0].equalsIgnoreCase("socketted")
+                        || args[0].equalsIgnoreCase("socketteditem"))
+                {
+                    pi.addItem(new SockettedItem(plugin.getDropAPI()
+                            .dropPicker()));
+                    player.updateInventory();
+                    player.sendMessage(ChatColor.GREEN
+                            + "You have been given a Socketted Item.");
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("custom"))

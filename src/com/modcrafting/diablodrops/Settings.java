@@ -69,9 +69,9 @@ public class Settings
         return colorList;
     }
 
-    public double getSocketedChance()
+    public int getSocketedChance()
     {
-        return socketed;
+        return (int) (socketed * 100);
     }
 
     public int getStandardChance()

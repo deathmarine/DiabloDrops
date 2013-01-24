@@ -354,9 +354,9 @@ public class DropsAPI
             tool = Bukkit.getItemFactory().getItemMeta(ci.getType());
         tool.setLore(tier.getLore());
         List<String> list = new ArrayList<String>();
-        if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
+        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketChance()))
+                        .getSettings().getSocketedChance()))
         {
             int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
             int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
@@ -508,9 +508,9 @@ public class DropsAPI
             meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
         meta.setDisplayName(tier.getColor() + name(tool.getType()));
         boolean sock = false;
-        if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
+        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketChance())
+                        .getSettings().getSocketedChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
@@ -660,9 +660,9 @@ public class DropsAPI
             meta = tool.getItemMeta();
         else
             meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
-        if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
+        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketChance())
+                        .getSettings().getSocketedChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
@@ -685,11 +685,9 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
-
                     list.add(colorPicker()
                             + plugin.defenselore.get(plugin.getSingleRandom()
                                     .nextInt(plugin.defenselore.size())));
-
                 }
                 else if (plugin.getItemAPI().isTool(mat))
                 {
@@ -778,7 +776,6 @@ public class DropsAPI
             {
                 list.add(s);
             }
-
         boolean safe = plugin.getConfig().getBoolean("SafeEnchant.Enabled",
                 true);
         if (safe)
@@ -826,9 +823,9 @@ public class DropsAPI
             meta = tool.getItemMeta();
         else
             meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
-        if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
+        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketChance())
+                        .getSettings().getSocketedChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
@@ -983,9 +980,9 @@ public class DropsAPI
                 }
         }
         ItemMeta meta = tool.getItemMeta();
-        if (plugin.getConfig().getBoolean("SocketItem.Enabled", true)
+        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketChance())
+                        .getSettings().getSocketedChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
             int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
@@ -1158,34 +1155,5 @@ public class DropsAPI
             return null;
         return template.replace("%randprefix%", prefix)
                 .replace("%randsuffix%", suffix).replace("%matname%", matName);
-    }
-
-    /**
-     * Replace a line of lore with another line
-     * 
-     * @param tool
-     *            Tool to replace lore on
-     * @param toReplace
-     *            Line of lore to be replaced
-     * @param replaceWith
-     *            Line replacing toReplace
-     * @return Tool with new lore
-     */
-    public ItemStack replaceLore(final ItemStack tool, final String toReplace,
-            final String replaceWith)
-    {
-        ItemMeta meta = tool.getItemMeta();
-        List<String> loreList = meta.getLore();
-        if ((loreList == null) || loreList.isEmpty())
-            return tool;
-        for (String s : meta.getLore())
-            if (s.equals(toReplace))
-            {
-                loreList.remove(s);
-                loreList.add(replaceWith);
-            }
-        meta.setLore(loreList);
-        tool.setItemMeta(meta);
-        return tool;
     }
 }

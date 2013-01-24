@@ -13,12 +13,14 @@ public class Settings
     private final double custom;
     private final double lore;
     private final double socket;
+    private final double socketed;
     private final double standard;
     private final double tome;
 
     public Settings(FileConfiguration fc)
     {
         socket = fc.getDouble("SocketItem.Chance", 5.0);
+        socketed = fc.getDouble("SockettedItem.Chance", 20.0);
         tome = fc.getDouble("IdentifyTome.Chance", 2.0);
         standard = fc.getDouble("Percentages.ChancePerSpawn", 2.0);
         lore = fc.getDouble("Lore.Chance", 2.0);
@@ -45,6 +47,11 @@ public class Settings
     public ChatColor[] getSocketColors()
     {
         return colorList;
+    }
+
+    public double getSocketedChance()
+    {
+        return socketed;
     }
 
     public int getStandardChance()

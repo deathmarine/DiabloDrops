@@ -733,6 +733,35 @@ public class ItemAPI
     }
 
     /**
+     * Replace a line of lore with another line
+     * 
+     * @param tool
+     *            Tool to replace lore on
+     * @param toReplace
+     *            Line of lore to be replaced
+     * @param replaceWith
+     *            Line replacing toReplace
+     * @return Tool with new lore
+     */
+    public ItemStack replaceLore(final ItemStack tool, final String toReplace,
+            final String replaceWith)
+    {
+        ItemMeta meta = tool.getItemMeta();
+        List<String> loreList = meta.getLore();
+        if ((loreList == null) || loreList.isEmpty())
+            return tool;
+        for (String s : meta.getLore())
+            if (s.equals(toReplace))
+            {
+                loreList.remove(s);
+                loreList.add(replaceWith);
+            }
+        meta.setLore(loreList);
+        tool.setItemMeta(meta);
+        return tool;
+    }
+
+    /**
      * Sets the lore of an ItemStack
      * 
      * @param itemStack

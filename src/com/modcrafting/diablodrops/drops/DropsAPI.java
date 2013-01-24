@@ -21,6 +21,7 @@ import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.items.Drop;
 import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.Socket;
+import com.modcrafting.diablodrops.items.SockettedItem;
 import com.modcrafting.diablodrops.tier.Tier;
 
 public class DropsAPI
@@ -354,23 +355,6 @@ public class DropsAPI
             tool = Bukkit.getItemFactory().getItemMeta(ci.getType());
         tool.setLore(tier.getLore());
         List<String> list = new ArrayList<String>();
-        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketedChance()))
-        {
-            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
-                    1);
-            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
-                    5);
-            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
-            for (int i = 0; i < enhance; i++)
-            {
-                list.add(colorPicker() + "(Socket)");
-            }
-            tool.setLore(list);
-            ci.setItemMeta(tool);
-            return ci;
-        }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getLoreChance()))
@@ -416,6 +400,10 @@ public class DropsAPI
             return new Socket(Material.valueOf(l.get(
                     plugin.getSingleRandom().nextInt(l.size())).toUpperCase()));
         }
+        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
+                && (plugin.getSingleRandom().nextInt(10000) <= plugin
+                        .getSettings().getSocketedChance()))
+            return new SockettedItem(dropPicker());
         if (plugin.getSingleRandom().nextBoolean()
                 && plugin.getConfig().getBoolean("Custom.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
@@ -509,27 +497,10 @@ public class DropsAPI
         else
             meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
         meta.setDisplayName(tier.getColor() + name(tool.getType()));
-        boolean sock = false;
-        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketedChance())
-                && !tier.getColor().equals(ChatColor.MAGIC))
-        {
-            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
-                    1);
-            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
-                    5);
-            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
-            for (int i = 0; i < enhance; i++)
-            {
-                list.add(colorPicker() + "(Socket)");
-            }
-            sock = true;
-        }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(100) <= plugin
                         .getSettings().getLoreChance())
-                && !tier.getColor().equals(ChatColor.MAGIC) && !sock)
+                && !tier.getColor().equals(ChatColor.MAGIC))
         {
             for (int i = 0; i < plugin.getConfig().getInt("Lore.EnhanceAmount",
                     2); i++)
@@ -664,24 +635,6 @@ public class DropsAPI
             meta = tool.getItemMeta();
         else
             meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
-        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketedChance())
-                && !tier.getColor().equals(ChatColor.MAGIC))
-        {
-            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
-                    1);
-            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
-                    5);
-            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
-            for (int i = 0; i < enhance; i++)
-            {
-                list.add(colorPicker() + "(Socket)");
-            }
-            meta.setLore(list);
-            tool.setItemMeta(meta);
-            return tool;
-        }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getLoreChance())
@@ -829,24 +782,6 @@ public class DropsAPI
             meta = tool.getItemMeta();
         else
             meta = Bukkit.getItemFactory().getItemMeta(tool.getType());
-        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketedChance())
-                && !tier.getColor().equals(ChatColor.MAGIC))
-        {
-            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
-                    1);
-            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
-                    5);
-            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
-            for (int i = 0; i < enhance; i++)
-            {
-                list.add(colorPicker() + "(Socket)");
-            }
-            meta.setLore(list);
-            tool.setItemMeta(meta);
-            return tool;
-        }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getLoreChance())
@@ -988,24 +923,6 @@ public class DropsAPI
                 }
         }
         ItemMeta meta = tool.getItemMeta();
-        if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
-                && (plugin.getSingleRandom().nextInt(10000) <= plugin
-                        .getSettings().getSocketedChance())
-                && !tier.getColor().equals(ChatColor.MAGIC))
-        {
-            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
-                    1);
-            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
-                    5);
-            int enhance = eni + plugin.getSingleRandom().nextInt(ene);
-            for (int i = 0; i < enhance; i++)
-            {
-                list.add(colorPicker() + "(Socket)");
-            }
-            meta.setLore(list);
-            tool.setItemMeta(meta);
-            return tool;
-        }
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getLoreChance())

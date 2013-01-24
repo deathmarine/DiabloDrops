@@ -14,6 +14,8 @@ public class Settings
     private final double lore;
     private final double socket;
     private final double socketed;
+    private final int minSockets;
+    private final int maxSockets;
     private final double standard;
     private final double tome;
 
@@ -21,6 +23,8 @@ public class Settings
     {
         socket = fc.getDouble("SocketItem.Chance", 5.0);
         socketed = fc.getDouble("SockettedItem.Chance", 20.0);
+        minSockets = fc.getInt("SockettedItem.MinimumSockets", 1);
+        maxSockets = fc.getInt("SockettedItem.MaximumSockets", 5);
         tome = fc.getDouble("IdentifyTome.Chance", 2.0);
         standard = fc.getDouble("Percentages.ChancePerSpawn", 2.0);
         lore = fc.getDouble("Lore.Chance", 2.0);
@@ -37,6 +41,22 @@ public class Settings
     public int getLoreChance()
     {
         return (int) (lore * 100);
+    }
+
+    /**
+     * @return the maxSockets
+     */
+    public int getMaxSockets()
+    {
+        return maxSockets;
+    }
+
+    /**
+     * @return the minSockets
+     */
+    public int getMinSockets()
+    {
+        return minSockets;
     }
 
     public int getSocketChance()

@@ -40,7 +40,7 @@ public class SetsAPI
     /**
      * Gets the name of the set a player could be wearing
      * 
-     * @param player
+     * @param entity
      *            Player to check
      * @return name of the set
      */

@@ -417,7 +417,7 @@ public class DropsAPI
     /**
      * Gets a new tool from an unidentified tool
      * 
-     * @param tool
+     * @param oldTool
      *            ItemStack to turn into a DiabloDrops item
      * @return brand new tool
      */

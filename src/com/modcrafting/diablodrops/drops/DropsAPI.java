@@ -377,38 +377,17 @@ public class DropsAPI
                     2); i++)
                 if (plugin.getItemAPI().isArmor(mat))
                 {
-                    if (plugin.ccdefenselore != null
-                            && !plugin.ccdefenselore.isEmpty()
-                            && plugin.ccdefenselore.get(tier.getColor()) != null
-                            && plugin.getSingleRandom().nextBoolean())
-                        list.add(plugin.ccdefenselore.get(tier.getColor()).get(
-                                plugin.getSingleRandom().nextInt(
-                                        plugin.ccdefenselore.get(
-                                                tier.getColor()).size())));
-                    else
-                        list.add(plugin.defenselore.get(plugin
-                                .getSingleRandom().nextInt(
-                                        plugin.defenselore.size())));
-                    tool.setLore(list);
+                    list.add(plugin.defenselore.get(plugin.getSingleRandom()
+                            .nextInt(plugin.defenselore.size())));
 
                 }
                 else if (plugin.getItemAPI().isTool(mat))
                 {
-                    if (plugin.ccdefenselore != null
-                            && !plugin.ccoffenselore.isEmpty()
-                            && plugin.ccoffenselore.get(tier.getColor()) != null
-                            && plugin.getSingleRandom().nextBoolean())
-                        list.add(plugin.ccoffenselore.get(tier.getColor()).get(
-                                plugin.getSingleRandom().nextInt(
-                                        plugin.ccoffenselore.get(
-                                                tier.getColor()).size())));
-                    else
-                        list.add(plugin.offenselore.get(plugin
-                                .getSingleRandom().nextInt(
-                                        plugin.offenselore.size())));
-                    tool.setLore(list);
+                    list.add(plugin.offenselore.get(plugin.getSingleRandom()
+                            .nextInt(plugin.offenselore.size())));
                 }
         }
+        tool.setLore(list);
         ci.setItemMeta(tool);
         return ci;
     }

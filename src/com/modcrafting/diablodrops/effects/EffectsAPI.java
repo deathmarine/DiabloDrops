@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.ItemEffectEvent;
 
 public class EffectsAPI
@@ -466,6 +467,10 @@ public class EffectsAPI
             for (String string : meta.getLore())
             {
                 string = ChatColor.stripColor(string).replace("%", "");
+                if (!DiabloDrops.getInstance().defenselore.contains(string)
+                        && !DiabloDrops.getInstance().offenselore
+                                .contains(string))
+                    continue;
                 effects.add(string);
             }
         }

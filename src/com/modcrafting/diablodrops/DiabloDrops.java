@@ -45,6 +45,7 @@ import com.modcrafting.diablodrops.tier.Tier;
 public class DiabloDrops extends JavaPlugin
 {
     private static DiabloDrops instance;
+
     /**
      * Gets the instance of DiabloDrops
      * 
@@ -54,10 +55,9 @@ public class DiabloDrops extends JavaPlugin
     {
         return instance;
     }
+
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
     private Integer build;
-    public HashMap<ChatColor, List<String>> ccdefenselore = new HashMap<ChatColor, List<String>>();
-    public HashMap<ChatColor, List<String>> ccoffenselore = new HashMap<ChatColor, List<String>>();
     public List<ItemStack> custom = new ArrayList<ItemStack>();
     private boolean debug;
     public List<String> defenselore = new ArrayList<String>();

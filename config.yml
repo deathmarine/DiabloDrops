@@ -42,13 +42,12 @@ IdentifyTome:
 SockettedItem:
   Enabled: true
   Chance: 20
+  MinimumSockets: 1
+  MaximumSockets: 5
 #Allow the drop of socket items#
 SocketItem:
   Enabled: true
   Chance: 5
-  #Add levels to enchantment when socketting#
-  EnhanceBy: 1
-  EnhanceMax: 10
   #Whether to set lore on sockets#
   Lore: true
   Items: 

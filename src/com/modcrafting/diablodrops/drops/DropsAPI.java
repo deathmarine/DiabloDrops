@@ -358,8 +358,10 @@ public class DropsAPI
                 && (plugin.getSingleRandom().nextInt(10000) <= plugin
                         .getSettings().getSocketedChance()))
         {
-            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
-            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
+                    1);
+            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
+                    5);
             int enhance = eni + plugin.getSingleRandom().nextInt(ene);
             for (int i = 0; i < enhance; i++)
             {
@@ -513,8 +515,10 @@ public class DropsAPI
                         .getSettings().getSocketedChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
-            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
+                    1);
+            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
+                    5);
             int enhance = eni + plugin.getSingleRandom().nextInt(ene);
             for (int i = 0; i < enhance; i++)
             {
@@ -665,8 +669,10 @@ public class DropsAPI
                         .getSettings().getSocketedChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
-            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
+                    1);
+            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
+                    5);
             int enhance = eni + plugin.getSingleRandom().nextInt(ene);
             for (int i = 0; i < enhance; i++)
             {
@@ -828,8 +834,10 @@ public class DropsAPI
                         .getSettings().getSocketedChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
-            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
+                    1);
+            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
+                    5);
             int enhance = eni + plugin.getSingleRandom().nextInt(ene);
             for (int i = 0; i < enhance; i++)
             {
@@ -985,8 +993,10 @@ public class DropsAPI
                         .getSettings().getSocketedChance())
                 && !tier.getColor().equals(ChatColor.MAGIC))
         {
-            int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
-            int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
+            int eni = plugin.getConfig().getInt("SockettedItem.MinimumSockets",
+                    1);
+            int ene = plugin.getConfig().getInt("SockettedItem.MaximumSockets",
+                    5);
             int enhance = eni + plugin.getSingleRandom().nextInt(ene);
             for (int i = 0; i < enhance; i++)
             {

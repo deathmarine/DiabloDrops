@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -13,7 +15,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
@@ -57,185 +58,297 @@ public class DiabloDropCommand implements CommandExecutor
     public boolean onCommand(final CommandSender sender, final Command command,
             final String commandLabel, final String[] args)
     {
-        if (!(sender instanceof Player)
-                || !sender.hasPermission(command.getPermission()))
+        if (!sender.hasPermission(command.getPermission()))
         {
             sender.sendMessage(ChatColor.RED + "You cannot run this command.");
             return true;
         }
-        Player player = ((Player) sender);
-        PlayerInventory pi = player.getInventory();
         switch (args.length)
         {
             case 0:
+                if (!(sender instanceof Player))
+                {
+                    sender.sendMessage(ChatColor.RED
+                            + "You cannot run this command.");
+                    return true;
+                }
                 ItemStack ci = plugin.getDropAPI().getItem();
                 while (ci == null)
                 {
                     ci = plugin.getDropAPI().getItem();
                 }
-                pi.addItem(ci);
-                player.updateInventory();
-                player.sendMessage(ChatColor.GREEN
+                ((Player) sender).getInventory().addItem(ci);
+                ((Player) sender).updateInventory();
+                ((Player) sender).sendMessage(ChatColor.GREEN
                         + "You have been given a DiabloDrops item.");
                 return true;
-            default:
+            case 1:
                 if (args[0].equalsIgnoreCase("tome")
                         || args[0].equalsIgnoreCase("book"))
                 {
-                    pi.addItem(new IdentifyTome());
-                    player.sendMessage(ChatColor.GREEN
-                            + "You have been given a tome.");
-                    player.updateInventory();
-                    return true;
+                    if (!(sender instanceof Player))
+                    {
+                        sender.sendMessage(ChatColor.RED
+                                + "You cannot run this command.");
+                    }
+                    else
+                    {
+                        ((Player) sender).getInventory().addItem(
+                                new IdentifyTome());
+                        ((Player) sender).sendMessage(ChatColor.GREEN
+                                + "You have been given an Identify Tome.");
+                        ((Player) sender).updateInventory();
+                    }
                 }
-                if (args[0].equalsIgnoreCase("socket")
+                else if (args[0].equalsIgnoreCase("socket")
                         || args[0].equalsIgnoreCase("socketitem"))
                 {
-                    List<String> l = plugin.getConfig().getStringList(
-                            "SocketItem.Items");
-                    pi.addItem(new Socket(Material.valueOf(l.get(
-                            plugin.getSingleRandom().nextInt(l.size()))
-                            .toUpperCase())));
-                    player.updateInventory();
-                    player.sendMessage(ChatColor.GREEN
-                            + "You have been given a Socket Enhancement.");
-                    return true;
+                    if (!(sender instanceof Player))
+                    {
+                        sender.sendMessage(ChatColor.RED
+                                + "You cannot run this command.");
+                    }
+                    else
+                    {
+                        List<String> l = plugin.getConfig().getStringList(
+                                "SocketItem.Items");
+                        ((Player) sender).getInventory().addItem(
+                                new Socket(Material.valueOf(l.get(
+                                        plugin.getSingleRandom().nextInt(
+                                                l.size())).toUpperCase())));
+                        ((Player) sender).updateInventory();
+                        ((Player) sender).sendMessage(ChatColor.GREEN
+                                + "You have been given a Socket Enhancement.");
+                    }
                 }
-                if (args[0].equalsIgnoreCase("socketted")
+                else if (args[0].equalsIgnoreCase("socketted")
                         || args[0].equalsIgnoreCase("socketteditem"))
                 {
-                    pi.addItem(new SockettedItem(plugin.getDropAPI()
-                            .dropPicker()));
-                    player.updateInventory();
-                    player.sendMessage(ChatColor.GREEN
-                            + "You have been given a Socketted Item.");
-                    return true;
+                    if (!(sender instanceof Player))
+                    {
+                        sender.sendMessage(ChatColor.RED
+                                + "You cannot run this command.");
+                    }
+                    else
+                    {
+                        ((Player) sender).getInventory().addItem(
+                                new SockettedItem(plugin.getDropAPI()
+                                        .dropPicker()));
+                        ((Player) sender).updateInventory();
+                        ((Player) sender).sendMessage(ChatColor.GREEN
+                                + "You have been given a Socketted Item.");
+                    }
                 }
+                else if (args[0].equalsIgnoreCase("custom"))
+                {
+                    if (!(sender instanceof Player))
+                    {
+                        sender.sendMessage(ChatColor.RED
+                                + "You cannot run this command.");
+                    }
+                    else
+                    {
+                        if (plugin.custom.size() > 0)
+                        {
+                            ((Player) sender).getInventory().addItem(
+                                    plugin.custom.get(plugin.getSingleRandom()
+                                            .nextInt(plugin.custom.size())));
+                        }
+                        else
+                        {
+                            ItemStack pis = plugin.getDropAPI().getItem();
+                            while (pis == null)
+                                pis = plugin.getDropAPI().getItem();
+                            ((Player) sender).getInventory().addItem(pis);
+                        }
+                        ((Player) sender).updateInventory();
+                        ((Player) sender).sendMessage(ChatColor.GREEN
+                                + "You have been given a DiabloDrops item.");
+                    }
+                }
+                return true;
+            default:
                 if (args[0].equalsIgnoreCase("custom"))
                 {
+                    String name = "";
+                    Player p = null;
+                    for (String s : args)
+                    {
+                        if (StringUtils.containsIgnoreCase(s, "p:"))
+                        {
+                            s = s.replace("p:", "");
+                            p = Bukkit.getPlayer(s);
+                            continue;
+                        }
+                        if (!s.equals(args[0]))
+                            if (s.equals(args[1]))
+                                name = s;
+                            else
+                                name = name + " " + s;
+                    }
+                    ItemStack customItem = null;
                     if (plugin.custom.size() > 0)
-                        pi.addItem(plugin.custom.get(plugin.getSingleRandom()
-                                .nextInt(plugin.custom.size())));
+                    {
+                        for (ItemStack is : plugin.custom)
+                        {
+                            if (ChatColor.stripColor(
+                                    plugin.getItemAPI().getName(is)).equals(
+                                    name))
+                            {
+                                customItem = is;
+                                break;
+                            }
+                        }
+                    }
+                    if (customItem != null && p != null)
+                    {
+                        p.getInventory().addItem(customItem);
+                        p.updateInventory();
+                        p.sendMessage(ChatColor.GREEN
+                                + "You have been given a DiabloDrops item.");
+                    }
+                    else if (customItem != null && p == null
+                            && sender instanceof Player)
+                    {
+                        ((Player) sender).getInventory().addItem(customItem);
+                        ((Player) sender).updateInventory();
+                        ((Player) sender).sendMessage(ChatColor.GREEN
+                                + "You have been given a DiabloDrops item.");
+                    }
                     else
-                        pi.addItem(plugin.getDropAPI().getItem());
-                    player.updateInventory();
-                    player.sendMessage(ChatColor.GREEN
-                            + "You have been given a DiabloDrops item.");
+                    {
+                        sender.sendMessage(ChatColor.RED
+                                + "Either that is not a valid item or you are unable to run this command.");
+                    }
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("modify"))
                 {
-                    if ((args.length < 2)
-                            || (player.getItemInHand() == null)
-                            || player.getItemInHand().getType()
-                                    .equals(Material.AIR))
-                        return true;
-                    ItemStack tool = player.getItemInHand();
-                    ItemMeta meta = tool.getItemMeta();
-                    if (args[1].equalsIgnoreCase("lore"))
+                    if (!(sender instanceof Player))
                     {
-                        if (args[2].equalsIgnoreCase("clear"))
+                        sender.sendMessage(ChatColor.RED
+                                + "You cannot run this command.");
+                    }
+                    else
+                    {
+                        if ((args.length < 2)
+                                || (((Player) sender).getItemInHand() == null)
+                                || ((Player) sender).getItemInHand().getType()
+                                        .equals(Material.AIR))
+                            return true;
+                        ItemStack tool = ((Player) sender).getItemInHand();
+                        ItemMeta meta = tool.getItemMeta();
+                        if (args[1].equalsIgnoreCase("lore"))
                         {
-                            meta.setLore(null);
+                            if (args[2].equalsIgnoreCase("clear"))
+                            {
+                                meta.setLore(null);
+                                tool.setItemMeta(meta);
+                                ((Player) sender).sendMessage(ChatColor.GREEN
+                                        + "Cleared the lore for the item!");
+                                return true;
+                            }
+                            String lore = combineSplit(2, args, " ");
+                            lore = ChatColor.translateAlternateColorCodes(
+                                    "&".toCharArray()[0], lore);
+                            meta.setLore(Arrays.asList(lore.split(",")));
                             tool.setItemMeta(meta);
-                            player.sendMessage(ChatColor.GREEN
-                                    + "Cleared the lore for the item!");
+                            ((Player) sender).sendMessage(ChatColor.GREEN
+                                    + "Set the lore for the item!");
                             return true;
                         }
-                        String lore = combineSplit(2, args, " ");
-                        lore = ChatColor.translateAlternateColorCodes(
-                                "&".toCharArray()[0], lore);
-                        meta.setLore(Arrays.asList(lore.split(",")));
-                        tool.setItemMeta(meta);
-                        player.sendMessage(ChatColor.GREEN
-                                + "Set the lore for the item!");
-                        return true;
-                    }
-                    if (args[1].equalsIgnoreCase("name"))
-                    {
-                        if (args[2].equalsIgnoreCase("clear"))
+                        if (args[1].equalsIgnoreCase("name"))
                         {
-                            tool.getItemMeta().setDisplayName(null);
-                            player.sendMessage(ChatColor.GREEN
-                                    + "Cleared the name for the item!");
-                            return true;
-                        }
-                        String name = combineSplit(2, args, " ");
-                        name = ChatColor.translateAlternateColorCodes(
-                                "&".toCharArray()[0], name);
-
-                        meta.setDisplayName(name);
-                        tool.setItemMeta(meta);
-                        player.sendMessage(ChatColor.GREEN
-                                + "Set the name for the item!");
-                        return true;
-                    }
-                    if (args[1].equalsIgnoreCase("enchant"))
-                    {
-                        if (args.length < 4)
-                        {
-                            if ((args.length == 3)
-                                    && args[2].equalsIgnoreCase("clear"))
+                            if (args[2].equalsIgnoreCase("clear"))
                             {
-                                for (Enchantment e : Enchantment.values())
-                                    tool.getItemMeta().removeEnchant(e);
-                                player.sendMessage(ChatColor.GREEN
-                                        + "Cleared the enchantments for the item!");
+                                tool.getItemMeta().setDisplayName(null);
+                                ((Player) sender).sendMessage(ChatColor.GREEN
+                                        + "Cleared the name for the item!");
                                 return true;
                             }
-                            player.sendMessage(ChatColor.RED
-                                    + "Correct usage: /dd modify enchant"
-                                    + " [enchantment name] [enchantment level]");
-                            return true;
-                        }
-                        if (args[2].equalsIgnoreCase("add"))
-                        {
-                            if (args.length < 5)
-                                return true;
-                            int i = 1;
-                            try
-                            {
-                                i = Integer.parseInt(args[4]);
-                            }
-                            catch (NumberFormatException nfe)
-                            {
-                                if (plugin.getDebug())
-                                {
-                                    plugin.log.warning(nfe.getMessage());
-                                }
-                            }
-                            Enchantment ech = Enchantment.getByName(args[3]
-                                    .toUpperCase());
-                            if (ech != null)
-                            {
-                                player.getItemInHand().addUnsafeEnchantment(
-                                        ech, i);
-                                player.sendMessage(ChatColor.GREEN
-                                        + "Added enchantment.");
-                            }
-                            else
-                            {
-                                player.sendMessage(ChatColor.RED + args[3]
-                                        + " :enchantment does not exist!");
-                            }
-                            return true;
-                        }
-                        if (args[2].equalsIgnoreCase("remove"))
-                        {
-                            ItemStack is = player.getItemInHand();
-                            Map<Enchantment, Integer> hm = new HashMap<Enchantment, Integer>();
-                            for (Enchantment e1 : is.getEnchantments().keySet())
-                            {
-                                if (!e1.getName().equalsIgnoreCase(args[3]))
-                                {
-                                    hm.put(e1, is.getEnchantmentLevel(e1));
-                                }
-                            }
-                            is.addUnsafeEnchantments(hm);
-                            player.sendMessage(ChatColor.GREEN
-                                    + "Removed enchantment.");
-                            return true;
+                            String name = combineSplit(2, args, " ");
+                            name = ChatColor.translateAlternateColorCodes(
+                                    "&".toCharArray()[0], name);
 
+                            meta.setDisplayName(name);
+                            tool.setItemMeta(meta);
+                            ((Player) sender).sendMessage(ChatColor.GREEN
+                                    + "Set the name for the item!");
+                            return true;
+                        }
+                        if (args[1].equalsIgnoreCase("enchant"))
+                        {
+                            if (args.length < 4)
+                            {
+                                if ((args.length == 3)
+                                        && args[2].equalsIgnoreCase("clear"))
+                                {
+                                    for (Enchantment e : Enchantment.values())
+                                        tool.getItemMeta().removeEnchant(e);
+                                    ((Player) sender)
+                                            .sendMessage(ChatColor.GREEN
+                                                    + "Cleared the enchantments for the item!");
+                                    return true;
+                                }
+                                ((Player) sender)
+                                        .sendMessage(ChatColor.RED
+                                                + "Correct usage: /dd modify enchant"
+                                                + " [enchantment name] [enchantment level]");
+                                return true;
+                            }
+                            if (args[2].equalsIgnoreCase("add"))
+                            {
+                                if (args.length < 5)
+                                    return true;
+                                int i = 1;
+                                try
+                                {
+                                    i = Integer.parseInt(args[4]);
+                                }
+                                catch (NumberFormatException nfe)
+                                {
+                                    if (plugin.getDebug())
+                                    {
+                                        plugin.log.warning(nfe.getMessage());
+                                    }
+                                }
+                                Enchantment ech = Enchantment.getByName(args[3]
+                                        .toUpperCase());
+                                if (ech != null)
+                                {
+                                    ((Player) sender).getItemInHand()
+                                            .addUnsafeEnchantment(ech, i);
+                                    ((Player) sender)
+                                            .sendMessage(ChatColor.GREEN
+                                                    + "Added enchantment.");
+                                }
+                                else
+                                {
+                                    ((Player) sender).sendMessage(ChatColor.RED
+                                            + args[3]
+                                            + " :enchantment does not exist!");
+                                }
+                                return true;
+                            }
+                            if (args[2].equalsIgnoreCase("remove"))
+                            {
+                                ItemStack is = ((Player) sender)
+                                        .getItemInHand();
+                                Map<Enchantment, Integer> hm = new HashMap<Enchantment, Integer>();
+                                for (Enchantment e1 : is.getEnchantments()
+                                        .keySet())
+                                {
+                                    if (!e1.getName().equalsIgnoreCase(args[3]))
+                                    {
+                                        hm.put(e1, is.getEnchantmentLevel(e1));
+                                    }
+                                }
+                                is.addUnsafeEnchantments(hm);
+                                ((Player) sender).sendMessage(ChatColor.GREEN
+                                        + "Removed enchantment.");
+                                return true;
+
+                            }
                         }
                     }
                 }
@@ -251,14 +364,24 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("repair"))
                 {
-                    if (plugin.getDropAPI().canBeItem(
-                            player.getItemInHand().getType()))
+                    if (!(sender instanceof Player))
                     {
-                        player.getItemInHand().setDurability((short) 0);
-                        player.sendMessage(ChatColor.GREEN + "Item repaired.");
-                        return true;
+                        sender.sendMessage(ChatColor.RED
+                                + "You are unable to run this command right now.");
                     }
-                    player.sendMessage("Unable to repair item.");
+                    else
+                    {
+                        if (plugin.getDropAPI().canBeItem(
+                                ((Player) sender).getItemInHand().getType()))
+                        {
+                            ((Player) sender).getItemInHand().setDurability(
+                                    (short) 0);
+                            ((Player) sender).sendMessage(ChatColor.GREEN
+                                    + "Item repaired.");
+                            return true;
+                        }
+                    }
+                    ((Player) sender).sendMessage("Unable to repair item.");
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("debug"))
@@ -382,38 +505,54 @@ public class DiabloDropCommand implements CommandExecutor
                 }
                 if (args[0].equalsIgnoreCase("tier"))
                 {
-                    Tier tier = plugin.getDropAPI().getTier(args[1]);
-                    ItemStack ci2 = plugin.getDropAPI().getItem(tier);
-                    while (ci2 == null)
+                    if (!(sender instanceof Player))
                     {
-                        ci2 = plugin.getDropAPI().getItem(tier);
-                    }
-                    pi.addItem(ci2);
-                    player.updateInventory();
-                    if (tier == null)
-                    {
-                        player.sendMessage(ChatColor.GREEN
-                                + "You have been given a DiabloDrops item.");
+                        sender.sendMessage(ChatColor.RED
+                                + "You cannot run this command right now.");
                     }
                     else
                     {
-                        player.sendMessage(ChatColor.GREEN
-                                + "You have been given a " + tier.getColor()
-                                + tier.getName() + ChatColor.GREEN
-                                + " DiabloDrops item.");
+                        Tier tier = plugin.getDropAPI().getTier(args[1]);
+                        ItemStack ci2 = plugin.getDropAPI().getItem(tier);
+                        while (ci2 == null)
+                        {
+                            ci2 = plugin.getDropAPI().getItem(tier);
+                        }
+                        ((Player) sender).getInventory().addItem(ci2);
+                        ((Player) sender).updateInventory();
+                        if (tier == null)
+                        {
+                            ((Player) sender)
+                                    .sendMessage(ChatColor.GREEN
+                                            + "You have been given a DiabloDrops item.");
+                        }
+                        else
+                        {
+                            ((Player) sender).sendMessage(ChatColor.GREEN
+                                    + "You have been given a "
+                                    + tier.getColor() + tier.getName()
+                                    + ChatColor.GREEN + " DiabloDrops item.");
 
+                        }
                     }
                     return true;
                 }
-                ItemStack ci2 = plugin.getDropAPI().getItem();
-                while (ci2 == null)
+                if (!(sender instanceof Player))
                 {
-                    ci2 = plugin.getDropAPI().getItem();
+                    sender.sendMessage("You cannot run this command right now.");
                 }
-                pi.addItem(ci2);
-                player.updateInventory();
-                player.sendMessage(ChatColor.GREEN
-                        + "You have been given a DiabloDrops item.");
+                else
+                {
+                    ItemStack ci2 = plugin.getDropAPI().getItem();
+                    while (ci2 == null)
+                    {
+                        ci2 = plugin.getDropAPI().getItem();
+                    }
+                    ((Player) sender).getInventory().addItem(ci2);
+                    ((Player) sender).updateInventory();
+                    ((Player) sender).sendMessage(ChatColor.GREEN
+                            + "You have been given a DiabloDrops item.");
+                }
                 return true;
         }
     }

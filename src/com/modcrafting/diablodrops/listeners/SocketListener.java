@@ -51,7 +51,7 @@ public class SocketListener implements Listener
                     else
                         meta = Bukkit.getItemFactory().getItemMeta(
                                 fuel.getType());
-                    if (meta.getDisplayName() != null)
+                    if (meta.hasDisplayName())
                     {
                         ItemMeta tismeta;
                         if (tis.hasItemMeta())
@@ -59,55 +59,53 @@ public class SocketListener implements Listener
                         else
                             tismeta = plugin.getServer().getItemFactory()
                                     .getItemMeta(tis.getType());
-                        boolean test = false;
-                        String toReplace = null;
                         if (tismeta.hasLore())
                             for (String t : tismeta.getLore())
-                                if (ChatColor.stripColor(t).equals("(Socket)"))
-                                {
-                                    test = true;
-                                    toReplace = t;
-                                }
-                        if (toReplace != null)
-                            if ((meta.getDisplayName().contains("Socket") || fuel
-                                    .getType().equals(Material.SKULL_ITEM))
-                                    && test)
                             {
-                                ChatColor socketColor = findColor(toReplace);
-                                ChatColor fuelColor = findColor(meta
-                                        .getDisplayName());
-                                if ((fuelColor == socketColor)
-                                        || (socketColor == null)
-                                        || (socketColor == ChatColor.RESET)
-                                        || (socketColor == ChatColor.DARK_PURPLE)
-                                        || (socketColor == ChatColor.ITALIC))
+                                if (t == null)
+                                    continue;
+                                if (!ChatColor.stripColor(t).equals("(Socket)"))
+                                    continue;
+                                if ((meta.getDisplayName().contains("Socket") || fuel
+                                        .getType().equals(Material.SKULL_ITEM)))
                                 {
-                                    PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
-                                            tis, event.getFuel(), furn);
-                                    plugin.getServer().getPluginManager()
-                                            .callEvent(psee);
-                                    if (psee.isCancelled())
+                                    ChatColor socketColor = findColor(t);
+                                    ChatColor fuelColor = findColor(meta
+                                            .getDisplayName());
+                                    if ((fuelColor == socketColor)
+                                            || (socketColor == null)
+                                            || (socketColor == ChatColor.RESET)
+                                            || (socketColor == ChatColor.DARK_PURPLE)
+                                            || (socketColor == ChatColor.ITALIC))
                                     {
-                                        continue;
-                                    }
-                                    plugin.furnanceMap.put(event.getBlock(),
-                                            event.getFuel());
-                                    plugin.getServer()
-                                            .getScheduler()
-                                            .scheduleSyncDelayedTask(plugin,
-                                                    new Runnable()
-                                                    {
-                                                        @Override
-                                                        public void run()
+                                        PreSocketEnhancementEvent psee = new PreSocketEnhancementEvent(
+                                                tis, event.getFuel(), furn);
+                                        plugin.getServer().getPluginManager()
+                                                .callEvent(psee);
+                                        if (psee.isCancelled())
+                                        {
+                                            return;
+                                        }
+                                        plugin.furnanceMap.put(
+                                                event.getBlock(),
+                                                event.getFuel());
+                                        plugin.getServer()
+                                                .getScheduler()
+                                                .scheduleSyncDelayedTask(
+                                                        plugin, new Runnable()
                                                         {
-                                                            plugin.furnanceMap
-                                                                    .remove(event
-                                                                            .getBlock());
-                                                        }
-                                                    }, 20L * 30);
-                                    event.setBurnTime(240);
-                                    event.setBurning(true);
-                                    return;
+                                                            @Override
+                                                            public void run()
+                                                            {
+                                                                plugin.furnanceMap
+                                                                        .remove(event
+                                                                                .getBlock());
+                                                            }
+                                                        }, 20L * 30);
+                                        event.setBurnTime(240);
+                                        event.setBurning(true);
+                                        return;
+                                    }
                                 }
                             }
                     }
@@ -135,6 +133,8 @@ public class SocketListener implements Listener
                 && !plugin.getItemAPI().isTool(event.getResult().getType()))
             return;
         ItemStack is = plugin.furnanceMap.remove(event.getBlock());
+        if (is == null)
+            return;
         Material fuel = is.getType();
         if (!is.hasItemMeta() || !is.getItemMeta().hasDisplayName())
             return;

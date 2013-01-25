@@ -220,12 +220,13 @@ public class DropsAPI
      */
     public ItemStack getCustomItem(final String name)
     {
-        for (ItemStack t : plugin.custom)
+        for (ItemStack is : plugin.custom)
         {
-            ItemMeta meta = t.getItemMeta();
-            if (ChatColor.stripColor(meta.getDisplayName()).equalsIgnoreCase(
+            if (ChatColor.stripColor(plugin.getItemAPI().getName(is)).equals(
                     name))
-                return t;
+            {
+                return is;
+            }
         }
         return null;
     }

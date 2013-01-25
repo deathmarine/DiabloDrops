@@ -307,6 +307,24 @@ public class ChunkListener implements Listener
             allowedTypes.add(Material.GRASS);
             allowedTypes.add(Material.STONE);
         }
+        else if (b == Biome.HELL)
+        {
+            switch (plugin.getSingleRandom().nextInt(3))
+            {
+                case 0:
+                    blockType = Material.NETHER_BRICK.getId();
+                    break;
+                case 1:
+                    blockType = Material.GLOWSTONE.getId();
+                    break;
+                case 2:
+                    blockType = Material.SOUL_SAND.getId();
+            }
+            allowedTypes.add(Material.NETHER_BRICK);
+            allowedTypes.add(Material.GLOWSTONE);
+            allowedTypes.add(Material.NETHERRACK);
+            allowedTypes.add(Material.SOUL_SAND);
+        }
         Block blockUnder = block.getRelative(BlockFace.DOWN);
         if (!allowedTypes.contains(blockUnder.getType()))
             return;

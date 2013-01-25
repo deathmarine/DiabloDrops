@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.tier.Tier;
@@ -134,6 +136,15 @@ public class SockettedItem extends Drop
         for (String s : sockets())
         {
             DiabloDrops.getInstance().getItemAPI().addLore(this, s);
+        }
+        if (DiabloDrops.getInstance().getItemAPI().isLeather(getType()))
+        {
+            LeatherArmorMeta lam = (LeatherArmorMeta) getItemMeta();
+            lam.setColor(Color.fromRGB(DiabloDrops.getInstance()
+                    .getSingleRandom().nextInt(255), DiabloDrops.getInstance()
+                    .getSingleRandom().nextInt(255), DiabloDrops.getInstance()
+                    .getSingleRandom().nextInt(255)));
+            setItemMeta(lam);
         }
     }
 

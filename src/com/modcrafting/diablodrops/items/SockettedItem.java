@@ -43,12 +43,14 @@ public class SockettedItem extends Drop
         return list.toArray(new String[0]);
     }
 
-    private final Tier tier;
+    private Tier tier;
 
     public SockettedItem(final Material mat)
     {
         super(mat);
         this.tier = DiabloDrops.getInstance().getDropAPI().getTier();
+        while (tier == null)
+            tier = DiabloDrops.getInstance().getDropAPI().getTier();
         Material material = mat;
         if ((tier.getMaterials().size() > 0)
                 && !tier.getMaterials().contains(mat))

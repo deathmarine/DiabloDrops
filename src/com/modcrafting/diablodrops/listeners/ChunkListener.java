@@ -645,6 +645,12 @@ public class ChunkListener implements Listener
             }
         }
         Block block = chunk.getWorld().getBlockAt(realX, y, realZ);
+        if (block.getRelative(BlockFace.DOWN).getType() == Material.LAVA
+                || block.getRelative(BlockFace.DOWN).getType() == Material.STATIONARY_LAVA
+                || block.getRelative(BlockFace.DOWN).getType() == Material.AIR
+                || block.getRelative(BlockFace.DOWN).getType() == Material.WATER
+                || block.getRelative(BlockFace.DOWN).getType() == Material.STATIONARY_WATER)
+            return;
         switch (plugin.getSingleRandom().nextInt(4))
         {
             case 0:

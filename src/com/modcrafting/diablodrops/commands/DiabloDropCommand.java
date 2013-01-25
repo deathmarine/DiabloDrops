@@ -1,5 +1,6 @@
 package com.modcrafting.diablodrops.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -352,6 +353,10 @@ public class DiabloDropCommand implements CommandExecutor
                                 break;
                             }
                         }
+                        if (customItem == null)
+                            customItem = plugin.custom.get(plugin
+                                    .getSingleRandom().nextInt(
+                                            plugin.custom.size()));
                     }
                     if (customItem != null && p != null)
                     {
@@ -359,6 +364,9 @@ public class DiabloDropCommand implements CommandExecutor
                         p.updateInventory();
                         p.sendMessage(ChatColor.GREEN
                                 + "You have been given a DiabloDrops item.");
+                        sender.sendMessage(ChatColor.WHITE + p.getName()
+                                + ChatColor.GREEN
+                                + " has been given a DiabloDrops item.");
                     }
                     else if (customItem != null && p == null
                             && sender instanceof Player)
@@ -373,6 +381,38 @@ public class DiabloDropCommand implements CommandExecutor
                         sender.sendMessage(ChatColor.RED
                                 + "Either that is not a valid item or you are unable to run this command.");
                     }
+                    return true;
+                }
+                else if (args[0].equalsIgnoreCase("give"))
+                {
+                    if (args.length < 2)
+                    {
+                        sender.sendMessage(ChatColor.RED
+                                + "Not enough arguments.");
+                        return true;
+                    }
+                    List<String> stringList = new ArrayList<String>();
+                    for (String s : args)
+                    {
+                        if (s.equals(args[0]))
+                            continue;
+                        Player p = Bukkit.getPlayer(s);
+                        ItemStack giveItem = plugin.getDropAPI().getItem();
+                        while (giveItem == null)
+                        {
+                            giveItem = plugin.getDropAPI().getItem();
+                        }
+                        stringList.add(p.getName());
+                        p.getInventory().addItem(giveItem);
+                        p.sendMessage(ChatColor.GREEN
+                                + "You have been given a DiabloDrops item.");
+                    }
+                    sender.sendMessage(ChatColor.GREEN
+                            + "You gave items to "
+                            + ChatColor.WHITE
+                            + stringList.toString().replace("[", "")
+                                    .replace("]", "") + ChatColor.GREEN + ".");
+                    return true;
                 }
                 else if (args[0].equalsIgnoreCase("modify"))
                 {
@@ -503,6 +543,7 @@ public class DiabloDropCommand implements CommandExecutor
                             }
                         }
                     }
+                    return true;
                 }
                 else if (args[0].equalsIgnoreCase("tier"))
                 {
@@ -530,6 +571,9 @@ public class DiabloDropCommand implements CommandExecutor
                         p.updateInventory();
                         p.sendMessage(ChatColor.GREEN
                                 + "You have been given a DiabloDrops item.");
+                        sender.sendMessage(ChatColor.WHITE + p.getName()
+                                + ChatColor.GREEN
+                                + " has been given a DiabloDrops item.");
                     }
                     else if (customItem != null && p == null
                             && sender instanceof Player)
@@ -549,6 +593,7 @@ public class DiabloDropCommand implements CommandExecutor
                 if (!(sender instanceof Player))
                 {
                     sender.sendMessage("You cannot run this command right now.");
+                    return true;
                 }
                 else
                 {
@@ -561,8 +606,8 @@ public class DiabloDropCommand implements CommandExecutor
                     ((Player) sender).updateInventory();
                     ((Player) sender).sendMessage(ChatColor.GREEN
                             + "You have been given a DiabloDrops item.");
+                    return true;
                 }
-                return true;
         }
     }
 }

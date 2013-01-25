@@ -12,6 +12,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Drop extends ItemStack
 {
 
+    public Drop(Material mat)
+    {
+        super(mat);
+        ItemMeta meta;
+        if (hasItemMeta())
+            meta = this.getItemMeta();
+        else
+            meta = Bukkit.getItemFactory().getItemMeta(mat);
+        this.setItemMeta(meta);
+    }
+
     public Drop(Material mat, ChatColor color, String name)
     {
         super(mat);

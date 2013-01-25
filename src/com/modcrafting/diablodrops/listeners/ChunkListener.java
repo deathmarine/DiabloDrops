@@ -416,6 +416,10 @@ public class ChunkListener implements Listener
             {
                 b2.getRelative(0, -i, 0).setTypeId(blockType);
             }
+            for (int i = 1; i < 5; i++)
+            {
+                b2.getRelative(0, i, 0).setTypeId(0);
+            }
             b2.setType(Material.GLASS);
             switch (plugin.getSingleRandom().nextInt(7))
             {

@@ -240,7 +240,8 @@ public class SocketListener implements Listener
             {
                 if (list.contains(fuelColor + "(Socket)"))
                 {
-                    if (plugin.getItemAPI().isArmor(tool.getType()))
+                    if (plugin.getItemAPI().isArmor(tool.getType())
+                            && plugin.defenselore.size() > 0)
                     {
                         list.remove(fuelColor + "(Socket)");
                         list.add(fuelColor
@@ -248,7 +249,8 @@ public class SocketListener implements Listener
                                         .getSingleRandom().nextInt(
                                                 plugin.defenselore.size())));
                     }
-                    else if (plugin.getItemAPI().isTool(tool.getType()))
+                    else if (plugin.getItemAPI().isTool(tool.getType())
+                            && plugin.offenselore.size() > 0)
                     {
                         list.remove(fuelColor + "(Socket)");
                         list.add(fuelColor

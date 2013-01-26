@@ -18,7 +18,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,7 +30,6 @@ import com.modcrafting.diablodrops.builders.SocketBuilder;
 import com.modcrafting.diablodrops.builders.TierBuilder;
 import com.modcrafting.diablodrops.commands.DiabloDropCommand;
 import com.modcrafting.diablodrops.drops.DropsAPI;
-import com.modcrafting.diablodrops.items.IdentifyTome;
 import com.modcrafting.diablodrops.items.ItemAPI;
 import com.modcrafting.diablodrops.listeners.ChunkListener;
 import com.modcrafting.diablodrops.listeners.EffectsListener;
@@ -212,11 +210,6 @@ public class DiabloDrops extends JavaPlugin
         pm.registerEvents(new ChunkListener(this), this);
         pm.registerEvents(new EffectsListener(this), this);
         pm.registerEvents(new SetListener(this), this);
-
-        ShapelessRecipe identityTome = new ShapelessRecipe(new IdentifyTome());
-        identityTome.addIngredient(3, Material.EYE_OF_ENDER);
-        identityTome.addIngredient(1, Material.BOOK);
-        getServer().addRecipe(identityTome);
 
         getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
 

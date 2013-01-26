@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -19,7 +18,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.modcrafting.diablodrops.DiabloDrops;
 import com.modcrafting.diablodrops.events.IdentifyItemEvent;
-import com.modcrafting.diablodrops.items.IdentifyTome;
 
 public class TomeListener implements Listener
 {
@@ -38,20 +36,6 @@ public class TomeListener implements Listener
             if ((c[i] == new Character((char) 167)) && ((i + 1) < c.length))
                 return ChatColor.getByChar(c[i + 1]);
         return null;
-    }
-
-    @EventHandler
-    public void onCraftItem(final CraftItemEvent e)
-    {
-        ItemStack item = e.getCurrentItem();
-        if (item.getType().equals(Material.WRITTEN_BOOK))
-        {
-            if (e.isShiftClick())
-            {
-                e.setCancelled(true);
-            }
-            e.setCurrentItem(new IdentifyTome());
-        }
     }
 
     @SuppressWarnings("deprecation")

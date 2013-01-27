@@ -3,7 +3,6 @@ package com.modcrafting.diablodrops.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -157,7 +156,7 @@ public class SocketListener implements Listener
 
         boolean namTest = false;
         for (String n : metaold.getLore())
-            if (StringUtils.containsIgnoreCase(n, "(Socket)"))
+            if (ChatColor.stripColor(n).equalsIgnoreCase("(Socket)"))
             {
                 namTest = true;
             }
@@ -231,34 +230,23 @@ public class SocketListener implements Listener
         {
             list.add(s);
         }
-        int eni = plugin.getConfig().getInt("SocketItem.EnhanceBy", 1);
-        int ene = plugin.getConfig().getInt("SocketItem.EnhanceMax", 10);
-        int enhance = eni + plugin.getSingleRandom().nextInt(ene);
-        if (plugin.getConfig().getBoolean("Socket.Lore", true))
+        if (list.contains(fuelColor + "(Socket)"))
         {
-            for (int i = 0; i < enhance; i++)
+            if (plugin.getItemAPI().isArmor(tool.getType())
+                    && plugin.defenselore.size() > 0)
             {
-                if (list.contains(fuelColor + "(Socket)"))
-                {
-                    if (plugin.getItemAPI().isArmor(tool.getType())
-                            && plugin.defenselore.size() > 0)
-                    {
-                        list.remove(fuelColor + "(Socket)");
-                        list.add(fuelColor
-                                + plugin.defenselore.get(plugin
-                                        .getSingleRandom().nextInt(
-                                                plugin.defenselore.size())));
-                    }
-                    else if (plugin.getItemAPI().isTool(tool.getType())
-                            && plugin.offenselore.size() > 0)
-                    {
-                        list.remove(fuelColor + "(Socket)");
-                        list.add(fuelColor
-                                + plugin.offenselore.get(plugin
-                                        .getSingleRandom().nextInt(
-                                                plugin.offenselore.size())));
-                    }
-                }
+                list.remove(fuelColor + "(Socket)");
+                list.add(fuelColor
+                        + plugin.defenselore.get(plugin.getSingleRandom()
+                                .nextInt(plugin.defenselore.size())));
+            }
+            else if (plugin.getItemAPI().isTool(tool.getType())
+                    && plugin.offenselore.size() > 0)
+            {
+                list.remove(fuelColor + "(Socket)");
+                list.add(fuelColor
+                        + plugin.offenselore.get(plugin.getSingleRandom()
+                                .nextInt(plugin.offenselore.size())));
             }
         }
         SocketEnhancementEvent see = new SocketEnhancementEvent(

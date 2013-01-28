@@ -125,6 +125,23 @@ public class SocketListener implements Listener
         return null;
     }
 
+    private int getInt(String string, int fallback)
+    {
+        String[] args = string.replace("+", "").split(" ");
+        if (args.length <= 1)
+            return fallback;
+        Integer level = null;
+        try
+        {
+            level = Integer.parseInt(args[0]);
+        }
+        catch (Exception e)
+        {
+            level = fallback;
+        }
+        return level;
+    }
+
     @EventHandler
     public void onSmeltSocket(final FurnaceSmeltEvent event)
     {
@@ -236,17 +253,71 @@ public class SocketListener implements Listener
                     && plugin.defenselore.size() > 0)
             {
                 list.remove(fuelColor + "(Socket)");
-                list.add(fuelColor
-                        + plugin.defenselore.get(plugin.getSingleRandom()
-                                .nextInt(plugin.defenselore.size())));
+                String effect = plugin.defenselore.get(plugin.getSingleRandom()
+                        .nextInt(plugin.defenselore.size()));
+                String effectToRemove = null;
+                for (String s : list)
+                {
+                    String[] split = s.split(" ");
+                    if (split.length <= 1)
+                        continue;
+                    String[] splitEffect = effect.split(" ");
+                    if (splitEffect.length <= 1)
+                        continue;
+                    if (ChatColor.stripColor(split[1]).equals(splitEffect[1]))
+                    {
+                        effectToRemove = s;
+                        int level = getInt(s, 0) + getInt(effect, 0);
+                        String levelString = (level > 0) ? "+"
+                                + String.valueOf(level) : String.valueOf(level);
+                        String newEffect = levelString;
+                        for (String s2 : splitEffect)
+                        {
+                            if (s2.equals(splitEffect[0]))
+                                continue;
+                            newEffect = newEffect + " " + s2;
+                        }
+                        effect = newEffect;
+                    }
+                }
+                if (effectToRemove != null)
+                    list.remove(effectToRemove);
+                list.add(fuelColor + effect);
             }
             else if (plugin.getItemAPI().isTool(tool.getType())
                     && plugin.offenselore.size() > 0)
             {
                 list.remove(fuelColor + "(Socket)");
-                list.add(fuelColor
-                        + plugin.offenselore.get(plugin.getSingleRandom()
-                                .nextInt(plugin.offenselore.size())));
+                String effect = plugin.offenselore.get(plugin.getSingleRandom()
+                        .nextInt(plugin.offenselore.size()));
+                String effectToRemove = null;
+                for (String s : list)
+                {
+                    String[] split = s.split(" ");
+                    if (split.length <= 1)
+                        continue;
+                    String[] splitEffect = effect.split(" ");
+                    if (splitEffect.length <= 1)
+                        continue;
+                    if (ChatColor.stripColor(split[1]).equals(splitEffect[1]))
+                    {
+                        effectToRemove = s;
+                        int level = getInt(s, 0) + getInt(effect, 0);
+                        String levelString = (level > 0) ? "+"
+                                + String.valueOf(level) : String.valueOf(level);
+                        String newEffect = levelString;
+                        for (String s2 : splitEffect)
+                        {
+                            if (s2.equals(splitEffect[0]))
+                                continue;
+                            newEffect = newEffect + " " + s2;
+                        }
+                        effect = newEffect;
+                    }
+                }
+                if (effectToRemove != null)
+                    list.remove(effectToRemove);
+                list.add(fuelColor + effect);
             }
         }
         SocketEnhancementEvent see = new SocketEnhancementEvent(

@@ -31,7 +31,7 @@ public class Drop extends ItemStack
             meta = this.getItemMeta();
         else
             meta = Bukkit.getItemFactory().getItemMeta(mat);
-        meta.setDisplayName(color + name);
+        meta.setDisplayName(color + name + ChatColor.STRIKETHROUGH);
         this.setItemMeta(meta);
     }
 
@@ -43,7 +43,7 @@ public class Drop extends ItemStack
             meta = this.getItemMeta();
         else
             meta = Bukkit.getItemFactory().getItemMeta(mat);
-        meta.setDisplayName(color + name);
+        meta.setDisplayName(color + name + ChatColor.STRIKETHROUGH);
         this.setItemMeta(meta);
         this.setDurability(durability);
     }
@@ -57,7 +57,7 @@ public class Drop extends ItemStack
             meta = this.getItemMeta();
         else
             meta = Bukkit.getItemFactory().getItemMeta(mat);
-        meta.setDisplayName(color + name);
+        meta.setDisplayName(color + name + ChatColor.STRIKETHROUGH);
         List<String> list = new ArrayList<String>();
         for (String e : lore)
         {
@@ -76,7 +76,7 @@ public class Drop extends ItemStack
             meta = this.getItemMeta();
         else
             meta = Bukkit.getItemFactory().getItemMeta(mat);
-        meta.setDisplayName(color + name);
+        meta.setDisplayName(color + name + ChatColor.STRIKETHROUGH);
         List<String> list = new ArrayList<String>();
         for (String e : lore)
         {

@@ -173,24 +173,24 @@ public class Updater
     }
 
     // contains one of
-                                                       // these,
-                                                       // don't
-                                                       // update.
+    // these,
+    // don't
+    // update.
     private static final int BYTE_SIZE = 1024; // Used for downloading files
     private static final String DBOUrl = "http://dev.bukkit.org/server-mods/"; // Slugs
     private static final String ITEM = "item";
     private static final String LINK = "link";
     // for
-                                                                        // determining
-                                                                        // the
-                                                                        // outcome
-                                                                        // of
-                                                                        // the
-                                                                        // update
-                                                                        // process
+    // determining
+    // the
+    // outcome
+    // of
+    // the
+    // update
+    // process
     // Strings for reading RSS
     private static final String TITLE = "title";
-                            // updates
+    // updates
     private boolean announce; // Whether to announce file downloads
     private int multiplier; // Used for determining when to broadcast download
     // will
@@ -216,15 +216,15 @@ public class Updater
     // in
     private Updater.UpdateResult result = Updater.UpdateResult.SUCCESS; // Used
     // private double downloadedSize; // TODO: Holds the
-                            // number of bytes
+    // number of bytes
     // downloaded
     private int sizeLine; // Used for detecting file size
-                                                       private long totalSize; // Holds the total size of the file
+    private long totalSize; // Holds the total size of the file
 
     private UpdateType type;
     private String updateFolder = YamlConfiguration.loadConfiguration(
             new File("bukkit.yml")).getString("settings.update-folder"); // The
-                                                                        private URL url; // Connecting to RSS
+    private URL url; // Connecting to RSS
 
     private String versionLink;
 

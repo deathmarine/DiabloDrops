@@ -323,31 +323,32 @@ public class DropsAPI
             }
             Enchantment ench = eStack.get(plugin.getSingleRandom()
                     .nextInt(size));
-            if ((lvl != 0) && (ench != null)
-                    && !tier.getColor().equals(ChatColor.MAGIC))
-                if (safe)
-                {
-                    if ((lvl >= ench.getStartLevel())
-                            && (lvl <= ench.getMaxLevel()))
+            if (!ci.containsEnchantment(ench))
+                if ((lvl != 0) && (ench != null)
+                        && !tier.getColor().equals(ChatColor.MAGIC))
+                    if (safe)
                     {
-                        try
+                        if ((lvl >= ench.getStartLevel())
+                                && (lvl <= ench.getMaxLevel()))
                         {
-                            ci.addEnchantment(ench, lvl);
-                        }
-                        catch (Exception e1)
-                        {
-                            if (plugin.getDebug())
+                            try
                             {
-                                plugin.log.warning(e1.getMessage());
+                                ci.addEnchantment(ench, lvl);
                             }
-                            e++;
+                            catch (Exception e1)
+                            {
+                                if (plugin.getDebug())
+                                {
+                                    plugin.log.warning(e1.getMessage());
+                                }
+                                e++;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    ci.addUnsafeEnchantment(ench, lvl);
-                }
+                    else
+                    {
+                        ci.addUnsafeEnchantment(ench, lvl);
+                    }
         }
         ItemMeta tool;
         if (ci.hasItemMeta())
@@ -466,31 +467,32 @@ public class DropsAPI
             }
             Enchantment ench = eStack.get(plugin.getSingleRandom()
                     .nextInt(size));
-            if ((lvl != 0) && (ench != null)
-                    && !tier.getColor().equals(ChatColor.MAGIC))
-                if (safe)
-                {
-                    if ((lvl >= ench.getStartLevel())
-                            && (lvl <= ench.getMaxLevel()))
+            if (!tool.containsEnchantment(ench))
+                if ((lvl != 0) && (ench != null)
+                        && !tier.getColor().equals(ChatColor.MAGIC))
+                    if (safe)
                     {
-                        try
+                        if ((lvl >= ench.getStartLevel())
+                                && (lvl <= ench.getMaxLevel()))
                         {
-                            tool.addEnchantment(ench, lvl);
-                        }
-                        catch (Exception e1)
-                        {
-                            if (plugin.getDebug())
+                            try
                             {
-                                plugin.log.warning(e1.getMessage());
+                                tool.addEnchantment(ench, lvl);
                             }
-                            e++;
+                            catch (Exception e1)
+                            {
+                                if (plugin.getDebug())
+                                {
+                                    plugin.log.warning(e1.getMessage());
+                                }
+                                e++;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    tool.addUnsafeEnchantment(ench, lvl);
-                }
+                    else
+                    {
+                        tool.addUnsafeEnchantment(ench, lvl);
+                    }
         }
         ItemMeta meta;
         if (tool.hasItemMeta())
@@ -601,31 +603,32 @@ public class DropsAPI
             }
             Enchantment ench = eStack.get(plugin.getSingleRandom()
                     .nextInt(size));
-            if ((lvl != 0) && (ench != null)
-                    && !tier.getColor().equals(ChatColor.MAGIC))
-                if (safe)
-                {
-                    if ((lvl >= ench.getStartLevel())
-                            && (lvl <= ench.getMaxLevel()))
+            if (!tool.containsEnchantment(ench))
+                if ((lvl != 0) && (ench != null)
+                        && !tier.getColor().equals(ChatColor.MAGIC))
+                    if (safe)
                     {
-                        try
+                        if ((lvl >= ench.getStartLevel())
+                                && (lvl <= ench.getMaxLevel()))
                         {
-                            tool.addEnchantment(ench, lvl);
-                        }
-                        catch (Exception e1)
-                        {
-                            if (plugin.getDebug())
+                            try
                             {
-                                plugin.log.warning(e1.getMessage());
+                                tool.addEnchantment(ench, lvl);
                             }
-                            e++;
+                            catch (Exception e1)
+                            {
+                                if (plugin.getDebug())
+                                {
+                                    plugin.log.warning(e1.getMessage());
+                                }
+                                e++;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    tool.addUnsafeEnchantment(ench, lvl);
-                }
+                    else
+                    {
+                        tool.addUnsafeEnchantment(ench, lvl);
+                    }
         }
         ItemMeta meta;
         if (tool.hasItemMeta())
@@ -744,31 +747,32 @@ public class DropsAPI
             }
             Enchantment ench = eStack.get(plugin.getSingleRandom()
                     .nextInt(size));
-            if ((lvl != 0) && (ench != null)
-                    && !tier.getColor().equals(ChatColor.MAGIC))
-                if (safe)
-                {
-                    if ((lvl >= ench.getStartLevel())
-                            && (lvl <= ench.getMaxLevel()))
+            if (!tool.containsEnchantment(ench))
+                if ((lvl != 0) && (ench != null)
+                        && !tier.getColor().equals(ChatColor.MAGIC))
+                    if (safe)
                     {
-                        try
+                        if ((lvl >= ench.getStartLevel())
+                                && (lvl <= ench.getMaxLevel()))
                         {
-                            tool.addEnchantment(ench, lvl);
-                        }
-                        catch (Exception e1)
-                        {
-                            if (plugin.getDebug())
+                            try
                             {
-                                plugin.log.warning(e1.getMessage());
+                                tool.addEnchantment(ench, lvl);
                             }
-                            e++;
+                            catch (Exception e1)
+                            {
+                                if (plugin.getDebug())
+                                {
+                                    plugin.log.warning(e1.getMessage());
+                                }
+                                e++;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    tool.addUnsafeEnchantment(ench, lvl);
-                }
+                    else
+                    {
+                        tool.addUnsafeEnchantment(ench, lvl);
+                    }
         }
         ItemMeta meta;
         if (tool.hasItemMeta())
@@ -885,31 +889,32 @@ public class DropsAPI
             }
             Enchantment ench = eStack.get(plugin.getSingleRandom()
                     .nextInt(size));
-            if ((lvl != 0) && (ench != null)
-                    && !tier.getColor().equals(ChatColor.MAGIC))
-                if (safe)
-                {
-                    if ((lvl >= ench.getStartLevel())
-                            && (lvl <= ench.getMaxLevel()))
+            if (!tool.containsEnchantment(ench))
+                if ((lvl != 0) && (ench != null)
+                        && !tier.getColor().equals(ChatColor.MAGIC))
+                    if (safe)
                     {
-                        try
+                        if ((lvl >= ench.getStartLevel())
+                                && (lvl <= ench.getMaxLevel()))
                         {
-                            tool.addEnchantment(ench, lvl);
-                        }
-                        catch (Exception e1)
-                        {
-                            if (plugin.getDebug())
+                            try
                             {
-                                plugin.log.warning(e1.getMessage());
+                                tool.addEnchantment(ench, lvl);
                             }
-                            e++;
+                            catch (Exception e1)
+                            {
+                                if (plugin.getDebug())
+                                {
+                                    plugin.log.warning(e1.getMessage());
+                                }
+                                e++;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    tool.addUnsafeEnchantment(ench, lvl);
-                }
+                    else
+                    {
+                        tool.addUnsafeEnchantment(ench, lvl);
+                    }
         }
         ItemMeta meta = tool.getItemMeta();
         if (plugin.getConfig().getBoolean("Lore.Enabled", true)

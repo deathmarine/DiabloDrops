@@ -174,7 +174,7 @@ public class DiabloDrops extends JavaPlugin
             {
                 sloc.mkdir();
             }
-            for (File f : loc.listFiles())
+            for (File f : sloc.listFiles())
                 if (f.getName().endsWith(".txt"))
                 {
                     getLogger().info("Loading Suffix File:" + f.getName());
@@ -247,6 +247,7 @@ public class DiabloDrops extends JavaPlugin
             });
         }
         // Jenkins AutoUpdater
+        /*
         if (config.getBoolean("Plugin.Dev.Update", false))
         {
             id = getServer().getScheduler().scheduleSyncRepeatingTask(this,
@@ -294,5 +295,6 @@ public class DiabloDrops extends JavaPlugin
                         }
                     }, 0, 2400);
         }
+        */
     }
 }

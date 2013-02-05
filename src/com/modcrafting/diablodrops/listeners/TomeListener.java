@@ -39,7 +39,8 @@ public class TomeListener implements Listener
     }
 
     @SuppressWarnings("deprecation")
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(
+            priority = EventPriority.LOWEST)
     public void onRightClick(final PlayerInteractEvent e)
     {
         if ((e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction()

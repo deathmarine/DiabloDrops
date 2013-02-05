@@ -21,7 +21,8 @@ public class EffectsListener implements Listener
         plugin = instance;
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(
+            priority = EventPriority.LOW)
     public void onDiabloMonsterDamageByEntityEvent(
             final EntityDamageByEntityEvent event)
     {
@@ -49,7 +50,8 @@ public class EffectsListener implements Listener
         EffectsAPI.handlePluginEffects(entity, damager, event);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(
+            priority = EventPriority.LOWEST)
     public void onDiabloMonsterDamageEvent(final EntityDamageEvent event)
     {
         if ((plugin.worlds.size() > 0)

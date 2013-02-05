@@ -8,12 +8,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import net.h31ix.updater.Updater;
-import net.h31ix.updater.Updater.UpdateResult;
-import net.h31ix.updater.Updater.UpdateType;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,8 +16,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.modcrafting.devbuild.DevUpdater;
-import com.modcrafting.devbuild.DevUpdater.DevUpdateResult;
 import com.modcrafting.diablodrops.builders.ArmorSetBuilder;
 import com.modcrafting.diablodrops.builders.CustomBuilder;
 import com.modcrafting.diablodrops.builders.SocketBuilder;
@@ -42,6 +34,10 @@ import com.modcrafting.diablodrops.sets.ArmorSet;
 import com.modcrafting.diablodrops.sets.SetsAPI;
 import com.modcrafting.diablodrops.tier.Tier;
 
+import net.h31ix.updater.Updater;
+import net.h31ix.updater.Updater.UpdateResult;
+import net.h31ix.updater.Updater.UpdateType;
+
 public class DiabloDrops extends JavaPlugin
 {
     private static DiabloDrops instance;
@@ -57,7 +53,6 @@ public class DiabloDrops extends JavaPlugin
     }
 
     public HashSet<ArmorSet> armorSets = new HashSet<ArmorSet>();
-    private Integer build;
     public List<ItemStack> custom = new ArrayList<ItemStack>();
     private boolean debug;
     public List<String> defenselore = new ArrayList<String>();
@@ -68,7 +63,6 @@ public class DiabloDrops extends JavaPlugin
 
     public HashMap<Material, List<String>> hmprefix = new HashMap<Material, List<String>>();
     public HashMap<Material, List<String>> hmsuffix = new HashMap<Material, List<String>>();
-    private int id;
     public Logger log;
     private NamesLoader nameLoader;
     public List<String> offenselore = new ArrayList<String>();
@@ -248,53 +242,27 @@ public class DiabloDrops extends JavaPlugin
         }
         // Jenkins AutoUpdater
         /*
-        if (config.getBoolean("Plugin.Dev.Update", false))
-        {
-            id = getServer().getScheduler().scheduleSyncRepeatingTask(this,
-                    new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            DevUpdater up = new DevUpdater(getInstance(),
-                                    getFile(), build,
-                                    "https://diabloplugins.ci.cloudbees.com/rssLatest");
-                            if (up.getResult().equals(DevUpdateResult.FAILED))
-                                return;
-
-                            if (up.getResult().equals(DevUpdateResult.SUCCESS))
-                            {
-                                getServer().getScheduler().cancelTask(id);
-                                getServer()
-                                        .broadcastMessage(
-                                                ChatColor.AQUA
-                                                        + "Jenkins Update Downloaded Build#"
-                                                        + String.valueOf(up
-                                                                .getBuild()));
-                                new Thread(new Runnable()
-                                {
-                                    @Override
-                                    public void run()
-                                    {
-                                        long time = System.currentTimeMillis()
-                                                + (30 * 1000);
-                                        boolean voodoo = true;
-                                        while (voodoo)
-                                            // Conducting Voodoo
-                                            if (time > System
-                                                    .currentTimeMillis())
-                                            {
-                                                voodoo = false;
-                                                Bukkit.getServer().reload();
-                                            }
-
-                                    }
-                                }).start();
-                            }
-                            build = up.getBuild();
-                        }
-                    }, 0, 2400);
-        }
-        */
+         * if (config.getBoolean("Plugin.Dev.Update", false)) { id =
+         * getServer().getScheduler().scheduleSyncRepeatingTask(this, new
+         * Runnable() {
+         * 
+         * @Override public void run() { DevUpdater up = new
+         * DevUpdater(getInstance(), getFile(), build,
+         * "https://diabloplugins.ci.cloudbees.com/rssLatest"); if
+         * (up.getResult().equals(DevUpdateResult.FAILED)) return;
+         * 
+         * if (up.getResult().equals(DevUpdateResult.SUCCESS)) {
+         * getServer().getScheduler().cancelTask(id); getServer()
+         * .broadcastMessage( ChatColor.AQUA +
+         * "Jenkins Update Downloaded Build#" + String.valueOf(up .getBuild()));
+         * new Thread(new Runnable() {
+         * 
+         * @Override public void run() { long time = System.currentTimeMillis()
+         * + (30 * 1000); boolean voodoo = true; while (voodoo) // Conducting
+         * Voodoo if (time > System .currentTimeMillis()) { voodoo = false;
+         * Bukkit.getServer().reload(); }
+         * 
+         * } }).start(); } build = up.getBuild(); } }, 0, 2400); }
+         */
     }
 }

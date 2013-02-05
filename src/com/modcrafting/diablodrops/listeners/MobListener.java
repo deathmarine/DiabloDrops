@@ -27,7 +27,8 @@ public class MobListener implements Listener
         plugin = instance;
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(
+            priority = EventPriority.LOW)
     public void onSpawn(final CreatureSpawnEvent event)
     {
         LivingEntity entity = event.getEntity();

@@ -24,7 +24,8 @@ public class SetListener implements Listener
         plugin = instance;
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(
+            priority = EventPriority.LOW)
     public void onDiabloMonsterDamageByEntityEvent(
             final EntityDamageByEntityEvent event)
     {
@@ -109,7 +110,8 @@ public class SetListener implements Listener
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(
+            priority = EventPriority.LOW)
     public void onDiabloMonsterDamageEvent(final EntityDamageEvent event)
     {
         if (event.getEntity() instanceof Monster)

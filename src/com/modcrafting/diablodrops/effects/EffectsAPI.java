@@ -271,44 +271,16 @@ public class EffectsAPI
             if (level > 0)
             {
                 int chng = struck.getHealth() - Math.abs(level);
-                if ((chng < struck.getMaxHealth()) && (chng > 0))
-                {
-                    struck.setHealth(chng);
-                }
-                else
-                {
-                    struck.setHealth(0);
-                }
+                struck.setHealth(Math.max(chng, 0));
                 chng = level + striker.getHealth();
-                if ((chng < striker.getMaxHealth()) && (chng > 0))
-                {
-                    striker.setHealth(chng);
-                }
-                else
-                {
-                    striker.setHealth(striker.getMaxHealth());
-                }
+                striker.setHealth(Math.min(chng, striker.getMaxHealth()));
             }
             else if (level < 0)
             {
-                int chng = Math.abs(level) + struck.getHealth();
-                if ((chng < struck.getMaxHealth()) && (chng > 0))
-                {
-                    striker.setHealth(chng);
-                }
-                else
-                {
-                    striker.setHealth(striker.getMaxHealth());
-                }
-                chng = striker.getHealth() - Math.abs(level);
-                if ((chng < striker.getMaxHealth()) && (chng > 0))
-                {
-                    struck.setHealth(chng);
-                }
-                else
-                {
-                    struck.setHealth(0);
-                }
+                int chng = Math.abs(level) + striker.getHealth();
+                striker.setHealth(Math.min(chng, striker.getMaxHealth()));
+                chng = struck.getHealth() - Math.abs(level);
+                struck.setHealth(Math.max(chng, 0));
             }
             return;
         }

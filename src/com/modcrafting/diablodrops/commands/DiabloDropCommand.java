@@ -335,7 +335,7 @@ public class DiabloDropCommand implements CommandExecutor
                             continue;
                         }
                         if (!s.equals(args[0]))
-                            if (s.equals(""))
+                            if (name.equals(""))
                                 name = s;
                             else
                                 name = name + " " + s;
@@ -558,7 +558,7 @@ public class DiabloDropCommand implements CommandExecutor
                             continue;
                         }
                         if (!s.equals(args[0]))
-                            if (s.equals(""))
+                            if (name.equals(""))
                                 name = s;
                             else
                                 name = name + " " + s;

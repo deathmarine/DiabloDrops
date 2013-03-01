@@ -1,6 +1,6 @@
 name: DiabloDrops
 main: com.modcrafting.diablodrops.DiabloDrops
-version: 2.5.@VERSION@
+version: ${version}
 website: http://dev.bukkit.org/server-mods/diablodrops/
 authors: [Deathmarine,Nunnery]
 description: >

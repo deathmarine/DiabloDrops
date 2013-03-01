@@ -154,6 +154,37 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <show>public</show>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <show>public</show>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  <name>DiabloDrops</name>
+  <url>http://dev.bukkit.org/server-mods/diablodrops/</url>
+  <description>This plugin adjusts the mob dropping mechanics to include regularly dropped enchanted items that could be commonly found in Diablo.</description>
+  <ciManagement>
+  	<system>Jenkins</system>
+  	<url>https://diabloplugins.ci.cloudbees.com/job/DiabloDrops/</url>
+  </ciManagement>
+  <issueManagement>
+  	<system>Github</system>
+  	<url>https://github.com/deathmarine/DiabloDrops/issues</url>
+  </issueManagement>
 </project>

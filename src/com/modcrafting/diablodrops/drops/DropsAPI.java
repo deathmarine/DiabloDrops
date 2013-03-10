@@ -1012,9 +1012,12 @@ public class DropsAPI
      */
     public Tier getTier(final String name)
     {
+    	String type = ChatColor.stripColor(name);
+    	if(type.contains(":"))
+    		type = type.substring(type.indexOf(":")+1);
         for (Tier tier : plugin.tiers)
-            if (tier.getDisplayName().equalsIgnoreCase(name)
-                    || tier.getName().equalsIgnoreCase(name))
+            if (tier.getDisplayName().equalsIgnoreCase(type)
+                    || tier.getName().equalsIgnoreCase(type))
                 return tier;
         return null;
     }
@@ -1028,9 +1031,12 @@ public class DropsAPI
      */
     public boolean matchesTier(final String type)
     {
+    	String types = ChatColor.stripColor(type);
+    	if(types.contains(":"))
+    		types = type.substring(type.indexOf(":")+1);
         for (Tier tier : plugin.tiers)
-            if (tier.getDisplayName().equalsIgnoreCase(type)
-                    || tier.getName().equalsIgnoreCase(type))
+            if (tier.getDisplayName().equalsIgnoreCase(types)
+                    || tier.getName().equalsIgnoreCase(types))
                 return true;
         return false;
     }

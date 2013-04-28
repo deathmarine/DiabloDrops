@@ -31,7 +31,6 @@ public class EffectsAPI
     public static String FIRE = "fire";
     public static String FREEZE = "freeze";
     public static String LEECH = "leech";
-    public static String LIGHTNING = "lightning";
     public static String SHRINK = "shrink";
 
     /**
@@ -81,19 +80,6 @@ public class EffectsAPI
         {
             // turn into baby
             EffectsUtil.makeBaby(damaged);
-            return;
-        }
-        else if (args[1].equalsIgnoreCase(LIGHTNING))
-        {
-            // strike lightning
-            if ((level > 0) && (damaged != null))
-            {
-                EffectsUtil.strikeLightning(damaged, Math.abs(level));
-            }
-            else if ((level < 0) && (damager != null))
-            {
-                EffectsUtil.strikeLightning(damager, Math.abs(level));
-            }
             return;
         }
         else if (args[1].equalsIgnoreCase(FIRE))
@@ -225,19 +211,6 @@ public class EffectsAPI
         {
             // turn into baby
             EffectsUtil.makeBaby(struck);
-            return;
-        }
-        else if (args[1].equalsIgnoreCase(LIGHTNING))
-        {
-            // strike lightning
-            if ((level > 0) && (struck != null))
-            {
-                EffectsUtil.strikeLightning(struck, Math.abs(level));
-            }
-            else if ((level < 0) && (striker != null))
-            {
-                EffectsUtil.strikeLightning(striker, Math.abs(level));
-            }
             return;
         }
         else if (args[1].equalsIgnoreCase(FIRE))

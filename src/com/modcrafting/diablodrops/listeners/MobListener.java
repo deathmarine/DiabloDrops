@@ -3,6 +3,7 @@ package com.modcrafting.diablodrops.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -117,6 +118,7 @@ public class MobListener implements Listener
                         entity.getEquipment().setItemInHand(cis);
                         entity.getEquipment().setItemInHandDropChance(
                                 dropChance);
+                        
                     }
                 }
             }

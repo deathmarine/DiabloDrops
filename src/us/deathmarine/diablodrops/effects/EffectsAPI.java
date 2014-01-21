@@ -79,13 +79,6 @@ public class EffectsAPI {
 				EffectsUtil.setOnFire(damager, Math.abs(level));
 			}
 			return;
-		} else if (args[1].equalsIgnoreCase(ENTOMB)) {
-			if ((level > 0) && (damaged != null)) {
-				EffectsUtil.entomb(damaged.getLocation(), Math.abs(level));
-			} else if ((level < 0) && (damager != null)) {
-				EffectsUtil.entomb(damager.getLocation(), Math.abs(level));
-			}
-			return;
 		} else if (args[1].equalsIgnoreCase(LEECH) && (damager != null)
 				&& (damaged != null)) {
 			if (level > 0) {
@@ -171,13 +164,6 @@ public class EffectsAPI {
 				EffectsUtil.setOnFire(struck, Math.abs(level));
 			} else if ((level < 0) && (striker != null)) {
 				EffectsUtil.setOnFire(striker, Math.abs(level));
-			}
-			return;
-		} else if (args[1].equalsIgnoreCase(ENTOMB)) {
-			if ((level > 0) && (struck != null)) {
-				EffectsUtil.entomb(struck.getLocation(), Math.abs(level));
-			} else if ((level < 0) && (striker != null)) {
-				EffectsUtil.entomb(striker.getLocation(), Math.abs(level));
 			}
 			return;
 		} else if (args[1].equalsIgnoreCase(LEECH) && (striker != null)

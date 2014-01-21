@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import net.gravitydevelopment.updater.Updater;
+import net.gravitydevelopment.updater.Updater.UpdateResult;
+import net.gravitydevelopment.updater.Updater.UpdateType;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,7 +26,6 @@ import us.deathmarine.diablodrops.builders.TierBuilder;
 import us.deathmarine.diablodrops.commands.DiabloDropCommand;
 import us.deathmarine.diablodrops.drops.DropsAPI;
 import us.deathmarine.diablodrops.items.ItemAPI;
-import us.deathmarine.diablodrops.listeners.ChunkListener;
 import us.deathmarine.diablodrops.listeners.EffectsListener;
 import us.deathmarine.diablodrops.listeners.MobListener;
 import us.deathmarine.diablodrops.listeners.SetListener;
@@ -33,9 +35,6 @@ import us.deathmarine.diablodrops.name.NamesLoader;
 import us.deathmarine.diablodrops.sets.ArmorSet;
 import us.deathmarine.diablodrops.sets.SetsAPI;
 import us.deathmarine.diablodrops.tier.Tier;
-import net.gravitydevelopment.updater.Updater;
-import net.gravitydevelopment.updater.Updater.UpdateResult;
-import net.gravitydevelopment.updater.Updater.UpdateType;
 
 public class DiabloDrops extends JavaPlugin {
 	private static DiabloDrops instance;
@@ -159,10 +158,10 @@ public class DiabloDrops extends JavaPlugin {
 							new File(sloc, f.getName()));
 				}
 		}
-		
+
 		nameLoader.loadFile(prefix, "prefix.txt");
 		nameLoader.loadFile(suffix, "suffix.txt");
-		
+
 		nameLoader.loadFile(defenselore, "defenselore.txt");
 		nameLoader.loadFile(offenselore, "offenselore.txt");
 		custom = new ArrayList<ItemStack>();
@@ -184,7 +183,6 @@ public class DiabloDrops extends JavaPlugin {
 		pm.registerEvents(new MobListener(this), this);
 		pm.registerEvents(new TomeListener(this), this);
 		pm.registerEvents(new SocketListener(this), this);
-		pm.registerEvents(new ChunkListener(this), this);
 		pm.registerEvents(new EffectsListener(this), this);
 		pm.registerEvents(new SetListener(this), this);
 
@@ -194,7 +192,8 @@ public class DiabloDrops extends JavaPlugin {
 			getServer().getScheduler().runTask(this, new Runnable() {
 				@Override
 				public void run() {
-					Updater up = new Updater(getInstance(), 46631, getFile(), UpdateType.DEFAULT, true);
+					Updater up = new Updater(getInstance(), 46631, getFile(),
+							UpdateType.DEFAULT, true);
 					if (!up.getResult().equals(UpdateResult.SUCCESS)) {
 						if (up.getResult().equals(
 								Updater.UpdateResult.FAIL_NOVERSION)) {

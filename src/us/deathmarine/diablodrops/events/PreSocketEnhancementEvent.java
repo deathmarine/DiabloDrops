@@ -6,61 +6,52 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-public class PreSocketEnhancementEvent extends Event implements Cancellable
-{
+public class PreSocketEnhancementEvent extends Event implements Cancellable {
 
-    private static final HandlerList handlers = new HandlerList();
+	private static final HandlerList handlers = new HandlerList();
 
-    public static HandlerList getHandlerList()
-    {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 
-    private final ItemStack fuel;
-    private final Furnace furnace;
-    private final ItemStack input;
+	private final ItemStack fuel;
+	private final Furnace furnace;
+	private final ItemStack input;
 
-    private boolean isCancelled = false;
+	private boolean isCancelled = false;
 
-    public PreSocketEnhancementEvent(ItemStack input, ItemStack fuel,
-            Furnace furnace)
-    {
-        this.input = input;
-        this.fuel = fuel;
-        this.furnace = furnace;
-    }
+	public PreSocketEnhancementEvent(ItemStack input, ItemStack fuel,
+			Furnace furnace) {
+		this.input = input;
+		this.fuel = fuel;
+		this.furnace = furnace;
+	}
 
-    public ItemStack getFuel()
-    {
-        return fuel;
-    }
+	public ItemStack getFuel() {
+		return fuel;
+	}
 
-    public Furnace getFurnace()
-    {
-        return furnace;
-    }
+	public Furnace getFurnace() {
+		return furnace;
+	}
 
-    @Override
-    public HandlerList getHandlers()
-    {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public ItemStack getInput()
-    {
-        return input;
-    }
+	public ItemStack getInput() {
+		return input;
+	}
 
-    @Override
-    public boolean isCancelled()
-    {
-        return isCancelled;
-    }
+	@Override
+	public boolean isCancelled() {
+		return isCancelled;
+	}
 
-    @Override
-    public void setCancelled(boolean bln)
-    {
-        isCancelled = bln;
-    }
+	@Override
+	public void setCancelled(boolean bln) {
+		isCancelled = bln;
+	}
 
 }

@@ -10,36 +10,31 @@ import org.bukkit.inventory.ShapelessRecipe;
 import us.deathmarine.diablodrops.DiabloDrops;
 import us.deathmarine.diablodrops.items.IdentifyTome;
 
-public class SocketBuilder
-{
-    DiabloDrops plugin;
+public class SocketBuilder {
+	DiabloDrops plugin;
 
-    public SocketBuilder(DiabloDrops plugin)
-    {
-        this.plugin = plugin;
-    }
+	public SocketBuilder(DiabloDrops plugin) {
+		this.plugin = plugin;
+	}
 
-    /**
-     * Clears and then populates plugin's socket list; also adds identification
-     * tome
-     */
-    public void build()
-    {
-        List<String> l = plugin.getConfig().getStringList("SocketItem.Items");
-        for (String name : l)
-        {
-            for (Material mat : plugin.getItemAPI().allItems())
-            {
-                FurnaceRecipe recipe = new FurnaceRecipe(new ItemStack(mat),
-                        Material.valueOf(name.toUpperCase()));
-                recipe.setInput(mat);
-                plugin.getServer().addRecipe(recipe);
+	/**
+	 * Clears and then populates plugin's socket list; also adds identification
+	 * tome
+	 */
+	public void build() {
+		List<String> l = plugin.getConfig().getStringList("SocketItem.Items");
+		for (String name : l) {
+			for (Material mat : plugin.getItemAPI().allItems()) {
+				FurnaceRecipe recipe = new FurnaceRecipe(new ItemStack(mat),
+						Material.valueOf(name.toUpperCase()));
+				recipe.setInput(mat);
+				plugin.getServer().addRecipe(recipe);
 
-            }
-        }
-        ShapelessRecipe re = new ShapelessRecipe(new IdentifyTome());
-        re.addIngredient(3, Material.BOOK);
-        re.addIngredient(Material.EYE_OF_ENDER);
-        plugin.getServer().addRecipe(re);
-    }
+			}
+		}
+		ShapelessRecipe re = new ShapelessRecipe(new IdentifyTome());
+		re.addIngredient(3, Material.BOOK);
+		re.addIngredient(Material.EYE_OF_ENDER);
+		plugin.getServer().addRecipe(re);
+	}
 }

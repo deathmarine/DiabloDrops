@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>DiabloDrops</groupId>
-  <artifactId>DiabloDrops</artifactId>
-  <version>2.5.1</version>
+  <groupId>us.deathmarine</groupId>
+  <artifactId>diablodrops</artifactId>
+  <version>2.6</version>
   <dependencies>
     <dependency>
       <groupId>org.bukkit</groupId>
@@ -190,10 +190,15 @@
   <description>This plugin adjusts the mob dropping mechanics to include regularly dropped enchanted items that could be commonly found in Diablo.</description>
   <ciManagement>
   	<system>Jenkins</system>
-  	<url>https://diabloplugins.ci.cloudbees.com/job/DiabloDrops/</url>
+  	<url>https://ci.deathmarine.us/job/DiabloDrops/</url>
   </ciManagement>
   <issueManagement>
   	<system>Github</system>
   	<url>https://github.com/deathmarine/DiabloDrops/issues</url>
   </issueManagement>
+  <scm>
+  	<developerConnection>Deathmarine</developerConnection>
+  	<url>https://github.com/deathmarine/DiabloDrops.git</url>
+  	<connection>Git</connection>
+  </scm>
 </project>

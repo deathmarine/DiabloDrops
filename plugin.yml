@@ -1,11 +1,11 @@
-name: DiabloDrops
-main: com.modcrafting.diablodrops.DiabloDrops
+name: ${name}
+main: ${groupId}.${artifactId}.${name}
 version: ${version}
-website: http://dev.bukkit.org/server-mods/diablodrops/
-authors: [Deathmarine,Nunnery]
+website: ${url}
+author:	Deathmarine
 description: >
-             Item Drop/Equip Enhancement Plugin.
-loadbefore: [DiabloBosses, Identify, DiabloLoot, DiabloDungeonBridge]
+             ${description}
+loadbefore: [Identify]
 load: STARTUP
              
 commands:

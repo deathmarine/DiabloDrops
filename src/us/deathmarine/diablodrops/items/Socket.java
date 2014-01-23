@@ -27,6 +27,7 @@ public class Socket extends Drop {
 		return DiabloDrops.getInstance().getDropAPI().colorPicker();
 	}
 
+	@Deprecated
 	public Socket(final Material mat) {
 		super(mat, color(), "Socket Enhancement", ChatColor.GOLD
 				+ "Put in the bottom of a furnace", ChatColor.GOLD

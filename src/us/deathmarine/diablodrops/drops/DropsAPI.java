@@ -20,8 +20,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import us.deathmarine.diablodrops.DiabloDrops;
 import us.deathmarine.diablodrops.items.Drop;
 import us.deathmarine.diablodrops.items.IdentifyTome;
-import us.deathmarine.diablodrops.items.Socket;
-import us.deathmarine.diablodrops.items.SockettedItem;
 import us.deathmarine.diablodrops.tier.Tier;
 
 public class DropsAPI {
@@ -337,19 +335,19 @@ public class DropsAPI {
 				&& (plugin.getSingleRandom().nextInt(10000) <= plugin
 						.getSettings().getTomeChance()))
 			return new IdentifyTome();
-		if (plugin.getSingleRandom().nextBoolean()
-				&& plugin.getConfig().getBoolean("SocketItem.Enabled", true)
-				&& (plugin.getSingleRandom().nextInt(10000) <= plugin
-						.getSettings().getSocketChance())) {
-			List<String> l = plugin.getConfig().getStringList(
-					"SocketItem.Items");
-			return new Socket(Material.valueOf(l.get(
-					plugin.getSingleRandom().nextInt(l.size())).toUpperCase()));
-		}
-		if (plugin.getConfig().getBoolean("SockettedItem.Enabled", true)
-				&& (plugin.getSingleRandom().nextInt(10000) <= plugin
-						.getSettings().getSocketedChance()))
-			return new SockettedItem(dropPicker());
+		/*
+		 * if (plugin.getSingleRandom().nextBoolean() &&
+		 * plugin.getConfig().getBoolean("SocketItem.Enabled", true) &&
+		 * (plugin.getSingleRandom().nextInt(10000) <= plugin
+		 * .getSettings().getSocketChance())) { List<String> l =
+		 * plugin.getConfig().getStringList( "SocketItem.Items"); return new
+		 * Socket(Material.valueOf(l.get(
+		 * plugin.getSingleRandom().nextInt(l.size())).toUpperCase())); } if
+		 * (plugin.getConfig().getBoolean("SockettedItem.Enabled", true) &&
+		 * (plugin.getSingleRandom().nextInt(10000) <= plugin
+		 * .getSettings().getSocketedChance())) return new
+		 * SockettedItem(dropPicker());
+		 */
 		if (plugin.getSingleRandom().nextBoolean()
 				&& plugin.getConfig().getBoolean("Custom.Enabled", true)
 				&& (plugin.getSingleRandom().nextInt(10000) <= plugin

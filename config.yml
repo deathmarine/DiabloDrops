@@ -10,17 +10,14 @@ Reason:
   Spawner: true
   Egg: true
 DropFix:
-  #Adds Damages to all drops#
+  #Adds Damage to drops#
   Damage: true
 #When adding enchantments, only allow safe or item specific enchantments#
 SafeEnchant:
   Enabled: false
-#Allow the generation of ruins in the map#
-Ruins:
-  Enabled: true
-  Chance: 1
 #Allow the drop of custom items (custom.yml)#
 Custom:
+  #Overtake all random items#
   Only: false
   Enabled: true
   Chance: 1
@@ -39,31 +36,37 @@ Display:
 IdentifyTome:
   Enabled: true
   Chance: 2
-SockettedItem:
-  Enabled: true
-  Chance: 20
-  MinimumSockets: 1
-  MaximumSockets: 5
+  
+##Disabled 2.6
+#SockettedItem:
+#  Enabled: true
+#  Chance: 20
+#  MinimumSockets: 1
+#  MaximumSockets: 5
+
 #Allow the drop of socket items#
-SocketItem:
-  Enabled: true
-  Chance: 5
-  #Whether to set lore on sockets#
-  Lore: true
-  Items: 
-  - Emerald
-  - Diamond
-  - Skull_Item
-  Colors:
-  - GREEN
-  - RED
-  - BLUE
-#This is the initial chance to retrieve an item#
+#SocketItem:
+#  Enabled: true
+#  Chance: 5
+#  #Whether to set lore on sockets#
+#  Lore: true
+#  Items: 
+#  - Emerald
+#  - Diamond
+#  - Skull_Item
+#  Colors:
+#  - GREEN
+#  - RED
+#  - BLUE
+
+#This is the initial chance an enemy will spawn with an item#
 Percentages:
   ChancePerSpawn: 3
-#If enabled only worlds listed will be affected#
+  
+#Specific Worlds#
 Worlds:
   Enabled: false
+  #Enable Specific Worlds
   Allowed:
   - 'world'
   - 'world_nether'

@@ -20,13 +20,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import us.deathmarine.diablodrops.DiabloDrops;
 import us.deathmarine.diablodrops.items.IdentifyTome;
-import us.deathmarine.diablodrops.items.Socket;
-import us.deathmarine.diablodrops.items.SockettedItem;
 import us.deathmarine.diablodrops.sets.ArmorSet;
 import us.deathmarine.diablodrops.tier.Tier;
 
 public class DiabloDropCommand implements CommandExecutor {
-	private DiabloDrops plugin;
+	private final DiabloDrops plugin;
 
 	public DiabloDropCommand(final DiabloDrops plugin) {
 		this.plugin = plugin;
@@ -47,6 +45,7 @@ public class DiabloDropCommand implements CommandExecutor {
 		return "";
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command,
 			final String commandLabel, final String[] args) {
@@ -70,23 +69,23 @@ public class DiabloDropCommand implements CommandExecutor {
 			player.getInventory().addItem(new IdentifyTome());
 			player.sendMessage(ChatColor.GREEN
 					+ "You have been given an Identify Tome.");
-		} else if (args[0].equalsIgnoreCase("socket")
-				|| args[0].equalsIgnoreCase("socketitem")) {
-			List<String> l = plugin.getConfig().getStringList(
-					"SocketItem.Items");
-			player.getInventory().addItem(
-					new Socket(Material.valueOf(l.get(
-							plugin.getSingleRandom().nextInt(l.size()))
-							.toUpperCase())));
-			player.sendMessage(ChatColor.GREEN
-					+ "You have been given a Socket Enhancement.");
-		} else if (args[0].equalsIgnoreCase("socketted")
-				|| args[0].equalsIgnoreCase("socketteditem")) {
-			player.getInventory().addItem(
-					new SockettedItem(plugin.getDropAPI().dropPicker()));
-			player.sendMessage(ChatColor.GREEN
-					+ "You have been given a Socket Item.");
-		} else if (args[0].equalsIgnoreCase("repair")) {
+		} else /*
+				 * if (args[0].equalsIgnoreCase("socket") ||
+				 * args[0].equalsIgnoreCase("socketitem")) { List<String> l =
+				 * plugin.getConfig().getStringList( "SocketItem.Items");
+				 * player.getInventory().addItem( new
+				 * Socket(Material.valueOf(l.get(
+				 * plugin.getSingleRandom().nextInt(l.size()))
+				 * .toUpperCase()))); player.sendMessage(ChatColor.GREEN +
+				 * "You have been given a Socket Enhancement."); } else if
+				 * (args[0].equalsIgnoreCase("socketted") ||
+				 * args[0].equalsIgnoreCase("socketteditem")) {
+				 * player.getInventory().addItem( new
+				 * SockettedItem(plugin.getDropAPI().dropPicker()));
+				 * player.sendMessage(ChatColor.GREEN +
+				 * "You have been given a Socket Item."); } else
+				 */
+		if (args[0].equalsIgnoreCase("repair")) {
 			if (plugin.getDropAPI().canBeItem(player.getItemInHand().getType())) {
 				player.getItemInHand().setDurability((short) 0);
 				player.sendMessage(ChatColor.GREEN + "Item repaired.");

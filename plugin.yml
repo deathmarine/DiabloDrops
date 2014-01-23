@@ -2,12 +2,8 @@ name: ${name}
 main: ${groupId}.${artifactId}.${name}
 version: ${version}
 website: ${url}
-author:	Deathmarine
-description: >
-             ${description}
-loadbefore: [Identify]
-load: STARTUP
-             
+author: Deathmarine
+description: '${description}'
 commands:
     diablodrops:
         description: Allows user to spawn a type of item.

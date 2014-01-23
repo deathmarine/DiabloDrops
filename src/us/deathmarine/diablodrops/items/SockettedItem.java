@@ -40,6 +40,7 @@ public class SockettedItem extends Drop {
 
 	private Tier tier;
 
+	@Deprecated
 	public SockettedItem(final Material mat) {
 		super(mat);
 		this.tier = DiabloDrops.getInstance().getDropAPI().getTier();

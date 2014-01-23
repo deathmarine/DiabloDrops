@@ -125,6 +125,7 @@ public class SocketListener implements Listener {
 		return level;
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onSmeltSocket(final FurnaceSmeltEvent event) {
 		if (!plugin.furnanceMap.containsKey(event.getBlock())
@@ -173,6 +174,7 @@ public class SocketListener implements Listener {
 			String skullName = skull.getOwner();
 			if ((skullName == null) || (skullName.trim().length() < 1)) {
 				switch (is.getData().getData()) {
+				// TODO: Fix
 				case 4: {
 					skullName = "Creeper";
 					break;

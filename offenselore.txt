@@ -30,15 +30,8 @@
 100% Mob Freeze
 # Frenzy no longer needed Speed potions effect mobs#
 Enemies Shrink
-## Lightning and fire effects ##
 ## Positive values affect the other ##
 ## Negative values affect the holder ##
-+1 Lightning
-+2 Lightning
-+3 Lightning
--1 Lightning
--2 Lightning
--3 Lightning
 +1 Fire
 +2 Fire
 +3 Fire
@@ -62,6 +55,7 @@ Enemies Shrink
 ## Configurable ## 
 ## Positive Affects Mobs, Negative Affects The Player ##
 ## Note: Some Potion Effects may not affect Mobs/Entities ##
+## https://github.com/deathmarine/DiabloDrops/wiki/Potions ##
 ## Format: {amt} {Name} ##
 +1 Invisibility
 +2 Invisibility
@@ -103,23 +97,3 @@ Enemies Shrink
 -8 Speed
 -9 Speed
 -10 Speed
-#+1 Entomb
-#+2 Entomb
-#+3 Entomb
-#+4 Entomb
-#+5 Entomb
-#+6 Entomb
-#+7 Entomb
-#+8 Entomb
-#+9 Entomb
-#+10 Entomb
-#-1 Entomb
-#-2 Entomb
-#-3 Entomb
-#-4 Entomb
-#-5 Entomb
-#-6 Entomb
-#-7 Entomb
-#-8 Entomb
-#-9 Entomb
-#-10 Entomb

@@ -7,7 +7,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.7.2-R0.2</version>
+      <version>LATEST</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -171,6 +171,28 @@
           <show>public</show>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+                <excludes>
+                  <exclude>org.bukkit:bukkit</exclude>
+                </excludes>
+                <includes>
+                  <include>net.gravitydevelopment.updater:updater</include>
+                </includes>
+              </artifactSet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <reporting>
@@ -183,6 +205,7 @@
           <show>public</show>
         </configuration>
       </plugin>
+      
     </plugins>
   </reporting>
   <name>DiabloDrops</name>

@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +26,7 @@ import us.deathmarine.diablodrops.builders.SocketBuilder;
 import us.deathmarine.diablodrops.builders.TierBuilder;
 import us.deathmarine.diablodrops.commands.DiabloDropCommand;
 import us.deathmarine.diablodrops.drops.DropsAPI;
+import us.deathmarine.diablodrops.items.IdentifyTome;
 import us.deathmarine.diablodrops.items.ItemAPI;
 import us.deathmarine.diablodrops.listeners.EffectsListener;
 import us.deathmarine.diablodrops.listeners.MobListener;
@@ -187,6 +189,11 @@ public class DiabloDrops extends JavaPlugin {
 		pm.registerEvents(new SetListener(this), this);
 
 		getCommand("diablodrops").setExecutor(new DiabloDropCommand(this));
+
+		ShapelessRecipe re = new ShapelessRecipe(new IdentifyTome());
+		re.addIngredient(3, Material.BOOK);
+		re.addIngredient(Material.EYE_OF_ENDER);
+		this.getServer().addRecipe(re);
 
 		if (config.getBoolean("Plugin.AutoUpdate", true)) {
 			getServer().getScheduler().runTask(this, new Runnable() {

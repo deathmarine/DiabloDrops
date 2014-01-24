@@ -5,10 +5,8 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapelessRecipe;
 
 import us.deathmarine.diablodrops.DiabloDrops;
-import us.deathmarine.diablodrops.items.IdentifyTome;
 
 public class SocketBuilder {
 	DiabloDrops plugin;
@@ -32,9 +30,5 @@ public class SocketBuilder {
 
 			}
 		}
-		ShapelessRecipe re = new ShapelessRecipe(new IdentifyTome());
-		re.addIngredient(3, Material.BOOK);
-		re.addIngredient(Material.EYE_OF_ENDER);
-		plugin.getServer().addRecipe(re);
 	}
 }

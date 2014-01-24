@@ -54,10 +54,11 @@ IdentifyTome:
 #  - Emerald
 #  - Diamond
 #  - Skull_Item
-#  Colors:
-#  - GREEN
-#  - RED
-#  - BLUE
+
+Colors:
+- GREEN
+- RED
+- BLUE
 
 #This is the initial chance an enemy will spawn with an item#
 Percentages:

@@ -1,6 +1,5 @@
 package us.deathmarine.diablodrops;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -28,7 +27,7 @@ public class Settings {
 		lore = fc.getDouble("Lore.Chance", 2.0);
 		custom = fc.getDouble("Custom.Chance", 2.0);
 		colorBlindCompat = fc.getBoolean("Display.ColorBlind", false);
-		colorList = setupSocketColors(fc);
+		colorList = setupColor(fc);
 	}
 
 	public int getCustomChance() {
@@ -77,11 +76,8 @@ public class Settings {
 		return colorBlindCompat;
 	}
 
-	private ChatColor[] setupSocketColors(FileConfiguration fc) {
-		List<String> colorStringList = fc.getStringList("SocketItem.Colors");
-		if (colorStringList == null)
-			colorStringList = Arrays.asList(new String[] { "GREEN", "BLUE",
-					"RED" });
+	private ChatColor[] setupColor(FileConfiguration fc) {
+		List<String> colorStringList = fc.getStringList("Colors");
 		ChatColor[] colorList = new ChatColor[colorStringList.size()];
 		for (int i = 0; i < colorStringList.size(); i++) {
 			String string = colorStringList.get(i);
@@ -94,6 +90,8 @@ public class Settings {
 			if (cc != null)
 				colorList[i] = cc;
 		}
+		if (colorList.length < 1)
+			colorList = ChatColor.values();
 		return colorList;
 	}
 

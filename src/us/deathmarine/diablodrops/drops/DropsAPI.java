@@ -65,8 +65,10 @@ public class DropsAPI {
 	 * @return random ChatColor
 	 */
 	public ChatColor colorPicker() {
-		return plugin.getSettings().getSocketColors()[plugin.getSingleRandom()
-				.nextInt(plugin.getSettings().getSocketColors().length)];
+		return plugin.getSettings().getSocketColors()[plugin
+				.getSingleRandom()
+				.nextInt(
+						Math.abs(plugin.getSettings().getSocketColors().length))];
 	}
 
 	/**

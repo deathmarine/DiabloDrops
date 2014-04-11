@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 import us.deathmarine.diablodrops.DiabloDrops;
 import us.deathmarine.diablodrops.effects.EffectsAPI;
@@ -34,7 +35,10 @@ public class EffectsListener implements Listener {
 		if (event.getDamager() instanceof LivingEntity) {
 			damager = (LivingEntity) event.getDamager();
 		} else if (event.getDamager() instanceof Projectile) {
-			damager = ((Projectile) event.getDamager()).getShooter();
+                    ProjectileSource shooter = ((Projectile) event.getDamager()).getShooter();
+                    if (shooter instanceof LivingEntity) {
+                        damager = (LivingEntity) shooter;
+                    }
 		}
 		if ((entity == null) || (damager == null))
 			return;

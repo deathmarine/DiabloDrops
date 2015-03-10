@@ -1,11 +1,10 @@
 /dist
-/.classpath
-/.project
 /javadoc
 /bin
-/topplebuild.xml
 /server
-/Testing Server.launch
-/TestServer.launch
-/.settings
 /target
+/lib
+.classpath
+.project
+/.settings
+pom.xml

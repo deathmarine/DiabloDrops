@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import net.gravitydevelopment.updater.Updater;
-import net.gravitydevelopment.updater.Updater.UpdateResult;
-import net.gravitydevelopment.updater.Updater.UpdateType;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -194,28 +190,5 @@ public class DiabloDrops extends JavaPlugin {
 		re.addIngredient(3, Material.BOOK);
 		re.addIngredient(Material.EYE_OF_ENDER);
 		this.getServer().addRecipe(re);
-
-		if (config.getBoolean("Plugin.AutoUpdate", true)) {
-			getServer().getScheduler().runTask(this, new Runnable() {
-				@Override
-				public void run() {
-					Updater up = new Updater(getInstance(), 46631, getFile(),
-							UpdateType.DEFAULT, true);
-					if (!up.getResult().equals(UpdateResult.SUCCESS)) {
-						if (up.getResult().equals(
-								Updater.UpdateResult.FAIL_NOVERSION)) {
-							log.info("Unable to connect to dev.bukkit.org.");
-						} else {
-							log.info("No Updates found on dev.bukkit.org.");
-						}
-					} else {
-						log.info("Update "
-								+ up.getLatestName()
-								+ " found and downloaded please restart your server.");
-					}
-				}
-
-			});
-		}
 	}
 }

@@ -2,7 +2,6 @@ package us.deathmarine.diablodrops.listeners;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -33,8 +32,6 @@ public class EffectsListener implements Listener {
 		LivingEntity damager = null;
 		if (event.getDamager() instanceof LivingEntity) {
 			damager = (LivingEntity) event.getDamager();
-		} else if (event.getDamager() instanceof Projectile) {
-			damager = ((Projectile) event.getDamager()).getShooter();
 		}
 		if ((entity == null) || (damager == null))
 			return;
